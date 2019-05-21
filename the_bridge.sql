@@ -7,9 +7,10 @@ DROP TABLE IF EXISTS person_xref_incident;
 
 CREATE TABLE person
 (
-    id serial PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     name TEXT,
-    title TEXT
+    title TEXT,
+    resident BOOLEAN
 );
 
 CREATE TABLE incident
@@ -22,7 +23,7 @@ CREATE TABLE incident
 
 CREATE TABLE person_xref_incident
 (
-    person_id INTEGER REFERENCES person(id),
+    person_id TEXT REFERENCES person(id),
     incident_id INTEGER REFERENCES incident(id),
     origin TEXT,
     PRIMARY KEY (person_id, incident_id)
@@ -36,12 +37,13 @@ CREATE TABLE shift
     slot INTEGER,
     station INTEGER,
     role TEXT,
-    PRIMARY KEY (tstart, tend, slot)
+    person_id INTEGER REFERENCES person(id)
+    PRIMARY KEY (tstart, tend, slot, person_id)
 );
 
 CREATE TABLE person_xref_shift
 (
-    person_id INTEGER REFERENCES person(id),
+    person_id TEXT REFERENCES person(id),
     shift_start TIME,
     shift_end TIME,
     shift_slot INTEGER,
@@ -53,5 +55,32 @@ CREATE TABLE person_status
 (
     status TEXT,
     date DATE,
-    PRIMARY KEY (status, date)
+    person_id TEXT REFERENCES person(id)
+    PRIMARY KEY (status, date, person_id)
+);
+
+CREATE TABLE note
+(
+    time TIMESTAMP,
+    note TEXT,
+    person_id TEXT REFERENCES person(id)
+    PRIMARY KEY (time, person_id)
+);
+
+CREATE TABLE event
+(
+    tstart TIME,
+    tend TIME,
+    type TEXT,
+    PRIMARY KEY (tstart, tend, type)
+);
+
+CREATE TABLE person_xref_event
+(
+    tstart TIME,
+    tend TIME,
+    type TEXT,
+    person_id TEXT REFERENCES person(id),
+    FOREIGN KEY (tstart,tend,type) REFERENCES event(tstart,tend,type)
+    PRIMARY KEY (tstart,tend,type,person_id)
 );
