@@ -9,7 +9,8 @@ CREATE TABLE person
 (
     id serial PRIMARY KEY,
     name TEXT,
-    title TEXT
+    title TEXT,
+    resident BOOLEAN
 );
 
 CREATE TABLE incident
@@ -36,7 +37,8 @@ CREATE TABLE shift
     slot INTEGER,
     station INTEGER,
     role TEXT,
-    PRIMARY KEY (tstart, tend, slot)
+    person_id INTEGER REFERENCES person(id)
+    PRIMARY KEY (tstart, tend, slot, person_id)
 );
 
 CREATE TABLE person_xref_shift
@@ -53,5 +55,31 @@ CREATE TABLE person_status
 (
     status TEXT,
     date DATE,
-    PRIMARY KEY (status, date)
+    person_id INTEGER REFERENCES person(id)
+    PRIMARY KEY (status, date, person_id)
+);
+
+CREATE TABLE note
+(
+    time TIMESTAMP,
+    note TEXT,
+    person_id INTEGER REFERENCES person(id)
+    PRIMARY KEY (time, person_id)
+);
+
+CREATE TABLE event
+(
+    tstart TIME,
+    tend TIME,
+    type TEXT,
+    PRIMARY KEY (tstart, tend, type)
+);
+
+CREATE TABLE person_xref_event
+(
+    time INTERVAL,
+    type TEXT,
+    person_id INTEGER REFERENCES person(id),
+    FOREIGN KEY (time,type) REFERENCES event(time,type)
+    PRIMARY KEY (time,type,person_id)
 );
