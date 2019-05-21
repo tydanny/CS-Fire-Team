@@ -83,7 +83,7 @@ li a:hover:not(.active) {
 
 <h2>Update Existing Employee</h2>
 
-<form action="/database">
+<form action="http://127.0.0.1:8000/personnel/update/" method="post">{% csrf_token %}
   Employee:<br>
   <select name="employee">
     <option value="No Selection">No Selection</option>
