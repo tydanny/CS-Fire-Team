@@ -23,8 +23,6 @@
   
 </form> 
 
-<p>If you click the "Submit" button, the form-data will be sent to a page called "/database".</p>
-
 <h2>Update Existing Employee</h2>
 
 <form action="/database">
@@ -38,7 +36,15 @@
   <input type="text" name="empNumber">
   <br><br>
   New Status:<br>
-  <input type="text" name="status">
+  <select name="status">
+    <option value="No Selection">No Selection</option>
+    <option value="Active">Active</option>
+    <option value="Approved Leave">Approved Leave</option>
+    <option value="Disability Leave">Disability Leave</option>
+    <option value="Resigned">Resigned</option>
+    <option value="Retired">Retired</option>
+    <option value="Terminated">Terminated</option>
+  </select>
   <br><br>
   <input type="submit" value="Submit">
   
