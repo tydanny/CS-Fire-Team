@@ -81,6 +81,6 @@ CREATE TABLE person_xref_event
     tend TIME,
     type TEXT,
     person_id TEXT REFERENCES person(id),
-    FOREIGN KEY (tstart,tend,type) REFERENCES event(tstart,tend,type)
+    FOREIGN KEY (tstart,tend,type) REFERENCES event(tstart,tend,type),
     PRIMARY KEY (tstart,tend,type,person_id)
 );
