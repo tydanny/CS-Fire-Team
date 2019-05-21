@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from dbconnect import run_query
+
 
 # Create your views here.
 def index(request):    
@@ -9,4 +11,9 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 def user(request, username):
-    return HttpResponse("USER Stuff Here Somehow")
+
+    query = "SELECT * FROM PERSON WHERE name = 'James Fire';"
+
+    result = run_query(query)
+
+    return HttpResponse(result)
