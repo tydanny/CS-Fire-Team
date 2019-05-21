@@ -1,12 +1,12 @@
-DROP TABLE IF EXISTS person;
+DROP TABLE IF EXISTS person_xref_incident;
+DROP TABLE IF EXISTS person_xref_shift;
+DROP TABLE IF EXISTS person_xref_event;
 DROP TABLE IF EXISTS incident;
 DROP TABLE IF EXISTS shift;
 DROP TABLE IF EXISTS person_status;
 DROP TABLE IF EXISTS note;
 DROP TABLE IF EXISTS event;
-DROP TABLE IF EXISTS person_xref_incident;
-DROP TABLE IF EXISTS person_xref_shift;
-DROP TABLE IF EXISTS person_xref_event;
+DROP TABLE IF EXISTS person;
 
 CREATE TABLE person
 (
