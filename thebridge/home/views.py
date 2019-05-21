@@ -1,9 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.template import loader
 
 # Create your views here.
-def index(request):
-    return HttpResponse("HOME!")
+def index(request):    
+    template = loader.get_template('index.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
+def about(request):
+    template = loader.get_template('about.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
 
 def user(request, username):
     return HttpResponse("USER Stuff Here Somehow")
