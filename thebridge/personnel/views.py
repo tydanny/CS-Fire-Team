@@ -34,6 +34,7 @@ def update(request):
     try:
         employee = request.POST["employee"]
         status = request.POST["status"]
-        return HttpResponse(employee + " " + status)
+        date = request.POST["date"]
+        return HttpResponse(employee + " " + status + " " + date)
     except:
         return HttpResponse("Error adding data to the database")
