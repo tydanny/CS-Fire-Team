@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'reports.apps.ReportsConfig',
     'personnel.apps.PersonnelConfig',
     'home.apps.HomeConfig',
+    'about.apps.AboutConfig',
+    'import.apps.ImportConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
