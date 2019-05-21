@@ -3,5 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 
 # Create your views here.
-def index(request): 
-    return HttpResponse("IMMMMPORT")
+def index(request):
+    template = loader.get_template('importPage.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
