@@ -38,6 +38,7 @@ def update(request):
         status = request.POST["status"]
         date = request.POST["date"]
         statusUpdate = ("INSERT INTO person_status (status, date, empNum) VALUES (%s, %s, %s)" % (status, date, empNum))
+        run_query(statusUpdate)
         return HttpResponse(employee + " " + status + " " + date)
     except:
         return HttpResponse("Error adding data to the database")
