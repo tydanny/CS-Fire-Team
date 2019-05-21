@@ -25,6 +25,8 @@ def submit(request):
         residency = request.POST["residency"]
         newPer = ("INSERT INTO person (id,fName,lName,title,residency) VALUES (%s, %s, %s, %s, %s)" % (empNum, firstName, lastName, title, residency))
         newStat = ("INSERT INTO person_status (status, date_change, person_id) VALUES (%s, %s, %s)" % ("Active", startDate, empNum))
+        newPer = "INSERT INTO person (id,fName,lName,title,residency) VALUES (%s, %s, %s, %s, %s)" % (empNum, firstName, lastName, title, residency)
+        newStat = ("INSERT INTO person_status (status, date_change, person_id,) VALUES (%s, %s, %s)" % ("Active", startDate, empNum))
         run_query(newPer)
         run_query(newStat)
         return HttpResponse(firstName + " " + lastName + " " + str(empNum) + " " + startDate + " " + title + " " + residency)
