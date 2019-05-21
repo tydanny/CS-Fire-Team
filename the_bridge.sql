@@ -50,7 +50,7 @@ CREATE TABLE person_xref_shift
     shift_start TIME,
     shift_end TIME,
     shift_slot INTEGER,
-    FOREIGN KEY (shift_start, shift_end, shift_slot) REFERENCES shift(shift_start, shift_end, shift_slot),
+    FOREIGN KEY (shift_start, shift_end, shift_slot) REFERENCES shift(tstart, tend, slot),
     PRIMARY KEY (person_id, shift_start, shift_end, shift_slot)
 );
 
