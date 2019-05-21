@@ -1,59 +1,65 @@
 <!DOCTYPE html>
+
+{% load static %}
+
 <html>
-
-<head>
-<style>
+	<head>
+		<style>
   
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-}
+			ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+				}
 
-li {
-  float: left;
-}
+			li {
+				float: left;
+			}
 
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
+			li a {
+				display: block;
+				color: white;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+			}
 
-li a:hover:not(.active) {
-  background-color: #111;
-}
+			li a:hover:not(.active) {
+				background-color: #111;
+			}
 
-.active {
-  background-color: #4CAF50;
-}
-</style>
+			.active {
+				background-color: #4CAF50;
+			}
+		</style>
 
+		<title>About</title>
+		<link href="site.css" rel="stylesheet">
+	</head>
 
+	<body>
 
+		<div style="display:inline-block;vertical-align:top;">
+			<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+		</div>
+		<div style="display:inline-block; vertical-align: bottom;">
+			<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+		</div>
 
-  <title>About</title>
-  <link href="site.css" rel="stylesheet">
-</head>
+		<ul>
+			<li><a href="http://127.0.0.1:8000/home/">Home</a></li>
+			<li><a href="http://127.0.0.1:8000/reports/">Reports</a></li>
+			<li><a href="http://127.0.0.1:8000/personnel/">Personnel</a></li>
+			<li><a href="http://127.0.0.1:8000/import/">Import</a></li>
+			<li style="float:right"><a class="active" href="http://127.0.0.1:8000/about/">About</a></li>
+		</ul>
 
-<body>
+		<div id="main">
+			<h1>About Golden Fire Department</h1>
+			<p>We got trucks and stuff</p>
+		</div>
 
-<ul>
-  <li><a href="http://127.0.0.1:8000/home/">Home</a></li>
-  <li><a href="http://127.0.0.1:8000/reports/">Reports</a></li>
-  <li><a href="http://127.0.0.1:8000/personnel/">Personnel</a></li>
-  <li><a href="http://127.0.0.1:8000/import/">Import</a></li>
-  <li style="float:right"><a class="active" href="http://127.0.0.1:8000/about/">About</a></li>
-</ul>
-
-  <div id="main">
-  <h1>About Golden Fire Department</h1>
-  <p>We got trucks and stuff</p>
-  </div>
-
-</body>
+	</body>
 </html> 
