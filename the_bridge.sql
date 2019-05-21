@@ -37,7 +37,7 @@ CREATE TABLE shift
     slot INTEGER,
     station INTEGER,
     role TEXT,
-    person_id INTEGER REFERENCES person(id)
+    person_id INTEGER REFERENCES person(id),
     PRIMARY KEY (tstart, tend, slot, person_id)
 );
 
@@ -55,7 +55,7 @@ CREATE TABLE person_status
 (
     status TEXT,
     date DATE,
-    person_id TEXT REFERENCES person(id)
+    person_id TEXT REFERENCES person(id),
     PRIMARY KEY (status, date, person_id)
 );
 
@@ -63,7 +63,7 @@ CREATE TABLE note
 (
     time TIMESTAMP,
     note TEXT,
-    person_id TEXT REFERENCES person(id)
+    person_id TEXT REFERENCES person(id),
     PRIMARY KEY (time, person_id)
 );
 
