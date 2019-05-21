@@ -1,12 +1,12 @@
-DROP TABLE IF EXISTS person;
+DROP TABLE IF EXISTS person_xref_incident;
+DROP TABLE IF EXISTS person_xref_shift;
+DROP TABLE IF EXISTS person_xref_event;
 DROP TABLE IF EXISTS incident;
 DROP TABLE IF EXISTS shift;
 DROP TABLE IF EXISTS person_status;
 DROP TABLE IF EXISTS note;
 DROP TABLE IF EXISTS event;
-DROP TABLE IF EXISTS person_xref_incident;
-DROP TABLE IF EXISTS person_xref_shift;
-DROP TABLE IF EXISTS person_xref_event;
+DROP TABLE IF EXISTS person;
 
 CREATE TABLE person
 (
@@ -40,8 +40,7 @@ CREATE TABLE shift
     slot INTEGER,
     station INTEGER,
     role TEXT,
-    person_id INTEGER REFERENCES person(id),
-    PRIMARY KEY (tstart, tend, slot, person_id)
+    PRIMARY KEY (tstart, tend, slot)
 );
 
 CREATE TABLE person_xref_shift
@@ -50,7 +49,7 @@ CREATE TABLE person_xref_shift
     shift_start TIME,
     shift_end TIME,
     shift_slot INTEGER,
-    FOREIGN KEY (shift_start, shift_end, shift_slot) REFERENCES shift(shift_start, shift_end, shift_slot),
+    FOREIGN KEY (shift_start, shift_end, shift_slot) REFERENCES shift(tstart, tend, slot),
     PRIMARY KEY (person_id, shift_start, shift_end, shift_slot)
 );
 
