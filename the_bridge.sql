@@ -14,7 +14,7 @@ CREATE TABLE person
     fName TEXT,
     lName TEXT,
     title TEXT,
-    resident BOOLEAN
+    resident TEXT
 );
 
 CREATE TABLE incident
