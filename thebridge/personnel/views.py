@@ -32,8 +32,12 @@ def submit(request):
 
 def update(request):
     try:
-        employee = request.POST["employee"]
+        empNum = request.POST["empNum"]
         status = request.POST["status"]
+        date = request.POST["date"]
+        #Update form needs to send employee number as well.
+        updateStatus = "INSERT INTO person (person_id,status,date) VALUES (%s, %s, %s)" % (empNum, status, date)
+        run_query(updateStatus)
         return HttpResponse(employee + " " + status)
     except:
         return HttpResponse("Error adding data to the database")
