@@ -11,7 +11,8 @@ DROP TABLE IF EXISTS person;
 CREATE TABLE person
 (
     id TEXT PRIMARY KEY,
-    name TEXT,
+    fName TEXT,
+    lName TEXT,
     title TEXT,
     resident BOOLEAN
 );
@@ -56,9 +57,9 @@ CREATE TABLE person_xref_shift
 CREATE TABLE person_status
 (
     status TEXT,
-    date DATE,
+    date_change DATE,
     person_id TEXT REFERENCES person(id),
-    PRIMARY KEY (status, date, person_id)
+    PRIMARY KEY (status, date_change, person_id)
 );
 
 CREATE TABLE note
