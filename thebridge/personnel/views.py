@@ -6,12 +6,13 @@ from dbconnect import run_query
 # Create your views here.
 def index(request):
 
-    empQuery = 'SELECT last, first FROM PERSON SORT BY last DESC;'
+    empQuery = "SELECT fname FROM PERSON;"
 
     employees = run_query(empQuery)
+    testemp = employees[0][0]
 
     template = loader.get_template('personnel.html')
-    context = {'employees' : employees}
+    context = {'testemp' : testemp}
     return HttpResponse(template.render(context, request))
 
 def submit(request):
