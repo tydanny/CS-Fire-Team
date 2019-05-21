@@ -15,6 +15,9 @@ def submit(request):
         lastName = request.POST["lastname"]
         empNum = request.POST["empNumber"]
         startDate = request.POST["time-start"]
+        title = request.POST[""]
+        newPer = "INSERT INTO person (id,fName,lName,title) VALUES (%s, %s, %s, %s)", (empNum, firstName, lastName, title)
+        newStat = "INSERT INTO person_status (status, date_change, person_id,) VALUES (%s, %s, %s)", ("Active", startDate, empNum)
         return HttpResponse(firstName + " " + lastName + " " + str(empNum) + " " + startDate)
     except:
         return HttpResponse("Error adding data to the database")
