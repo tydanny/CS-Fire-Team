@@ -11,7 +11,8 @@ DROP TABLE IF EXISTS person;
 CREATE TABLE person
 (
     id TEXT PRIMARY KEY,
-    name TEXT,
+    fName TEXT,
+    lName TEXT,
     title TEXT,
     resident BOOLEAN
 );
