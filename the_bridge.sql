@@ -40,7 +40,7 @@ CREATE TABLE shift
     slot INTEGER,
     station INTEGER,
     role TEXT,
-    person_id INTEGER REFERENCES person(id),
+    person_id TEXT REFERENCES person(id),
     PRIMARY KEY (tstart, tend, slot, person_id)
 );
 
