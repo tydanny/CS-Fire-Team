@@ -35,22 +35,20 @@ CREATE TABLE person_xref_incident
 
 CREATE TABLE shift
 (
-    tstart TIME,
-    tend TIME,
-    date DATE,
+    tstart TIMESTAMP,
+    tend TIMESTAMP,
     station INTEGER,
-    PRIMARY KEY (tstart, tend, date)
+    PRIMARY KEY (tstart, tend)
 );
 
 CREATE TABLE person_xref_shift
 (
     person_id TEXT REFERENCES person(id),
-    shift_start TIME,
-    shift_end TIME,
-    date DATE,
+    shift_start TIMESTAMP,
+    shift_end TIMESTAMP,
     role TEXT,
-    FOREIGN KEY (shift_start, shift_end, date) REFERENCES shift(tstart, tend, date),
-    PRIMARY KEY (person_id, shift_start, shift_end, date)
+    FOREIGN KEY (shift_start, shift_end) REFERENCES shift(tstart, tend),
+    PRIMARY KEY (person_id, shift_start, shift_end)
 );
 
 CREATE TABLE person_status
@@ -71,20 +69,18 @@ CREATE TABLE note
 
 CREATE TABLE event
 (
-    tstart TIME,
-    tend TIME,
-    date DATE,
-    type TEXT,
-    PRIMARY KEY (tstart, tend, type, date)
+    tstart TIMESTAMP,
+    tend TIMESTAMP,
+    etype TEXT,
+    PRIMARY KEY (tstart, tend, etype, date)
 );
 
 CREATE TABLE person_xref_event
 (
-    tstart TIME,
-    tend TIME,
+    tstart TIMESTAMP,
+    tend TIMESTAMP,
     type TEXT,
-    date DATE,
     person_id TEXT REFERENCES person(id),
-    FOREIGN KEY (tstart,tend,type, date) REFERENCES event(tstart,tend,type, date),
+    FOREIGN KEY (tstart,tend,type) REFERENCES event(tstart,tend,type),
     PRIMARY KEY (tstart,tend,type,person_id)
 );
