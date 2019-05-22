@@ -1,16 +1,22 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from dbconnect import run_query
+from dbconnect import dbconnect
 
 # Create your views here.
 def index(request):
-
-    empQuery = "SELECT fname FROM PERSON;"
-
-    employees = run_query(empQuery)
-    testemp = employees[0][0]
-
+    connection = dbconnect()
+    connection.connect()
+    firstQuery = "SELECT fname FROM PERSON;"
+    firsts = connection.run_query(firstQuery)
+    lastQuery = "SELECT lname FROM PERSON;"
+    lasts = connection.run_query(lastQuery)
+    numsQuery = "SELECT id FROM PERSON;"
+    nums = connection.run_query(numsQuery)
+    empfirst = firsts[1][0]
+    emplast = lasts[1][0]
+    empNum = nums[1][0]
+    testemp = "%s, %s %s" % (emplast, empfirst, empNum)
     template = loader.get_template('personnel.html')
     context = {'testemp' : testemp}
     return HttpResponse(template.render(context, request))
@@ -23,7 +29,6 @@ def submit(request):
         startDate = request.POST["time-start"]
         title = request.POST["title"]
         residency = request.POST["residency"]
-    
         newPer = "INSERT INTO person (id,fname,lname,title,resident) VALUES ('%s', '%s', '%s', '%s', '%s');" % (empNum, firstName, lastName, title, residency)
         newStat = "INSERT INTO person_status (status, date_change, person_id,) VALUES (%s, %s, %s);" % ("Active", startDate, empNum)
         run_query(newPer)

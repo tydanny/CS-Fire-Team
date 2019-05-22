@@ -24,7 +24,7 @@ class dbconnect():
 
     def run_query(self, query):
         try:
-            cur = connection.cursor()
+            cur = self.connection.cursor()
             cur.execute(query)
             return cur.fetchall()
         except pg8000.Error:
