@@ -41,10 +41,8 @@ def submit(request):
         newStat = "INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '%s', '%s');" % (startDate, empNum)
         connection.i_query(newPer)
         connection.i_query(newStat)
-        #return HttpResponse(firstName + " " + lastName + " " + str(empNum) + " " + startDate + " " + title + " " + residency)
         template = loader.get_template('submit.html')
         context = {}
-        #return HttpResponse(newPer)
         return HttpResponse(template.render(context, request))
     except:
         template = loader.get_template('error.html')
@@ -62,7 +60,6 @@ def update(request):
         date = request.POST["date"]
         statusUpdate = ("INSERT INTO person_status (status, date_change, person_id) VALUES ('%s', '%s', '%s');" % (status, date, empNum))
         connection.i_query(statusUpdate)
-        #return HttpResponse(str(empNum) + " " + status + " " + date)
         template = loader.get_template('submit.html')
         context = {}
         return HttpResponse(template.render(context, request))
