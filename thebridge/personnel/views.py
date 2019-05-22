@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from dbconnect import dbconnect
+from loaders import load_note
 
 # Create your views here.
 def index(request):
@@ -63,6 +64,24 @@ def update(request):
         template = loader.get_template('submit.html')
         context = {}
         return HttpResponse(template.render(context, request))
+    except:
+        template = loader.get_template('error.html')
+        context = {}
+        return HttpResponse(template.render(context, request))
+
+####may not work
+def note(request):
+    try:
+        connection = dbconnect()
+        connection.connect()
+        employee = request.POST("employee")
+        nums = [int(s) for s in employee.split() if s.isdigit()]
+        empNum = nums[-1]
+        note = request.POST("note")
+        load_note(empNum,note)
+        template = loader.get_template('submit.html')
+        context = {}
+        return HttpResponse(template.render(context,request))
     except:
         template = loader.get_template('error.html')
         context = {}
