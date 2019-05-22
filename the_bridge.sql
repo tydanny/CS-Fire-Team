@@ -19,10 +19,10 @@ CREATE TABLE person
 
 CREATE TABLE incident
 (
-    id serial PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     tstamp TIMESTAMP,
     category TEXT,
-    response INTEGER
+    response INTERVAL
 );
 
 CREATE TABLE person_xref_incident
@@ -64,18 +64,19 @@ CREATE TABLE person_status
 
 CREATE TABLE note
 (
-    time TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     note TEXT,
     person_id TEXT REFERENCES person(id),
-    PRIMARY KEY (time, person_id)
+    PRIMARY KEY (created_at, person_id)
 );
 
 CREATE TABLE event
 (
     tstart TIME,
     tend TIME,
+    date DATE,
     type TEXT,
-    PRIMARY KEY (tstart, tend, type)
+    PRIMARY KEY (tstart, tend, type, date)
 );
 
 CREATE TABLE person_xref_event
@@ -83,7 +84,8 @@ CREATE TABLE person_xref_event
     tstart TIME,
     tend TIME,
     type TEXT,
+    date DATE,
     person_id TEXT REFERENCES person(id),
-    FOREIGN KEY (tstart,tend,type) REFERENCES event(tstart,tend,type),
+    FOREIGN KEY (tstart,tend,type, date) REFERENCES event(tstart,tend,type, date),
     PRIMARY KEY (tstart,tend,type,person_id)
 );
