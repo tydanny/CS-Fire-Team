@@ -35,7 +35,6 @@ class dbconnect():
 
     def i_query(self, query):
         try:
-            self.connect()
             self.cur.execute(query)
             self.con.commit()
         except psycopg2.Error as e:
@@ -54,4 +53,6 @@ class dbconnect():
 
     def generate_for_individual(self, empNum, startTime, endTime, reportType):
         print("Reached generate for individual")
+        #This is not done
+        s_query("" % (person_id, note, time))
         
