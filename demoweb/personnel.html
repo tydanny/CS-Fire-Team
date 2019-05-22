@@ -1,7 +1,21 @@
 <!DOCTYPE html>
 <html>
 <body>
+<style>
+.left {
+  margin: auto;
+  width: 300px;
+  float: left;
+}
+.right {
+  margin: auto;
+  width: 600px;
+  float: right;
+}
 
+</style>
+
+<div class="left">
 <h1>Add New Employee</h1>
 
 <form action="/database">
@@ -37,8 +51,11 @@
   <input type="submit" value="Submit">
   
 </form> 
+</div>
 
-<h2>Update Existing Employee</h2>
+
+<div class="right">
+<h1>Update Existing Employee</h1>
 
 <form action="/database">
   Employee:<br>
@@ -64,5 +81,6 @@
   <input type="submit" value="Submit">
   
 </form> 
+</div>
 </body>
 </html>
