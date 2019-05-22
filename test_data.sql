@@ -35,10 +35,8 @@ INSERT INTO person_xref_event (tstart, tend, date, type, person_id) VALUES ('09:
 INSERT INTO person_xref_event (tstart, tend, date, type, person_id) VALUES ('09:30 AM', '11:00 AM', '03-24-2019', 'Training', '1234');
 INSERT INTO person_xref_event (tstart, tend, date, type, person_id) VALUES ('02:00 PM', '03:00 PM', '09-18-2019', 'Weekly', '1');
 
-INSERT INTO shift (tstart, tend, date, slot, station, role) VALUES ('6:00 AM', '12:00 PM', '10-04-2018', 1, 1, 'Fire Fighter');
-INSERT INTO shift (tstart, tend, date, slot, station, role) VALUES ('6:00 AM', '12:00 PM', '10-04-2018', 2, 1, 'Fire Fighter');
-INSERT INTO shift (tstart, tend, date, slot, station, role) VALUES ('6:00 AM', '12:00 PM', '10-04-2018', 3, 1, 'Fire Fighter');
+INSERT INTO shift (tstart, tend, date, station, role) VALUES ('6:00 AM', '12:00 PM', '10-04-2018', 1, 'Fire Fighter');
 
-INSERT INTO person_xref_shift (person_id, shift_start, shift_end, date, shift_slot) VALUES ('1', '6:00 AM', '12:00 PM', '10-04-2018', 1);
-INSERT INTO person_xref_shift (person_id, shift_start, shift_end, date, shift_slot) VALUES ('1234', '6:00 AM', '12:00 PM', '10-04-2018', 1);
-INSERT INTO person_xref_shift (person_id, shift_start, shift_end, date, shift_slot) VALUES ('7', '6:00 AM', '12:00 PM', '10-04-2018', 1);
+INSERT INTO person_xref_shift (person_id, shift_start, shift_end, date) VALUES ('1', '6:00 AM', '12:00 PM', '10-04-2018');
+INSERT INTO person_xref_shift (person_id, shift_start, shift_end, date) VALUES ('1234', '6:00 AM', '12:00 PM', '10-04-2018');
+INSERT INTO person_xref_shift (person_id, shift_start, shift_end, date) VALUES ('7', '6:00 AM', '12:00 PM', '10-04-2018');
