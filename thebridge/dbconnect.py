@@ -22,10 +22,21 @@ class dbconnect():
         except pg8000.Error:
             print('Failed to connect to DB')
 
-    def run_query(self, query):
+    def s_query(self, query):
         try:
             cur = self.connection.cursor()
             cur.execute(query)
+            cur.close()
             return cur.fetchall()
-        except pg8000.Error:
+        except pg8000.Error as e:
             print('Query error')
+            print (e)
+
+    def i_query(self, query):
+        try:
+            cur = self.connection.cursor()
+            cur.execute(query)
+            cur.close()
+        except pg8000.Error as e:
+            print('Query error')
+            print (e)
