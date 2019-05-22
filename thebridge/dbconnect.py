@@ -13,30 +13,33 @@ import psycopg2
 class dbconnect():
     def connect(self):
         try:
-            self.connection = psycopg2.connect(
+            self.con = psycopg2.connect(
             dbname='bridge_db',
             user='csfire',
             port=5432,
             host='bridge-db.c6xgclrgfvud.us-west-1.rds.amazonaws.com',
             password='thebridge')
+            self.cur = self.con.cursor()
         except psycopg2.Error:
             print('Failed to connect to DB')
 
     def s_query(self, query):
         try:
             self.connect()
-            cur = self.connection.cursor()
-            cur.execute(query)
-            return cur.fetchall()
+            self.cur.execute(query)
+            return self.cur.fetchall()
         except psycopg2.Error as e:
             print('Query error')
             print (e)
 
     def i_query(self, query):
         try:
-            cur = self.connection.cursor()
-            cur.execute(query)
-            self.connection.commit()
+            self.cur.execute(query)
+            self.con.commit()
         except psycopg2.Error as e:
             print('Query error')
             print (e)
+
+    def close(self):
+        self.cur.close()
+        self.con.close()
