@@ -4,7 +4,6 @@ from django.template import loader
 
 # Create your views here.
 def index(request):
-    #template = loader.get_template('importPage.html')
-    #context = {}
-    #return HttpResponse(template.render(context, request))
-    return HttpResponse("Test Logout Page")
+    template = loader.get_template('logged_out.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
