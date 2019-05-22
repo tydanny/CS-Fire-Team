@@ -13,12 +13,18 @@ def index(request):
     lasts = connection.run_query(lastQuery)
     numsQuery = "SELECT id FROM PERSON;"
     nums = connection.run_query(numsQuery)
-    empfirst = firsts[1][0]
-    emplast = lasts[1][0]
-    empNum = nums[1][0]
-    testemp = "%s, %s %s" % (emplast, empfirst, empNum)
+    i = len(firsts)
+    x = 0
+    emps = []
+    while x < i:
+        empfirst = firsts[x][0]
+        emplast = lasts[x][0]
+        empNum = nums[x][0]
+        emp = "%s, %s %s" % (emplast, empfirst, empNum)
+        emps.append(emp)
+        x += 1
     template = loader.get_template('personnel.html')
-    context = {'testemp' : testemp}
+    context = {'testemp' : emps[2]}
     return HttpResponse(template.render(context, request))
 
 def submit(request):

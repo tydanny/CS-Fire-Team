@@ -3,8 +3,22 @@
 
 <html>
 	<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 		<style>
-  
+  			* {
+				box-sizing: border-box;
+			}
+			.column{
+				float: left;
+				width: 50%;
+				padding 10px;
+			}
+			.row{
+				content: "";
+				display: table;
+				clear: both;
+			}
+
 			ul {
 			list-style-type: none;
 			margin: 0;
@@ -72,8 +86,9 @@
 		</div>
 		
 		<div id="main">
+			<div class="column">
 			<h1>Add New Employee</h1>
-
+			
 			<form action="http://127.0.0.1:8000/personnel/submit/" method="post">{% csrf_token %}
 				First name:<br>
 				<input type="text" name="firstname">
@@ -107,9 +122,9 @@
 				<input type="submit" value="Submit">
   
 			</form> 
-
+			</div>
+			<div class="column">
 			<h1>Update Existing Employee</h1>
-
 			<form action="http://127.0.0.1:8000/personnel/update/" method="post">{% csrf_token %}
 				Employee:<br>
 				<select name="employee">
@@ -117,7 +132,6 @@
 					<option value={{testemp}}>{{testemp}}</option>
 				</select>
 				<br><br>
-
 				New Status:<br>
 				<select name="status">
 					<option value="No Selection">No Selection</option>
@@ -133,8 +147,9 @@
 				<input type="date" id="start" name="date"[0-9]{4}-[0-9]{2}-[0-9]{2}"
 				<br><br><br>
 				<input type="submit" value="Submit">
-  
 			</form> 
+			</div>
+			</div>
 		</div>
 	</body>
 </html>
