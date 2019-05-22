@@ -32,3 +32,11 @@ def load_shift_xref_person(person_id, shift_start, shift_end, date, role):
 #Loads a person_status change
 def load_person_status(status, date_change, person_id):
 	i_query("INSERT INTO person_status (status, date_change, person_id) VALUES ('%s', '%s', '%s')" % (status, date_change, person_id))
+
+#Loads an event
+def load_event(tstart, tend, etype):
+	i_query("INSERT INTO event (tstart, tend, etype) VALUES ('%s', '%s', '%s')" % (tstart, tend, etype))
+
+#Loads a person_xref_event	
+def load_event(tstart, tend, etype, person_id):
+	i_query("INSERT INTO person_xref_event (tstart, tend, etype, person_id) VALUES ('%s', '%s', '%s', '%s')" % (tstart, tend, etype, person_id))
