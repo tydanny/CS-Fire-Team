@@ -8,3 +8,10 @@ def load_incident(id, time, category, response):
 def load_person_xref_incident(id, response):
 	for r, s in response:
 		i_query("INSERT INTO person_xref_incident (incident_id, person_id, origin) VALUES ('%s', '%s', '%s')" % (id, r, s))
+
+#Loads a note if time is known
+def load_note(person_id, note, time):
+	i_query("INSERT INTO note (person_id, note, created_at) VALUES ('%s', '%s', '%s')" % (person_id, note, time))
+	
+def load_note(person_id, note):
+	i_query("INSERT INTO note (person_id, note) VALUES ('%s', '%s')" % (person_id, note))
