@@ -29,7 +29,6 @@ CREATE TABLE person_xref_incident
 (
     person_id TEXT REFERENCES person(id),
     incident_id INTEGER REFERENCES incident(id),
-    origin TEXT,
     PRIMARY KEY (person_id, incident_id)
 );
 
