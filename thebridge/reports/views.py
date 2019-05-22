@@ -29,12 +29,19 @@ def index(request):
 
 def submit(request):
     try:
-        connection = dbconnect()
-        connection.connect()        
+        test = ""
+        i = 0
+        thingies = []
+        for thingy in request.POST:
+            thingies.append(thingy)
+        startDate = request.POST["time-start"]
+        endDate = request.POST["time-end"]
+        reportType = request.POST["type"]
+        staff = request.POST.getlist("staff")
         template = loader.get_template('submit.html')
         context = {}
         #return HttpResponse(template.render(context, request))
-        return HttpResponse(request.body)
+        return HttpResponse(staff)
     except:
         template = loader.get_template('error.html')
         context = {}
