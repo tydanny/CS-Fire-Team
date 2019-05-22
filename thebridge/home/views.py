@@ -15,6 +15,6 @@ def user(request, username):
     connection.connect()
     query = "SELECT * FROM PERSON;"
 
-    result = connection.run_query(query)
+    result = connection.s_query(query)
 
     return HttpResponse(result)

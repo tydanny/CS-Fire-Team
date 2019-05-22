@@ -8,11 +8,11 @@ def index(request):
     connection = dbconnect()
     connection.connect()
     firstQuery = "SELECT fname FROM PERSON;"
-    firsts = connection.run_query(firstQuery)
+    firsts = connection.s_query(firstQuery)
     lastQuery = "SELECT lname FROM PERSON;"
-    lasts = connection.run_query(lastQuery)
+    lasts = connection.s_query(lastQuery)
     numsQuery = "SELECT id FROM PERSON;"
-    nums = connection.run_query(numsQuery)
+    nums = connection.s_query(numsQuery)
     i = len(firsts)
     x = 0
     emps = []
@@ -38,9 +38,9 @@ def submit(request):
         title = request.POST["title"]
         residency = request.POST["residency"]
         newPer = "INSERT INTO person (id,fname,lname,title,resident) VALUES ('%s','%s','%s','%s','%s');" % (empNum, firstName, lastName, title, residency)
-        newStat = "INSERT INTO person_status (status, date_change, person_id,) VALUES (%s, %s, %s);" % ("Active", startDate, empNum)
-        connection.run_query(newPer)
-        connection.run_query(newStat)
+        newStat = "INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '%s', '%s');" % (startDate, empNum)
+        connection.i_query(newPer)
+        connection.i_query(newStat)
         #return HttpResponse(firstName + " " + lastName + " " + str(empNum) + " " + startDate + " " + title + " " + residency)
         template = loader.get_template('submit.html')
         context = {}
@@ -60,8 +60,8 @@ def update(request):
         empNum = nums[-1]
         status = request.POST["status"]
         date = request.POST["date"]
-        statusUpdate = ("INSERT INTO person_status (status, date, empNum) VALUES (%s, %s, %s)" % (status, date, empNum))
-        connection.run_query(statusUpdate)
+        statusUpdate = ("INSERT INTO person_status (status, date_change, person_id) VALUES ('%s', '%s', '%s');" % (status, date, empNum))
+        connection.i_query(statusUpdate)
         #return HttpResponse(str(empNum) + " " + status + " " + date)
         template = loader.get_template('submit.html')
         context = {}

@@ -22,5 +22,6 @@ urlpatterns = [
     path('reports/', include('reports.urls')),
     path('personnel/', include('personnel.urls')),
     path('import/', include('import.urls')),
+    path('logout/', include('logout.urls')),
     path('admin/', admin.site.urls),
 ]
