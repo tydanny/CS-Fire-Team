@@ -16,3 +16,12 @@ def load_note(person_id, note, time):
 #Loads a note if time is not known
 def load_note(person_id, note):
 	i_query("INSERT INTO note (person_id, note) VALUES ('%s', '%s')" % (person_id, note))
+
+#Loads a shift.  
+def load_shift(tstart, tend, date, station):
+	i_query("INSERT INTO note (tstart, tend, date, station) VALUES ('%s', '%s', '%s', '%s')" % (tstart, tend, date, slot, station, role))
+
+#Loads a connection between a shift and a person.
+def load_shift_xref_person(person_id, shift_start, shift_end, date, role)
+	i_query("INSERT INTO note (person_id, shift_start, shift_end, date, role) VALUES ('%s', '%s', '%s', '%s', '%s')" % (person_id, shift_start, shift_end, date, role))
+	
