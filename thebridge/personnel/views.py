@@ -37,14 +37,19 @@ def submit(request):
         startDate = request.POST["time-start"]
         title = request.POST["title"]
         residency = request.POST["residency"]
-        newPer = "INSERT INTO person (id,fname,lname,title,resident) VALUES ('%s', '%s', '%s', '%s', '%s');" % (empNum, firstName, lastName, title, residency)
+        newPer = "INSERT INTO person (id,fname,lname,title,resident) VALUES ('%s','%s','%s','%s','%s');" % (empNum, firstName, lastName, title, residency)
         newStat = "INSERT INTO person_status (status, date_change, person_id,) VALUES (%s, %s, %s);" % ("Active", startDate, empNum)
         connection.run_query(newPer)
         connection.run_query(newStat)
         #return HttpResponse(firstName + " " + lastName + " " + str(empNum) + " " + startDate + " " + title + " " + residency)
-        return HttpResponse(newPer)
+        template = loader.get_template('submit.html')
+        context = {}
+        #return HttpResponse(newPer)
+        return HttpResponse(template.render(context, request))
     except:
-        return HttpResponse("Error adding data to the database")
+        template = loader.get_template('error.html')
+        context = {}
+        return HttpResponse(template.render(context, request))
 
 def update(request):
     try:
@@ -57,6 +62,11 @@ def update(request):
         date = request.POST["date"]
         statusUpdate = ("INSERT INTO person_status (status, date, empNum) VALUES (%s, %s, %s)" % (status, date, empNum))
         connection.run_query(statusUpdate)
-        return HttpResponse(str(empNum) + " " + status + " " + date)
+        #return HttpResponse(str(empNum) + " " + status + " " + date)
+        template = loader.get_template('submit.html')
+        context = {}
+        return HttpResponse(template.render(context, request))
     except:
-        return HttpResponse("Error adding data to the database")
+        template = loader.get_template('error.html')
+        context = {}
+        return HttpResponse(template.render(context, request))
