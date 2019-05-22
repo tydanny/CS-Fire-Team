@@ -1,99 +1,110 @@
 <!DOCTYPE html>
+
+{% load static %}
+
 <html>
-
-<head>
-
-<style>
+	<head>
+		<style>
   
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-}
+			ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+				}
 
-li {
-  float: left;
-}
+			li {
+				float: left;
+			}
 
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
+			li a {
+				display: block;
+				color: white;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+			}
 
-li a:hover:not(.active) {
-  background-color: #111;
-}
+			li a:hover:not(.active) {
+				background-color: #111;
+			}
+			
+			li a:hover {
+				background-color: #3c8c3f;
+			}
 
-.active {
-  background-color: #4CAF50;
-}
-</style>
-</head>
+			.active {
+				background-color: #4CAF50;
+			}
+			
+			#main {
+				margin: 10px 50px 10px 50px;
+			}
+			
+			#header {
+				margin: 10px 0px 0px 0px;
+			}
+			
+			#navigation {
+				margin: 10px 0px 0px 0px;
+			}
+		</style>
+	</head>
 
-<body>
-  <ul>
-	<li><a href="http://127.0.0.1:8000/home/">Home</a></li>
-	<li><a href="http://127.0.0.1:8000/reports/">Reports</a></li>
-	<li><a href="http://127.0.0.1:8000/personnel/">Personnel</a></li>
-	<li><a href="http://127.0.0.1:8000/import/">Import</a></li>
-	<li style="float:right"><a class="active" href="http://127.0.0.1:8000/about/">About</a></li>
-  </ul>
+	<body>
+		<div id="header">
+			<div style="display:inline-block;vertical-align:top;">
+				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+			</div>
+			<div style="display:inline-block; vertical-align: bottom;">
+				<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+			</div>
+			<div id="navigation">
+				<ul>
+					<li><a href="http://127.0.0.1:8000/home/">Home</a></li>
+					<li><a href="http://127.0.0.1:8000/reports/">Reports</a></li>
+					<li><a href="http://127.0.0.1:8000/personnel/">Personnel</a></li>
+					<li><a href="http://127.0.0.1:8000/import/">Import</a></li>
+					<li style ="float:right"><a class="active" href="">Log Out</a></li>
+					<li style="float:right"><a class="active" href="http://127.0.0.1:8000/about/">About</a></li>
+				</ul>
+			</div>
+		</div>
 
-  <div id="main">
-  <h1>Generate Reports</h1>
-  <h2>Select Date Range</h2> 
-  <input type="checkbox" id="yearToDate" rel="end"> Year-to-Date
-  <br><br>
+		<div id="main">
+			<h1>Generate Reports</h1>
+			<h2>Select Date Range</h2> 
+			<input type="checkbox" id="yearToDate" rel="end"> Year-to-Date
+			<br><br>
   
-<!-- Date Ranges -->
-  <label for="start">Start date:</label>
-  <input type="date" id="start" name="time-start required pattern='[0-9]{4}-[0-9]{2}-[0-9]{2}'">
-  <br><br><br>
-  
+			<!-- Date Ranges -->
+			<label for="start">Start date:</label>
+			<input type="date" id="start" name="time-start required pattern='[0-9]{4}-[0-9]{2}-[0-9]{2}'">
+			<br><br><br>
 
-  <label for="end">End date  : </label>
-  <input type="date" id="end" name="time-start required pattern='[0-9]{4}-[0-9]{2}-[0-9]{2}'">
+			<label for="end">End date  : </label>
+			<input type="date" id="end" name="time-start required pattern='[0-9]{4}-[0-9]{2}-[0-9]{2}'">
 	
-<!--	
-	<script>
-	$(function(){
-		$('input.yearToDate').click(function(){
-			var today = new Date(),
-				todayFormat = today.getDay() + '.' + today.getMonth() + '.' + today.getFullYear();
-			$('#' + $(this).attr('rel')).val(todayFormat);
-		});
-	});
-  </script>
-  -->
-	
-	
-  <br><br><br>
+			<br><br><br>
 
-  <h2>Select Staff Members</h2>
-  <input type="checkbox" id="myCheck">  Generate report for all staff
-  <br><br>
-  <input type="checkbox" id="myCheck">  Jimmy John
+			<h2>Select Staff Members</h2>
+			<input type="checkbox" id="myCheck">  Generate report for all staff
+			<br><br>
+			<input type="checkbox" id="myCheck">  Jimmy John
   
-  <br><br>
+			<br><br>
   
-  <h2>Select Report Type</h2>
-  <select>
-	<option value="none">No Selection</option>
-	<option value="regular">Regular</option>
-	<option value="negative">Negative</option>
-  </select>
+			<h2>Select Report Type</h2>
+			<select>
+				<option value="none">No Selection</option>
+				<option value="regular">Regular</option>
+				<option value="negative">Negative</option>
+			</select>
 
-  <h3>Print Report</h3>
-  <span class="validity"></span>
-  <input type="submit">
-
-  </div>
-  
-<body>
-
+			<h3>Print Report</h3>
+			<span class="validity"></span>
+			<input type="submit">
+		</div>
+	<body>
 </html>

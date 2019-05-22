@@ -12,7 +12,7 @@ def index(request):
 
 def user(request, username):
 
-    query = "SELECT * FROM PERSON WHERE name = 'James Fire';"
+    query = "SELECT * FROM PERSON;"
 
     result = run_query(query)
 
