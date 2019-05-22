@@ -1,5 +1,5 @@
 
-import pg8000
+import psycopg2
 
 """
     Args:
@@ -13,19 +13,30 @@ import pg8000
 class dbconnect():
     def connect(self):
         try:
-            self.connection = pg8000.connect(
-            database='bridge_db',
+            self.connection = psycopg2.connect(
+            dbname='bridge_db',
             user='csfire',
             port=5432,
             host='bridge-db.c6xgclrgfvud.us-west-1.rds.amazonaws.com',
             password='thebridge')
-        except pg8000.Error:
+        except psycopg2.Error:
             print('Failed to connect to DB')
 
-    def run_query(self, query):
+    def s_query(self, query):
         try:
+            self.connect()
             cur = self.connection.cursor()
             cur.execute(query)
             return cur.fetchall()
-        except pg8000.Error:
+        except psycopg2.Error as e:
             print('Query error')
+            print (e)
+
+    def i_query(self, query):
+        try:
+            cur = self.connection.cursor()
+            cur.execute(query)
+            self.connection.commit()
+        except psycopg2.Error as e:
+            print('Query error')
+            print (e)
