@@ -29,19 +29,27 @@ def index(request):
 
 def submit(request):
     try:
-        test = ""
-        i = 0
-        thingies = []
-        for thingy in request.POST:
-            thingies.append(thingy)
         startDate = request.POST["time-start"]
         endDate = request.POST["time-end"]
         reportType = request.POST["type"]
         staff = request.POST.getlist("staff")
+        connection = dbconnect()
+        connection.connect()
+        if staff[0] == "Generate For All":
+            connection.generate_for_all(startDate, endDate, reportType)
+        elif len(staff) == 1:
+            nums = [int(s) for s in staff[0].split() if s.isdigit()]
+            empNum = nums[-1]
+            connection.generate_for_individual(empNum, startDate, endDate, reportType)
+        else:
+            empNums = []
+            for person in staff:
+                nums = [int(s) for s in staff[0].split() if s.isdigit()]
+                empNums.append(nums[-1])
+                connection.generate_for_some(empNums, startDate, endDate, reportType)
         template = loader.get_template('submit.html')
         context = {}
-        #return HttpResponse(template.render(context, request))
-        return HttpResponse(staff)
+        return HttpResponse(template.render(context, request))
     except:
         template = loader.get_template('error.html')
         context = {}

@@ -1,5 +1,6 @@
 
 import psycopg2
+from report import Report
 
 """
     Args:
@@ -43,3 +44,13 @@ class dbconnect():
     def close(self):
         self.cur.close()
         self.con.close()
+
+    def generate_for_all(self, startTime, endTime, reportType):
+        print("Reached generate for all")
+
+    def generate_for_some(self, empNums, startTime, endTime, reportType):
+        print("Reached generate for all")
+
+    def generate_for_individual(self, empNum, startTime, endTime, reportType):
+        print("Reached generate for individual")
+        
