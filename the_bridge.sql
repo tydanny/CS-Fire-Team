@@ -38,10 +38,8 @@ CREATE TABLE shift
     tstart TIME,
     tend TIME,
     date DATE,
-    slot INTEGER,
     station INTEGER,
-    role TEXT,
-    PRIMARY KEY (tstart, tend, date, slot)
+    PRIMARY KEY (tstart, tend, date)
 );
 
 CREATE TABLE person_xref_shift
@@ -50,9 +48,9 @@ CREATE TABLE person_xref_shift
     shift_start TIME,
     shift_end TIME,
     date DATE,
-    shift_slot INTEGER,
-    FOREIGN KEY (shift_start, shift_end, date, shift_slot) REFERENCES shift(tstart, tend, date, slot),
-    PRIMARY KEY (person_id, shift_start, shift_end, date, shift_slot)
+    role TEXT,
+    FOREIGN KEY (shift_start, shift_end, date) REFERENCES shift(tstart, tend, date),
+    PRIMARY KEY (person_id, shift_start, shift_end, date)
 );
 
 CREATE TABLE person_status
