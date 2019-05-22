@@ -33,7 +33,8 @@ def submit(request):
         connection.connect()        
         template = loader.get_template('submit.html')
         context = {}
-        return HttpResponse(template.render(context, request))
+        #return HttpResponse(template.render(context, request))
+        return HttpResponse(request.body)
     except:
         template = loader.get_template('error.html')
         context = {}

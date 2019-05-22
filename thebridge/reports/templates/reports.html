@@ -73,6 +73,7 @@
 		</div>
 
 		<div id="main">
+			<form action="http://127.0.0.1:8000/reports/submit/" method="post">{% csrf_token %}
 			<h1>Generate Reports</h1>
 			<h2>Select Date Range</h2> 
 			<input type="checkbox" id="yearToDate" rel="end"> Year-to-Date
@@ -80,16 +81,15 @@
   
 			<!-- Date Ranges -->
 			<label for="start">Start date:</label>
-			<input type="date" id="start" name="time-start required pattern='[0-9]{4}-[0-9]{2}-[0-9]{2}'">
+			<input type="date" id="start" name="time-start'[0-9]{4}-[0-9]{2}-[0-9]{2}'">
 			<br><br><br>
 
 			<label for="end">End date  : </label>
-			<input type="date" id="end" name="time-start required pattern='[0-9]{4}-[0-9]{2}-[0-9]{2}'">
+			<input type="date" id="end" name="time-end'[0-9]{4}-[0-9]{2}-[0-9]{2}'">
 	
 			<br><br><br>
 
 			<h2>Select Staff Members</h2>
-			<form action="http://127.0.0.1:8000/reports/submit/" method="post">{% csrf_token %}
 				<select name="staff" multiple>
 					<option value="Generate For All">Generate For All</option>
 					{% for emp in employees %} 
@@ -97,13 +97,9 @@
 					{% endfor %}
 				</select>
 				<p>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
-				<input type="submit">
-			</form>
-		
-			<br><br>
   
 			<h2>Select Report Type</h2>
-			<select>
+			<select name="type">
 				<option value="none">No Selection</option>
 				<option value="regular">Regular</option>
 				<option value="negative">Negative</option>
@@ -112,6 +108,7 @@
 			<br><br>
 			<span class="validity"></span>
 			<input type="submit" value ="Print Report">
+			</form>
 		</div>
 	<body>
 </html>
