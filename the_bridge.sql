@@ -11,8 +11,8 @@ DROP TABLE IF EXISTS person;
 CREATE TABLE person
 (
     id TEXT PRIMARY KEY,
-    fName TEXT,
-    lName TEXT,
+    fname TEXT,
+    lname TEXT,
     title TEXT,
     resident TEXT
 );
@@ -41,7 +41,7 @@ CREATE TABLE shift
     slot INTEGER,
     station INTEGER,
     role TEXT,
-    PRIMARY KEY (tstart, tend, slot)
+    PRIMARY KEY (tstart, tend, date, slot)
 );
 
 CREATE TABLE person_xref_shift
@@ -49,9 +49,10 @@ CREATE TABLE person_xref_shift
     person_id TEXT REFERENCES person(id),
     shift_start TIME,
     shift_end TIME,
+    date DATE,
     shift_slot INTEGER,
-    FOREIGN KEY (shift_start, shift_end, shift_slot) REFERENCES shift(tstart, tend, slot),
-    PRIMARY KEY (person_id, shift_start, shift_end, shift_slot)
+    FOREIGN KEY (shift_start, shift_end, date, shift_slot) REFERENCES shift(tstart, tend, date, slot),
+    PRIMARY KEY (person_id, shift_start, shift_end, date, shift_slot)
 );
 
 CREATE TABLE person_status
