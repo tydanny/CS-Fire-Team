@@ -12,6 +12,7 @@ def load_person_xref_incident(id, response):
 #Loads a note if time is known
 def load_note(person_id, note, time):
 	i_query("INSERT INTO note (person_id, note, created_at) VALUES ('%s', '%s', '%s')" % (person_id, note, time))
-	
+
+#Loads a note if time is not known
 def load_note(person_id, note):
 	i_query("INSERT INTO note (person_id, note) VALUES ('%s', '%s')" % (person_id, note))
