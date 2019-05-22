@@ -17,9 +17,7 @@ class TestDBConnect(unittest.TestCase):
 		self.assertEqual('999999', results[0][0])
 		self.assertEqual('Joji', results[1][0])
 		self.assertEqual('Seshamekish', results[2][0])
-
-	def test_update(self):
 		
 
-	if __name__ == '__man__':
-		unittest.main()
+if __name__ == '__man__':
+	unittest.main()
