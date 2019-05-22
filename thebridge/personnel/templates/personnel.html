@@ -129,7 +129,9 @@
 				Employee:<br>
 				<select name="employee">
 					<option value="No Selection">No Selection</option>
-					<option value={{testemp}}>{{testemp}}</option>
+					{% for emp in employees %} 
+					<option value="{{emp}}">{{emp}}</option>
+					{% endfor %}
 				</select>
 				<br><br>
 				New Status:<br>
