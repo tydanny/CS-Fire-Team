@@ -71,7 +71,7 @@ CREATE TABLE event
     tstart TIMESTAMP,
     tend TIMESTAMP,
     etype TEXT,
-    PRIMARY KEY (tstart, tend, etype, date)
+    PRIMARY KEY (tstart, tend, etype)
 );
 
 CREATE TABLE person_xref_event
