@@ -74,11 +74,13 @@ def note(request):
     try:
         connection = dbconnect()
         connection.connect()
-        employee = request.POST("employee")
+        employee = request.POST["employee"]
         nums = [int(s) for s in employee.split() if s.isdigit()]
         empNum = nums[-1]
-        note = request.POST("note")
-        load_note(empNum,note)
+        note = request.POST["text"]
+        noteUpdate = "INSERT INTO note (person_id, note) VALUES ('%s', '%s');" % (empNum, note)
+        #load_note(empNum,note)
+        connection.i_query(noteUpdate)
         template = loader.get_template('submit.html')
         context = {}
         return HttpResponse(template.render(context,request))
