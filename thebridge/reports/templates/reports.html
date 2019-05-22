@@ -89,10 +89,17 @@
 			<br><br><br>
 
 			<h2>Select Staff Members</h2>
-			<input type="checkbox" id="myCheck">  Generate report for all staff
-			<br><br>
-			<input type="checkbox" id="myCheck">  Jimmy John
-  
+			<form action="/database">
+				<select name="staff" multiple>
+					<option value="Generate For All">Generate For All</option>
+					<option value="peter">Peter</option>
+					<option value="jimmy">Jimmy</option>
+					<option value="john">John</option>
+				</select>
+				<p>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
+				<input type="submit">
+			</form>
+		
 			<br><br>
   
 			<h2>Select Report Type</h2>
