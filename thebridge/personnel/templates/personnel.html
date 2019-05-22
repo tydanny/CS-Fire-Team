@@ -152,7 +152,7 @@
 				<br><br>
 			</form>
 			<h1>Add Note</h1>
-			<form action="http://127.0.0.1:8000/personnel/update/" method="post" id=noteForm>{% csrf_token %}
+			<form action="http://127.0.0.1:8000/personnel/note/" method="post" id=noteForm>{% csrf_token %}
 				Employee:<br>
 				<select name="employee">
 					<option value="No Selection">No Selection</option>
@@ -161,7 +161,7 @@
 					{% endfor %}
 				</select>
 				<br><br>
-				<textarea rows="4" cols="50" name="note" form="noteForm">
+				<textarea rows="4" cols="50" name="text" form="noteForm">
 Enter note here...</textarea>
 				<br><br>
 				<input type="submit" value="Submit">
