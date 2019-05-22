@@ -26,7 +26,7 @@ def load_shift(tstart, tend, station):
 	i_query("INSERT INTO shift (tstart, tend, station) VALUES ('%s', '%s', '%s')" % (tstart, tend, station))
 
 #Loads a connection between a shift and a person.
-def load_shift_xref_person(person_id, shift_start, shift_end, role):
+def load_person_xref_shift(person_id, shift_start, shift_end, role):
 	i_query("INSERT INTO person_xref_shift (person_id, shift_start, shift_end, role) VALUES ('%s', '%s', '%s', '%s')" % (person_id, shift_start, shift_end, role))
 	
 #Loads a person_status change
