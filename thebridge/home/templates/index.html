@@ -2,7 +2,7 @@
 {% load static %}
 
 <html>
-	<head>
+	<head>	
 		<style>
   
 			ul {
@@ -32,28 +32,47 @@
 			.active {
 				background-color: #4CAF50;
 			}
+			
+			#main {
+				margin: 10px 50px 10px 50px;
+			}
+			
+			#header {
+				margin: 10px 0px 0px 0px;
+			}
+			
+			#navigation {
+				margin: 10px 0px 0px 0px;
+			}
+			
 		</style>
+		
+		<link href="site.css" rel="stylesheet">
 	</head>
 
 	<body>
-		<div style="display:inline-block;vertical-align:top;">
-			<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
-		</div>
-		<div style="display:inline-block; vertical-align: bottom;">
-			<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
-		</div>
+		<div id ="header">
+			<div style="display:inline-block;vertical-align:top;">
+				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+			</div>
+			<div style="display:inline-block; vertical-align: bottom;">
+				<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+			</div>
 
-		<ul>
-			<li><a href="http://127.0.0.1:8000/home/">Home</a></li>
-			<li><a href="http://127.0.0.1:8000/reports/">Reports</a></li>
-			<li><a href="http://127.0.0.1:8000/personnel/">Personnel</a></li>
-			<li><a href="http://127.0.0.1:8000/import/">Import</a></li>
-			<li style="float:right"><a class="active" href="http://127.0.0.1:8000/about/">About</a></li>
-		</ul>
-  
+			<div id = "navigation">
+				<ul>
+					<li><a href="http://127.0.0.1:8000/home/">Home</a></li>
+					<li><a href="http://127.0.0.1:8000/reports/">Reports</a></li>
+					<li><a href="http://127.0.0.1:8000/personnel/">Personnel</a></li>
+					<li><a href="http://127.0.0.1:8000/import/">Import</a></li>
+					<li style ="float:right"><a class="active" href="">Log Out</a></li>
+					<li style="float:right"><a class="active" href="http://127.0.0.1:8000/about/">About</a></li>
+				</ul>
+			</div>
+		</div>
+	
 		<div id="main">
 			<h1>Dashboard</h1> 
 		</div>
-
 	</body>
 </html> 
