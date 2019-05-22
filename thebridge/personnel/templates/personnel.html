@@ -1,69 +1,140 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html>
-<body>
-
-<h1>Add New Employee</h1>
-
-<form action="/database">
-  First name:<br>
-  <input type="text" name="firstname">
-  <br><br>
-  Last name:<br>
-  <input type="text" name="lastname">
-  <br><br>
-  Employee number:<br>
-  <input type="test" name="empNumber">
-  <br><br>
-  Title:<br>
-  <select name="title">
-    <option value="No Selection">No Selection</option>
-    <option value="Fire Fighter">Fire Fighter</option>
-    <option value="Shift Officer">Shift Officer</option>
-    <option value="Chief">Chief</option>
-  </select>
-  <br><br>
-  Residency:<br>
-  <select name="residency">
-    <option value="No Selection">No Selection</option>
-    <option value="Resident">Resident</option>
-    <option value="Shift Personnel">Shift Officer</option>
-  </select>
-  <br><br>
+	<head>
+		<style>
   
-  <label for="start">Start date:</label> <br>
-  <input type="date" id="start" name="time-start required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
-  <br><br><br>
+			ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+				}
 
-  <input type="submit" value="Submit">
+			li {
+				float: left;
+			}
+
+			li a {
+				display: block;
+				color: white;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+			}
+
+			li a:hover:not(.active) {
+				background-color: #111;
+			}
+			
+			li a:hover {
+				background-color: #3c8c3f;
+			}
+
+			.active {
+				background-color: #4CAF50;
+			}
+			
+			#main {
+				margin: 10px 50px 10px 50px;
+			}
+			
+			#header {
+				margin: 10px 0px 0px 0px;
+			}
+			
+			#navigation {
+				margin: 10px 0px 0px 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="header">
+			<div style="display:inline-block;vertical-align:top;">
+				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+			</div>
+			<div style="display:inline-block; vertical-align: bottom;">
+				<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+			</div>
+			<div id="navigation">
+				<ul>
+					<li><a href="http://127.0.0.1:8000/home/">Home</a></li>
+					<li><a href="http://127.0.0.1:8000/reports/">Reports</a></li>
+					<li><a href="http://127.0.0.1:8000/personnel/">Personnel</a></li>
+					<li><a href="http://127.0.0.1:8000/import/">Import</a></li>
+					<li style ="float:right"><a class="active" href="">Log Out</a></li>
+					<li style="float:right"><a class="active" href="http://127.0.0.1:8000/about/">About</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<div id="main">
+			<h1>Add New Employee</h1>
+
+			<form action="http://127.0.0.1:8000/personnel/submit/" method="post">{% csrf_token %}
+				First name:<br>
+				<input type="text" name="firstname">
+				<br><br>
+				Last name:<br>
+				<input type="text" name="lastname">
+				<br><br>
+				Employee number:<br>
+				<input type="test" name="empNumber">
+				<br><br>
+				Title:<br>
+				<select name="title">
+					<option value="No Selection">No Selection</option>
+					<option value="Fire Fighter">Fire Fighter</option>
+					<option value="Shift Officer">Shift Officer</option>
+					<option value="Chief">Chief</option>
+				</select>
+				<br><br>
+				Residency:<br>
+				<select name="residency">
+					<option value="No Selection">No Selection</option>
+					<option value="Resident">Resident</option>
+					<option value="Shift Personnel">Shift Officer</option>
+				</select>
+				<br><br>
   
-</form> 
+				<label for="start">Start date:</label> <br>
+				<input type="date" id="start" name="time-start"[0-9]{4}-[0-9]{2}-[0-9]{2}"
+				<br><br><br>
 
-<h2>Update Existing Employee</h2>
-
-<form action="/database">
-  Employee:<br>
-  <select name="employee">
-    <option value="No Selection">No Selection</option>
-    <option value={{testemp}}>{{testemp}}</option>
-  </select>
-  <br><br>
-
-  New Status:<br>
-  <select name="status">
-    <option value="No Selection">No Selection</option>
-    <option value="Active">Active</option>
-    <option value="Approved Leave">Approved Leave</option>
-    <option value="Disability Leave">Disability Leave</option>
-    <option value="Resigned">Resigned</option>
-    <option value="Retired">Retired</option>
-    <option value="Terminated">Terminated</option>
-  </select>
-  <br><br>
-  <label for="start">Effective date:</label> <br>
-  <input type="date" id="start" name="date"[0-9]{4}-[0-9]{2}-[0-9]{2}"
-  <br><br><br>
-  <input type="submit" value="Submit">
+				<input type="submit" value="Submit">
   
-</form> 
-</body>
+			</form> 
+
+			<h1>Update Existing Employee</h1>
+
+			<form action="http://127.0.0.1:8000/personnel/update/" method="post">{% csrf_token %}
+				Employee:<br>
+				<select name="employee">
+					<option value="No Selection">No Selection</option>
+					<option value={{testemp}}>{{testemp}}</option>
+				</select>
+				<br><br>
+
+				New Status:<br>
+				<select name="status">
+					<option value="No Selection">No Selection</option>
+					<option value="Active">Active</option>
+					<option value="Approved Leave">Approved Leave</option>
+					<option value="Disability Leave">Disability Leave</option>
+					<option value="Resigned">Resigned</option>
+					<option value="Retired">Retired</option>
+					<option value="Terminated">Terminated</option>
+				</select>
+				<br><br>
+				<label for="start">Effective date:</label> <br>
+				<input type="date" id="start" name="date"[0-9]{4}-[0-9]{2}-[0-9]{2}"
+				<br><br><br>
+				<input type="submit" value="Submit">
+  
+			</form> 
+		</div>
+	</body>
 </html>
