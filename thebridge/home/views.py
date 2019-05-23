@@ -17,4 +17,17 @@ def user(request, empNum):
     endTime = str(curr)
     report = Report(str(empNum), startTime, endTime)
     report.compute_full_report()
-    return HttpResponse(report.firstName + " " + report.lastName + " " + report.title + " " + report.resident)
+    fullName = "%s, %s" % (report.lastName, report.firstName)
+    template = loader.get_template('home_user.html')
+    context = {
+        'employee': fullName,
+        'date': endTime,
+        'training': str(report.trainings),
+        'shifts': str(report.shifts),
+        'actCalls': str(report.actCalls),
+        'workDeets': str(report.WDHours),
+        'apparatus': str(report.apparatus),
+        'fundraisers': str(report.fundraisers),
+        'meetings': str(report.meetings),
+    }
+    return HttpResponse(template.render(context, request))
