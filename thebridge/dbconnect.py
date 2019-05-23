@@ -67,9 +67,9 @@ class dbconnect():
         self.close()
 
     #Takes in an incident id and a list of personnel who responded and where they came from.
-    def load_person_xref_incident(self, id, response):
+    def load_person_xref_incident(self, incident_id, person_id):
         for r, s in response:
-            self.i_query("INSERT INTO person_xref_incident (incident_id, person_id, origin) VALUES ('%s', '%s', '%s');" % (id, r, s))
+            self.i_query("INSERT INTO person_xref_incident (incident_id, person_id) VALUES ('%s', '%s');" % (incident_id, person_id))
         self.close()
 
     #Loads a note if time is known
@@ -110,6 +110,8 @@ class dbconnect():
         self.close()
 
     def get_person(self, id):
-        self.i_query("""
+        return self.i_query("""
         SELECT * FROM person WHERE id='%s';
         """ % (id))
+
+    
