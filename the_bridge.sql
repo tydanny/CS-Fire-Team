@@ -53,7 +53,7 @@ CREATE TABLE person_xref_shift
 CREATE TABLE person_status
 (
     status TEXT,
-    date_change DATE,
+    date_change TIMESTAMP,
     person_id TEXT REFERENCES person(id),
     PRIMARY KEY (status, date_change, person_id)
 );
