@@ -47,16 +47,20 @@ class dbconnect():
         self.con.close()
 
     def generate_for_all(self, startTime, endTime, reportType):
-        print("Reached generate for all")
+        numsQuery = "SELECT id FROM PERSON;"
+        nums = self.s_query(numsQuery)
+        return self.generate_for_some(nums, startTime, endTime)
 
     def generate_for_some(self, empNums, startTime, endTime, reportType):
-        print("Reached generate for all")
+        reports = []
+        for emp in empNums:
+            reports.append(self.generate_for_individual(emp, startTime, endTime))
+        return reports
 
     def generate_for_individual(self, empNum, startTime, endTime, reportType):
-
-        print("Reached generate for individual")
-        #This is not done
-        s_query("" % (person_id, note, time))
+        report = Report(empNum, startTime, endTime)
+        report.generate_full_report()
+        return report
 
     #Loads a person.
     def load_person(self, person_id, fname, lname, title, residency, start):
