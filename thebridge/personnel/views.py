@@ -7,13 +7,13 @@ from loaders import load_note
 # Create your views here.
 def index(request):
     connection = dbconnect()
-    connection.connect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)
     lastQuery = "SELECT lname FROM PERSON;"
     lasts = connection.s_query(lastQuery)
     numsQuery = "SELECT id FROM PERSON;"
     nums = connection.s_query(numsQuery)
+    connection.close()
     i = len(firsts)
     x = 0
     emps = []
@@ -31,7 +31,6 @@ def index(request):
 def submit(request):
     try:
         connection = dbconnect()
-        connection.connect()
         firstName = request.POST["firstname"]
         lastName = request.POST["lastname"]
         empNum = request.POST["empNumber"]
@@ -42,6 +41,7 @@ def submit(request):
         newStat = "INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '%s', '%s');" % (startDate, empNum)
         connection.i_query(newPer)
         connection.i_query(newStat)
+        connection.close()
         template = loader.get_template('submit.html')
         context = {}
         return HttpResponse(template.render(context, request))
@@ -53,7 +53,6 @@ def submit(request):
 def update(request):
     try:
         connection = dbconnect()
-        connection.connect()
         employee = request.POST["employee"]
         nums = [int(s) for s in employee.split() if s.isdigit()]
         empNum = nums[-1]
@@ -61,6 +60,7 @@ def update(request):
         date = request.POST["date"]
         statusUpdate = ("INSERT INTO person_status (status, date_change, person_id) VALUES ('%s', '%s', '%s');" % (status, date, empNum))
         connection.i_query(statusUpdate)
+        connection.close()
         template = loader.get_template('submit.html')
         context = {}
         return HttpResponse(template.render(context, request))
@@ -73,7 +73,6 @@ def update(request):
 def note(request):
     try:
         connection = dbconnect()
-        connection.connect()
         employee = request.POST["employee"]
         nums = [int(s) for s in employee.split() if s.isdigit()]
         empNum = nums[-1]
@@ -81,6 +80,7 @@ def note(request):
         noteUpdate = "INSERT INTO note (person_id, note) VALUES ('%s', '%s');" % (empNum, note)
         #load_note(empNum,note)
         connection.i_query(noteUpdate)
+        connection.close()
         template = loader.get_template('submit.html')
         context = {}
         return HttpResponse(template.render(context,request))
