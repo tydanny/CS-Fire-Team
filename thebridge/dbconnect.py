@@ -116,7 +116,7 @@ class dbconnect():
         self.close()
 
     def get_person(self, id1):
-        return self.i_query("""
+        return self.s_query("""
         SELECT * FROM person WHERE id='%s';
         """ % (id1))
 

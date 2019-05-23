@@ -8,7 +8,8 @@ class Report():
         self.endTime = endTime
         self.lastName = ""
         self.firstName = ""
-        self.rank = ""
+        self.title = ""
+        self.resident = ""
         self.shifts = 0
         self.actCalls = 0
         self.totCalls = 0
@@ -149,6 +150,9 @@ class Report():
     def compute_employee_details(self):
         # querry database for employee first name, last name, and rank (resident or not)
         # do we want to add notes?
-        print("")
-
-        
+        person = self.connection.get_person(str(self.empNum))
+        if person != None:
+            self.firstName = person[0][1]
+            self.lastName = person[0][2]
+            self.title = person[0][3]
+            self.resident = person[0][4]
