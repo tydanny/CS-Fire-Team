@@ -140,7 +140,7 @@ class Report():
             #This line converts the timestamp string to a python datetime!
             #datetime.strptime(s[1], '%Y-%m-%d %H:%M:%S')
             
-        self.yearsService = int(daysService / 365)
+        self.yearsService = daysService / 365
         
 
     def compute_employee_details():

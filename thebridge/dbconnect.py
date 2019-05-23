@@ -80,7 +80,7 @@ class dbconnect():
 
     #Loads a note if time is known
     def load_note(self, person_id, note, time):
-        self.i_query("INSERT INTO note (person_id, note, created_at) VALUES ('%s', '%s', '%s');" % (person_id, note, time)))
+        self.i_query("INSERT INTO note (person_id, note, created_at) VALUES ('%s', '%s', '%s');" % (person_id, note, time))
         self.close()
 
     #Loads a note if time is not known
@@ -115,10 +115,8 @@ class dbconnect():
             self.i_query("INSERT INTO person_xref_event (tstart, tend, etype, person_id) VALUES ('%s', '%s', '%s', '%s');" % (tstart, tend, etype, p))
         self.close()
 
-    def get_person(self, id):
+    def get_person(self, id1):
         return self.i_query("""
         SELECT * FROM person WHERE id='%s';
-        """ % (id))
+        """ % (id1))
 
-    
->>>>>>> 387207b878222d89d9e9664569652baba64b0741
