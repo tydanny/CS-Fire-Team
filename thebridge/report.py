@@ -1,4 +1,5 @@
 import dbconnect
+import datetime
 
 class Report():
     def __init__(self, empNum, startTime, endTime):
@@ -115,35 +116,37 @@ class Report():
             self.totTrainings = tthours
             self.trainings = thours
 
-    def compute_service():
-        statuses = self.connection.s_query("""SELECT status, to_char(date_change, 'YYYY-MM-DD HH:MI:SS AM') FROM person_status WHERE person_id = '%s';""" % (self.empNum))
+    def compute_service(self):
+        statuses = self.connection.s_query("""SELECT status, to_char(date_change, 'YYYY-MM-DD HH:MI:SS') FROM person_status WHERE person_id = '%s';""" % (self.empNum))
         
         #start date, last change date, and current status, respectively
-        sd = datetime.strptime(statuses[0][1], '%Y-%m-%d %H:%M:%S')
+        sd = datetime.datetime.strptime(statuses[0][1], '%Y-%m-%d %H:%M:%S')
         lc = sd
         cs = 'Active'
         
         self.daysService = 0
         
         for s in statuses:
-            #I have a better idea for the if
-            #if((cs == 'Active' or cs == 'Disability Leave') and s[0] != 'Active' and s[0] != 'Disability Leave'):
-            if cs == 'Active' or cs == 'Disability Leave':
-                delta = datetime.strptime(s[1], '%Y-%m-%d %H:%M:%S') - lc
+            
+            if cs == 'Active' or cs == 'Medical':
+                delta = datetime.datetime.strptime(s[1], '%Y-%m-%d %H:%M:%S') - lc
                 self.daysService += delta.days
-                lc = datetime.strptime(s[1], '%Y-%m-%d %H:%M:%S')
+                lc = datetime.datetime.strptime(s[1], '%Y-%m-%d %H:%M:%S')
                 cs = s[0]
             else:
-                lc = datetime.strptime(s[1], '%Y-%m-%d %H:%M:%S')
+                lc = datetime.datetime.strptime(s[1], '%Y-%m-%d %H:%M:%S')
                 cs = s[0]
                 
             #This line converts the timestamp string to a python datetime!
             #datetime.strptime(s[1], '%Y-%m-%d %H:%M:%S')
+        if cs == 'Active' or cs == 'Medical':
+            delta = datetime.datetime.now() - lc
+            self.daysService += delta.days
             
-        self.yearsService = daysService / 365
+        self.yrsService = float("%0.2f" % (self.daysService / 365.0))
         
 
-    def compute_employee_details():
+    def compute_employee_details(self):
         # querry database for employee first name, last name, and rank (resident or not)
         # do we want to add notes?
         print("")

@@ -24,4 +24,5 @@ def user(request, empNum):
     report.compute_fundraisers()
     report.compute_meetings()
     report.compute_trainings()
-    return HttpResponse(str(report.trainings) + " " + str(report.totTrainings))
+    report.compute_service()
+    return HttpResponse(str(report.daysService) + " " + str(report.yrsService))
