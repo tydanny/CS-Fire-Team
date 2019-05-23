@@ -1,0 +1,21 @@
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+	<div id="main">
+		<h1>Golden Fire Department</h1>
+		<h1>Information Tracker</h1>
+		<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="150" height="150"/>
+		<br>
+	
+		<h2>
+			<form method="post">
+				{% csrf_token %}
+				{{ form.as_p }}
+				<button class="button" type="submit">Login</button>
+			</form>
+		</h2>
+	</div>
+{% endblock %}

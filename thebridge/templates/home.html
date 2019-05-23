@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+	<head>
+		<style>			
+			#main {
+				margin: 10px 50px 10px 50px;
+				text-align: center;
+			}
+			
+			.button {
+				background-color: #4CAF50;
+				border: none;
+				color: white;
+				padding: 15px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 16px;
+				font-family: sans-serif;
+				margin: 4px 2px;
+				cursor: pointer;
+				border-radius: 8px;
+			}
+		</style>
+		<meta charset="utf-8">
+		<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
+	
+		{% if user.is_authenticated %}
+			<meta http-equiv="refresh" content="0; URL=http://127.0.0.1:8000/home/" />
+		{% else %}
+			<div id="main">
+				<br><br>
+				<font face = "georgia" size = "36">You are not logged in</font>
+				<br><br><br>
+				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
+				<br><br>
+				<a href="{% url 'login' %}" class = "button">Login</a>
+			</div>
+		{% endif %}
+	
+	</head>
+	<body>
+		<main>
+		</main>
+	</body>
+</html>

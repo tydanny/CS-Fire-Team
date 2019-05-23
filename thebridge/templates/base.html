@@ -1,0 +1,38 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<style>			
+			#main {
+				margin: 50px 50px 50px 50px;
+				text-align: center;
+				font-family: sans-serif;
+			}
+			
+			.button {
+				background-color: #4CAF50;
+				border: none;
+				color: white;
+				padding: 15px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 16px;
+				font-family: sans-serif;
+				margin: 4px 2px;
+				cursor: pointer;
+				border-radius: 8px;
+			}
+	</style>
+	<meta charset="utf-8">
+	<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
+
+</head>
+<body>
+  <main>
+    {% block content %}
+	{% endblock %}
+  </main>
+</body>
+</html>
