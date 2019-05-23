@@ -66,6 +66,7 @@ class TestDBConnect(unittest.TestCase):
                 self.assertEqual(1, report.fundraisers)
                 self.assertEqual(1, report.meetings)
                 self.assertEqual(1, report.trainings)
+                self.assertEqual(1, report.totTrainings)
                 
 	def tearDown(self):
 		#self.db.i_query("DELETE FROM person WHERE id='%s';" % (self.id))
