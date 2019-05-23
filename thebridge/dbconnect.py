@@ -1,6 +1,7 @@
 
 import psycopg2
 from report import Report
+import datetime
 
 """
     Args:
@@ -117,7 +118,9 @@ class dbconnect():
         apparatus = self.s_query("""COUNT(*) FROM event AS e, person_xref_event AS pe
         WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND pe.event_id = e.id
         AND (e.type = 'work detail-daily' OR e.type = 'work detail-weekly' OR e.type = 'work detail-sunday');""" % (empNum, startTime, endTime))        
-
+        
+        
+        
         dos = 0
         yos = dos / 365
         return Report(credit, actCalls, totCalls, WDHours, apparatus, fundraisers, meetings, trainings, totTrainings, dos, yos)
