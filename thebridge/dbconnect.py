@@ -45,7 +45,33 @@ class dbconnect():
     def close(self):
         self.cur.close()
         self.con.close()
-
+    
+    def generate_for_dept(self, startTime, endTime):
+        
+        actCalls = 0
+        totCalls = 0
+        WDHours = 0
+        apparatus = 0
+        fundraisers = 0
+        meetings = 0
+        trainings = 0
+        totTrainings = 0
+        
+        numsQuery = "SELECT id FROM PERSON;"
+        nums = self.s_query(numsQuery)
+        
+        for n in nums:
+            rep = generate_for_individual(n, startTime, endTime)
+            totCalls += rep.actCalls
+            WDHours += rep.WDHours
+				
+				actCalls = self.s_query("SELECT COUNT(*) FROM incident;")
+				apparatus = self.s_query("SELECT COUNT(*) FROM event WHERE etype = 'work detail-daily' OR etype = 'work detail-weekly' OR etype = 'work detail-sunday' AND tstart BETWEEN '%s' AND '%s';" % (startTime, endTime))
+				fundraisers = self.s_query("SELECT COUNT(*) FROM event WHERE etype = 'work detail-fundraiser' AND tstart BETWEEN '%s' AND '%s';" % (startTime, endTime))
+				meetings =  self.s_query("SELECT COUNT(*) FROM event WHERE etype = 'meeting' AND tstart BETWEEN '%s' AND '%s';" % (startTime, endTime))
+				#TRAINING STUFF IS WRONG FIX IT
+				trainings = self.connection.s_query("SELECT tend-tstart, etype FROM event WHERE etype LIKE 'training%%' AND tstart BETWEEN '%s' AND '%s';" % (startTime, endTime))
+    
     def generate_for_all(self, startTime, endTime, reportType):
         numsQuery = "SELECT id FROM PERSON;"
         nums = self.s_query(numsQuery)
@@ -116,7 +142,7 @@ class dbconnect():
         self.close()
 
     def get_person(self, id1):
-        return self.s_query("""
+        return self.i_query("""
         SELECT * FROM person WHERE id='%s';
         """ % (id1))
 
