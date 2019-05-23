@@ -20,19 +20,19 @@ class TestDBConnect(unittest.TestCase):
 		self.assertEqual(self.id, results[0][0])
 		self.assertEqual(self.fname, results[0][1])
 		self.assertEqual(self.lname, results[0][2])
+        self.db.i_query("DELETE FROM person WHERE id='%s';" % (self.id))
 
 	def test_select(self):
+        self.db.i_query("INSERT INTO person (id, fname, lname) VALUES ('%s', '%s', '%s');" % (self.id, self.fname, self.lname))
 		results = self.db.s_query("SELECT fname FROM person WHERE id='%s';" % (self.id))
 		self.assertEqual(self.fname, results[0][0])
+        self.db.i_query("DELETE FROM person WHERE id='%s';" % (self.id))
 
-	def test_update(self):
-		self.db.i_query("UPDATE person SET title='%s', resident='%s' WHERE id='%s';" % (self.title, self.resident, self.id))
-		results = self.db.s_query("SELECT title, resident FROM person WHERE id='%s';" % (self.id))
-		self.assertEqual(self.title, results[0][0])
-		self.assertEqual(self.resident, results[0][1])
-		self.db.i_query("DELETE FROM person WHERE id='%s';" % (self.id))
+    def test_load_person(self):
+        self.db.load_person(self.id, self.)
 
 	def test_individual_report(self):
+
                 self.db.load_shift('05-11-2019 6:00 AM', '05-11-2019 12:00 PM', 1)
                 self.db.load_shift('05-12-2019 6:00 AM', '05-12-2019 12:00 PM', 1)
                 self.db.load_shift('05-13-2019 6:00 AM', '05-13-2019 12:00 PM', 1)
@@ -55,6 +55,7 @@ class TestDBConnect(unittest.TestCase):
                 self.db.load_person_xref_event('05-16-2019 10:00 AM', '05-16-2019 11:00 AM', 'Apparatus', '999999')
                 self.db.load_event('05-16-2019 11:00 AM', '05-16-2019 12:00 PM', 'Work Detail')
                 self.db.load_person_xref_event('05-16-2019 11:00 AM', '05-16-2019 12:00 PM', 'Work Detail', '999999')
+
                 report = self.generate_individual_report(self.id, self.startDate, self.endDate, 'Regular')
                 self.assertEqual(4, report.shifts)
                 self.assertEqual(2, report.actCalls)

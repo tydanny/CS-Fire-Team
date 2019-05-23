@@ -1,7 +1,6 @@
 
 import psycopg2
 from report import Report
-import datetime
 
 """
     Args:
@@ -47,73 +46,74 @@ class dbconnect():
         self.con.close()
 
     def generate_for_all(self, startTime, endTime, reportType):
-        numsQuery = "SELECT id FROM PERSON;"
-        nums = self.s_query(numsQuery)
-        reports = []
-        for emp in nums:
-            reports.append(self.generate_for_individual(emp, startTime, endTime, reportType))
-        return reports
+        print("Reached generate for all")
 
     def generate_for_some(self, empNums, startTime, endTime, reportType):
-        reports = []
-        for emp in empNums:
-            reports.append(self.generate_for_individual(emp, startTime, endTime, reportType))
-        return reports
+        print("Reached generate for all")
 
     def generate_for_individual(self, empNum, startTime, endTime, reportType):
-        empReport = Report(empNum, startTime, endTime)
-        empReport.compute_full_report()
-        return empReport
-    
+
+        print("Reached generate for individual")
+        #This is not done
+        s_query("" % (person_id, note, time))
+
     #Loads a person.
-    def load_person(person_id, note, time):
-            d = dbconnect()
-            d.i_query("INSERT INTO person (person_id, note, created_at) VALUES ('%s', '%s', '%s');" % (person_id, note, time))
+    def load_person(self, person_id, fname, lname, title, residency, start):
+        self.i_query("INSERT INTO person (id, fname, lname, title, resident) VALUES ('%s', '%s', '%s', '%s', '%s');" % (self.id, self.fname, self.lname))
+        self.close()
 
     #Takes in incident id, time, category, and response.
-    def load_incident(id, time, category, response):
-            d = dbconnect()
-            d.i_query("INSERT INTO incident (id, tstamp, category, response) VALUES ('%s', '%s', '%s', '%s');" % (id, time, category, response))
+    def load_incident(self, id, time, category, response):
+        self.i_query("INSERT INTO incident (id, tstamp, category, response) VALUES ('%s', '%s', '%s', '%s');" % (id, time, category, response))
+        self.close()
 
     #Takes in an incident id and a list of personnel who responded and where they came from.
-    def load_person_xref_incident(id, response):
-            d = dbconnect()
-            for r, s in response:
-                    d.i_query("INSERT INTO person_xref_incident (incident_id, person_id, origin) VALUES ('%s', '%s', '%s');" % (id, r, s))
+    def load_person_xref_incident(self, incident_id, person_id):
+        for r, s in response:
+            self.i_query("INSERT INTO person_xref_incident (incident_id, person_id) VALUES ('%s', '%s');" % (incident_id, person_id))
+        self.close()
 
     #Loads a note if time is known
-    def load_note(person_id, note, time):
-            d = dbconnect()
-            d.i_query("INSERT INTO note (person_id, note, created_at) VALUES ('%s', '%s', '%s');" % (person_id, note, time))
+    def load_note(self, person_id, note, time):
+        self.i_query("INSERT INTO note (person_id, note, created_at) VALUES ('%s', '%s', '%s');" % (person_id, note, time)))
+        self.close()
 
     #Loads a note if time is not known
-    def load_note(person_id, note):
-            d = dbconnect()
-            d.i_query("INSERT INTO note (person_id, note) VALUES ('%s', '%s');" % (person_id, note))
+    def load_note(self, person_id, note):
+        self.i_query("INSERT INTO note (person_id, note) VALUES ('%s', '%s');" % (person_id, note))
+        self.close()
 
     #Loads a shift.  
-    def load_shift(tstart, tend, station):
-            d = dbconnect()
-            d.i_query("INSERT INTO shift (tstart, tend, station) VALUES ('%s', '%s', '%s');" % (tstart, tend, station))
+    def load_shift(self, tstart, tend, station):
+        self.i_query("INSERT INTO shift (tstart, tend, station) VALUES ('%s', '%s', '%s');" % (tstart, tend, station))
+        self.close()
 
     #Loads a connection between a shift and a person.  "person" is a list of pairs or equivalent
-    def load_person_xref_shift(shift_start, shift_end, person):
-            d = dbconnect()
-            for p, r in person:
-                    d.i_query("INSERT INTO person_xref_shift (person_id, shift_start, shift_end, role) VALUES ('%s', '%s', '%s', '%s');" % (p, shift_start, shift_end, r))
-            
+    def load_person_xref_shift(self, shift_start, shift_end, person):
+        for p, r in person:
+            self.i_query("INSERT INTO person_xref_shift (person_id, shift_start, shift_end, role) VALUES ('%s', '%s', '%s', '%s');" % (p, shift_start, shift_end, r))
+        self.close()
+        
     #Loads a person_status change
-    def load_person_status(status, date_change, person_id):
-            d = dbconnect()
-            d.i_query("INSERT INTO person_status (status, date_change, person_id) VALUES ('%s', '%s', '%s');" % (status, date_change, person_id))
+    def load_person_status(self, status, date_change, person_id):
+        self.i_query("INSERT INTO person_status (status, date_change, person_id) VALUES ('%s', '%s', '%s');" % (status, date_change, person_id))
+        self.close()
 
     #Loads an event
-    def load_event(tstart, tend, etype):
-            d = dbconnect()
-            d.i_query("INSERT INTO event (tstart, tend, etype) VALUES ('%s', '%s', '%s');" % (tstart, tend, etype))
+    def load_event(self, tstart, tend, etype):
+        self.i_query("INSERT INTO event (tstart, tend, etype) VALUES ('%s', '%s', '%s');" % (tstart, tend, etype))
+        self.close()
 
     #Loads a person_xref_event.  Person_id is a LIST of all the ids for the people who worked an event.	
-    def load_person_xref_event(tstart, tend, etype, person_id):
-            d = dbconnect()
-            for p in people_id:
-                    d.i_query("INSERT INTO person_xref_event (tstart, tend, etype, person_id) VALUES ('%s', '%s', '%s', '%s');" % (tstart, tend, etype, p))
+    def load_person_xref_event(self, tstart, tend, etype, person_id):
+        for p in people_id:
+            self.i_query("INSERT INTO person_xref_event (tstart, tend, etype, person_id) VALUES ('%s', '%s', '%s', '%s');" % (tstart, tend, etype, p))
+        self.close()
+
+    def get_person(self, id):
+        return self.i_query("""
+        SELECT * FROM person WHERE id='%s';
+        """ % (id))
+
+    
+>>>>>>> 387207b878222d89d9e9664569652baba64b0741
