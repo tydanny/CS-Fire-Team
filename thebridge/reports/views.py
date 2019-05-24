@@ -4,6 +4,16 @@ from django.template import loader
 from dbconnect import dbconnect
 
 # Create your views here.
+def officer(request):
+	template = loader.get_template('officer_reports.html')
+	context = {}
+	return HttpResponse(template.render(context, request))
+	
+def admin(request):
+	template = loader.get_template('admin_reports.html')
+	context = {}
+	return HttpResponse(template.render(context, request))
+
 def index(request):
     connection = dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
