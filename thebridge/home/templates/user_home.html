@@ -1,0 +1,56 @@
+<!--user_home.html-->
+{% extends 'user_dashboard_base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+	{% if user.is_authenticated %}
+		<div id="main">
+			<h1>Report for #userName as of #date</h1>
+			<h2>You are #status</h2>
+	
+			<table>
+				<tr>
+					<th>Category</th>
+					<th>Current</th>
+					<th>Required</th>
+				</tr>
+				<tr>
+					<td>Training hours</td>
+					<td>#currentHours</td>
+					<td>60</td>
+				</tr>
+				<tr>
+					<td>Shifts</td>
+					<td>#currentShifts</td>
+					<td>36</td>
+				</tr>
+				<tr>
+					<td>Actual Calls</td>
+					<td>#currentCalls</td>
+					<td>54</td>
+				</tr>
+				<tr>
+					<td>Work Detail Hours</td>
+					<td>#currentDetailHours</td>
+					<td>36</td>
+				</tr>
+				<tr>
+					<td>Sundays & Weeklies</td>
+					<td>#currentWeeklies</td>
+					<td>12</td>
+				</tr>
+				<tr>
+					<td>Fundraisers</td>
+					<td>#currentFundraisers</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>Buisness Meetings</td>
+					<td>#currentMeetings</td>
+					<td>6</td>
+				</tr>
+			</table>
+		</div>
+	{% endif %}	
+{% endblock %}
+

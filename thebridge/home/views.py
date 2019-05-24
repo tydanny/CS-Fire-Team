@@ -10,6 +10,11 @@ def index(request):
     template = loader.get_template('index.html')
     context = {}
     return HttpResponse(template.render(context, request))
+	
+def userhome(request):
+	template = loader.get_template('user_home.html')
+	context = {}
+	return HttpResponse(template.render(context, request))
 
 def user(request, empNum):
     curr = datetime.datetime.now(tz=None)
