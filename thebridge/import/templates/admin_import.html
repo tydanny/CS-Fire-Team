@@ -1,0 +1,12 @@
+<!--admin_import.html-->
+{% extends 'admin_base.html' %}
+{% block title %}Import{% endblock %}
+
+{% block content %}
+	{% if user.is_authenticated %}
+		<div id="main">
+			<h1>Import Files</h1>
+			<p>Import csv files</p>
+		</div>
+	{% endif %}
+{% endblock %}

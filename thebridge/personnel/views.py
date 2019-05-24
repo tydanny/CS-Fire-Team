@@ -24,7 +24,7 @@ def index(request):
         emp = "%s, %s %s" % (emplast, empfirst, empNum)
         emps.append(emp)
         x += 1
-    template = loader.get_template('personnel.html')
+    template = loader.get_template('admin_personnel.html')
     context = {'employees' : emps}
     return HttpResponse(template.render(context, request))
 

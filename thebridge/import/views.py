@@ -4,6 +4,6 @@ from django.template import loader
 
 # Create your views here.
 def index(request):
-    template = loader.get_template('importPage.html')
+    template = loader.get_template('admin_import.html')
     context = {}
     return HttpResponse(template.render(context, request))
