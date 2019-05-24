@@ -50,16 +50,6 @@ input:blue {
 }
 
 
-training hours
-shifts
-actual calls
-work detail hours
-sundays and weeklies
-fundraisers
-buisness meetings
-
-
-
 table {
 	border-collapse: collpase:
 	width: 100%;
@@ -82,11 +72,11 @@ tr:hover {background-color:myFunction()}
 
 
 </style>
-	<h1>Report for #userName as of #date</h1>
+	<h1>Report for {{employee}} as of {{date}}</h1>
 </head>
 
 <body>
-	<h2>You are #status</h2>
+	<h2>You are {{empStatus}}</h2>
 	
 	<table>
 		<tr>
@@ -96,86 +86,40 @@ tr:hover {background-color:myFunction()}
 		</tr>
 		<tr>
 			<td>Training hours</td>
-			<td>#currentHours</td>
+			<td>{{training}}</td>
 			<td>60</td>
 		</tr>
 		<tr>
 			<td>Shifts</td>
-			<td>#currentShifts</td>
+			<td>{{shifts}}</td>
 			<td>36</td>
 		</tr>
 		<tr>
 			<td>Actual Calls</td>
-			<td>#currentCalls</td>
+			<td>{{actCalls}}</td>
 			<td>54</td>
 		</tr>
 		<tr>
 			<td>Work Detail Hours</td>
-			<td>#currentDetailHours</td>
+			<td>{{workDeets}}</td>
 			<td>36</td>
 		</tr>
 		<tr>
 			<td>Sundays & Weeklies</td>
-			<td>#currentWeeklies</td>
+			<td>{{apparatus}}</td>
 			<td>12</td>
 		</tr>
 		<tr>
 			<td>Fundraisers</td>
-			<td>#currentFundraisers</td>
+			<td>{{fundraisers}}</td>
 			<td>1</td>
 		</tr>
 		<tr>
 			<td>Buisness Meetings</td>
-			<td>#currentMeetings</td>
+			<td>{{meetings}}</td>
 			<td>6</td>
 		</tr>
-	</table>
-	
-	<h2>Example Table</h2>
-	
-	<table>
-		<tr>
-			<th>Category</th>
-			<th>Current</th>
-			<th>Required</th>
-		</tr>
-		<tr>
-			<td>Training hours</td>
-			<td>4</td>
-			<td>60</td>
-		</tr>
-		<tr>
-			<td>Shifts</td>
-			<td>16</td>
-			<td>36</td>
-		</tr>
-		<tr>
-			<td>Actual Calls</td>
-			<td>7</td>
-			<td>54</td>
-		</tr>
-		<tr>
-			<td>Work Detail Hours</td>
-			<td>18</td>
-			<td>36</td>
-		</tr>
-		<tr>
-			<td>Sundays & Weeklies</td>
-			<td>4</td>
-			<td>12</td>
-		</tr>
-		<tr>
-			<td>Fundraisers</td>
-			<td>1</td>
-			<td>1</td>
-		</tr>
-		<tr>
-			<td>Buisness Meetings</td>
-			<td>0</td>
-			<td>6</td>
-		</tr>
-	</table>
-	
+	</table>	
 	
 
 </body>
