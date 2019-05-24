@@ -27,6 +27,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('loggedout/', TemplateView.as_view(template_name='logged_out.html'), name = "loggedout"),
-    path('home/', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('homepage/', TemplateView.as_view(template_name='home.html'), name='home'),
     path('', TemplateView.as_view(template_name='redirect.html'), name='redirect'),
 ]

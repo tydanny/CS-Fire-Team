@@ -28,7 +28,17 @@
 		<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
 	
 		{% if user.is_authenticated %}
-			<meta http-equiv="refresh" content="0; URL=http://127.0.0.1:8000/home/" />
+			<!--This is how you do automatic redirecting-->
+			<!--<meta http-equiv="refresh" content="0; URL=http://127.0.0.1:8000/home/" />-->
+			<div id="main">
+				<a href="http://127.0.0.1:8000/home/admin" class = "button">Admin View</a>
+				<br>
+				<a href="http://127.0.0.1:8000/home/officer" class = "button">Officer View</a>
+				<br>
+				<a href="http://127.0.0.1:8000/home/user" class = "button">Firefighter View</a>
+				<br>
+			</div>
+			
 		{% else %}
 			<div id="main">
 				<br><br>
