@@ -1,0 +1,109 @@
+<!--officer_base.html-->
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<style>
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+		}
+
+		li {
+			float: left;
+		}
+
+		li a {
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+
+		li a:hover:not(.active) {
+			background-color: #111;
+		}
+			
+		li a:hover {
+			background-color: #3c8c3f;
+		}
+
+		.active {
+			background-color: #4CAF50;
+		}			
+			
+		#navigation {
+			margin: 10px 0px 0px 0px;
+		}
+	
+		#main {
+			margin: 50px 50px 50px 50px;
+			font-family: sans-serif;
+		}
+			
+		#centered {
+			margin: 50px 50px 50px 50px;
+			text-align: center;
+			font-family: sans-serif;
+		}
+			
+		.button {
+			background-color: #4CAF50;
+			border: none;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			font-family: sans-serif;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 8px;
+		}
+	</style>
+	<meta charset="utf-8">
+	<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
+
+	{% if user.is_authenticated %}
+		<div id ="header">
+			<div style="display:inline-block;vertical-align:top;">
+				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+			</div>
+			<div style="display:inline-block; vertical-align: bottom;">
+				<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+			</div>
+
+			<div id = "navigation">
+				<ul>
+					<li><a href="http://127.0.0.1:8000/home/officer">Home</a></li>
+					<li><a href="http://127.0.0.1:8000/reports/officer">Reports</a></li>
+					<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
+					<li style="float:right"><a class="active" href="http://127.0.0.1:8000/about/officer">About</a></li>
+				</ul>
+			</div>
+		</div>
+	{% else %}
+		<div id="centered">
+			<br><br>
+			<font face = "georgia" size = "20">You cannot access this page</font>
+			<br>
+			<font face = "georgia" size = "20">because you are not logged in</font>
+			<br><br><br>
+			<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
+			<br><br>
+			<a href="{% url 'login' %}" class = "button">Login</a>
+		</div>
+	{% endif %}
+</head>
+<body>
+  <main>
+    {% block content %}
+	{% endblock %}
+  </main>
+</body>
+</html>

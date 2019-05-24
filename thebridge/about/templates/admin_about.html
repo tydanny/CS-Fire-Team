@@ -1,0 +1,11 @@
+<!--admin_about.html-->
+{% extends 'admin_base.html' %}
+{% block title %}About{% endblock %}
+
+{% block content %}
+	{% if user.is_authenticated %}
+		<div id="main">
+			<h1>About</h1> 
+		</div>
+	{% endif %}	
+{% endblock %}
