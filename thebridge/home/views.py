@@ -15,6 +15,16 @@ def userhome(request):
 	template = loader.get_template('user_home.html')
 	context = {}
 	return HttpResponse(template.render(context, request))
+	
+def officer(request):
+	template = loader.get_template('officer_home.html')
+	context = {}
+	return HttpResponse(template.render(context, request))
+	
+def admin(request):
+	template = loader.get_template('admin_home.html')
+	context = {}
+	return HttpResponse(template.render(context, request))
 
 def user(request, empNum):
     curr = datetime.datetime.now(tz=None)
