@@ -7,3 +7,8 @@ def index(request):
     template = loader.get_template('about.html')
     context = {}
     return HttpResponse(template.render(context, request))
+	
+def user(request):
+	template = loader.get_template('user_about.html')
+	context = {}
+	return HttpResponse(template.render(context, request))
