@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/ty/Desktop/CS-Fire-Team/thebridge/source/')
+sys.path.append('source/')
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
