@@ -5,3 +5,5 @@ eb-virt
 __pycache__
 
 \.vscode/
+
+virt/

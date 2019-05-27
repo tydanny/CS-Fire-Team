@@ -1,8 +1,10 @@
+import sys
+sys.path.append('/home/ty/Desktop/CS-Fire-Team/thebridge/source/')
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from dbconnect import dbconnect
-from report import Report
+import dbconnect
+import report
 import datetime
 
 # Create your views here.
