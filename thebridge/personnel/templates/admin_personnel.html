@@ -10,13 +10,13 @@
 			
 			<form action="http://127.0.0.1:8000/personnel/submit/" method="post">{% csrf_token %}
 				First name:<br>
-				<input type="text" name="firstname">
+				<input class="span3" type="text" name="firstname" required>
 				<br><br>
 				Last name:<br>
-				<input type="text" name="lastname">
+				<input class="span3" type="text" name="lastname" required>
 				<br><br>
 				Employee number:<br>
-				<input type="test" name="empNumber">
+				<input class="span3" type="test" name="empNumber" required>
 				<br><br>
 				Title:<br>
 				<select name="title">
@@ -27,7 +27,7 @@
 				</select>
 				<br><br>
 				Residency:<br>
-				<select name="residency">
+				<select name="residency"
 					<option value="No Selection">No Selection</option>
 					<option value="Resident">Resident</option>
 					<option value="Shift Personnel">Shift Officer</option>
@@ -35,7 +35,7 @@
 				<br><br>
   
 				<label for="start">Start date:</label> <br>
-				<input type="date" id="start" name="time-start"[0-9]{4}-[0-9]{2}-[0-9]{2}"
+				<input type="date" id="start" name="time-start"[0-9]{4}-[0-9]{2}-[0-9]{2} " required >
 				<br><br><br>
 
 				<input type="submit" value="Submit">
@@ -65,7 +65,7 @@
 				</select>
 				<br><br>
 				<label for="start">Effective date:</label> <br>
-				<input type="date" id="start" name="date"[0-9]{4}-[0-9]{2}-[0-9]{2}"
+				<input type="date" id="start" name="date"[0-9]{4}-[0-9]{2}-[0-9]{2}" required >
 				<br><br><br>
 				<input type="submit" value="Submit">
 				<br><br>

@@ -11,16 +11,16 @@
   
 			<!-- Date Ranges -->
 			<label for="start">Start date:</label>
-			<input type="date" id="start" name="time-start"[0-9]{4}-[0-9]{2}-[0-9]{2}">
+			<input type="date" id="start" name="time-start"[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
 			<br><br><br>
 
 			<label for="end">End date  : </label>
-			<input type="date" id="end" name="time-end"[0-9]{4}-[0-9]{2}-[0-9]{2}">
+			<input type="date" id="end" name="time-end"[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
 	
 			<br><br>
 
 			<h2>Select Staff Members</h2>
-				<select name="staff" multiple>
+				<select name="staff" multiple required>
 					<option value="Generate For All">Generate For All</option>
 					{% for emp in employees %} 
 					<option value="{{emp}}">{{emp}}</option>
