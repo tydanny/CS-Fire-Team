@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 import dbconnect
-import report
+from report import Report
 import datetime
 
 # Create your views here.
@@ -52,6 +52,7 @@ def user(request, empNum):
     ratApparatus = report.apparatus / tarApparatus
     ratFunds = report.fundraisers / tarFunds
     ratMeets = report.meetings / tarMeets
+	
 
     statTrainings = "On-Track"
     statShifts = "On-Track"
