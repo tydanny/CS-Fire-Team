@@ -89,18 +89,22 @@ function myFunction(statement,status){
 	if (status == "Behind-Schedule"){
 		statement.fontcolor("red");
 		status.fontcolor("red");
+		alert("function called red");
 	}
 	if (status == "Falling-Behind"){
 		statement.fontcolor("yellow");
 		status.fontcolor("yellow");
+		alert("function called yellow");
 	}
 	if (status == "On-Track"){
 		statement.fontcolor("green");
 		status.fontcolor("green");
+		alert("function called green");
 	}
 	if (status == "Complete"){
 		statement.fontcolor("blue");
 		status.fontcolor("blue");
+		alert("function called blue");
 	}
 }
 </script>
