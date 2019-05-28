@@ -120,10 +120,9 @@ class dbconnect():
         self.i_query("INSERT INTO shift (tstart, tend, station) VALUES ('%s', '%s', '%s');" % (tstart, tend, station))
         self.close()
 
-    #Loads a connection between a shift and a person.  "person" is a list of pairs or equivalent
-    def load_person_xref_shift(self, shift_start, shift_end, person):
-        for p, r in person:
-            self.i_query("INSERT INTO person_xref_shift (person_id, shift_start, shift_end, role) VALUES ('%s', '%s', '%s', '%s');" % (p, shift_start, shift_end, r))
+    #Loads a connection between a shift and a person.  THIS LIKELY NEEDS MODIFICATION BECAUSE WE KEEP CHANGING THE TABLES.
+    def load_person_xref_shift(self, shift_start, shift_end, station, person, role):
+        self.i_query("INSERT INTO person_xref_shift (person_id, shift_start, shift_end, role, station) VALUES ('%s', '%s', '%s', '%s');" % (person, shift_start, shift_end, role, station))
         self.close()
         
     #Loads a person_status change
