@@ -5,7 +5,7 @@ import dbconnect
 
 def convert_schedule(filepath):
   
-  #Still gotta figure out how to pass this dynamically.  Probably an HTML thing.
+  #This should be dynamic, and it should function fine.
   rep = pd.read_html(filepath)
   
   for index, row in rep[0].iterrows():
