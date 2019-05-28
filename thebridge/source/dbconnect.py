@@ -146,3 +146,14 @@ class dbconnect():
         SELECT * FROM person WHERE id='%s';
         """ % (id1))
 
+    def get_person_from_name(self, fname, lname):
+        return self.s_query("""
+        SELECT * FROM person WHERE fname = '%s' AND lname = '%s';
+        """ % (fname, lname))
+    
+    #May need modding because we keep changing shift.
+    def get_shift(self, tstart, tend, location):
+        return self.s_query("""
+        SELECT * FROM shift WHERE tstart = '%s' AND tend = '%s' AND station = '%s';
+        """ % (tstart, tend, location))
+        
