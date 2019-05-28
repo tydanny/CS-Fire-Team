@@ -37,7 +37,7 @@ CREATE TABLE shift
     tstart TIMESTAMP,
     tend TIMESTAMP,
     station INTEGER,
-    PRIMARY KEY (tstart, tend)
+    PRIMARY KEY (tstart, tend, station)
 );
 
 CREATE TABLE person_xref_shift
