@@ -1,0 +1,26 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: heidihufford@mines.edu
+Date: Tue, 28 May 2019 20:15:51 -0000
+Message-ID: 
+ <155907455160.15392.12442463738191906803@LAPTOP-EGGACECF.mines.edu>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/accounts/reset/Mw/56p-6c9c07ee5789d0f439fc/
+
+Your username, in case you've forgotten: bridgeuser
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------
