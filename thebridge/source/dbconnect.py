@@ -148,7 +148,7 @@ class dbconnect():
 
     def get_person_from_name(self, fname, lname):
         return self.s_query("""
-        SELECT * FROM person WHERE fname = '%s' AND lname = '%s';
+        SELECT id FROM person WHERE fname = '%s' AND lname = '%s';
         """ % (fname, lname))
     
     #May need modding because we keep changing shift.
