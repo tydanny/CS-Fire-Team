@@ -3,52 +3,10 @@
 <head>
 <style>
 
-p.red{
-	border-style: solid;
-	border-color: red;
-	border-width: 5px;
-}
-p.yellow{
-	border-style: solid;
-	border-color: yellow;
-	border-width: 10px;
-}
-p.green{
-	border-style: solid;
-	border-color: green;
-	border-width: 3px;
-}
-p.blue{
-	border-style: solid;
-	border-color: blue;
-	border-width: 15px;
-}
-
 li{
 	list-style: none;
 	margin-bottom: 1em;
 }
-
-input{
-	border: 1px solid black;
-}
-
-input:red {
-	background-color: #FF0000
-}
-
-input:yellow {
-	background-color: #FFFF00
-}
-
-input:green {
-	background-color: #7FFF00
-}
-
-input:blue {
-	background-color: #00BFFF
-}
-
 
 table {
 	border-collapse: collpase:
@@ -60,22 +18,21 @@ th, td {
 	text-allign: left;
 	border-bottom: 1px solid #ddd;
 }
-#colors{
-	red:#FF0000
-	yellow:#FFFF00
-	green: #7FFF00
-	blue: #00BFFF
-	gray: #f5f5f5
-}
-tr:hover {background-color:myFunction()}
-
-
 
 </style>
 	<h1>Report for {{employee}} as of {{date}}</h1>
 </head>
 
 <body>
+	myFunction({{training}},{{trainingStatus}});
+	myFunction({{shifts}},{{shiftStatus}});
+	myFunction({{actCalls}},{{callStatus}});
+	myFunction({{workDeets}},{{workDeetStatus}});
+	myFunction({{apparatus}},{{apparatusStatus}});
+	myFunction({{fundraisers}},{{fundraiserStatus}});
+	myFunction({{meetings}},{{meetingStatus}});
+	
+	mySwag();
 	<h2>You are {{empStatus}}</h2>
 	
 	<table>
@@ -86,44 +43,73 @@ tr:hover {background-color:myFunction()}
 		</tr>
 		<tr>
 			<td>Training hours</td>
-			<td>{{training}}</td>
+			<td><p id="train"></p>{{training}} - {{trainingStatus}}</td>
 			<td>60</td>
 		</tr>
 		<tr>
 			<td>Shifts</td>
-			<td>{{shifts}}</td>
+			<td>{{shifts}} - {{shiftStatus}}</td>
 			<td>36</td>
 		</tr>
 		<tr>
 			<td>Actual Calls</td>
-			<td>{{actCalls}}</td>
+			<td>{{actCalls}} - {{callStatus}}</td>
 			<td>54</td>
 		</tr>
 		<tr>
 			<td>Work Detail Hours</td>
-			<td>{{workDeets}}</td>
+			<td>{{workDeets}} - {{workDeetStatus}}</td>
 			<td>36</td>
 		</tr>
 		<tr>
 			<td>Sundays & Weeklies</td>
-			<td>{{apparatus}}</td>
+			<td>{{apparatus}} - {{apparatusStatus}}</td>
 			<td>12</td>
 		</tr>
 		<tr>
 			<td>Fundraisers</td>
-			<td>{{fundraisers}}</td>
+			<td>{{fundraisers}} - {{fundraiserStatus}}</td>
 			<td>1</td>
 		</tr>
 		<tr>
 			<td>Buisness Meetings</td>
-			<td>{{meetings}}</td>
+			<td>{{meetings}} - {{meetingStatus}}</td>
 			<td>6</td>
 		</tr>
 	</table>	
 	
 	<br>
-	<button class="button">Download Report</button>
+	<button onclick="window.print()">Download Report</button>
+	
 
 </body>
+
+<script>
+function myFunction(statement,status){
+	if (status == "Behind-Schedule"){
+		statement.fontcolor("red");
+		status.fontcolor("red");
+	}
+	if (status == "Falling-Behind"){
+		statement.fontcolor("yellow");
+		status.fontcolor("yellow");
+	}
+	if (status == "On-Track"){
+		statement.fontcolor("green");
+		status.fontcolor("green");
+	}
+	if (status == "Complete"){
+		statement.fontcolor("blue");
+		status.fontcolor("blue");
+	}
+}
+</script>
+
+<script>
+function mySwag(){
+	document.getElementById("train").innerHTML = 5+6;
+	document.getElementById("train").style.color = "red";
+}
+</script>
 			
 </html>
