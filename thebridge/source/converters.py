@@ -3,10 +3,10 @@ import pandas as pd
 import lxml
 import dbconnect
 
-def convert_schedule():
+def convert_schedule(filepath):
   
   #Still gotta figure out how to pass this dynamically.  Probably an HTML thing.
-  rep = pd.read_html('Report.xls')
+  rep = pd.read_html(filepath)
   
   for index, row in rep[0].iterrows():
         
