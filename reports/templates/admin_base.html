@@ -1,7 +1,7 @@
 <!--admin_base.html-->
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html>
 	<head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
@@ -64,6 +64,8 @@
 			margin: 50px 50px 50px 50px;
 			text-align: center;
 			font-family: sans-serif;
+			margin-left: auto;
+			margin-right: auto;
 		}
 			
 		.button {
@@ -81,6 +83,144 @@
 			border-radius: 8px;
 		}
 		
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+			margin: 0;
+		}
+		
+		.header {
+			padding: 1px;
+			text-align: center;
+			background: #DC143C
+			color: white;
+		}
+		
+		.header h1 {
+			padding: 5px;
+			font-size: 40px;
+			color: white;
+			background: #DC143C;
+		}
+		
+		.header h2 {
+			font-size: 30px;
+			padding: 5px;
+			color: white;
+			background: #DC143C;
+			<!-- gold: #FFD700,#FACC00, FFBE00 -->
+		}
+		
+		.header h3 {
+		
+		}
+		
+		.content {
+			max-width: 600px;
+			margin: auto;
+			background: white;
+			padding: 1px;
+		}
+		
+		.help-block {
+			font-size: 14px;
+			color: gray;
+			font-weight: lightest;
+		}
+		
+		.button {
+			background-color: #DC143C;
+			border: none;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+		}
+		
+		select {
+		  width: 300px;
+		  height: 250px;
+		  padding: 5px 15px;
+		}
+		select option {
+		  border-bottom: 1px dashed #DC143C;
+		  height: 30px;
+		  line-height: 30px;
+		  position: relative;
+		}
+		select option:before {
+		  content: attr(title);
+		  position: absolute;
+		  height: 100%;
+		  line-height: 30px;
+		  left: 300px;
+		  right: 0px;
+		  top: 0px;
+		  color: #000;
+		  padding-left: 10px;
+		  background-color: #fff;
+		}
+		select option:checked:before {
+		  color: #fff;
+		  background-color: #DC143C;
+		}
+		
+		.custom-select {
+			left: 200px;
+			position: relative;
+			font-family: Helvetica;
+		}
+		
+		.custom-select select {
+			display: none;
+		}
+		
+		.select-selected {
+			background-color: #000080
+		}
+		
+		.select-selected:after {
+			position: absolute;
+			content: "";
+			top: 14px;
+			right: 10px;
+			width: 0;
+			height: 0;
+			border: 6px solid transparent;
+			border-color: #fff transparent transparent transparent;
+		}
+		
+		.select-selected.select-arrow-active:after {
+			border-color: transparent transparent #fff transparent;
+			top: 7px;
+		}
+
+		.select-items div,.select-selected {
+			color: #ffffff;
+			padding: 8px 16px;
+			border: 1px solid transparent;
+			border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+			cursor: pointer;
+			user-select: none;
+		}
+
+		.select-items {
+			position: absolute;
+			background-color: #000080;
+			top: 100%;
+			left: 0;
+			right: 0;
+			z-index: 99;
+		}
+
+		.select-hide {
+			display: none;
+		}
+
+		.select-items div:hover, .same-as-selected {
+			background-color: rgba(0, 0, 0, 0.1);
+		}
 	</style>
 	<meta charset="utf-8">
 	<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
