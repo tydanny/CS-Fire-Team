@@ -12,6 +12,9 @@ from report import Report
 """
 
 class dbconnect():
+    def __init__(self):
+        self.connect()
+
     def connect(self):
         try:
             self.con = psycopg2.connect(

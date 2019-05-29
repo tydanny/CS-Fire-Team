@@ -13,11 +13,6 @@ def index(request):
     context = {}
     return HttpResponse(template.render(context, request))
 	
-def userhome(request):
-	template = loader.get_template('user_home.html')
-	context = {}
-	return HttpResponse(template.render(context, request))
-	
 def officer(request):
 	template = loader.get_template('officer_home.html')
 	context = {}
