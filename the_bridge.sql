@@ -45,7 +45,7 @@ CREATE TABLE person_xref_shift
     person_id TEXT REFERENCES person(id),
     shift_start TIMESTAMP,
     shift_end TIMESTAMP,
-	station TEXT,
+    station TEXT,
     role TEXT,
     FOREIGN KEY (shift_start, shift_end, station) REFERENCES shift(tstart, tend, station),
     PRIMARY KEY (person_id, shift_start, shift_end, station)
