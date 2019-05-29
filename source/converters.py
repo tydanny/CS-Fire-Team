@@ -10,7 +10,7 @@ def convert_schedule(filepath):
   rep = pd.read_html(filepath)
   
   for index, row in rep[0].iterrows():
-        
+    
     tstart = row.loc['Start date'].replace('/','-') + ' ' + row.loc['Start time'] + ':00'
     tend = row.loc['End date'].replace('/','-') + ' ' + row.loc['End time'] + ':00'
     location = row.loc['On duty at']
@@ -21,5 +21,6 @@ def convert_schedule(filepath):
     
     #Should work for all, since i believe psycopg2 returns a lsit even if there is only one entry.  
     #However, it will jsut take the first id if there are two people with the same name.
-    person = db.get_person_from_name(row.loc['First name'], row.loc['Last name'])[0]
+    person = db.get_person_from_name(row.loc['First name'], row.loc['Last name'])
+    print(person)
     db.load_person_xref_shift(tstart, tend, location, person, role)
