@@ -26,7 +26,7 @@ SECRET_KEY = 'kz19-gz$e+05vscyxaibbr-qoq@qo(1$irmmeqt9qf1@&ba@2l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['thebridge-gfd.herokuapp.com']
+ALLOWED_HOSTS = ['thebridge-gfd.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
