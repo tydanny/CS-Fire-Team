@@ -1,5 +1,6 @@
 import sys
-sys.path.append('../source/')
+#HARDCODED FOR CONNOR'S PC.  For some reason the path is a list of multiple paths.
+sys.path.append('C:\\Users\\crash\\Documents\\Field Session\\Repo\\CS-Fire-Team\\source\\')
 from dbconnect import dbconnect
 import report
 import unittest
