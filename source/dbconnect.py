@@ -29,7 +29,6 @@ class dbconnect():
 
     def s_query(self, query):
         try:
-            self.connect()
             self.cur.execute(query)
             return self.cur.fetchall()
         except psycopg2.Error as e:
@@ -38,7 +37,6 @@ class dbconnect():
 
     def i_query(self, query):
         try:
-            self.connect()
             self.cur.execute(query)
             self.con.commit()
         except psycopg2.Error as e:
