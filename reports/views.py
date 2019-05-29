@@ -80,17 +80,16 @@ def submit(request):
                 report.compute_full_report()
                 reports.append(report)
         connection.close()
+        file = None
         if len(reports) >= 1:
-            print("reports not null")
             csv_name = "Personnel_Report_%s_%s.csv" % (startDate, endDate)
-            with open(csv_name, 'w',newline='') as csvfile:
-                filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',)
-                filewriter.writerow(reports[0].headerRow)
-                for report in reports:
-                    filewriter.writerow(report.csvRow)
-        template = loader.get_template('submit.html')
-        context = {}
-        return HttpResponse(template.render(context, request))
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="%s"' % csv_name
+            writer = csv.writer(response)
+            writer.writerow(reports[0].headerRow)
+            for report in reports:
+                    writer.writerow(report.csvRow)
+        return response
     except Exception as e:
         print(e)
         template = loader.get_template('error.html')
