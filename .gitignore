@@ -7,5 +7,3 @@ __pycache__
 \.vscode/
 
 virt/
-
-db\.sqlite3
