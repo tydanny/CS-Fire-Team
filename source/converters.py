@@ -21,6 +21,9 @@ def convert_schedule(filepath):
     
     #Should work for all, since i believe psycopg2 returns a lsit even if there is only one entry.  
     #However, it will jsut take the first id if there are two people with the same name.
-    person = db.get_person_from_name(row.loc['First name'], row.loc['Last name'])
-    print(person)
-    db.load_person_xref_shift(tstart, tend, location, person, role)
+    person = db.get_person_from_name(row.loc['First name'], row.loc['Last name'])[0][0]
+    if(not db.get_shift(tstart, tend, location)):
+      print(person)
+      db.load_person_xref_shift(tstart, tend, location, person, role)
+
+  db.close()
