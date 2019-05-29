@@ -22,6 +22,12 @@ class Report():
         self.daysService = 0
         self.yrsService = 0
         self.connection = dbconnect.dbconnect()
+        self.csvRow = []
+        self.headerRow = ['Rank','Emp #','Last Name','First Name',
+                          'Actual Calls', 'Shift Volunteer', 'Resident Volunteer',
+                          'Work Detail Hours', 'Apparatus Checks', 'Training-Dept',
+                          'Training-Total', 'Fundraiser', 'Business Meetings',
+                          'Days of Service', 'Years of Service']
 
     def compute_full_report(self):
         self.compute_shifts()
@@ -34,6 +40,7 @@ class Report():
         self.compute_trainings()
         self.compute_service()
         self.compute_employee_details()
+        self.create_csv_row()
         self.connection.close()
 
     def compute_shifts(self):
@@ -156,3 +163,21 @@ class Report():
             self.lastName = person[0][2]
             self.title = person[0][3]
             self.resident = person[0][4]
+
+    def create_csv_row(self):
+        rank = "%s-%s" %(self.title, self.resident)
+        self.csvRow.append(rank)
+        self.csvRow.append(str(self.empNum))
+        self.csvRow.append(str(self.lastName))
+        self.csvRow.append(str(self.firstName))
+        self.csvRow.append(str(self.actCalls))
+        self.csvRow.append(str(self.shifts))
+        self.csvRow.append(str(self.totCalls))
+        self.csvRow.append(str(self.WDHours))
+        self.csvRow.append(str(self.apparatus))
+        self.csvRow.append(str(self.trainings))
+        self.csvRow.append(str(self.totTrainings))
+        self.csvRow.append(str(self.fundraisers))
+        self.csvRow.append(str(self.meetings))
+        self.csvRow.append(str(self.daysService))
+        self.csvRow.append(str(self.yrsService))
