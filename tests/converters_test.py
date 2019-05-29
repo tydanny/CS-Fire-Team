@@ -5,13 +5,12 @@ sys.path.append('C:\\Users\\crash\\Documents\\Field Session\\Repo\\CS-Fire-Team\
 #print(sys.path)
 
 import unittest
-import dbconnect
+from dbconnect import dbconnect
 import converters
 
 #This code is here temporarily .
-converters.convert_schedule(r'C:\Users\crash\Documents\Field Session\Report.xls')
-results = self.db.s_query("SELECT * FROM shift")
-print(results)
+db = dbconnect()
+
 
 class TestConverters(unittest.TestCase):
 
@@ -25,14 +24,13 @@ class TestConverters(unittest.TestCase):
 		#self.startDate = '2019-05-10'
 		#self.endDate = '2019-05-20'
 		
-		self.filepath = r'C:\Users\crash\Documents\Field Session'
+		self.filepath = r'C:\Users\crash\Documents\Field Session\TestDataReport.xls'
 	
 	#def test_load_names():
 	
 	def test_convert_schedule(self):
-		converters.convert_schedule(self.filepath)
-	#	self.db.i_query("INSERT INTO person (id, fname, lname) VALUES ('%s', '%s', '%s');" % (self.id, self.fname, self.lname))
-		results = self.db.s_query("SELECT * FROM shift")
+		converters.convert_schedule(r'C:\Users\crash\Documents\Field Session\TestDataReport.xls')
+		results = db.s_query("SELECT * FROM shift")
 		print(results)
 	#	self.assertEqual(self.id, results[0][0])
 	#	self.assertEqual(self.fname, results[0][1])
@@ -90,3 +88,5 @@ class TestConverters(unittest.TestCase):
 
 if __name__ == '__man__':
 	unittest.main()
+
+#Python -m unittest filepath
