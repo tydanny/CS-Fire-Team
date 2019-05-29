@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../source/')
 
 import unittest
 from report import Report
@@ -17,7 +19,9 @@ class TestConverters(unittest.TestCase):
 		#self.endDate = '2019-05-20'
 		
 		self.filepath = r'C:\Users\crash\Documents\Field Session'
-
+	
+	# test_load_names():
+	
 	def test_convert_schedule(self):
 		converters.convert_schedule(self.filepath)
 	#	self.db.i_query("INSERT INTO person (id, fname, lname) VALUES ('%s', '%s', '%s');" % (self.id, self.fname, self.lname))
