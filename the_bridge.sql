@@ -36,7 +36,7 @@ CREATE TABLE shift
 (
     tstart TIMESTAMP,
     tend TIMESTAMP,
-    station INTEGER,
+    station TEXT,
     PRIMARY KEY (tstart, tend, station)
 );
 
