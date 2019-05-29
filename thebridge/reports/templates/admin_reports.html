@@ -4,21 +4,172 @@
 
 {% block content %}
 	{% if user.is_authenticated %}
-		<div id="main">
+	<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+			margin: 0;
+		}
+		
+		.header {
+			padding: 1px;
+			text-align: center;
+			background: #DC143C
+			color: white;
+		}
+		
+		.header h1 {
+			padding: 5px;
+			font-size: 40px;
+			color: white;
+			background: #DC143C;
+		}
+		
+		.header h2 {
+			font-size: 30px;
+			padding: 5px;
+			color: white;
+			background: #DC143C;
+			<!-- gold: #FFD700,#FACC00, FFBE00 -->
+		}
+		
+		.header h3 {
+		
+		}
+		
+		.content {
+			max-width: 600px;
+			margin: auto;
+			background: white;
+			padding: 1px;
+		}
+		
+		.help-block {
+			font-size: 14px;
+			color: gray;
+			font-weight: lightest;
+		}
+		
+		.button {
+			background-color: #DC143C;
+			border: none;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+		}
+		
+		select {
+		  width: 300px;
+		  height: 250px;
+		  padding: 5px 15px;
+		}
+		select option {
+		  border-bottom: 1px dashed #DC143C;
+		  height: 30px;
+		  line-height: 30px;
+		  position: relative;
+		}
+		select option:before {
+		  content: attr(title);
+		  position: absolute;
+		  height: 100%;
+		  line-height: 30px;
+		  left: 300px;
+		  right: 0px;
+		  top: 0px;
+		  color: #000;
+		  padding-left: 10px;
+		  background-color: #fff;
+		}
+		select option:checked:before {
+		  color: #fff;
+		  background-color: #DC143C;
+		}
+		
+		.custom-select {
+			left: 200px;
+			position: relative;
+			font-family: Helvetica;
+		}
+		
+		.custom-select select {
+			display: none;
+		}
+		
+		.select-selected {
+			background-color: #000080
+		}
+		
+		.select-selected:after {
+			position: absolute;
+			content: "";
+			top: 14px;
+			right: 10px;
+			width: 0;
+			height: 0;
+			border: 6px solid transparent;
+			border-color: #fff transparent transparent transparent;
+		}
+		
+		.select-selected.select-arrow-active:after {
+			border-color: transparent transparent #fff transparent;
+			top: 7px;
+		}
+
+		.select-items div,.select-selected {
+			color: #ffffff;
+			padding: 8px 16px;
+			border: 1px solid transparent;
+			border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+			cursor: pointer;
+			user-select: none;
+		}
+
+		.select-items {
+			position: absolute;
+			background-color: #000080;
+			top: 100%;
+			left: 0;
+			right: 0;
+			z-index: 99;
+		}
+
+		.select-hide {
+			display: none;
+		}
+
+		.select-items div:hover, .same-as-selected {
+			background-color: rgba(0, 0, 0, 0.1);
+		}
+		
+	</style>
+	</head>
+		<div id="main" class="content">
 			<form action="http://127.0.0.1:8000/reports/submit/" method="post">{% csrf_token %}
-			<h1>Generate Reports</h1>
-			<h2>Select Date Range</h2> 
-  
+			<div class="header">
+				<h1>Generate Reports</h1>
+			</div>
+			<div class="header">
+				<h2>Select Date Range</h2> 
+			</div>
+			
 			<!-- Date Ranges -->
+			<div class="header">
 			<label for="start">Start date:</label>
 			<input type="date" id="start" name="time-start"[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
 			<br><br><br>
 
 			<label for="end">End date  : </label>
 			<input type="date" id="end" name="time-end"[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
-	
+			</div>
+			
 			<br><br>
-
+			
+			<div class="header">
 			<h2>Select Staff Members</h2>
 				<select name="staff" multiple required>
 					<option value="Generate For All">Generate For All</option>
@@ -26,21 +177,111 @@
 					<option value="{{emp}}">{{emp}}</option>
 					{% endfor %}
 				</select>
-				<br>
+				<br><br>
 				<span class="help-block">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</span>
-				
-  
-			<h2>Select Report Type</h2>
-			<select name="type">
-				<option value="none">No Selection</option>
-				<option value="regular">Regular</option>
-				<option value="negative">Negative</option>
-			</select>
+			</div>
+		
+			<div class="header">
+				<h2>Select Report Type</h2>
+			</div>
 			
-			<br><br>
-			<span class="validity"></span>
-			<input type="submit" value ="Print Report">
-			</form>
+			<div class="header">
+				<div class="custom-select" style="width:200px;">
+					<select>
+						<option value="none">No Selection</option>
+						<option value="regular">Regular</option>
+						<option value="negative">Negative</option>
+					</select>
+				</div>
+				
+				<br><br>
+				<span class="validity"></span>
+				<input type="submit" class="button" value ="Print Report">
+				</form>
+			</div>
 		</div>
+		
+		
+		<!-- Script for custom box -->
+		<script>
+		var x, i, j, selElmnt, a, b, c;
+		/*look for any elements with the class "custom-select":*/
+		x = document.getElementsByClassName("custom-select");
+		for (i = 0; i < x.length; i++) {
+		  selElmnt = x[i].getElementsByTagName("select")[0];
+		  /*for each element, create a new DIV that will act as the selected item:*/
+		  a = document.createElement("DIV");
+		  a.setAttribute("class", "select-selected");
+		  a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+		  x[i].appendChild(a);
+		  /*for each element, create a new DIV that will contain the option list:*/
+		  b = document.createElement("DIV");
+		  b.setAttribute("class", "select-items select-hide");
+		  for (j = 1; j < selElmnt.length; j++) {
+			/*for each option in the original select element,
+			create a new DIV that will act as an option item:*/
+			c = document.createElement("DIV");
+			c.innerHTML = selElmnt.options[j].innerHTML;
+			c.addEventListener("click", function(e) {
+				/*when an item is clicked, update the original select box,
+				and the selected item:*/
+				var y, i, k, s, h;
+				s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+				h = this.parentNode.previousSibling;
+				for (i = 0; i < s.length; i++) {
+				  if (s.options[i].innerHTML == this.innerHTML) {
+					s.selectedIndex = i;
+					h.innerHTML = this.innerHTML;
+					y = this.parentNode.getElementsByClassName("same-as-selected");
+					for (k = 0; k < y.length; k++) {
+					  y[k].removeAttribute("class");
+					}
+					this.setAttribute("class", "same-as-selected");
+					break;
+				  }
+				}
+				h.click();
+			});
+			b.appendChild(c);
+		  }
+		  x[i].appendChild(b);
+		  a.addEventListener("click", function(e) {
+			  /*when the select box is clicked, close any other select boxes,
+			  and open/close the current select box:*/
+			  e.stopPropagation();
+			  closeAllSelect(this);
+			  this.nextSibling.classList.toggle("select-hide");
+			  this.classList.toggle("select-arrow-active");
+			});
+		}
+		function closeAllSelect(elmnt) {
+		  /*a function that will close all select boxes in the document,
+		  except the current select box:*/
+		  var x, y, i, arrNo = [];
+		  x = document.getElementsByClassName("select-items");
+		  y = document.getElementsByClassName("select-selected");
+		  for (i = 0; i < y.length; i++) {
+			if (elmnt == y[i]) {
+			  arrNo.push(i)
+			} else {
+			  y[i].classList.remove("select-arrow-active");
+			}
+		  }
+		  for (i = 0; i < x.length; i++) {
+			if (arrNo.indexOf(i)) {
+			  x[i].classList.add("select-hide");
+			}
+		  }
+		}
+		/*if the user clicks anywhere outside the select box,
+		then close all select boxes:*/
+		document.addEventListener("click", closeAllSelect);
+		</script>
+		
+		<script>
+			$('select option').each(function(){
+				$(this).attr('title', $(this).text())
+			});
+		</script>
 	{% endif %}	
 {% endblock %}
