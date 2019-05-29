@@ -80,7 +80,6 @@ def submit(request):
                 report.compute_full_report()
                 reports.append(report)
         connection.close()
-        file = None
         if len(reports) >= 1:
             csv_name = "Personnel_Report_%s_%s.csv" % (startDate, endDate)
             response = HttpResponse(content_type='text/csv')

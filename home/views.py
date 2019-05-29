@@ -6,6 +6,7 @@ from django.template import loader
 import dbconnect
 from report import Report
 import datetime
+import csv
 
 # Create your views here.
 def index(request):    
@@ -22,6 +23,22 @@ def admin(request):
 	template = loader.get_template('admin_home.html')
 	context = {}
 	return HttpResponse(template.render(context, request))
+
+def user_download(request, empNum):
+    curr = datetime.datetime.now(tz=None)
+    startTime = "%s-01-01 00:00:00.00" % curr.year
+    endTime = str(curr)
+    report = Report(str(empNum), startTime, endTime)
+    report.compute_full_report()
+    currTime = str(datetime.date.today())
+    employee = str(empNum)
+    csv_name = "%s_Report_%s.csv" % (employee, currTime)
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % csv_name
+    writer = csv.writer(response)
+    writer.writerow(report.headerRow)
+    writer.writerow(report.csvRow)
+    return response
 
 def user(request, empNum):
     tarTrainings = 60
