@@ -8,8 +8,8 @@ import unittest
 import dbconnect
 import converters
 
+#This code is here temporarily .
 converters.convert_schedule(r'C:\Users\crash\Documents\Field Session\Report.xls')
-	#	self.db.i_query("INSERT INTO person (id, fname, lname) VALUES ('%s', '%s', '%s');" % (self.id, self.fname, self.lname))
 results = self.db.s_query("SELECT * FROM shift")
 print(results)
 
