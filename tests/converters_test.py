@@ -1,10 +1,17 @@
 import sys
-sys.path.append('../source/')
+#This path is for Connor's computer and it is working, when for some reason the normal ../ thing was literally just inserting "../" as a path.  Gotta get that fixed.
+sys.path.append('C:\\Users\\crash\\Documents\\Field Session\\Repo\\CS-Fire-Team\\source\\')
+
+#print(sys.path)
 
 import unittest
-from report import Report
 import dbconnect
 import converters
+
+converters.convert_schedule(r'C:\Users\crash\Documents\Field Session\Report.xls')
+	#	self.db.i_query("INSERT INTO person (id, fname, lname) VALUES ('%s', '%s', '%s');" % (self.id, self.fname, self.lname))
+results = self.db.s_query("SELECT * FROM shift")
+print(results)
 
 class TestConverters(unittest.TestCase):
 
@@ -20,7 +27,7 @@ class TestConverters(unittest.TestCase):
 		
 		self.filepath = r'C:\Users\crash\Documents\Field Session'
 	
-	# test_load_names():
+	#def test_load_names():
 	
 	def test_convert_schedule(self):
 		converters.convert_schedule(self.filepath)
