@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from dbconnect import dbconnect
+from report import Report
+import datetime
+import csv
 
 # Create your views here.
 def officer(request):
@@ -40,27 +43,56 @@ def index(request):
 def submit(request):
     try:
         startDate = request.POST["time-start"]
+        startTime = "%s 00:00:00.00" % startDate
         endDate = request.POST["time-end"]
+        currTime = str(datetime.datetime.now().time())
+        endTime = "%s %s" % (endDate, currTime)
         reportType = request.POST["type"]
         staff = request.POST.getlist("staff")
         connection = dbconnect()
+        reports = []
         if staff[0] == "Generate For All":
-            connection.generate_for_all(startDate, endDate, reportType)
+                numsQuery = "SELECT id FROM PERSON;"
+                nums = connection.s_query(numsQuery)
+                i = len(nums)
+                empNums = []
+                x = 0
+                while x < i:
+                        empNums.append(nums[x][0])
+                        x += 1
+                for emp in empNums:
+                    report = Report(str(emp), startTime, endTime)
+                    report.compute_full_report()
+                    reports.append(report)
         elif len(staff) == 1:
             nums = [int(s) for s in staff[0].split() if s.isdigit()]
             empNum = nums[-1]
-            connection.generate_for_individual(empNum, startDate, endDate, reportType)
+            report = Report(str(empNum), startTime, endTime)
+            report.compute_full_report()
+            reports.append(report)
         else:
             empNums = []
             for person in staff:
-                nums = [int(s) for s in staff[0].split() if s.isdigit()]
+                nums = [int(s) for s in person.split() if s.isdigit()]
                 empNums.append(nums[-1])
-                connection.generate_for_some(empNums, startDate, endDate, reportType)
+            for emp in empNums:
+                report = Report(str(emp), startTime, endTime)
+                report.compute_full_report()
+                reports.append(report)
         connection.close()
+        if len(reports) >= 1:
+            print("reports not null")
+            csv_name = "Personnel_Report_%s_%s.csv" % (startDate, endDate)
+            with open(csv_name, 'w',newline='') as csvfile:
+                filewriter = csv.writer(csvfile, delimiter=',', quotechar='|',)
+                filewriter.writerow(reports[0].headerRow)
+                for report in reports:
+                    filewriter.writerow(report.csvRow)
         template = loader.get_template('submit.html')
         context = {}
         return HttpResponse(template.render(context, request))
-    except:
+    except Exception as e:
+        print(e)
         template = loader.get_template('error.html')
         context = {}
         return HttpResponse(template.render(context, request))
