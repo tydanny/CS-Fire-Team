@@ -85,8 +85,12 @@ WSGI_APPLICATION = 'thebridge.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dn73j2q782lcl',
+        'USER': 'bhmqlaubbvqtsk',
+        'PASSWORD': '6a143a2104611cd12094839ee7853ed7c7ca2d3db74b2fff9d07e978fd8f941b',
+        'HOST': 'ec2-50-19-114-27.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
