@@ -31,11 +31,11 @@
 			<!--This is how you do automatic redirecting-->
 			<!--<meta http-equiv="refresh" content="0; URL=http://127.0.0.1:8000/home/" />-->
 			<div id="main">
-				<a href="http://127.0.0.1:8000/home/admin" class = "button">Admin View</a>
+				<a href="{% url 'admin_home' %}" class = "button">Admin View</a>
 				<br>
-				<a href="http://127.0.0.1:8000/home/officer" class = "button">Officer View</a>
+				<a href="{% url 'officer_home' %}" class = "button">Officer View</a>
 				<br>
-				<a href="http://127.0.0.1:8000/home/1" class = "button">Firefighter View</a>
+				<a href="{% url 'user_ex' %}" class = "button">Firefighter View</a>
 				<br>
 			</div>
 			
