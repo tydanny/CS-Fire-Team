@@ -36,7 +36,7 @@ CREATE TABLE shift
 (
     tstart TIMESTAMP,
     tend TIMESTAMP,
-    station INTEGER,
+    station TEXT,
     PRIMARY KEY (tstart, tend, station)
 );
 
@@ -45,9 +45,10 @@ CREATE TABLE person_xref_shift
     person_id TEXT REFERENCES person(id),
     shift_start TIMESTAMP,
     shift_end TIMESTAMP,
+    station TEXT,
     role TEXT,
-    FOREIGN KEY (shift_start, shift_end) REFERENCES shift(tstart, tend),
-    PRIMARY KEY (person_id, shift_start, shift_end)
+    FOREIGN KEY (shift_start, shift_end, station) REFERENCES shift(tstart, tend, station),
+    PRIMARY KEY (person_id, shift_start, shift_end, station)
 );
 
 CREATE TABLE person_status

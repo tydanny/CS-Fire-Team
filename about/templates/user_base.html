@@ -82,9 +82,9 @@
 
 			<div id = "navigation">
 				<ul>
-					<li><a href="http://127.0.0.1:8000/home/1">Home</a></li>
+					<li><a href="{% url 'user_ex' %}">Home</a></li>
 					<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
-					<li style="float:right"><a class="active" href="http://127.0.0.1:8000/about/user">About</a></li>
+					<li style="float:right"><a class="active" href="{% url 'user_about' %}">About</a></li>
 				</ul>
 			</div>
 		</div>
