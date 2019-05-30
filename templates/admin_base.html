@@ -252,12 +252,12 @@
 
 			<div id = "navigation">
 				<ul>
-					<li><a href="http://127.0.0.1:8000/home/admin">Home</a></li>
-					<li><a href="http://127.0.0.1:8000/reports/admin">Reports</a></li>
-					<li><a href="http://127.0.0.1:8000/personnel/">Personnel</a></li>
-					<li><a href="http://127.0.0.1:8000/import/">Import</a></li>
+					<li><a href="{% url 'admin_home' %}">Home</a></li>
+					<li><a href="{% url 'admin_reports' %}">Reports</a></li>
+					<li><a href="{% url 'personnel' %}">Personnel</a></li>
+					<li><a href="{% url 'import' %}">Import</a></li>
 					<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
-					<li style="float:right"><a class="active" href="http://127.0.0.1:8000/about/admin">About</a></li>
+					<li style="float:right"><a class="active" href="{% url 'admin_about' %}">About</a></li>
 				</ul>
 			</div>
 			</div>

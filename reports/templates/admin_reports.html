@@ -6,7 +6,7 @@
 {% block content %}
 	{% if user.is_authenticated %}
 		<div id="centered" class="content">
-			<form action="http://127.0.0.1:8000/reports/submit/" method="post">{% csrf_token %}
+			<form action="{% url 'admin_submit' %}" method="post">{% csrf_token %}
 			<div class="header">
 				<h1>Generate Reports</h1>
 			</div>

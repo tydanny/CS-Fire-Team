@@ -8,7 +8,7 @@
 			<div class="column">
 			<h1>Add New Employee</h1>
 			
-			<form action="http://127.0.0.1:8000/personnel/submit/" method="post">{% csrf_token %}
+			<form action="{% url 'submit' %}" method="post">{% csrf_token %}
 				First name:<br>
 				<input class="span3" type="text" name="firstname" required>
 				<br><br>
@@ -44,7 +44,7 @@
 			</div>
 			<div class="column">
 			<h1>Update Existing Employee</h1>
-			<form action="http://127.0.0.1:8000/personnel/update/" method="post">{% csrf_token %}
+			<form action="{% url 'update' %} method="post">{% csrf_token %}
 				Employee:<br>
 				<select name="employee">
 					<option value="No Selection">No Selection</option>
@@ -71,7 +71,7 @@
 				<br><br>
 			</form>
 			<h1>Add Note</h1>
-			<form action="http://127.0.0.1:8000/personnel/note/" method="post" id=noteForm>{% csrf_token %}
+			<form action="{% url 'note' %}" method="post" id=noteForm>{% csrf_token %}
 				Employee:<br>
 				<select name="employee">
 					<option value="No Selection">No Selection</option>
