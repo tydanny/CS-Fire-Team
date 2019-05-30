@@ -18,11 +18,11 @@ class dbconnect():
     def connect(self):
         try:
             self.con = psycopg2.connect(
-            dbname='dn73j2q782lcl',
-            user='bhmqlaubbvqtsk',
+            dbname='bridge_db',
+            user='csfire',
             port=5432,
-            host='ec2-50-19-114-27.compute-1.amazonaws.com',
-            password='6a143a2104611cd12094839ee7853ed7c7ca2d3db74b2fff9d07e978fd8f941b')
+            host='bridge-db.c6xgclrgfvud.us-west-1.rds.amazonaws.com',
+            password='thebridge')
             self.cur = self.con.cursor()
         except psycopg2.Error:
             print('Failed to connect to DB')
