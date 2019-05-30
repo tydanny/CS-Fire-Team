@@ -1,5 +1,6 @@
 <!--admin_reports.html-->
 {% extends 'admin_base.html' %}
+{load static from staticfiles %}
 {% block title %}Reports{% endblock %}
 
 {% block content %}
@@ -23,7 +24,7 @@
 			<input type="date" id="end" name="time-end"[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
 			</div>
 			
-			<br><br>
+			<br>
 			
 			<div class="header">
 			<h2>Select Staff Members</h2>
