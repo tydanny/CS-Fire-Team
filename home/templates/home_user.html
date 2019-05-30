@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load static %}
+{% load static from staticfiles %}
 <html>
 	<head>
 		<style>
@@ -51,6 +51,21 @@
 				font-family: sans-serif;
 			}
 			
+			#centered1 {
+				text-align: center;
+				font-family: sans-serif;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			#centered2 {
+				text-align: center;
+				font-family: sans-serif;
+				width: 80%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
 			.button {
 				background-color: #4CAF50;
 				border: none;
@@ -68,37 +83,90 @@
 			
 			li{
 				list-style: none;
-				
 			}
 
 			table {
 				border-collapse: collpase;
 				font-size: 20px;
+				margin-left: auto;
+				margin-right: auto;
 			}
-
-			th, td {
+			
+			td {
 				text-allign: left;
 				border-bottom: 1px solid #ddd;
 				padding: 10px;
+			}
+			
+			th {
+				background-color: #333;
+				color:white;
+				text-allign: left;
+				border-bottom: 1px solid #ddd;
+				padding: 10px;
+			}
+			
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				margin: 0;
+				background-image:url({% static "images/background.jpg" %});
+				background-repeat: no-repeat;
+				background-position: bottom;
+				background-attachment: fixed;
+			}
+			
+			.header {
+				padding: 1px;
+				text-align: center;
+				font-size: 21px;
+				background: #dbdbdb;
+				color: black;
+			}
+		
+			.header h1 {
+				padding: 1px;
+				font-size: 45px;
+				color: white;
+				background: #333;
+			}
+			
+			.button {
+				background-color: #333;
+				border: none;
+				color: white;
+				padding: 15px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 16px;
 			}
 			
 			#chart {
 				margin: 50px 50px 50px 50px;
 				font-family: sans-serif;
 			}
+			
+			#roof {
+				background: white;
+			}
+			
+			#top {
+				margin: 0px 10px 10px 10px;
+			}		
 
 		</style>
-		
 		
 	</head>
 	<body>
 		{% if user.is_authenticated %}
-		<div id ="header">
+		<div id ="roof">
+			<div id="top">
 			<div style="display:inline-block;vertical-align:top;">
 				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
 			</div>
 			<div style="display:inline-block; vertical-align: bottom;">
 				<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+			</div>
 			</div>
 
 			<div id = "navigation">
@@ -109,11 +177,17 @@
 				</ul>
 			</div>
 		</div>
+		</div>
 		
-		<div id="chart">
-		
-		<h1>Report for {{employee}} as of {{date}}</h1>
+		<div>
+		<div id="centered2" class="content">
+		<div class="gray">
+		<div class="header">
+			<h1>Report for {{employee}} as of {{date}}</h1>
+		</div>
+		</div>
 	
+	<div class="header">
 		{% if empStatus|stringformat:"s" == "Behind-Schedule" %}
 			<h2 style="color:#f11b17">You are {{empStatus}}</h2>
 		{% elif trainingStatus|stringformat:"s" == "Falling-Behind" %}
@@ -125,9 +199,10 @@
 		{% else %}
 			<h2>You are {{empStatus}}</h2>
 		{% endif %}
-	
+		
+		<div id="centered1" class="content">
 		<table>
-			<tr bgcolor="#cecece">
+			<tr bgcolor="#333">
 				<th>Category</th>
 				<th>Current</th>
 				<th>Required</th>
@@ -244,12 +319,25 @@
 				<td>{{meetings}} - {{meetingStatus}}</td>
 				<td>6</td>
 			</tr>
-		</table>	
-		
+			
+			<tr bgcolor="white">
+				<td>Leave</td>
+				<td>7</td>
+				<td>-</td>
+			</tr>
+			
+			<tr bgcolor="white">
+				<td>Years of Service</td>
+				<td>8</td>
+				<td>-</td>
+			</tr>
+		</table>
 		<br>
-		<button onclick="window.print()">Print</button>
-		<button onclick="window.location.href = 'download/';">Download</button>
-		
+		</div>
+
+		<button class="button" onclick="window.print()">Print</button>
+		<button class="button" onclick="window.location.href = 'download/';">Download</button>
+	</div>
 		</div>
 		{%else%}
 			<div id="centered">

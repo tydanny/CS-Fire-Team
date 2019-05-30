@@ -6,32 +6,44 @@
 	{% if user.is_authenticated %}
 		<div id="main">
 			<div class="column">
-			<h1>Add New Employee</h1>
 			
+			<div class="header">
+			<h1>Add New Employee</h1>
+			</div>
+			
+			<div class="header">
 			<form action="{% url 'submit' %}" method="post">{% csrf_token %}
-				First name:<br>
+				First name<br>
 				<input class="span3" type="text" name="firstname" required>
 				<br><br>
-				Last name:<br>
+				Last name<br>
 				<input class="span3" type="text" name="lastname" required>
 				<br><br>
-				Employee number:<br>
+				Employee number<br>
 				<input class="span3" type="test" name="empNumber" required>
 				<br><br>
-				Title:<br>
-				<select name="title">
-					<option value="No Selection">No Selection</option>
-					<option value="Fire Fighter">Fire Fighter</option>
-					<option value="Shift Officer">Shift Officer</option>
-					<option value="Chief">Chief</option>
-				</select>
+				Title<br>
+				<div class="header">
+					<div class="custom-select" style="width:200px;">
+						<select name="title">
+							<option value="No Selection">No Selection</option>
+							<option value="Fire Fighter">Fire Fighter</option>
+							<option value="Shift Officer">Shift Officer</option>
+							<option value="Chief">Chief</option>
+						</select>
+					</div>
+				</div>
 				<br><br>
-				Residency:<br>
-				<select name="residency"
+				Residency<br>
+				<div class="header">
+					<div class="custom-select" style="width:200px;">
+				<select name="residency">
 					<option value="No Selection">No Selection</option>
 					<option value="Resident">Resident</option>
-					<option value="Shift Personnel">Shift Officer</option>
+					<option value="Shift Personnel">Shift Personnel</option>
 				</select>
+					</div>
+				</div>
 				<br><br>
   
 				<label for="start">Start date:</label> <br>
@@ -40,45 +52,66 @@
 
 				<input type="submit" value="Submit">
   
-			</form> 
+			</form>
+			</div>			
 			</div>
-			<div class="column">
+			<div class="column1">
+			
+			<div class="header">
 			<h1>Update Existing Employee</h1>
+			</div>
+			
+			<div class="header">
 			<form action="{% url 'update' %} method="post">{% csrf_token %}
-				Employee:<br>
-				<select name="employee">
-					<option value="No Selection">No Selection</option>
-					{% for emp in employees %} 
-					<option value="{{emp}}">{{emp}}</option>
-					{% endfor %}
-				</select>
+				Employee
+				<div class="header">
+					<div class="custom-select" style="width:200px;">
+						<select name="employee">
+							<option value="No Selection">No Selection</option>
+							{% for emp in employees %} 
+							<option value="{{emp}}">{{emp}}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
 				<br><br>
-				New Status:<br>
-				<select name="status">
-					<option value="No Selection">No Selection</option>
-					<option value="Active">Active</option>
-					<option value="Approved Leave">Approved Leave</option>
-					<option value="Disability Leave">Disability Leave</option>
-					<option value="Resigned">Resigned</option>
-					<option value="Retired">Retired</option>
-					<option value="Terminated">Terminated</option>
-				</select>
+				New Status
+				<div class="header">
+					<div class="custom-select" style="width:200px;">
+						<select name="status">
+							<option value="No Selection">No Selection</option>
+							<option value="Active">Active</option>
+							<option value="Approved Leave">Approved Leave</option>
+							<option value="Disability Leave">Disability Leave</option>
+							<option value="Resigned">Resigned</option>
+							<option value="Retired">Retired</option>
+							<option value="Terminated">Terminated</option>
+						</select>
+					</div>
+				</div>
 				<br><br>
-				<label for="start">Effective date:</label> <br>
+				<label for="start">Effective date</label> <br>
 				<input type="date" id="start" name="date"[0-9]{4}-[0-9]{2}-[0-9]{2}" required >
 				<br><br><br>
 				<input type="submit" value="Submit">
 				<br><br>
 			</form>
+			</div>
+			
+			<div class="header">
 			<h1>Add Note</h1>
 			<form action="{% url 'note' %}" method="post" id=noteForm>{% csrf_token %}
-				Employee:<br>
-				<select name="employee">
-					<option value="No Selection">No Selection</option>
-					{% for emp in employees %} 
-					<option value="{{emp}}">{{emp}}</option>
-					{% endfor %}
-				</select>
+				Employee<br>
+				<div class="header">
+					<div class="custom-select" style="width:200px;">
+						<select name="employee">
+							<option value="No Selection">No Selection</option>
+							{% for emp in employees %} 
+							<option value="{{emp}}">{{emp}}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
 				<br><br>
 				<textarea rows="4" cols="50" name="text" form="noteForm">
 Enter note here...</textarea>
@@ -88,6 +121,89 @@ Enter note here...</textarea>
 			</form>
 			</div>
 			</div>
+			</div>
 		</div>
+		
+		<!-- Script for custom box -->
+		<script>
+		var x, i, j, selElmnt, a, b, c;
+		/*look for any elements with the class "custom-select":*/
+		x = document.getElementsByClassName("custom-select");
+		for (i = 0; i < x.length; i++) {
+		  selElmnt = x[i].getElementsByTagName("select")[0];
+		  /*for each element, create a new DIV that will act as the selected item:*/
+		  a = document.createElement("DIV");
+		  a.setAttribute("class", "select-selected");
+		  a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+		  x[i].appendChild(a);
+		  /*for each element, create a new DIV that will contain the option list:*/
+		  b = document.createElement("DIV");
+		  b.setAttribute("class", "select-items select-hide");
+		  for (j = 1; j < selElmnt.length; j++) {
+			/*for each option in the original select element,
+			create a new DIV that will act as an option item:*/
+			c = document.createElement("DIV");
+			c.innerHTML = selElmnt.options[j].innerHTML;
+			c.addEventListener("click", function(e) {
+				/*when an item is clicked, update the original select box,
+				and the selected item:*/
+				var y, i, k, s, h;
+				s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+				h = this.parentNode.previousSibling;
+				for (i = 0; i < s.length; i++) {
+				  if (s.options[i].innerHTML == this.innerHTML) {
+					s.selectedIndex = i;
+					h.innerHTML = this.innerHTML;
+					y = this.parentNode.getElementsByClassName("same-as-selected");
+					for (k = 0; k < y.length; k++) {
+					  y[k].removeAttribute("class");
+					}
+					this.setAttribute("class", "same-as-selected");
+					break;
+				  }
+				}
+				h.click();
+			});
+			b.appendChild(c);
+		  }
+		  x[i].appendChild(b);
+		  a.addEventListener("click", function(e) {
+			  /*when the select box is clicked, close any other select boxes,
+			  and open/close the current select box:*/
+			  e.stopPropagation();
+			  closeAllSelect(this);
+			  this.nextSibling.classList.toggle("select-hide");
+			  this.classList.toggle("select-arrow-active");
+			});
+		}
+		function closeAllSelect(elmnt) {
+		  /*a function that will close all select boxes in the document,
+		  except the current select box:*/
+		  var x, y, i, arrNo = [];
+		  x = document.getElementsByClassName("select-items");
+		  y = document.getElementsByClassName("select-selected");
+		  for (i = 0; i < y.length; i++) {
+			if (elmnt == y[i]) {
+			  arrNo.push(i)
+			} else {
+			  y[i].classList.remove("select-arrow-active");
+			}
+		  }
+		  for (i = 0; i < x.length; i++) {
+			if (arrNo.indexOf(i)) {
+			  x[i].classList.add("select-hide");
+			}
+		  }
+		}
+		/*if the user clicks anywhere outside the select box,
+		then close all select boxes:*/
+		document.addEventListener("click", closeAllSelect);
+		</script>
+		
+		<script>
+			$('select option').each(function(){
+				$(this).attr('title', $(this).text())
+			});
+		</script>
 	{% endif %}
 {% endblock %}
