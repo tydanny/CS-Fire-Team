@@ -18,7 +18,7 @@ class dbconnect():
     def connect(self):
         try:
             self.con = psycopg2.connect(
-            dbname='bridge-db',
+            dbname='bridge_db',
             user='csfire',
             port=5432,
             host='bridge-db.c6xgclrgfvud.us-west-1.rds.amazonaws.com',
