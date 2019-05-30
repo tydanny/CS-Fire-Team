@@ -229,6 +229,10 @@
 			background-color: white;
 		}
 		
+		#top {
+			margin: 0px 10px 10px 10px;
+		}
+		
 	</style>
 	<meta charset="utf-8">
 	<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
@@ -236,11 +240,13 @@
 	{% if user.is_authenticated %}
 		<div id ="header">
 			<div id = "title">
+			<div id = "top">
 			<div style="display:inline-block;vertical-align:top;">
 				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
 			</div>
 			<div style="display:inline-block; vertical-align: bottom;">
 				<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+			</div>
 			</div>
 			
 
