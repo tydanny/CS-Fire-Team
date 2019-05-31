@@ -12,6 +12,7 @@ class LOSAP():
         self.resident = ""
         self.csvRows = []
         self.leave_instances = []
+        self.total_leave = 0
         self.connection = dbconnect.dbconnect()
         self.headerRow = ['Rank', 'Emp #', 'Last Name', 'First Name',
                           'Leave Start', 'Leave End', 'Duration',
@@ -24,6 +25,7 @@ class LOSAP():
         self.connection.close()
 
     def compute_losap_information(self):
+        # create leave objects and tally total leave time
         print("Here is where we create leave objects")        
 
     def compute_employee_details(self):

@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.template import loader
 import dbconnect
 from report import Report
+from losap import LOSAP
 import datetime
 import csv
 
@@ -53,6 +54,8 @@ def user(request, empNum):
     endTime = str(curr)
     report = Report(str(empNum), startTime, endTime)
     report.compute_full_report()
+    losap = LOSAP(str(empNum), startTime, endTime)
+    losap.compute_losap()
     fullName = "%s, %s" % (report.lastName, report.firstName)
     
     template = loader.get_template('home_user.html')
@@ -74,5 +77,7 @@ def user(request, empNum):
         'fundraiserStatus': report.statFunds,
         'meetings': str(report.meetings),
         'meetingStatus': report.statMeets,
+        'leave': losap.total_leave,
+        'yrsService': report.yrsService,
     }
     return HttpResponse(template.render(context, request))
