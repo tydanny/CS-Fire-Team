@@ -2,18 +2,11 @@
 import psycopg2
 from report import Report
 
-"""
-    Args:
-        query: string that represents the query to be run
-
-    Returns:
-        a tuple of lists where each entry in the tuple represents an entry in the table
-        and each item in the list is a column
-"""
-
 class dbconnect():
     def __init__(self):
         self.connect()
+    def __del__(self):
+        self.close()
 
     def connect(self):
         try:
@@ -102,14 +95,6 @@ class dbconnect():
     def load_person_xref_incident(self, incident_id, person_id):
         for r, s in response:
             self.i_query("INSERT INTO person_xref_incident (incident_id, person_id) VALUES ('%s', '%s');" % (incident_id, person_id))
-
-    #Loads a note if time is known
-    def load_note(self, person_id, note, time):
-        self.i_query("INSERT INTO note (person_id, note, created_at) VALUES ('%s', '%s', '%s');" % (person_id, note, time))
-
-    #Loads a note if time is not known
-    def load_note(self, person_id, note):
-        self.i_query("INSERT INTO note (person_id, note) VALUES ('%s', '%s');" % (person_id, note))
 
     #Loads a shift.  
     def load_shift(self, tstart, tend, station):
