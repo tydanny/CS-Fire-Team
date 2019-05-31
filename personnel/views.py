@@ -58,32 +58,14 @@ def update(request):
         empNum = nums[-1]
         status = request.POST["status"]
         date = request.POST["date"]
-        statusUpdate = ("INSERT INTO person_status (status, date_change, person_id) VALUES ('%s', '%s', '%s');" % (status, date, empNum))
-        connection.i_query(statusUpdate)
-        connection.close()
-        template = loader.get_template('submit.html')
-        context = {}
-        return HttpResponse(template.render(context, request))
-    except:
-        template = loader.get_template('error.html')
-        context = {}
-        return HttpResponse(template.render(context, request))
-
-####may not work
-def note(request):
-    try:
-        connection = dbconnect()
-        employee = request.POST["employee"]
-        nums = [int(s) for s in employee.split() if s.isdigit()]
-        empNum = nums[-1]
         note = request.POST["text"]
-        noteUpdate = "INSERT INTO note (person_id, note) VALUES ('%s', '%s');" % (empNum, note)
-        #load_note(empNum,note)
-        connection.i_query(noteUpdate)
+        if note == "Enter note here...":
+            note = ""
+        connection.load_person_status(status, date, str(empNum), note)
         connection.close()
         template = loader.get_template('submit.html')
         context = {}
-        return HttpResponse(template.render(context,request))
+        return HttpResponse(template.render(context, request))
     except:
         template = loader.get_template('error.html')
         context = {}
