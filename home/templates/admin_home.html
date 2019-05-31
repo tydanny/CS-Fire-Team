@@ -56,22 +56,22 @@
 								</tr>
 								<tr bgcolor="#6fa5ed">
 									<td>Complete</td>
-									<td>2</td>
+									<td>{{numComplete}}</td>
 								</tr>
 								
 								<tr bgcolor="#4fbc56">
 									<td>On Track</td>
-									<td>64</td>
+									<td>{{numOnTrack}}</td>
 								</tr>
 								
 								<tr bgcolor="#dcfc28">
 									<td>Falling Behind</td>
-									<td>15</td>
+									<td>{{numFalling}}</td>
 								</tr>
 								
 								<tr bgcolor="#d63737">
 									<td>Behind</td>
-									<td>9</td>
+									<td>{{numBehind}}</td>
 								</tr>
 							</table>				
 						</td>
@@ -132,19 +132,19 @@
 		<script>
 			var data = [{
 				label: "Complete",
-				value: 2,
+				value: {{numComplete}},
 				color: '#6fa5ed'
 			  }, {
 				label: "On-Track",
-				value: 64,
+				value: {{numOnTrack}},
 				color: '#4fbc56'
 			  }, {
 				label: "Falling-Behind",
-				value: 15,
+				value: {{numFalling}},
 				color: '#dcfc28'
 			  }, {
 				label: "Behind-Schedule",
-				value: 9,
+				value: {{numBehind}},
 				color: '#d63737'
 			  }];
 
