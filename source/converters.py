@@ -2,6 +2,7 @@ import sys
 import pandas as pd
 import lxml
 from dbconnect import dbconnect
+import json
 
 def convert_schedule(filepath):
   
@@ -27,3 +28,16 @@ def convert_schedule(filepath):
       db.load_person_xref_shift(tstart, tend, location, person, role)
 
   db.close()
+  
+def convert_incidents(rep){
+  db = dbconnect()
+  for r in rep:
+    id = r['incidentID']
+    time = r['incidentDateTime']
+    e = WHATEVER THE FILE IS.get_exposure(id)
+    
+    type = e['incidentType']
+    
+    db.load_incident(id, time, type, response)
+  
+  db.close
