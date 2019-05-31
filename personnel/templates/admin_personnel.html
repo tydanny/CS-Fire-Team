@@ -24,7 +24,7 @@
 				<br><br>
 				Title<br>
 				<div class="header">
-					<div class="custom-select" style="width:200px;">
+					<div class="custom-select">
 						<select name="title">
 							<option value="No Selection">No Selection</option>
 							<option value="Fire Fighter">Fire Fighter</option>
@@ -36,7 +36,7 @@
 				<br><br>
 				Residency<br>
 				<div class="header">
-					<div class="custom-select" style="width:200px;">
+					<div class="custom-select">
 				<select name="residency">
 					<option value="No Selection">No Selection</option>
 					<option value="Resident">Resident</option>
@@ -58,14 +58,14 @@
 			<div class="column1">
 			
 			<div class="header">
-			<h1>Update Existing Employee</h1>
+			<h1>Update Employee</h1>
 			</div>
 			
 			<div class="header">
 			<form action="{% url 'update' %}" method="post">{% csrf_token %}
 				Employee
 				<div class="header">
-					<div class="custom-select" style="width:200px;">
+					<div class="custom-select" style="width:27vw;">
 						<select name="employee">
 							<option value="No Selection">No Selection</option>
 							{% for emp in employees %} 
@@ -77,7 +77,7 @@
 				<br><br>
 				New Status
 				<div class="header">
-					<div class="custom-select" style="width:200px;">
+					<div class="custom-select">
 						<select name="status">
 							<option value="No Selection">No Selection</option>
 							<option value="Active">Active</option>
@@ -93,8 +93,7 @@
 				<label for="start">Effective date</label> <br>
 				<input type="date" id="start" name="date"[0-9]{4}-[0-9]{2}-[0-9]{2}" required >
 				<br><br><br>
-				<textarea rows="4" cols="50" name="text" form="noteForm">
-Enter note here...</textarea>
+				<textarea rows="4" cols="50" name="text" form="noteForm">Enter note here...</textarea> 
 				<br><br>
 				<input type="submit" class="button" value="Submit">
 				<br><br>
@@ -184,6 +183,13 @@ Enter note here...</textarea>
 			$('select option').each(function(){
 				$(this).attr('title', $(this).text())
 			});
+		</script>
+		
+		<script>
+			function auto_grow(element) {
+				element.style.height = "5px";
+				element.style.height = (element.scrollHeight)+"px";
+			}
 		</script>
 	{% endif %}
 {% endblock %}
