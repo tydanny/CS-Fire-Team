@@ -52,7 +52,7 @@ class LOSAP():
                     days = duration.days
                     today = datetime.date.today()
                     if relevant_instances[i][1].year == today.year:
-                        self.total_leave += (relevant_instances[i+1][1].date() - relevant_instances[i][1]).days
+                        self.total_leave += (relevant_instances[i+1][1].date() - relevant_instances[i][1].date()).days
                     else:
                         self.total_leave += (relevant_instances[i+1][1].date() - datetime.date(today.year, 1, 1)).days
                     print(self.total_leave)
