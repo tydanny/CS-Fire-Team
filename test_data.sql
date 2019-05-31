@@ -43,7 +43,8 @@ INSERT INTO person_xref_event (tstart, tend, type, person_id) VALUES ('04-06-201
 INSERT INTO person_xref_event (tstart, tend, type, person_id) VALUES ('04-01-2019 02:00 PM', '04-01-2019 03:00 PM', 'training-other', '1');
 
 INSERT INTO shift (tstart, tend, station) VALUES ('10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'Station 1');
+INSERT INTO shift (tstart, tend, station) VALUES ('10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'Station 4');
 
 INSERT INTO person_xref_shift (person_id, shift_start, shift_end, station, role) VALUES ('1', '10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'Station 1', 'Fire Fighter');
 INSERT INTO person_xref_shift (person_id, shift_start, shift_end, station, role) VALUES ('1234', '10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'Station 1', 'Engineer');
-INSERT INTO person_xref_shift (person_id, shift_start, shift_end, station, role) VALUES ('7', '10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'Station 1', 'Fire Fighter');
+INSERT INTO person_xref_shift (person_id, shift_start, shift_end, station, role) VALUES ('7', '10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'Station 4', 'Fire Fighter');
