@@ -14,8 +14,8 @@ INSERT INTO person (id, fname, lname, title, resident) VALUES ('1234', 'Jenny', 
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '01-01-2010', '1');
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '04-03-2015', '7');
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '05-10-2019', '1234');
-INSERT INTO person_status (status, date_change, person_id, note) VALUES ('Medical', '11-13-2010', '7', 'Broke ankle while on duty');
-INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '02-09-2016', '7');
+INSERT INTO person_status (status, date_change, person_id, note) VALUES ('Disability Leave', '11-13-2016', '7', 'Broke ankle while on duty');
+INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '11-13-2017', '7');
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Retired', '08-20-2018', '1');
 
 INSERT INTO incident (id, tstamp, category, response) VALUES (1, '02-03-2019 17:56', 'Car Accident', '1 minute 30 seconds');

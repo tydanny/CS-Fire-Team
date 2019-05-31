@@ -122,6 +122,11 @@ class dbconnect():
         SELECT * FROM person WHERE id='%s';
         """ % (id1))
 
+    def get_statuses(self, id):
+        return self.s_query("""
+        SELECT * FROM person_status WHERE person_id='%s';
+        """ % (id))
+
     def get_person_from_name(self, fname, lname):
         return self.s_query("""
         SELECT id FROM person WHERE fname = '%s' AND lname = '%s';
