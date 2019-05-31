@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from dbconnect import dbconnect
+from detail_reports import Event_Detail_Report
+import csv
 
 # Create your views here.
 def custom(request):
@@ -29,8 +31,23 @@ def custom(request):
 
 def submit(request):
     try:
-        connection = dbconnect()
-    except:
+        startTime = request.POST["time-start"]
+        endTime = request.POST["time-end"]
+        employee = request.POST["employee"]
+        nums = [int(s) for s in employee.split() if s.isdigit()]
+        empNum = nums[-1]
+        reportType = request.POST["type"]
+        detailReport = Event_Detail_Report(str(empNum), startTime, endTime, reportType)
+        csv_name = "%s_Event_Detail_Report_%s_%s.csv" %(str(empNum), startTime, endTime)
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="%s"' % csv_name
+        writer = csv.writer(response)
+        writer.writerow(detailReport.headerRow)
+        for row in detailReport.csvRows:
+            writer.writerow(row)
+        return response        
+    except Exception as e:
+        print(e)
         template = loader.get_template('error.html')
         context = {}
         return HttpResponse(template.render(context, request))
