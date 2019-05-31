@@ -142,5 +142,5 @@ class dbconnect():
 
     def get_actual_calls(self, id, start, end):
         return self.s_query("""
-        SELECT * FROM person_xref_incident AS pi, incident AS i WHERE pi.person_id='%s' AND 
-        """)
+        SELECT * FROM incident WHERE tstamp BETWEEN '%s' AND '%s' AND id IN (SELECT incident_id FROM person_xref_incident WHERE person_id='%s');
+        """ % (start, end, id))
