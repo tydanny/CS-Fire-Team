@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-{% load static %}
+{% load static from staticfiles %}
 <html>
 	<head>
 		<style>
-			
 			ul {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			background-color: #333;
-				}
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				background-color: #333;
+			}
 
 			li {
 				float: left;
@@ -51,6 +50,21 @@
 				font-family: sans-serif;
 			}
 			
+			#centered1 {
+				text-align: center;
+				font-family: sans-serif;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			#centered2 {
+				text-align: center;
+				font-family: sans-serif;
+				width: 80%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
 			.button {
 				background-color: #4CAF50;
 				border: none;
@@ -68,37 +82,91 @@
 			
 			li{
 				list-style: none;
-				
 			}
 
 			table {
 				border-collapse: collpase;
 				font-size: 20px;
+				margin-left: auto;
+				margin-right: auto;
+				color: white;
 			}
-
-			th, td {
+			
+			td {
 				text-allign: left;
 				border-bottom: 1px solid #ddd;
 				padding: 10px;
+			}
+			
+			th {
+				background-color: #333;
+				color:white;
+				text-allign: left;
+				border-bottom: 1px solid #ddd;
+				padding: 10px;
+			}
+			
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				margin: 0;
+				background-image:url({% static "images/background.jpg" %});
+				background-repeat: no-repeat;
+				background-position: bottom;
+				background-attachment: fixed;
+			}
+			
+			.header {
+				padding: 1px;
+				text-align: center;
+				font-size: 21px;
+				background: #e5e5e5;
+				color: black;
+			}
+		
+			.header h1 {
+				padding: 1px;
+				font-size: 45px;
+				color: white;
+				background: #333;
+			}
+			
+			.button {
+				background-color: #333;
+				border: none;
+				color: white;
+				padding: 15px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 16px;
 			}
 			
 			#chart {
 				margin: 50px 50px 50px 50px;
 				font-family: sans-serif;
 			}
+			
+			#roof {
+				background: white;
+			}
+			
+			#top {
+				margin: 0px 10px 10px 10px;
+			}		
 
 		</style>
-		
-		
 	</head>
+	
 	<body>
 		{% if user.is_authenticated %}
-		<div id ="header">
-			<div style="display:inline-block;vertical-align:top;">
-				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
-			</div>
-			<div style="display:inline-block; vertical-align: bottom;">
-				<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+		<div id ="roof">
+			<div id="top">
+				<div style="display:inline-block;vertical-align:top;">
+					<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+				</div>
+				<div style="display:inline-block; vertical-align: bottom;">
+					<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+				</div>
 			</div>
 
 			<div id = "navigation">
@@ -109,158 +177,170 @@
 				</ul>
 			</div>
 		</div>
-		
-		<div id="chart">
-		
-		<h1>Report for {{employee}} as of {{date}}</h1>
-	
-		{% if empStatus|stringformat:"s" == "Behind-Schedule" %}
-			<h2 style="color:#f11b17">You are {{empStatus}}</h2>
-		{% elif trainingStatus|stringformat:"s" == "Falling-Behind" %}
-			<h2 style="color:#f2f218">You are {{empStatus}}</h2>
-		{% elif trainingStatus|stringformat:"s" == "On-Track" %}
-			<h2 style="color:#23ce28">You are {{empStatus}}</h2>
-		{% elif trainingStatus|stringformat:"s" == "Complete" %}
-			<h2 style="color:#4560f9">You are {{empStatus}}</h2>
-		{% else %}
-			<h2>You are {{empStatus}}</h2>
-		{% endif %}
-	
-		<table>
-			<tr bgcolor="#cecece">
-				<th>Category</th>
-				<th>Current</th>
-				<th>Required</th>
-			</tr>
-			{% if trainingStatus|stringformat:"s" == "Behind-Schedule" %}
-			<tr bgcolor="#f79e9e">
-			{% elif trainingStatus|stringformat:"s" == "Falling-Behind" %}
-			<tr bgcolor="#f5f79d">
-			{% elif trainingStatus|stringformat:"s" == "On-Track" %}
-			<tr bgcolor="#abf4a1">
-			{% elif trainingStatus|stringformat:"s" == "Complete" %}
-			<tr bgcolor="#a9f2e1">
-			{% else %}
-			<tr>
-			{% endif %}
-				<td>Training hours</td>
-				<td><p id="train"></p>{{training}} - {{trainingStatus}}</td>
-				<td>60</td>
-			</tr>
-		
-			{% if shiftStatus|stringformat:"s" == "Behind-Schedule" %}
-			<tr bgcolor="#f79e9e">
-			{% elif shiftStatus|stringformat:"s" == "Falling-Behind" %}
-			<tr bgcolor="#f5f79d">
-			{% elif shiftStatus|stringformat:"s" == "On-Track" %}
-			<tr bgcolor="#abf4a1">
-			{% elif shiftStatus|stringformat:"s" == "Complete" %}
-			<tr bgcolor="#a9f2e1">
-			{% else %}
-			<tr>
-			{% endif %}
-				<td>Shifts</td>
-				<td>{{shifts}} - {{shiftStatus}}</td>
-				<td>36</td>
-			</tr>
-		
-			{% if callStatus|stringformat:"s" == "Behind-Schedule" %}
-			<tr bgcolor="#f79e9e">
-			{% elif callStatus|stringformat:"s" == "Falling-Behind" %}
-			<tr bgcolor="#f5f79d">
-			{% elif callStatus|stringformat:"s" == "On-Track" %}
-			<tr bgcolor="#abf4a1">
-			{% elif callStatus|stringformat:"s" == "Complete" %}
-			<tr bgcolor="#a9f2e1">
-			{% else %}
-			<tr>
-			{% endif %}
-				<td>Actual Calls</td>
-				<td>{{actCalls}} - {{callStatus}}</td>
-				<td>54</td>
-			</tr>
-		
-		
-			{% if workDeetStatus|stringformat:"s" == "Behind-Schedule" %}
-			<tr bgcolor="#f79e9e">
-			{% elif workDeetStatus|stringformat:"s" == "Falling-Behind" %}
-			<tr bgcolor="#f5f79d">
-			{% elif workDeetStatus|stringformat:"s" == "On-Track" %}
-			<tr bgcolor="#abf4a1">
-			{% elif workDeetStatus|stringformat:"s" == "Complete" %}
-			<tr bgcolor="#a9f2e1">
-			{% else %}
-			<tr>
-			{% endif %}
-				<td>Work Detail Hours</td>
-				<td>{{workDeets}} - {{workDeetStatus}}</td>
-				<td>36</td>
-			</tr>
-		
-			{% if apparatusStatus|stringformat:"s" == "Behind-Schedule" %}
-			<tr bgcolor="#f79e9e">
-			{% elif apparatusStatus|stringformat:"s" == "Falling-Behind" %}
-			<tr bgcolor="#f5f79d">
-			{% elif apparatusStatus|stringformat:"s" == "On-Track" %}
-			<tr bgcolor="#abf4a1">
-			{% elif apparatusStatus|stringformat:"s" == "Complete" %}
-			<tr bgcolor="#a9f2e1">
-			{% else %}
-			<tr>
-			{% endif %}
-				<td>Sundays & Weeklies</td>
-				<td>{{apparatus}} - {{apparatusStatus}}</td>
-				<td>12</td>
-			</tr>
-		
-			{% if fundraiserStatus|stringformat:"s" == "Behind-Schedule" %}
-			<tr bgcolor="#f79e9e">
-			{% elif fundraiserStatus|stringformat:"s" == "Falling-Behind" %}
-			<tr bgcolor="#f5f79d">
-			{% elif fundraiserStatus|stringformat:"s" == "On-Track" %}
-			<tr bgcolor="#abf4a1">
-			{% elif fundraiserStatus|stringformat:"s" == "Complete" %}
-			<tr bgcolor="#a9f2e1">
-			{% else %}
-			<tr>
-			{% endif %}
-				<td>Fundraisers</td>
-				<td>{{fundraisers}} - {{fundraiserStatus}}</td>
-				<td>1</td>
-			</tr>
-		
-			{% if meetingStatus|stringformat:"s" == "Behind-Schedule" %}
-			<tr bgcolor="#f79e9e">
-			{% elif meetingStatus|stringformat:"s" == "Falling-Behind" %}
-			<tr bgcolor="#f5f79d">
-			{% elif meetingStatus|stringformat:"s" == "On-Track" %}
-			<tr bgcolor="#abf4a1">
-			{% elif meetingStatus|stringformat:"s" == "Complete" %}
-			<tr bgcolor="#a9f2e1">
-			{% else %}
-			<tr>
-			{% endif %}
-				<td>Buisness Meetings</td>
-				<td>{{meetings}} - {{meetingStatus}}</td>
-				<td>6</td>
-			</tr>
-		</table>	
-		
-		<br>
-		<button onclick="window.print()">Print</button>
-		<button onclick="window.location.href = 'download/';">Download</button>
-		
+		<div id="centered2">
+			<div class="header">
+				<h1>Report for {{employee}} as of {{date}}</h1>
+				
+				{% if empStatus|stringformat:"s" == "Behind-Schedule" %}
+					<h2 style="color:#d63737">You are {{empStatus}}</h2>
+				{% elif trainingStatus|stringformat:"s" == "Falling-Behind" %}
+					<h2 style="color:#dddd00">You are {{empStatus}}</h2>
+				{% elif trainingStatus|stringformat:"s" == "On-Track" %}
+					<h2 style="color:#4fbc56">You are {{empStatus}}</h2>
+				{% elif trainingStatus|stringformat:"s" == "Complete" %}
+					<h2 style="color:#6fa5ed">You are {{empStatus}}</h2>
+				{% else %}
+					<h2>You are {{empStatus}}</h2>
+				{% endif %}
+				
+				<div id="centered1">
+					<table>
+						<tr>
+							<th>Category</th>
+							<th>Current</th>
+							<th>Required</th>
+						</tr>
+						{% if trainingStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif trainingStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif trainingStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif trainingStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Training hours</td>
+							<td><p id="train"></p>{{training}} - {{trainingStatus}}</td>
+							<td>60</td>
+						</tr>
+					
+						{% if shiftStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif shiftStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif shiftStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif shiftStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Shifts</td>
+							<td>{{shifts}} - {{shiftStatus}}</td>
+							<td>36</td>
+						</tr>
+					
+						{% if callStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif callStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif callStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif callStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Actual Calls</td>
+							<td>{{actCalls}} - {{callStatus}}</td>
+							<td>54</td>
+						</tr>
+					
+					
+						{% if workDeetStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif workDeetStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif workDeetStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif workDeetStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Work Detail Hours</td>
+							<td>{{workDeets}} - {{workDeetStatus}}</td>
+							<td>36</td>
+						</tr>
+					
+						{% if apparatusStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif apparatusStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif apparatusStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif apparatusStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Sundays & Weeklies</td>
+							<td>{{apparatus}} - {{apparatusStatus}}</td>
+							<td>12</td>
+						</tr>
+					
+						{% if fundraiserStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif fundraiserStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif fundraiserStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif fundraiserStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Fundraisers</td>
+							<td>{{fundraisers}} - {{fundraiserStatus}}</td>
+							<td>1</td>
+						</tr>
+					
+						{% if meetingStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif meetingStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif meetingStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif meetingStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Buisness Meetings</td>
+							<td>{{meetings}} - {{meetingStatus}}</td>
+							<td>6</td>
+						</tr>
+						
+						<tr bgcolor="#a8a8a8">
+							<td>Leave</td>
+							<td>{{leave}}</td>
+							<td>-</td>
+						</tr>
+						
+						<tr bgcolor="#a8a8a8">
+							<td>Years of Service</td>
+							<td>{{yrsService}}</td>
+							<td>-</td>
+						</tr>
+					</table>
+					<br>
+				</div>
+				<button class="button" onclick="window.print()">Print</button>
+				<button class="button" onclick="window.location.href = 'download/';">Download</button>
+			</div>
 		</div>
 		{%else%}
 			<div id="centered">
-			<br><br>
-			<font face = "georgia" size = "20">You cannot access this page</font>
-			<br>
-			<font face = "georgia" size = "20">because you are not logged in</font>
-			<br><br><br>
-			<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
-			<br><br>
-			<a href="{% url 'login' %}" class = "button">Login</a>
+				<br><br>
+				<font face = "georgia" size = "20">You cannot access this page</font>
+				<br>
+				<font face = "georgia" size = "20">because you are not logged in</font>
+				<br><br><br>
+				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
+				<br><br>
+				<a href="{% url 'login' %}" class = "button">Login</a>
 			</div>
 		{%endif%}
 	</body>			

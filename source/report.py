@@ -1,5 +1,16 @@
 import dbconnect
 import datetime
+from enum import Enum
+
+class Requirements(Enum):
+    TRAININGS = 60
+    SHIFTS = 36
+    ACTUAL_CALLS = 54
+    TOTAL_CALLS = 72
+    WORK_DETAIL_HOURS = 36
+    APPARATUS = 12
+    FUNDRAISERS = 1
+    MEETINGS = 6
 
 class Report():
     def __init__(self, empNum, startTime, endTime):
@@ -22,8 +33,16 @@ class Report():
         self.daysService = 0
         self.yrsService = 0
         self.connection = dbconnect.dbconnect()
+        self.statTrainings = "On-Track"
+        self.statShifts = "On-Track"
+        self.statActCalls = "On-Track"
+        self.statWorkDeets = "On-Track"
+        self.statApparatus = "On-Track"
+        self.statFunds = "On-Track"
+        self.statMeets = "On-Track"
+        self.statOverall = "On-Track"
         self.csvRow = []
-        self.headerRow = ['Rank','Emp #','Last Name','First Name',
+        self.headerRow = ['Rank','Emp #','Last Name','First Name', 'Completion Status',
                           'Actual Calls', 'Shift Volunteer', 'Resident Volunteer',
                           'Work Detail Hours', 'Apparatus Checks', 'Training-Dept',
                           'Training-Total', 'Fundraiser', 'Business Meetings',
@@ -40,6 +59,7 @@ class Report():
         self.compute_trainings()
         self.compute_service()
         self.compute_employee_details()
+        self.compute_employee_status()
         self.create_csv_row()
         self.connection.close()
 
@@ -164,12 +184,96 @@ class Report():
             self.title = person[0][3]
             self.resident = person[0][4]
 
+    def compute_employee_status(self):
+        curr = datetime.datetime.now(tz=None)
+        daysPassed = (datetime.date.today() - datetime.date(curr.year, 1, 1)).days
+        tarRatio = daysPassed / 365
+        ratTrainings = self.trainings / Requirements.TRAININGS.value
+        ratShifts = self.shifts / Requirements.SHIFTS.value
+        ratActCalls = self.actCalls / Requirements.ACTUAL_CALLS.value
+        ratWorkDeets = self.WDHours / Requirements.WORK_DETAIL_HOURS.value
+        ratApparatus = self.apparatus / Requirements.APPARATUS.value
+        ratMeets = self.meetings / Requirements.MEETINGS.value
+
+        if tarRatio - 0.1 >= ratTrainings:
+            self.statTrainings = "Behind-Schedule"
+        elif tarRatio - 0.01 >= ratTrainings:
+            self.statTrainings = "Falling-Behind"
+        elif ratTrainings >= 0.99:
+            self.statTrainings = "Complete"
+
+        if tarRatio - 0.1 >= ratShifts:
+            self.statShifts = "Behind-Schedule"
+        elif tarRatio - 0.01 >= ratShifts:
+            self.statShifts = "Falling-Behind"
+        elif ratTrainings >= 0.99:
+            self.statShifts = "Complete"
+
+        if tarRatio - 0.1 >= ratActCalls:
+            self.statActCalls = "Behind-Schedule"
+        elif tarRatio - 0.01 >= ratActCalls:
+            self.statActCalls = "Falling-Behind"
+        elif ratActCalls >= 0.99:
+            self.statActCalls = "Complete"
+
+        if tarRatio - 0.1 >= ratWorkDeets:
+            self.statWorkDeets = "Behind-Schedule"
+        elif tarRatio - 0.01 >= ratWorkDeets:
+            self.statWorkDeets = "Falling-Behind"
+        elif ratWorkDeets >= 0.99:
+            self.statWorkDeets = "Complete"
+
+        if tarRatio - 0.1 >= ratApparatus:
+            self.statApparatus = "Behind-Schedule"
+        elif tarRatio - 0.01 >= ratApparatus:
+            self.statApparatus = "Falling-Behind"
+        elif ratApparatus >= 0.99:
+            self.statApparatus = "Complete"
+
+        if tarRatio - 0.1 >= ratMeets:
+            self.statMeets = "Behind-Schedule"
+        elif tarRatio - 0.01 >= ratMeets:
+            self.statMeets = "Falling-Behind"
+        elif ratMeets >= 0.99:
+            self.statMeets = "Complete"
+
+        if self.fundraisers >= 1:
+            self.statFunds = "Complete"
+        elif curr.month == 8 or curr.month == 9:
+            self.statFunds = "Falling-Behind"
+        elif curr.month >= 10:
+            self.statFunds = "Behind-Schedule"
+
+        stats = []
+        stats.append(self.statTrainings)
+        stats.append(self.statShifts)
+        stats.append(self.statActCalls)
+        stats.append(self.statWorkDeets)
+        stats.append(self.statApparatus)
+        stats.append(self.statMeets)
+        stats.append(self.statFunds)
+        completed = True
+        for stat in stats:
+            if stat == "Behind-Schedule":
+                self.statOverall = "Behind-Schedule"
+                completed = False
+                break
+            if stat == "Falling-Behind":
+                self.statOverall = "Falling-Behind"
+                completed = False
+            if stat == "On-Track":
+                completed = False
+        if completed:
+            self.statOverall = "Complete"
+            
+
     def create_csv_row(self):
         rank = "%s-%s" %(self.title, self.resident)
         self.csvRow.append(rank)
         self.csvRow.append(str(self.empNum))
         self.csvRow.append(str(self.lastName))
         self.csvRow.append(str(self.firstName))
+        self.csvRow.append(str(self.statOverall))
         self.csvRow.append(str(self.actCalls))
         self.csvRow.append(str(self.shifts))
         self.csvRow.append(str(self.totCalls))

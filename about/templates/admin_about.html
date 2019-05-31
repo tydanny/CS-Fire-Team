@@ -4,8 +4,10 @@
 
 {% block content %}
 	{% if user.is_authenticated %}
-		<div id="main">
-			<h1>About</h1> 
+		<div id="centered" class="content">
+			<div class="header">
+				<h1>About</h1>
+			</div>
 		</div>
 	{% endif %}	
 {% endblock %}

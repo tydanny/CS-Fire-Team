@@ -10,9 +10,16 @@
 		}
 		.column{
 			float: left;
-			width: 50%;
+			width: 47%;
 			padding 10px;
 		}
+		
+		.column1 {
+			float: right;
+			width: 47%;
+			padding 10px;
+		}
+		
 		.row{
 			content: "";
 			display: table;
@@ -59,12 +66,27 @@
 			margin: 50px 50px 50px 50px;
 			font-family: sans-serif;
 		}
+		
+		#main2 {
+			margin: 0px 50px 0px 50px;
+			font-family: sans-serif;
+		}
 			
 		#centered {
 			text-align: center;
 			font-family: sans-serif;
 			margin-left: auto;
 			margin-right: auto;
+			background-color: #e5e5e5;
+		}
+		
+		table {
+			border-collapse: collpase;
+			font-size: 28px;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 10px;
+			background-color: #e5e5e5;
 		}
 			
 		.button {
@@ -94,23 +116,22 @@
 		.header {
 			padding: 1px;
 			text-align: center;
-			background: #DC143C
-			color: white;
+			background: #e5e5e5;
+			color: black;
 		}
 		
 		.header h1 {
 			padding: 5px;
-			font-size: 40px;
+			font-size: 45px;
 			color: white;
-			background: #DC143C;
+			background: #333;
 		}
 		
 		.header h2 {
 			font-size: 30px;
 			padding: 5px;
 			color: white;
-			background: #DC143C;
-			<!-- gold: #FFD700,#FACC00, FFBE00 -->
+			background: #333;
 		}
 		
 		.header h3 {
@@ -120,8 +141,15 @@
 		.content {
 			max-width: 600px;
 			margin: auto;
-			background: white;
-			padding: 1px;
+			background: #e5e5e5;
+			padding: 0px;
+		}
+		
+		.content-wide {
+			max-width: 70%;
+			margin: auto;
+			background: #e5e5e5;
+			padding: 0px;
 		}
 		
 		.help-block {
@@ -131,7 +159,7 @@
 		}
 		
 		.button {
-			background-color: #DC143C;
+			background-color: #333;
 			border: none;
 			color: white;
 			padding: 15px 32px;
@@ -147,7 +175,7 @@
 		  padding: 5px 15px;
 		}
 		select option {
-		  border-bottom: 1px dashed #DC143C;
+		  border-bottom: 1px dashed #333;
 		  height: 30px;
 		  line-height: 30px;
 		  position: relative;
@@ -166,7 +194,7 @@
 		}
 		select option:checked:before {
 		  color: #fff;
-		  background-color: #DC143C;
+		  background-color: #333;
 		}
 		
 		.custom-select {
@@ -180,7 +208,7 @@
 		}
 		
 		.select-selected {
-			background-color: #000080
+			background-color: #333
 		}
 		
 		.select-selected:after {
@@ -210,7 +238,7 @@
 
 		.select-items {
 			position: absolute;
-			background-color: #000080;
+			background-color: #333;
 			top: 100%;
 			left: 0;
 			right: 0;
@@ -233,6 +261,32 @@
 			margin: 0px 10px 10px 10px;
 		}
 		
+		td {
+			padding: 18px;
+		}
+		
+		.legend td, th {
+			padding: 8px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		#width {
+			width: 84%;
+		}
+		
+		#myCanvas {
+			padding: 8px;
+		}
+		
+		#value {
+			font-size: 60px;
+		}
+		
+		#label {
+			font-size: 35px;
+		}
+		
 	</style>
 	<meta charset="utf-8">
 	<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
@@ -240,26 +294,27 @@
 	{% if user.is_authenticated %}
 		<div id ="header">
 			<div id = "title">
-			<div id = "top">
-			<div style="display:inline-block;vertical-align:top;">
-				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
-			</div>
-			<div style="display:inline-block; vertical-align: bottom;">
-				<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
-			</div>
-			</div>
-			
+				<div id = "top">
+					<div style="display:inline-block;vertical-align:top;">
+						<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+					</div>
+					<div style="display:inline-block; vertical-align: bottom;">
+						<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+					</div>
+				</div>
+				
 
-			<div id = "navigation">
-				<ul>
-					<li><a href="{% url 'admin_home' %}">Home</a></li>
-					<li><a href="{% url 'admin_reports' %}">Reports</a></li>
-					<li><a href="{% url 'personnel' %}">Personnel</a></li>
-					<li><a href="{% url 'import' %}">Import</a></li>
-					<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
-					<li style="float:right"><a class="active" href="{% url 'admin_about' %}">About</a></li>
-				</ul>
-			</div>
+				<div id = "navigation">
+					<ul>
+						<li><a href="{% url 'admin_home' %}">Home</a></li>
+						<li><a href="{% url 'admin_reports' %}">Reports</a></li>
+						<li><a href="{% url 'admin_custom' %}">Custom Reports</a></li>
+						<li><a href="{% url 'personnel' %}">Personnel</a></li>
+						<li><a href="{% url 'import' %}">Import</a></li>
+						<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
+						<li style="float:right"><a class="active" href="{% url 'admin_about' %}">About</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	{% else %}
