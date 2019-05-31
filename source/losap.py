@@ -25,8 +25,51 @@ class LOSAP():
         self.connection.close()
 
     def compute_losap_information(self):
-        # create leave objects and tally total leave time
-        print("Here is where we create leave objects")        
+        self.total_leave = 0
+        leave_instances = self.connection.get_statuses(str(self.empNum))
+        startDateTime = datetime.datetime.strptime(self.startTime, '%Y-%m-%d %H:%M:%S.%f')
+        endDateTime = datetime.datetime.strptime(self.endTime, '%Y-%m-%d %H:%M:%S.%f')
+        first_rel_ind = 0
+        last_rel_ind = 0
+        for change in leave_instances:
+            if change[1] >= startDateTime and change[1] <= endDateTime:
+                break
+            first_rel_ind += 1
+        if first_rel_ind > 0:
+            first_rel_ind -= 1
+        for change in leave_instances:
+            if change[1] >= endDateTime:
+                last_rel_ind += 1
+                break
+            last_rel_ind += 1
+        relevant_instances = leave_instances[first_rel_ind:last_rel_ind + 1]
+        i = 0
+        x = len(relevant_instances) 
+        while i < x:
+            if relevant_instances[i][0] != "Active":
+                if i+1 < x:
+                    duration = relevant_instances[i+1][1] - relevant_instances[i][1]
+                    days = duration.days
+                    today = datetime.date.today()
+                    if relevant_instances[i][1].year == today.year:
+                        self.total_leave += (relevant_instances[i+1][1].date() - relevant_instances[i][1]).days
+                    else:
+                        self.total_leave += (relevant_instances[i+1][1].date() - datetime.date(today.year, 1, 1)).days
+                    print(self.total_leave)
+                    leave = Leave(relevant_instances[i][1].date(), relevant_instances[i+1][1].date(), days, relevant_instances[i][0], relevant_instances[i][3])
+                    self.leave_instances.append(leave)
+                else:
+                    today = datetime.date.today()
+                    duration = datetime.datetime.now() - relevant_instances[i][1]
+                    days = duration.days
+                    if relevant_instances[i][1].year == today.year:
+                        self.total_leave += (today - relevant_instances[i][1].date()).days
+                    else:
+                        self.total_leave += (today - datetime.date(today.year, 1, 1)).days
+                    print(self.total_leave)
+                    leave = Leave(relevant_instances[i][1].date(), "Future", days, relevant_instances[i][0], relevant_instances[i][3])
+                    self.leave_instances.append(leave)
+            i += 1
 
     def compute_employee_details(self):
         person = self.connection.get_person(str(self.empNum))

@@ -105,8 +105,8 @@ class dbconnect():
         self.i_query("INSERT INTO person_xref_shift (person_id, shift_start, shift_end, role, station) VALUES ('%s', '%s', '%s', '%s', '%s');" % (person, shift_start, shift_end, role, station))
         
     #Loads a person_status change
-    def load_person_status(self, status, date_change, person_id):
-        self.i_query("INSERT INTO person_status (status, date_change, person_id) VALUES ('%s', '%s', '%s');" % (status, date_change, person_id))
+    def load_person_status(self, status, date_change, person_id, note):
+        self.i_query("INSERT INTO person_status (status, date_change, person_id, note) VALUES ('%s', '%s', '%s', '%s');" % (status, date_change, person_id, note))
 
     #Loads an event
     def load_event(self, tstart, tend, etype):
@@ -124,13 +124,16 @@ class dbconnect():
 
     def get_statuses(self, id):
         return self.s_query("""
-        SELECT * FROM person_status WHERE person_id='%s';
+        SELECT * FROM person_status WHERE person_id='%s' ORDER BY date_change;
         """ % (id))
 
-    def get_person_from_name(self, fname, lname):
+    def get_events(self, id, start, end, type):
         return self.s_query("""
-        SELECT id FROM person WHERE fname = '%s' AND lname = '%s';
-        """ % (fname, lname))
+        SELECT * FROM person_xref_event WHERE person_id='%s' AND tstart BETWEEN '%s' AND '%s' AND type LIKE '%s';
+        """ % (id, start, end, type))
+
+    def get_start(self, id):
+        return self.get_statuses(id)[0][1]
     
     #May need modding because we keep changing shift.
     def get_shift(self, tstart, tend, location):
