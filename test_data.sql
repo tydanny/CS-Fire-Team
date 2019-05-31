@@ -4,7 +4,6 @@ DELETE FROM person_status WHERE 1 = 1;
 DELETE FROM person_xref_shift WHERE 1=1;
 DELETE FROM shift WHERE 1=1;
 DELETE FROM event WHERE 1=1;
-DELETE FROM note WHERE 1=1;
 DELETE FROM incident WHERE 1=1;
 DELETE FROM person WHERE 1 = 1;
 
@@ -15,11 +14,9 @@ INSERT INTO person (id, fname, lname, title, resident) VALUES ('1234', 'Jenny', 
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '01-01-2010', '1');
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '04-03-2015', '7');
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '05-10-2019', '1234');
-INSERT INTO person_status (status, date_change, person_id) VALUES ('Inactive', '11-13-2010', '7');
+INSERT INTO person_status (status, date_change, person_id, note) VALUES ('Medical', '11-13-2010', '7', 'Broke ankle while on duty');
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '02-09-2016', '7');
-INSERT INTO person_status (status, date_change, person_id) VALUES ('Medical', '08-20-2018', '1');
-
-INSERT INTO note (note, person_id) VALUES ('Sprained ankle while on duty', '1');
+INSERT INTO person_status (status, date_change, person_id) VALUES ('Retired', '08-20-2018', '1');
 
 INSERT INTO incident (id, tstamp, category, response) VALUES (1, '02-03-2019 17:56', 'Car Accident', '1 minute 30 seconds');
 INSERT INTO incident (id, tstamp, category, response) VALUES (2, '05-30-2015 22:36', 'Sturcture Fire', '6 minutes 23 seconds');
@@ -45,8 +42,8 @@ INSERT INTO person_xref_event (tstart, tend, type, person_id) VALUES ('04-05-201
 INSERT INTO person_xref_event (tstart, tend, type, person_id) VALUES ('04-06-2019 02:00 PM', '04-06-2019 03:00 PM', 'work detail-other', '1');
 INSERT INTO person_xref_event (tstart, tend, type, person_id) VALUES ('04-01-2019 02:00 PM', '04-01-2019 03:00 PM', 'training-other', '1');
 
-INSERT INTO shift (tstart, tend, station) VALUES ('10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 1);
+INSERT INTO shift (tstart, tend, station) VALUES ('10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'Station 1');
 
 INSERT INTO person_xref_shift (person_id, shift_start, shift_end, station, role) VALUES ('1', '10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'Station 1', 'Fire Fighter');
 INSERT INTO person_xref_shift (person_id, shift_start, shift_end, station, role) VALUES ('1234', '10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'Station 1', 'Engineer');
-INSERT INTO person_xref_shift (person_id, shift_start, shift_end, station, role) VALUES ('7', '10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'home', 'Fire Fighter');
+INSERT INTO person_xref_shift (person_id, shift_start, shift_end, station, role) VALUES ('7', '10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'Station 1', 'Fire Fighter');

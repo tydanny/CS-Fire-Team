@@ -4,7 +4,6 @@ DROP TABLE IF EXISTS person_xref_event;
 DROP TABLE IF EXISTS incident;
 DROP TABLE IF EXISTS shift;
 DROP TABLE IF EXISTS person_status;
-DROP TABLE IF EXISTS note;
 DROP TABLE IF EXISTS event;
 DROP TABLE IF EXISTS person;
 
@@ -56,15 +55,8 @@ CREATE TABLE person_status
     status TEXT,
     date_change TIMESTAMP,
     person_id TEXT REFERENCES person(id),
-    PRIMARY KEY (status, date_change, person_id)
-);
-
-CREATE TABLE note
-(
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     note TEXT,
-    person_id TEXT REFERENCES person(id),
-    PRIMARY KEY (created_at, person_id)
+    PRIMARY KEY (status, date_change, person_id)
 );
 
 CREATE TABLE event
