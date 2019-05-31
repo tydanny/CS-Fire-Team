@@ -3,7 +3,7 @@ sys.path.append('source/')
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-import dbconnect
+from dbconnect import dbconnect
 from report import Report
 from losap import LOSAP
 import datetime
@@ -21,10 +21,50 @@ def officer(request):
 	return HttpResponse(template.render(context, request))
 	
 def admin(request):
-	template = loader.get_template('admin_home.html')
-	context = {}
-	return HttpResponse(template.render(context, request))
+    connection = dbconnect()
+    numsQuery = "SELECT id FROM PERSON;"
+    nums = connection.s_query(numsQuery)
+    connection.close()
+    curr = datetime.datetime.now(tz=None)
+    startTime = "%s-01-01 00:00:00.00" % curr.year
+    endTime = str(curr)
+    i = len(nums)
+    x = 0
+    empNums = []
+    reports = []
+    numComplete = 0
+    numOnTrack = 0
+    numFalling = 0
+    numBehind = 0
+    while x < i:
+        emp = nums[x][0]
+        empNums.append(emp)
+        x += 1
+    for emp in empNums:
+        report = Report(str(emp), startTime, endTime)
+        report.compute_full_report()
+        reports.append(report)
+    for report in reports:
+        if report.statOverall == "Complete":
+            numComplete += 1
+        elif report.statOverall == "On-Track":
+            numOnTrack += 1
+        elif report.statOverall == "Falling-Behind":
+            numFalling += 1
+        elif report.statOverall == "Behind-Schedule":
+            numBehind += 1
+    template = loader.get_template('admin_home.html')
+    context = {'numComplete': numComplete,
+               'numOnTrack': numOnTrack,
+               'numFalling': numFalling,
+               'numBehind': numBehind}
+    return HttpResponse(template.render(context, request))
 
+def admin_custom(request):
+    template = loader.get_template('admin_home.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+    
 def user_download(request, empNum):
     curr = datetime.datetime.now(tz=None)
     startTime = "%s-01-01 00:00:00.00" % curr.year
