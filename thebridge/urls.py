@@ -24,6 +24,7 @@ urlpatterns = [
     path('personnel/', include('personnel.urls')),
     path('import/', include('import.urls')),
 	path('signup/', include('create.urls')),
+	path('custom/', include('custom.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('loggedout/', TemplateView.as_view(template_name='logged_out.html'), name = "loggedout"),
