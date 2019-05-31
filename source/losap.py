@@ -1,7 +1,7 @@
 import dbconnect
 import datetime
 
-class LOSASP():
+class LOSAP():
     def __init__(self, empNum, startTime, endTime):
         self.empNum = empNum
         self.startTime = startTime
@@ -23,7 +23,7 @@ class LOSASP():
         self.populate_csv_rows()
         self.connection.close()
 
-    def compute_losap_informmation(self):
+    def compute_losap_information(self):
         print("Here is where we create leave objects")        
 
     def compute_employee_details(self):
