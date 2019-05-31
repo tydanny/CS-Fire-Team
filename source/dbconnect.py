@@ -127,13 +127,13 @@ class dbconnect():
         SELECT * FROM person_status WHERE person_id='%s' ORDER BY date_change;
         """ % (id))
 
+    def get_events(self, id, start, end, type):
+        return self.s_query("""
+        SELECT * FROM person_xref_event WHERE person_id='%s' AND tstart BETWEEN '%s' AND '%s' AND type LIKE '%s';
+        """ % (id, start, end, type))
+
     def get_start(self, id):
         return self.get_statuses(id)[0][1]
-
-    def get_person_from_name(self, fname, lname):
-        return self.s_query("""
-        SELECT id FROM person WHERE fname = '%s' AND lname = '%s';
-        """ % (fname, lname))
     
     #May need modding because we keep changing shift.
     def get_shift(self, tstart, tend, location):
