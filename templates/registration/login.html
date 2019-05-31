@@ -4,10 +4,11 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-	<div id="main">
+<div id="centered1" class="content">
+	<div class="header">
 		<h1>Golden Fire Department</h1>
 		<h1>Information Tracker</h1>
-		<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="150" height="150"/>
+			<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="150" height="150"/>
 		<br>
 	
 		<h2>
@@ -22,7 +23,7 @@
 		<a href="{% url 'password_reset' %}" class="button">Reset Password</a>
 		<div>
 		<a href="{% url 'create' %}" class="button">Create Account</a>
-			
-		
-	</div>
+	</div>	
+</div>
+</div>
 {% endblock %}

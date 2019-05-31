@@ -10,6 +10,22 @@
 				font-family: sans-serif;
 			}
 			
+			#centered {
+				text-align: center;
+				font-family: sans-serif;
+				margin-left: auto;
+				margin-right: auto;
+				background-color: #e5e5e5;
+			}
+			
+			#centered1 {
+				text-align: center;
+				font-family: sans-serif;
+				margin-left: auto;
+				margin-right: auto;
+				background-color: white;
+			}
+			
 			#signup {
 				margin: 50px 50px 50px 50px;
 				font-family: sans-serif;
@@ -29,6 +45,51 @@
 				cursor: pointer;
 				border-radius: 8px;
 			}
+			
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				margin: 0;
+				background-image:url({% static "images/background.jpg" %});
+				background-repeat: no-repeat;
+				background-position: bottom;
+				background-attachment: fixed;
+			}
+			
+			.header h1 {
+				padding: 5px;
+				font-size: 2.5em;
+				font-size: 3.5vw;
+				color: white;
+				background: #333;
+			}
+		
+			.header {
+				padding: 1px;
+				text-align: center;
+				background: #e5e5e5;
+				color: black;
+			}
+			
+			.content {
+				max-width: 70%;
+				margin: auto;
+				background: #e5e5e5;
+				padding: 0px;
+			}
+		
+			.button {
+				background-color: #333;
+				border: none;
+				color: white;
+				padding: 15px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 16px;
+			}
+			
+			
+		
 	</style>
 	<meta charset="utf-8">
 	<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>

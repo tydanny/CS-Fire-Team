@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 {% load static %}
 <html>
-<head>
+	<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
 			* {
 			box-sizing: border-box;
@@ -357,7 +358,7 @@
 			<a href="{% url 'login' %}" class = "button">Login</a>
 		</div>
 	{% endif %}
-</head>
+	</head>
 <body>
   <main>
     {% block content %}
