@@ -25,8 +25,8 @@ def get_auth(username, password):
         conn.request("POST", "/auth/Authorize.php?%s" % params, j, headers)
         response = conn.getresponse()
         data = response.read().decode()
-        print(data[33:73])
         conn.close()
+        return data[33:73]
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
@@ -55,7 +55,7 @@ def get_token(auth_code):
         conn.request("POST", "/authtoken/Token.php?%s" % params, j, headers)
         response = conn.getresponse()
         data = json.loads(response.read().decode())
-        print(data['access_token'])
+        return data['access_token']
         conn.close()
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
