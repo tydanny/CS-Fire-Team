@@ -124,8 +124,11 @@ class dbconnect():
 
     def get_statuses(self, id):
         return self.s_query("""
-        SELECT * FROM person_status WHERE person_id='%s';
+        SELECT * FROM person_status WHERE person_id='%s' ORDER BY date_change;
         """ % (id))
+
+    def get_start(self, id):
+        return self.get_statuses(id)[0][1]
 
     def get_person_from_name(self, fname, lname):
         return self.s_query("""
