@@ -134,15 +134,13 @@ class dbconnect():
 
     def get_start(self, id):
         return self.get_statuses(id)[0][1]
-    
-    #May need modding because we keep changing shift.
-    def get_shift(self, tstart, tend, location):
-        return self.s_query("""
-        SELECT * FROM shift WHERE tstart = '%s' AND tend = '%s' AND station = '%s';
-        """ % (tstart, tend, location))
 
-    def get_person_xref_shift(person, shift_start, shift_end, station):
-      return self.s_query("""
-        SELECT person_id, shift_start, station FROM person_xref_shift WHERE person_id = '%s' AND shift_start = '%s' AND shift_end = '%s' AND station = '%s';
-        """ % (person, tstart, tend, location))
-        
+    def get_shifts(self, id, start, end):
+        return self.s_query("""
+        SELECT * FROM person_xref_shift WHERE person_id='%s' AND shift_start BETWEEN '%s' and '%s';
+        """ % (id, start, end))
+
+    def get_actual_calls(self, id, start, end):
+        return self.s_query("""
+        SELECT * FROM person_xref_incident AS pi, incident AS i WHERE pi.person_id='%s' AND 
+        """)
