@@ -25,7 +25,6 @@ class LOSAP():
         self.connection.close()
 
     def compute_losap_information(self):
-        # create leave objects and tally total leave time
         self.total_leave = 0
         leave_instances = self.connection.get_statuses(str(self.empNum))
         startDateTime = datetime.datetime.strptime(self.startTime, '%Y-%m-%d %H:%M:%S.%f')

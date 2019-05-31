@@ -145,38 +145,18 @@ class Report():
             self.trainings = thours
 
     def compute_service(self):
-        statuses = self.connection.s_query("""SELECT status, to_char(date_change, 'YYYY-MM-DD HH:MI:SS') FROM person_status WHERE person_id = '%s';""" % (self.empNum))
-        
-        #start date, last change date, and current status, respectively
-        sd = datetime.datetime.strptime(statuses[0][1], '%Y-%m-%d %H:%M:%S')
-        lc = sd
-        cs = 'Active'
-        
         self.daysService = 0
-        
-        for s in statuses:
-            
-            if cs == 'Active' or cs == 'Medical':
-                delta = datetime.datetime.strptime(s[1], '%Y-%m-%d %H:%M:%S') - lc
-                self.daysService += delta.days
-                lc = datetime.datetime.strptime(s[1], '%Y-%m-%d %H:%M:%S')
-                cs = s[0]
-            else:
-                lc = datetime.datetime.strptime(s[1], '%Y-%m-%d %H:%M:%S')
-                cs = s[0]
-                
-            #This line converts the timestamp string to a python datetime!
-            #datetime.strptime(s[1], '%Y-%m-%d %H:%M:%S')
-        if cs == 'Active' or cs == 'Medical':
-            delta = datetime.datetime.now() - lc
-            self.daysService += delta.days
-            
-        self.yrsService = float("%0.2f" % (self.daysService / 365.0))
-        
+        hireDate = self.connection.get_start(str(self.empNum)).date()
+        statuses = self.connection.get_statuses(str(self.empNum))
+        lastStatus = statuses[-1]
+        if lastStatus[0] == "Retired" or lastStatus[0] == "Resigned":
+            self.daysService = (lastStatus[1].date() - hireDate).days
+        else:
+            today = datetime.date.today()
+            self.daysService = (today - hireDate).days
+        self.yrsService = float("%0.2f" % (self.daysService / 365.0))        
 
     def compute_employee_details(self):
-        # querry database for employee first name, last name, and rank (resident or not)
-        # do we want to add notes?
         person = self.connection.get_person(str(self.empNum))
         if person != None:
             self.firstName = person[0][1]
