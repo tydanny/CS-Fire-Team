@@ -105,11 +105,8 @@ class dbconnect():
         self.i_query("INSERT INTO person_xref_shift (person_id, shift_start, shift_end, role, station) VALUES ('%s', '%s', '%s', '%s', '%s');" % (person, shift_start, shift_end, role, station))
         
     #Loads a person_status change
-    def load_person=status(self, status, date_change, person_id, note):
-        if note != '':
-            self.i_query("INSERT INTO person_status (status, date_change, person_id) VALUES ('%s', '%s', '%s', '%s');" % (status, date_change, person_id))
-        else:
-            self.i_query("INSERT INTO person_status (status, date_change, person_id, note) VALUES ('%s', '%s', '%s', '%s');" % (status, date_change, person_id, note))
+    def load_person_status(self, status, date_change, person_id, note):
+        self.i_query("INSERT INTO person_status (status, date_change, person_id, note) VALUES ('%s', '%s', '%s', '%s');" % (status, date_change, person_id, note))
 
     #Loads an event
     def load_event(self, tstart, tend, etype):
