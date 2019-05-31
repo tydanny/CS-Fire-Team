@@ -13,7 +13,30 @@ class Event_Detail_Report():
 
     def compute_detail_report(self):
         data = []
-        if self.reportType == "Training":
+        if self.reportType == "Shifts":
+            data = self.connection.get_shifts(str(self.empNum), self.startTime, self.endTime)
+            self.headerRow = ['Shift Start', 'Shift End', 'Station', 'Role']
+            if data != None:
+                for event in data:
+                    row = []
+                    row.append(event[1])
+                    row.append(event[2])
+                    row.append(event[3])
+                    row.append(event[4])
+                    self.csvRows.append(row)
+            return
+        elif self.reportType == "Actual Calls":
+            data = self.connection.get_actual_calls(str(self.empNum), self.startTime, self.endTime)
+            self.headerRow = ['Call Time', 'Call Type', 'Duration (min)']
+            if data != None:
+                for event in data:
+                    row = []
+                    row.append(event[1])
+                    row.append(event[2])
+                    row.append(str(event[3].seconds / 60))
+                    self.csvRows.append(row)
+            return
+        elif self.reportType == "Training":
             data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'training%')
         elif self.reportType == "Work Detail":
             data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'work detail%')
