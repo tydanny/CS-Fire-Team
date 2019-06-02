@@ -1,6 +1,4 @@
-
 import psycopg2
-from report import Report
 
 class dbconnect():
     def __init__(self):

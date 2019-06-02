@@ -1,14 +1,12 @@
 import sys
-#HARDCODED FOR CONNOR'S PC.  For some reason the path is a list of multiple paths.
-sys.path.append('C:\\Users\\crash\\Documents\\Field Session\\Repo\\CS-Fire-Team\\source\\')
-from dbconnect import dbconnect
-import report
+sys.path.append('..')
+from source import dbconnect
 import unittest
 
 class TestDBConnect(unittest.TestCase):
 
     def setUp(self):
-        self.db = dbconnect()
+        self.db = dbconnect.dbconnect()
         self.id = '999999'
         self.fname = 'Joji'
         self.lname = 'Seshamekish'
@@ -31,8 +29,7 @@ class TestDBConnect(unittest.TestCase):
         self.assertEqual(self.fname, results[0][0])
         self.db.i_query("DELETE FROM person WHERE id='%s';" % (self.id))
 
-    #def test_load_person(self):
-        #self.db.load_person(self.id, self.)
+    '''
 
     def test_individual_report(self):
 
@@ -69,10 +66,7 @@ class TestDBConnect(unittest.TestCase):
         self.assertEqual(1, report.meetings)
         self.assertEqual(1, report.trainings)
         self.assertEqual(1, report.totTrainings)
-                
-    def tearDown(self):
-        #self.db.i_query("DELETE FROM person WHERE id='%s';" % (self.id))
-        self.db.close()
+    '''
 
 if __name__ == '__man__':
     unittest.main()
