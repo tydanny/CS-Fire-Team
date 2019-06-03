@@ -125,6 +125,11 @@ class dbconnect():
         SELECT * FROM person_status WHERE person_id='%s' ORDER BY date_change;
         """ % (id))
 
+    def get_status_changes_for_range(self, id, start, end):
+        return self.s_query("""
+        SELECT * FROM person_status WHERE person_id='%s' AND date_change BETWEEN '%s' AND '%s' ORDER BY date_change;
+        """ % (id, start, end))
+
     def get_events(self, id, start, end, type):
         return self.s_query("""
         SELECT * FROM person_xref_event WHERE person_id='%s' AND tstart BETWEEN '%s' AND '%s' AND type LIKE '%s';

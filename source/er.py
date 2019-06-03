@@ -7,11 +7,14 @@ import json
 import http.client
 import datetime
 from getpass import getpass
+from dbconnect import dbconnect
 
 def load_incidents(username=None, password=None, **kwargs):
     if username == None:
         username = input("Enter your username: ")
-
+    
+    db = dbconnect()
+    
     access_token = get_token_pass(username, password)
     
     incidentIDs = get_incidents(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
@@ -24,8 +27,13 @@ def load_incidents(username=None, password=None, **kwargs):
         exposureID = get_exposureIDs(incident['incidentID'], access_token)
 
         crewMembers = get_crewMembers(exposureID[0]['exposureID'], access_token)
-
+        
+        #The 0 will be changed to a call once we figure out how to get the start time.
+        db.load_incident(incident['incidentNumber'], incident['incidentDateTime'], exposureID['incidentType'], 0)
+        
+        #May need to chance the parameter, userID might not be the one we need.
         for member in crewMembers:
+            db.load_person_xref_shift(incident['incidentNumber'], member['userID'])
             c.append(get_user(member['userID'], access_token)['fullName'])
 
     return n
