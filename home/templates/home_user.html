@@ -213,6 +213,13 @@
 			width: 8vw;
 		}
 		
+		img {
+			height: 300px;
+			height: 8vw;
+			width: 300px;
+			width: 8vw;
+		}
+		
 		textarea {
 			height: 200px;
 			height: 8vw;
@@ -408,7 +415,10 @@
 				<br>
 				<font face = "georgia" size = "20">because you are not logged in</font>
 				<br><br><br>
-				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
+				<div class="picture">
+					<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
+				</div>
+				
 				<br><br>
 				<a href="{% url 'login' %}" class = "button">Login</a>
 			</div>
