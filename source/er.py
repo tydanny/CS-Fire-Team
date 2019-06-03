@@ -258,10 +258,11 @@ def get_my_user(access_token):
 
     try:
         conn = http.client.HTTPSConnection('data.emergencyreporting.com')
-        conn.request("GET", "/agencyusers/users/me?%s" % params, headers)
+        conn.request("GET", "/agencyusers/users/me?%s" % params, headers=headers)
         response = conn.getresponse()
         data = response.read().decode()
         conn.close()
-        return data['user']
+        j = json.loads(data)
+        return j['user']
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
