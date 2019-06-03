@@ -36,6 +36,17 @@ class Event_Detail_Report():
                     row.append(str(event[3].seconds / 60))
                     self.csvRows.append(row)
             return
+        elif self.reportType == "LOSAP":
+            data = self.connection.get_status_changes_for_range(str(self.empNum), self.startTime, self.endTime)
+            self.headerRow = ['New Status', 'Effective Date', 'Notes']
+            if data != None:
+                for event in data:
+                    row = []
+                    row.append(event[0])
+                    row.append(event[1])
+                    row.append(event[2])
+                    self.csvRows.append(row)
+            return
         elif self.reportType == "Training":
             data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'training%')
         elif self.reportType == "Work Detail":
