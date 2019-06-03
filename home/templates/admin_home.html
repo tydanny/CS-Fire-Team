@@ -10,11 +10,11 @@
 			
 				<form method="post">{% csrf_token %}
 					<label for="start">Start date:</label>
-					<input type="date" id="start" name="time-start"[0-9]{4}-[0-9]{2}-[0-9]{2} "required">
+					<input type="date" id="start" name="time-start" "[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
 					
 					<br><br>
 					<label for="end">End date  : </label>
-					<input type="date" id="end" name="time-end"[0-9]{4}-[0-9]{2}-[0-9]{2} "required">
+					<input type="date" id="end" name="time-end" "[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
 					
 					<br> <br> 
 					
@@ -50,8 +50,8 @@
 						<td>
 							<table class="legend">
 								<tr bgcolor="888888">
-									<th>Status</td>
-									<th>Count</td>
+									<th>Status</th>
+									<th>Count</th>
 								</tr>
 								<tr bgcolor="#6fa5ed">
 									<td>Complete</td>

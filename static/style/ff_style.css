@@ -82,7 +82,7 @@ li{
 }
 
 table {
-	border-collapse: collpase;
+	border-collapse: collapse;
 	font-size: 20px;
 	font-size: 1.7vw;
 	margin-left: auto;
@@ -91,7 +91,7 @@ table {
 }
 
 td {
-	text-allign: left;
+	text-align: left;
 	border-bottom: 1px solid #ddd;
 	padding: 10px;
 }
