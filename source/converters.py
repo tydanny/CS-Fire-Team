@@ -29,19 +29,6 @@ def convert_iar(filepath):
 
   db.close()
   
-def convert_incidents(rep){
-  db = dbconnect()
-  for r in rep:
-    id = r['incidentID']
-    time = r['incidentDateTime']
-    e = WHATEVER THE FILE IS.get_exposure(id)
-    
-    type = e['incidentType']
-    response = 0 #This will be a calculation in the future.
-    db.load_incident(id, time, type, response)
-  
-  db.close
-  
 def convert_wtw(filepath):
   db = dbconnect()
   
