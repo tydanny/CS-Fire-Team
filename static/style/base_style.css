@@ -81,3 +81,14 @@ body {
 	display: inline-block;
 	font-size: 16px;
 }
+
+p {
+	font-size: 15px;
+	font-size: 1.8vw;
+	margin-right: auto;
+}
+
+form {
+	font-size: 15px;
+	font-size: 1.8vw;
+}
