@@ -37,6 +37,8 @@
 			
 			#navigation {
 				margin: 10px 0px 0px 0px;
+				font-size: 15px;
+				font-size: 1.4vw;
 			}
 	
 			#main {
@@ -236,6 +238,7 @@
 			<div id = "navigation">
 				<ul>
 					<li><a href="{% url 'user_ex' %}">Home</a></li>
+					<li><a href="{% url 'user_custom' %}">Time Logs</a></li>
 					<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
 					<li style="float:right"><a class="active" href="{% url 'user_about' %}">About</a></li>
 				</ul>
@@ -396,7 +399,10 @@
 			</div>
 		</div>
 		{%else%}
-			<div id="centered">
+			<div id="centered" class="content" style="background-color:white">
+				<div class="header" style="background-color:white">
+					<h1>Access Denied</h1>
+				</div>
 				<br><br>
 				<font face = "georgia" size = "20">You cannot access this page</font>
 				<br>

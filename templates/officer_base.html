@@ -339,6 +339,7 @@
 				<ul>
 					<li><a href="{% url 'officer_home' %}">Home</a></li>
 					<li><a href="{% url 'officer_reports' %}">Reports</a></li>
+					<li><a href="{% url 'officer_custom' %}">Custom Reports</a></li>
 					<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
 					<li style="float:right"><a class="active" href="{% url 'officer_about' %}">About</a></li>
 				</ul>
@@ -346,16 +347,19 @@
 			</div>
 		</div>
 	{% else %}
-		<div id="centered">
-			<br><br>
-			<font face = "georgia" size = "20">You cannot access this page</font>
-			<br>
-			<font face = "georgia" size = "20">because you are not logged in</font>
-			<br><br><br>
-			<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
-			<br><br>
-			<a href="{% url 'login' %}" class = "button">Login</a>
-		</div>
+		<div id="centered" class="content" style="background-color:white">
+				<div class="header" style="background-color:white">
+					<h1>Access Denied</h1>
+				</div>
+				<br><br>
+				<font face = "georgia" size = "20">You cannot access this page</font>
+				<br>
+				<font face = "georgia" size = "20">because you are not logged in</font>
+				<br><br><br>
+				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
+				<br><br>
+				<a href="{% url 'login' %}" class = "button">Login</a>
+			</div>
 	{% endif %}
 </head>
 <body>

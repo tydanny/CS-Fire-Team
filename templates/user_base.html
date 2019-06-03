@@ -1,368 +1,371 @@
 <!--user_base.html-->
 <!DOCTYPE html>
-{% load static %}
+{% load static from staticfiles %}
 <html>
 	<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<style>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
 			* {
-			box-sizing: border-box;
-		}
-		.column{
-			float: left;
-			width: 47%;
-			padding 10px;
-		}
-		
-		.column1 {
-			float: right;
-			width: 47%;
-			padding 10px;
-		}
-		
-		.row{
-			content: "";
-			display: table;
-			clear: both;
-		}
-	
-		ul {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			background-color: #333;
-		}
-
-		li {
-			float: left;
-		}
-
-		li a {
-			display: block;
-			color: white;
-			text-align: center;
-			padding: 14px 16px;
-			text-decoration: none;
-		}
-
-		li a:hover:not(.active) {
-			background-color: #111;
-		}
+				box-sizing: border-box;
+			}
+			.column{
+				float: left;
+				width: 47%;
+				padding 10px;
+			}
 			
-		li a:hover {
-			background-color: #3c8c3f;
-		}
-
-		.active {
-			background-color: #4CAF50;
-		}			
+			.column1 {
+				float: right;
+				width: 47%;
+				padding 10px;
+			}
 			
-		#navigation {
-			margin: 10px 0px 0px 0px;
-			font-size: 15px;
-			font-size: 1.4vw;
-		}
-	
-		#main {
-			margin: 50px 50px 50px 50px;
-			font-family: sans-serif;
-		}
+			.row{
+				content: "";
+				display: table;
+				clear: both;
+			}
 		
-		#main2 {
-			margin: 0px 50px 0px 50px;
-			font-family: sans-serif;
-		}
+			ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				background-color: #333;
+			}
+
+			li {
+				float: left;
+			}
+
+			li a {
+				display: block;
+				color: white;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+			}
+
+			li a:hover:not(.active) {
+				background-color: #111;
+			}
+				
+			li a:hover {
+				background-color: #3c8c3f;
+			}
+
+			.active {
+				background-color: #4CAF50;
+			}			
+				
+			#navigation {
+				margin: 10px 0px 0px 0px;
+				font-size: 15px;
+				font-size: 1.4vw;
+			}
+		
+			#main {
+				margin: 50px 50px 50px 50px;
+				font-family: sans-serif;
+			}
 			
-		#centered {
-			text-align: center;
-			font-family: sans-serif;
-			margin-left: auto;
-			margin-right: auto;
-			background-color: #e5e5e5;
-		}
-		
-		table {
-			border-collapse: collpase;
-			font-size: 28px;
-			font-size: 2vw;
-			margin-left: auto;
-			margin-right: auto;
-			padding: 10px;
-			background-color: #e5e5e5;
-		}
+			#main2 {
+				margin: 0px 50px 0px 50px;
+				font-family: sans-serif;
+			}
+				
+			#centered {
+				text-align: center;
+				font-family: sans-serif;
+				margin-left: auto;
+				margin-right: auto;
+				background-color: #e5e5e5;
+			}
 			
-		.button {
-			background-color: #4CAF50;
-			border: none;
-			color: white;
-			padding: 15px 32px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 16px;
-			font-family: sans-serif;
-			margin: 4px 2px;
-			cursor: pointer;
-			border-radius: 8px;
-		}
-		
-		body {
-			font-family: Arial, Helvetica, sans-serif;
-			margin: 0;
-			background-image:url({% static "images/background.jpg" %});
-			background-repeat: no-repeat;
-			background-position: bottom;
-			background-attachment: fixed;
-		}
-		
-		.header {
-			padding: 1px;
-			text-align: center;
-			background: #e5e5e5;
-			color: black;
-		}
-		
-		.header h1 {
-			padding: 5px;
-			font-size: 2.5em;
-			font-size: 3.5vw;
-			color: white;
-			background: #333;
-		}
-		
-		.header h2 {
-			font-size: 2em;
-			font-size: 2.5vw;
-			padding: 5px;
-			color: white;
-			background: #333;
-		}
-		
-		.header h3 {
-		
-		}
-		
-		.content {
-			max-width: 70%;
-			margin: auto;
-			background: #e5e5e5;
-			padding: 0px;
-		}
-		
-		.content-wide {
-			max-width: 70%;
-			margin: auto;
-			background: #e5e5e5;
-			padding: 0px;
-		}
-		
-		.help-block {
-			font-size: 14px;
-			color: gray;
-			font-weight: lightest;
-		}
-		
-		.button {
-			background-color: #333;
-			border: none;
-			color: white;
-			padding: 15px 32px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 16px;
-		}
-		
-		select {
-		  width: 300px;
-		  height: 250px;
-		  padding: 5px 15px;
-		}
-		
-		select option {
-		  border-bottom: 1px dashed #333;
-		  height: 30px;
-		  line-height: 30px;
-		  position: relative;
-		}
-		
-		select option:before {
-		  content: attr(title);
-		  position: absolute;
-		  height: 100%;
-		  line-height: 30px;
-		  left: 300px;
-		  right: 0px;
-		  top: 0px;
-		  color: #000;
-		  padding-left: 10px;
-		  background-color: #fff;
-		}
-		
-		select option:checked:before {
-		  color: #fff;
-		  background-color: #333;
-		}
-		
-		.custom-select {
-			left: 0px;
-			margin-left: auto;
-			margin-right: auto;
-			position: relative;
-			font-family: Helvetica;
-			width:27vw;
-		}
-		
-		.custom-select select {
-			display: none;
-		}
-		
-		.select-selected {
-			background-color: #333
-		}
-		
-		.select-selected:after {
-			position: absolute;
-			content: "";
-			top: 14px;
-			right: 10px;
-			width: 0;
-			height: 0;
-			border: 6px solid transparent;
-			border-color: #fff transparent transparent transparent;
-		}
-		
-		.select-selected.select-arrow-active:after {
-			border-color: transparent transparent #fff transparent;
-			top: 7px;
-		}
+			table {
+				border-collapse: collpase;
+				font-size: 28px;
+				font-size: 2vw;
+				margin-left: auto;
+				margin-right: auto;
+				padding: 10px;
+				background-color: #e5e5e5;
+			}
+				
+			.button {
+				background-color: #4CAF50;
+				border: none;
+				color: white;
+				padding: 15px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 16px;
+				font-family: sans-serif;
+				margin: 4px 2px;
+				cursor: pointer;
+				border-radius: 8px;
+			}
+			
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				margin: 0;
+				background-image:url({% static "images/background.jpg" %});
+				background-repeat: no-repeat;
+				background-position: bottom;
+				background-attachment: fixed;
+			}
+			
+			.header {
+				padding: 1px;
+				text-align: center;
+				background: #e5e5e5;
+				color: black;
+			}
+			
+			.header h1 {
+				padding: 5px;
+				font-size: 2.5em;
+				font-size: 3.5vw;
+				color: white;
+				background: #333;
+			}
+			
+			.header h2 {
+				font-size: 2em;
+				font-size: 2.5vw;
+				padding: 5px;
+				color: white;
+				background: #333;
+			}
+			
+			.header h3 {
+			
+			}
+			
+			.content {
+				max-width: 70%;
+				margin: auto;
+				background: #e5e5e5;
+				padding: 0px;
+			}
+			
+			.content-wide {
+				max-width: 70%;
+				margin: auto;
+				background: #e5e5e5;
+				padding: 0px;
+			}
+			
+			.help-block {
+				font-size: 14px;
+				color: gray;
+				font-weight: lightest;
+			}
+			
+			.button {
+				background-color: #333;
+				border: none;
+				color: white;
+				padding: 15px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 16px;
+			}
+			
+			select {
+				width: 300px;
+				height: 250px;
+				padding: 5px 15px;
+			}
+			
+			select option {
+				border-bottom: 1px dashed #333;
+				height: 30px;
+				line-height: 30px;
+				position: relative;
+			}
+			
+			select option:before {
+				content: attr(title);
+				position: absolute;
+				height: 100%;
+				line-height: 30px;
+				left: 300px;
+				right: 0px;
+				top: 0px;
+				color: #000;
+				padding-left: 10px;
+				background-color: #fff;
+			}
+			
+			select option:checked:before {
+				color: #fff;
+				background-color: #333;
+			}
+			
+			.custom-select {
+				left: 0px;
+				margin-left: auto;
+				margin-right: auto;
+				position: relative;
+				font-family: Helvetica;
+				width:27vw;
+			}
+			
+			.custom-select select {
+				display: none;
+			}
+			
+			.select-selected {
+				background-color: #333
+			}
+			
+			.select-selected:after {
+				position: absolute;
+				content: "";
+				top: 14px;
+				right: 10px;
+				width: 0;
+				height: 0;
+				border: 6px solid transparent;
+				border-color: #fff transparent transparent transparent;
+			}
+			
+			.select-selected.select-arrow-active:after {
+				border-color: transparent transparent #fff transparent;
+				top: 7px;
+			}
 
-		.select-items div,.select-selected {
-			color: #ffffff;
-			padding: 8px 16px;
-			border: 1px solid transparent;
-			border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
-			cursor: pointer;
-			user-select: none;
-		}
+			.select-items div,.select-selected {
+				color: #ffffff;
+				padding: 8px 16px;
+				border: 1px solid transparent;
+				border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+				cursor: pointer;
+				user-select: none;
+			}
 
-		.select-items {
-			position: absolute;
-			background-color: #333;
-			top: 100%;
-			left: 0;
-			right: 0;
-			z-index: 99;
-		}
+			.select-items {
+				position: absolute;
+				background-color: #333;
+				top: 100%;
+				left: 0;
+				right: 0;
+				z-index: 99;
+			}
 
-		.select-hide {
-			display: none;
-		}
+			.select-hide {
+				display: none;
+			}
 
-		.select-items div:hover, .same-as-selected {
-			background-color: rgba(0, 0, 0, 0.1);
-		}
-		
-		#title {
-			background-color: white;
-		}
-		
-		#top {
-			margin: 0px 10px 10px 10px;
-		}
-		
-		td {
-			padding: 18px;
-		}
-		
-		.legend td, th {
-			padding: 8px;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		
-		#width {
-			width: 84%;
-		}
-		
-		#myCanvas {
-			padding: 8px;
-			width: 20vw;
-			height: 20vw;
-		}
-		
-		#value {
-			font-size: 60px;
-			font-size: 6vw;
-		}
-		
-		#label {
-			font-size: 35px;
-			font-size: 2.6vw;
-		}
-		
-		font {
-			font-size: 40px;
-			font-size: 3.5vw;
-		}
-		
-		img {
-			height: 300px;
-			height: 8vw;
-			width: 300px;
-			width: 8vw;
-		}
-		
-		textarea {
-			height: 200px;
-			height: 8vw;
-			width: 400px;
-			width: 20vw;
-		}
+			.select-items div:hover, .same-as-selected {
+				background-color: rgba(0, 0, 0, 0.1);
+			}
+			
+			#title {
+				background-color: white;
+			}
+			
+			#top {
+				margin: 0px 10px 10px 10px;
+			}
+			
+			td {
+				padding: 18px;
+			}
+			
+			.legend td, th {
+				padding: 8px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			#width {
+				width: 84%;
+			}
+			
+			#myCanvas {
+				padding: 8px;
+				width: 20vw;
+				height: 20vw;
+			}
+			
+			#value {
+				font-size: 60px;
+				font-size: 6vw;
+			}
+			
+			#label {
+				font-size: 35px;
+				font-size: 2.6vw;
+			}
+			
+			font {
+				font-size: 40px;
+				font-size: 3.5vw;
+			}
+			
+			img {
+				height: 300px;
+				height: 8vw;
+				width: 300px;
+				width: 8vw;
+			}
+			
+			textarea {
+				height: 200px;
+				height: 8vw;
+				width: 400px;
+				width: 20vw;
+			}
+		</style>
+		<meta charset="utf-8">
+		<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
 
-	</style>
-	<meta charset="utf-8">
-	<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
-
-	{% if user.is_authenticated %}
-		<div id ="header">
-			<div id = "title">
-				<div id = "top">
-					<div style="display:inline-block;vertical-align:top;">
-						<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+		{% if user.is_authenticated %}
+			<div id ="header">
+				<div id = "title">
+					<div id = "top">
+						<div style="display:inline-block;vertical-align:top;">
+							<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+						</div>
+						<div style="display:inline-block; vertical-align: bottom;">
+							<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+						</div>
 					</div>
-					<div style="display:inline-block; vertical-align: bottom;">
-						<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
-					</div>
-				</div>
 
-				<div id = "navigation">
-					<ul>
-						<li><a href="{% url 'user_ex' %}">Home</a></li>
-						<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
-						<li style="float:right"><a class="active" href="{% url 'user_about' %}">About</a></li>
-					</ul>
+					<div id = "navigation">
+						<ul>
+							<li><a href="{% url 'user_ex' %}">Home</a></li>
+							<li><a href="{% url 'user_custom' %}">Time Logs</a></li>
+							<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
+							<li style="float:right"><a class="active" href="{% url 'user_about' %}">About</a></li>
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-	{% else %}
-		<div id="centered">
-			<br><br>
-			<font face = "georgia" size = "20">You cannot access this page</font>
-			<br>
-			<font face = "georgia" size = "20">because you are not logged in</font>
-			<br><br><br>
-			<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
-			<br><br>
-			<a href="{% url 'login' %}" class = "button">Login</a>
-		</div>
-	{% endif %}
+		{% else %}
+			<div id="centered" class="content" style="background-color:white">
+				<div class="header" style="background-color:white">
+					<h1>Access Denied</h1>
+				</div>
+				<br><br>
+				<font face = "georgia" size = "20">You cannot access this page</font>
+				<br>
+				<font face = "georgia" size = "20">because you are not logged in</font>
+				<br><br><br>
+				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
+				<br><br>
+				<a href="{% url 'login' %}" class = "button">Login</a>
+			</div>
+		{% endif %}
 	</head>
-<body>
-  <main>
-    {% block content %}
-	{% endblock %}
-  </main>
-</body>
+	<body>
+		<main>
+			{% block content %}
+			{% endblock %}
+		</main>
+	</body>
 </html>

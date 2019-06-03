@@ -6,6 +6,16 @@ from detail_reports import Event_Detail_Report
 import csv
 
 # Create your views here.
+def officer(request):
+	template = loader.get_template('officer_custom.html')
+	context = {}
+	return HttpResponse(template.render(context, request))
+
+def user(request):
+	template = loader.get_template('user_custom.html')
+	context = {}
+	return HttpResponse(template.render(context, request))
+
 def custom(request):
     connection = dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
