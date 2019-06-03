@@ -237,3 +237,23 @@ def get_user(userID, access_token):
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
+def get_my_user(access_token):
+    headers = {
+        # Request headers
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+        'Authorization': access_token
+    }
+
+    params = urllib.parse.urlencode({
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyusers/users/me?%s" % params, headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        conn.close()
+        return data['user']
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
