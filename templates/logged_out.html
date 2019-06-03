@@ -1,39 +1,17 @@
-<!DOCTYPE html>
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
 {% load static %}
+{% block title %}Logout{% endblock %}
 
-<html>
-	<head>
-		<style>			
-			#main {
-				margin: 10px 50px 10px 50px;
-				text-align: center;
-			}
-			
-			.button {
-				background-color: #4CAF50;
-				border: none;
-				color: white;
-				padding: 15px 32px;
-				text-align: center;
-				text-decoration: none;
-				display: inline-block;
-				font-size: 16px;
-				font-family: sans-serif;
-				margin: 4px 2px;
-				cursor: pointer;
-				border-radius: 8px;
-			}
-		</style>
-	</head>
-
-	<body>		
-		<div id="main">
-			<br><br>
-			<font face = "georgia" size = "36">You have successfully logged out</font>
-			<br><br><br>
-			<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
-			<br><br>
-			<a href="{% url 'login' %}" class = "button">Login</a>
-		</div>
-	</body>
-</html>
+{% block content %}
+<div id="centered" class="content">
+	<div class="header" style="background-color:white">	
+		<br><br>
+		<h1>You have successfully logged out</h1>
+		<br>
+		<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
+		<br><br>
+		<a href="{% url 'login' %}" class = "button">Login</a>
+	</div>
+</div>
+{% endblock %}
