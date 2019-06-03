@@ -8,6 +8,29 @@ import http.client
 import datetime
 from getpass import getpass
 
+def load_incidents(username=None, password=None, **kwargs):
+    if username == None:
+        username = input("Enter your username: ")
+
+    access_token = get_token_pass(username, password)
+    
+    incidentIDs = get_incidents(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
+
+    c = []
+    n = []
+    
+    for incident in incidentIDs: 
+        n.append(incident['incidentNumber'])
+        exposureID = get_exposureIDs(incident['incidentID'], access_token)
+
+        crewMembers = get_crewMembers(exposureID[0]['exposureID'], access_token)
+
+        for member in crewMembers:
+            c.append(get_user(member['userID'], access_token)['fullName'])
+
+    return n
+    
+    
 def get_auth(username, password):
     headers = {
         # Request headers
@@ -96,18 +119,11 @@ def get_token(auth_code):
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
-def get_incidents(username=None, **kwargs):
-
-    p = kwargs.get('password')
-    start_date = kwargs.get('start_date')
-    end_date = kwargs.get('end_date')
-
+def get_incidents(access_token, **kwargs):
     frmtstr = '%Y-%m-%d'
 
-    if username == None:
-        username = input("Enter your username: ")
-
-    access_token = get_token_pass(username, kwargs.get('password'))
+    start_date = kwargs.get('start_date')
+    end_date = kwargs.get('end_date')
 
     if start_date == None:
         start = datetime.datetime.strptime(input("Enter start date (yyyy-mm-dd): "), frmtstr)
@@ -128,13 +144,13 @@ def get_incidents(username=None, **kwargs):
         raise TypeError('Invalid end date type')
 
     headers = {
-    # Request headers
-    'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
-    'Authorization': access_token,
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+        'Authorization': access_token,
     }
 
     params = urllib.parse.urlencode({
-        'filter': 'incidentDateTime ge "%s", incidentDateTime le "%s", incidentNumber eq "1"' % (start.date().isoformat(), end.date().isoformat()),
+        'filter': 'incidentDateTime ge "%s", incidentDateTime le "%s"' % (start.date().isoformat(), end.date().isoformat()),
         'orderby': 'incidentDateTime ASC'
     })
 
@@ -142,9 +158,9 @@ def get_incidents(username=None, **kwargs):
         conn = http.client.HTTPSConnection('data.emergencyreporting.com')
         conn.request("GET", "/agencyincidents/incidents?%s" % params, headers=headers)
         response = conn.getresponse()
-        data = json.loads(response.read().decode())["incidents"]
+        data = json.loads(response.read().decode())
         conn.close()
-        return data
+        return data['incidents']
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
@@ -153,3 +169,71 @@ def get_pass():
         return getpass(prompt="Enter your password: ")
     except Exception as e:
         print('Password Error: ', e)
+
+def get_exposureIDs(incidentID, access_token):
+    
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyincidents/incidents/%s/exposures?%s" % (incidentID, params), headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['exposures']
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+def get_crewMembers(exposureID, access_token):
+    headers = {
+         # Request headers
+        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyincidents/exposures/%s/crewmembers?%s" % (exposureID, params), headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['crewMembers']
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+def get_user(userID, access_token):
+    headers = {
+        # Request headers
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyusers/users/%s?%s" % (userID, params), headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['user']
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
