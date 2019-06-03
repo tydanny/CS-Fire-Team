@@ -32,6 +32,7 @@ INSERT INTO event (tstart, tend, etype) VALUES ('04-04-2019 02:00 PM', '04-04-20
 INSERT INTO event (tstart, tend, etype) VALUES ('04-05-2019 02:00 PM', '04-05-2019 03:00 PM', 'work detail-fundraiser');
 INSERT INTO event (tstart, tend, etype) VALUES ('04-06-2019 02:00 PM', '04-06-2019 03:00 PM', 'work detail-other');
 INSERT INTO event (tstart, tend, etype) VALUES ('04-01-2019 02:00 PM', '04-01-2019 03:00 PM', 'training-other');
+INSERT INTO event (tstart, tend, etype) VALUES ('04-02-2019 02:00 PM', '04-02-2019 03:00 PM', 'business-meeting');
 
 INSERT INTO person_xref_event (tstart, tend, type, person_id) VALUES ('03-24-2019 09:30 AM', '03-24-2019 11:00 AM', 'training-department', '1');
 INSERT INTO person_xref_event (tstart, tend, type, person_id) VALUES ('03-24-2019 09:30 AM', '03-24-2019 11:00 AM', 'training-department', '7');
@@ -42,6 +43,7 @@ INSERT INTO person_xref_event (tstart, tend, type, person_id) VALUES ('04-04-201
 INSERT INTO person_xref_event (tstart, tend, type, person_id) VALUES ('04-05-2019 02:00 PM', '04-05-2019 03:00 PM', 'work detail-fundraiser', '1');
 INSERT INTO person_xref_event (tstart, tend, type, person_id) VALUES ('04-06-2019 02:00 PM', '04-06-2019 03:00 PM', 'work detail-other', '1');
 INSERT INTO person_xref_event (tstart, tend, type, person_id) VALUES ('04-01-2019 02:00 PM', '04-01-2019 03:00 PM', 'training-other', '1');
+INSERT INTO person_xref_event (tstart, tend, type, person_id) VALUES ('04-02-2019 02:00 PM', '04-02-2019 03:00 PM', 'business-meeting', '1');
 
 INSERT INTO shift (tstart, tend, station) VALUES ('10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'Station 1');
 INSERT INTO shift (tstart, tend, station) VALUES ('10-04-2018 6:00 AM', '10-04-2018 12:00 PM', 'Station 4');
