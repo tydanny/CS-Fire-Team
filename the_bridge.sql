@@ -61,18 +61,16 @@ CREATE TABLE person_status
 
 CREATE TABLE event
 (
+    id TEXT,
     tstart TIMESTAMP,
     tend TIMESTAMP,
     etype TEXT,
-    PRIMARY KEY (tstart, tend, etype)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE person_xref_event
 (
-    tstart TIMESTAMP,
-    tend TIMESTAMP,
-    type TEXT,
+    event_id TEXT REFERENCES event(id),
     person_id TEXT REFERENCES person(id),
-    FOREIGN KEY (tstart,tend,type) REFERENCES event(tstart,tend,etype),
-    PRIMARY KEY (tstart,tend,type,person_id)
+    PRIMARY KEY (event_id,person_id)
 );
