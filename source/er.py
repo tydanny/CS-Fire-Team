@@ -13,7 +13,7 @@ def load_incidents(username=None, password=None, **kwargs):
     if username == None:
         username = input("Enter your username: ")
     
-    db = dbconnect()
+    db = dbconnect.dbconnect()
     
     access_token = get_token_pass(username, password)
     
@@ -292,7 +292,7 @@ def get_events(access_token=None, **kwargs):
 
     headers = {
         # Request headers
-        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+        'Ocp-Apim-Subscription-Key': 'dd47ea607c5648dc8c2677b5fe8c6126',
         'Authorization': access_token,
     }
 
@@ -329,7 +329,7 @@ def load_events(username=None, password=None, **kwargs):
 def get_event_people(event_type, access_token):
     headers = {
         # Request headers
-        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+        'Ocp-Apim-Subscription-Key': 'dd47ea607c5648dc8c2677b5fe8c6126',
         'Authorization': access_token,
     }
 
@@ -352,37 +352,41 @@ def get_event_people(event_type, access_token):
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
-def get_people(access_token):
+def get_people(access_token=None, **kwargs):
+
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+
     headers = {
         # Request headers
         'Content-Type': 'application/json',
         'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
-        'Authorization': '{access token}',
+        'Authorization': access_token,
     }
 
     params = urllib.parse.urlencode({
         # Request parameters
-        'rowVersion': '{string}',
-        'limit': '{string}',
-        'offset': '{string}',
-        'filter': '{string}',
-        'orderby': '{string}',
     })
 
     try:
         conn = http.client.HTTPSConnection('data.emergencyreporting.com')
-        conn.request("GET", "/agencyusers/users?%s" % params, "{body}", headers)
+        conn.request("GET", "/agencyusers/users?%s" % params, headers=headers)
         response = conn.getresponse()
-        data = response.read()
-        
-        for p in data['users']:
-            l,f = split(', ', 1)
-            id = p['agencyPersonnelID']
-			#They said that they use shift to store residency
-			#Still need to find out how to get start date
-            if(not db.get_person(id)):
-                db.load_person(id, f, l, p['title'], p['shift'])
-        
+        data = response.read().decode()
         conn.close()
+        return data
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+def load_people(access_token=None, **kwargs):
+
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+
+    users = get_people(access_token)
+    db = dbconnect.dbconnect()
+
+    ids = db.s_query("""
+    SELECT id FROM person;
+    """)
+    
