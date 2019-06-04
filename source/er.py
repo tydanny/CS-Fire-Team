@@ -263,6 +263,7 @@ def get_my_user(access_token):
 def get_events(access_token=None, **kwargs):
     if access_token == None:
         access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
+
     frmtstr = '%Y-%m-%d'
 
     start_date = kwargs.get('start_date')
@@ -300,7 +301,7 @@ def get_events(access_token=None, **kwargs):
 
     try:
         conn = http.client.HTTPSConnection('data.emergencyreporting.com')
-        conn.request("GET", "/agencyevents/%s?%s" % params, headers=headers)
+        conn.request("GET", "/agencyevents/events?%s" % params, headers=headers)
         response = conn.getresponse()
         data = response.read().decode()
         j = json.loads(data)
@@ -320,4 +321,30 @@ def load_events(username=None, password=None, **kwargs):
     events = get_events(access_token, kwargs)
 
     for event in events:
-        db.load_event(start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'), #event type
+        db.load_event(start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date')) #event type
+
+def get_event_people(event_type, access_token):
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'limit': '{number}',
+        'offset': '{number}',
+        'filter': '{string}',
+        'orderby': '{string}',
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyevents/events/%s/people?%s" % params, headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j["eventPeople"]
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
