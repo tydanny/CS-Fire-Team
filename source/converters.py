@@ -1,12 +1,12 @@
 import sys
 import pandas as pd
 import lxml
-from dbconnect import dbconnect
+from source import dbconnect
 import json
 
 def convert_iar(filepath):
   
-  db = dbconnect()
+  db = dbconnect.dbconnect()
   #This should be dynamic, and it should function fine.
   rep = pd.read_html(filepath)
   
