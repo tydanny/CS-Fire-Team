@@ -1,7 +1,7 @@
 import sys
 import pandas as pd
 import lxml
-from source import dbconnect
+import dbconnect
 import json
 
 def convert_iar(filepath):
