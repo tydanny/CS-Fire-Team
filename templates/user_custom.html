@@ -4,7 +4,6 @@
 {% block title %}Custom Reports{% endblock %}
 
 {% block content %}
-	{% if user.is_authenticated %}
 		<div id="centered" class="content">
 			<div class="header">
 				<h1>View Time Logs</h1>
@@ -126,6 +125,4 @@
 				$(this).attr('title', $(this).text())
 			});
 		</script>
-			
-	{% endif %}	
 {% endblock %}

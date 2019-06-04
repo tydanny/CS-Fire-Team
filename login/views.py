@@ -78,14 +78,10 @@ def check(request):
 		context = {}
 		return HttpResponse(template.render(context, request))
 	elif title == "Admin":
-		if request.method == "POST":
-			startTime = request.POST["time-start"]
-			endTime = request.POST["time-end"]
-		else:
-			curr = datetime.datetime.now(tz=None)
-			startTime = "%s-01-01 00:00:00.00" % curr.year
-			endTime = str(curr)
-		connection = dbconnect()
+		curr = datetime.datetime.now(tz=None)
+		startTime = "%s-01-01 00:00:00.00" % curr.year
+		endTime = str(curr)
+		connection = dbconnect.dbconnect()
 		numsQuery = "SELECT id FROM PERSON;"
 		nums = connection.s_query(numsQuery)
 		connection.close()
@@ -103,7 +99,7 @@ def check(request):
 			empNums.append(emp)
 			x += 1
 		for emp in empNums:
-			report = Report(str(emp), startTime, endTime)
+			report = rep.Report(str(emp), startTime, endTime)
 			report.compute_full_report()
 			reports.append(report)
 		for report in reports:
@@ -150,7 +146,7 @@ def admin(request):
 		curr = datetime.datetime.now(tz=None)
 		startTime = "%s-01-01 00:00:00.00" % curr.year
 		endTime = str(curr)
-	connection = dbconnect()
+	connection = dbconnect.dbconnect()
 	numsQuery = "SELECT id FROM PERSON;"
 	nums = connection.s_query(numsQuery)
 	connection.close()
@@ -168,7 +164,7 @@ def admin(request):
 		empNums.append(emp)
 		x += 1
 	for emp in empNums:
-		report = Report(str(emp), startTime, endTime)
+		report = rep.Report(str(emp), startTime, endTime)
 		report.compute_full_report()
 		reports.append(report)
 	for report in reports:

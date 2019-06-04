@@ -7,8 +7,6 @@
 		<link rel="stylesheet" href="{% static 'style/site.css' %}">
 		<meta charset="utf-8">
 		<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
-
-		{% if user.is_authenticated %}
 			<div id ="header">
 				<div id = "title">
 					<div id = "top">
@@ -30,22 +28,6 @@
 					</div>
 				</div>
 			</div>
-		{% else %}
-			<div id="centered" class="content" style="background-color:white">
-				<div class="header" style="background-color:white">
-					<h1>Access Denied</h1>
-				</div>
-				<h2 style="font-size:30px; font-size:3.2vw;">Please log in <br>to access this page</h2>
-				<br>
-				
-				<div class="picture">
-					<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
-				</div>
-				
-				<br><br>
-				<a href="{% url 'login' %}" class = "button">Login</a>
-			</div>
-		{% endif %}
 	</head>
 	<body style="background-image:url({% static 'images/background.jpg' %});">
 		<main>

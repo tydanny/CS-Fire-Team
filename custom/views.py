@@ -16,7 +16,7 @@ def user(request):
 	return HttpResponse(template.render(context, request))
 
 def custom(request):
-    connection = dbconnect()
+    connection = dbconnect.dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)
     lastQuery = "SELECT lname FROM PERSON;"
@@ -46,7 +46,7 @@ def submit(request):
         nums = [int(s) for s in employee.split() if s.isdigit()]
         empNum = nums[-1]
         reportType = request.POST["type"]
-        detailReport = Event_Detail_Report(str(empNum), startTime, endTime, reportType)
+        detailReport = detail_reports.Event_Detail_Report(str(empNum), startTime, endTime, reportType)
         csv_name = "%s_Event_Detail_Report_%s_%s.csv" %(str(empNum), startTime, endTime)
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="%s"' % csv_name

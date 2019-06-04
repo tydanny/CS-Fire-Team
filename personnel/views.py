@@ -5,7 +5,7 @@ from source import dbconnect
 
 # Create your views here.
 def index(request):
-    connection = dbconnect()
+    connection = dbconnect.dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)
     lastQuery = "SELECT lname FROM PERSON;"
@@ -29,7 +29,7 @@ def index(request):
 
 def submit(request):
     try:
-        connection = dbconnect()
+        connection = dbconnect.dbconnect()
         firstName = request.POST["firstname"]
         lastName = request.POST["lastname"]
         empNum = request.POST["empNumber"]
@@ -51,7 +51,7 @@ def submit(request):
 
 def update(request):
     try:
-        connection = dbconnect()
+        connection = dbconnect.dbconnect()
         employee = request.POST["employee"]
         nums = [int(s) for s in employee.split() if s.isdigit()]
         empNum = nums[-1]

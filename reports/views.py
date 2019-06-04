@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from source import dbconnect, report, losap
+from source import dbconnect, losap
+from source import report.Report as Report
 import datetime
 import csv
 
@@ -36,7 +37,7 @@ def admin(request):
 
 
 def index(request):
-    connection = dbconnect()
+    connection = dbconnect.dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)
     lastQuery = "SELECT lname FROM PERSON;"
@@ -67,7 +68,7 @@ def submit(request):
         endTime = "%s %s" % (endDate, currTime)
         reportType = request.POST["type"]
         staff = request.POST.getlist("staff")
-        connection = dbconnect()
+        connection = dbconnect.dbconnect()
         empNums = []
         if staff[0] == "Generate For All":
             numsQuery = "SELECT id FROM PERSON;"
@@ -102,7 +103,7 @@ def officer_submit(request):
         endTime = "%s %s" % (endDate, currTime)
         reportType = request.POST["type"]
         staff = request.POST.getlist("staff")
-        connection = dbconnect()
+        connection = dbconnect.dbconnect()
         empNums = []
         if staff[0] == "Generate For All":
             numsQuery = "SELECT id FROM PERSON;"
@@ -136,7 +137,7 @@ def admin_submit(request):
         endTime = "%s %s" % (endDate, currTime)
         reportType = request.POST["type"]
         staff = request.POST.getlist("staff")
-        connection = dbconnect()
+        connection = dbconnect.dbconnect()
         empNums = []
         if staff[0] == "Generate For All":
             numsQuery = "SELECT id FROM PERSON;"
