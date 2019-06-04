@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="{% static 'style/ff_style.css' %}">
+		<meta charset="utf-8">
+	</head>
+	
+	<body style="background-image:url({% static 'images/background.jpg' %});">
+		
+		<div id ="roof">
+			<div id="top">
+				<div style="display:inline-block;vertical-align:top;">
+					<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+				</div>
+				<div style="display:inline-block; vertical-align: bottom;">
+					<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+				</div>
+			</div>
+
+			<div id = "navigation">
+				<ul>
+					<li><a href="{% url 'user_ex' %}">Home</a></li>
+					<li><a href="{% url 'user_custom' %}">Time Logs</a></li>
+					<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
+					<li style="float:right"><a class="active" href="{% url 'user_about' %}">About</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="centered2">
+			<div class="header">
+				<h1>Report for {{employee}} as of {{date}}</h1>
+				
+				{% if empStatus|stringformat:"s" == "Behind-Schedule" %}
+					<h2 style="color:#d63737">You are {{empStatus}}</h2>
+				{% elif trainingStatus|stringformat:"s" == "Falling-Behind" %}
+					<h2 style="color:#dddd00">You are {{empStatus}}</h2>
+				{% elif trainingStatus|stringformat:"s" == "On-Track" %}
+					<h2 style="color:#4fbc56">You are {{empStatus}}</h2>
+				{% elif trainingStatus|stringformat:"s" == "Complete" %}
+					<h2 style="color:#6fa5ed">You are {{empStatus}}</h2>
+				{% else %}
+					<h2>You are {{empStatus}}</h2>
+				{% endif %}
+				
+				<div id="centered1">
+					<table>
+						<tr>
+							<th>Category</th>
+							<th>Current</th>
+							<th>Required</th>
+						</tr>
+						{% if trainingStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif trainingStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif trainingStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif trainingStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Training hours</td>
+							<td><p id="train"></p>{{training}} - {{trainingStatus}}</td>
+							<td>60</td>
+						</tr>
+					
+						{% if shiftStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif shiftStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif shiftStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif shiftStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Shifts</td>
+							<td>{{shifts}} - {{shiftStatus}}</td>
+							<td>36</td>
+						</tr>
+					
+						{% if callStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif callStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif callStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif callStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Actual Calls</td>
+							<td>{{actCalls}} - {{callStatus}}</td>
+							<td>54</td>
+						</tr>
+					
+					
+						{% if workDeetStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif workDeetStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif workDeetStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif workDeetStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Work Detail Hours</td>
+							<td>{{workDeets}} - {{workDeetStatus}}</td>
+							<td>36</td>
+						</tr>
+					
+						{% if apparatusStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif apparatusStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif apparatusStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif apparatusStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Sundays & Weeklies</td>
+							<td>{{apparatus}} - {{apparatusStatus}}</td>
+							<td>12</td>
+						</tr>
+					
+						{% if fundraiserStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif fundraiserStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif fundraiserStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif fundraiserStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Fundraisers</td>
+							<td>{{fundraisers}} - {{fundraiserStatus}}</td>
+							<td>1</td>
+						</tr>
+					
+						{% if meetingStatus|stringformat:"s" == "Behind-Schedule" %}
+						<tr bgcolor="#d63737">
+						{% elif meetingStatus|stringformat:"s" == "Falling-Behind" %}
+						<tr bgcolor="#dddd00">
+						{% elif meetingStatus|stringformat:"s" == "On-Track" %}
+						<tr bgcolor="#4fbc56">
+						{% elif meetingStatus|stringformat:"s" == "Complete" %}
+						<tr bgcolor="#6fa5ed">
+						{% else %}
+						<tr>
+						{% endif %}
+							<td>Buisness Meetings</td>
+							<td>{{meetings}} - {{meetingStatus}}</td>
+							<td>6</td>
+						</tr>
+						
+						<tr bgcolor="#a8a8a8">
+							<td>Leave</td>
+							<td>{{leave}}</td>
+							<td>-</td>
+						</tr>
+						
+						<tr bgcolor="#a8a8a8">
+							<td>Years of Service</td>
+							<td>{{yrsService}}</td>
+							<td>-</td>
+						</tr>
+					</table>
+					<br>
+				</div>
+				<button class="button" onclick="window.print()">Print</button>
+				<button class="button" onclick="window.location.href = 'download/{{empNum}}/';">Download</button>
+			</div>
+		</div>
+		<!--
+			<div id="centered" class="content" style="background-color:white">
+				<div class="header" style="background-color:white">
+					<h1>Access Denied</h1>
+				</div>
+				<h2 style="font-size:30px; font-size:3.2vw;">Please log in <br>to access this page</h2>
+				<br>
+				
+				<div class="picture">
+					<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
+				</div>
+				
+				<br><br>
+				<a href="{% url 'login' %}" class = "button">Login</a>
+			</div>
+		-->
+	</body>			
+</html>
