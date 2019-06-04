@@ -18,7 +18,6 @@ from django.urls import include, path
 from django.views.generic.base import TemplateView
 
 urlpatterns = [
-    path('home/', include('home.urls')),
     path('about/', include('about.urls')),
     path('reports/', include('reports.urls')),
     path('personnel/', include('personnel.urls')),
@@ -29,6 +28,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('loggedout/', TemplateView.as_view(template_name='logged_out.html'), name = "loggedout"),
-    path('homepage/', TemplateView.as_view(template_name='home.html'), name='home'),
     path('', TemplateView.as_view(template_name='redirect.html'), name='redirect'),
 ]

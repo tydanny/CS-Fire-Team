@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from dbconnect import dbconnect
-from loaders import load_note
+from source import dbconnect
 
 # Create your views here.
 def index(request):

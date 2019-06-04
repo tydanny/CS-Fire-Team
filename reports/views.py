@@ -1,9 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from dbconnect import dbconnect
-from report import Report
-from losap import LOSAP
+from source import dbconnect, report, losap
 import datetime
 import csv
 
@@ -14,7 +12,7 @@ def officer(request):
 	return HttpResponse(template.render(context, request))
 	
 def admin(request):
-    connection = dbconnect()
+    connection = dbconnect.dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)
     lastQuery = "SELECT lname FROM PERSON;"

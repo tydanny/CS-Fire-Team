@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from dbconnect import dbconnect
-from detail_reports import Event_Detail_Report
+from source import dbconnect, detail_reports
 import csv
 
 # Create your views here.

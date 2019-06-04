@@ -142,7 +142,7 @@ def user_download(request, empNum):
     writer.writerow(report.csvRow)
     return response
 	
-def admin:
+def admin(request):
 	if request.method == "POST":
 		startTime = request.POST["time-start"]
 		endTime = request.POST["time-end"]
@@ -187,12 +187,12 @@ def admin:
 			   'numBehind': numBehind}
 	return HttpResponse(template.render(context, request))
 
-def officer:
+def officer(request):
 	template = loader.get_template('officer_home.html')
 	context = {}
 	return HttpResponse(template.render(context, request))
 	
-def user:
+def user(request):
 	tarTrainings = 60
 	tarShifts = 36
 	tarActCalls = 54
