@@ -153,3 +153,13 @@ class dbconnect():
         SELECT title FROM person WHERE id='%s';
         """ % (id))
         return title[0][0]
+
+    def update_permissions(self, id, newper):
+        self.i_query("""
+        UPDATE person SET title='%s' WHERE id='%s';
+        """ % (newper, id))
+
+    def delete_status(self, id, date_change, status):
+        self.i_query("""
+        DELETE FROM person_status WHERE id='%s' AND date_change='%s' AND status='%s';
+        """ % (id, date_change, status))
