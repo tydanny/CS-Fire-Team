@@ -299,7 +299,8 @@ def get_events(access_token=None, **kwargs):
     params = urllib.parse.urlencode({
         # Request parameters
         'filter': 'eventDateTime ge "%s", eventDateTime le "%s"' % (start.date().isoformat(), end.date().isoformat()),
-        'orderby': 'eventDateTime ASC'
+        'orderby': 'eventDateTime ASC',
+        'limit': 999999
     })
 
     try:
@@ -316,16 +317,24 @@ def get_events(access_token=None, **kwargs):
 def load_events(username=None, password=None, **kwargs):
     if username == None:
         username = input("Enter your username: ")
-    
-    db = dbconnect()
+    if password == None:
+        password = get_pass()
+
+    db = dbconnect.dbconnect()
     
     access_token = get_token_pass(username, password)
 
-    events = get_events(access_token, kwargs)
+    events = get_events(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
+    eventTypesList = get_event_types(access_token)
 
+    eventTypes = {}
+    
+    for eventType in eventTypesList:
+        eventTypes[eventType['eventTypeID']] = eventType['eventType']
+    
     for event in events:
-        db.load_event(start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date')) #event type
-
+        db.load_event(event['eventDate'], event['eventEndDate'], eventTypes[event['eventTypeID']])
+        
 def get_event_people(event_type, access_token):
     headers = {
         # Request headers
@@ -389,4 +398,29 @@ def load_people(access_token=None, **kwargs):
     ids = db.s_query("""
     SELECT id FROM person;
     """)
+
+def get_event_types(access_token=None, **kwargs):
     
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+        
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': 'dd47ea607c5648dc8c2677b5fe8c6126',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyevents/events/types?%s" % params, headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['eventTypes']
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
