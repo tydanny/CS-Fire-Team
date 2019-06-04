@@ -151,4 +151,4 @@ class dbconnect():
     def get_title(self, id):
         return self.s_query("""
         SELECT title FROM person WHERE id='%s';
-        """)
+        """ % (id))
