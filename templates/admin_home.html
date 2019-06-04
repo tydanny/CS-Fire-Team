@@ -3,7 +3,6 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-	{% if user.is_authenticated %}
 		<div id="centered" class="content-wide">
 			<div class="header">
 				<h1>Dashboard</h1>
@@ -275,5 +274,4 @@
 				$(this).attr('title', $(this).text())
 			});
 		</script>
-	{% endif %}
 {% endblock %}

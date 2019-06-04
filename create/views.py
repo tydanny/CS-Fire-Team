@@ -5,9 +5,9 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.http import HttpResponse
 from django.template import loader
-from dbconnect import dbconnect
+from source import dbconnect
 
-from forms import SignUpForm
+from source import forms
 
 def signup(request):
     if request.method == 'POST':
