@@ -8,6 +8,9 @@
 			<div class="header">
 				<h1>Import</h1>
 			</div>
+			<form enctype="multipart/form-data" method="post" action="{% url 'upload' %}">
+        			{{ form }}
+    			</form>
 		</div>
 	{% endif %}
 {% endblock %}
