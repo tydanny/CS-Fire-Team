@@ -4,60 +4,52 @@
 {% block title %}Custom Reports{% endblock %}
 
 {% block content %}
-		<div id="centered" class="content">
-			<div class="header">
-				<h1>Generate Custom Reports</h1>
-			</div>
-		
-			<form action="{% url 'custom_submit' %}" method="post">{% csrf_token %}
-				<div class="header">
-					<label for="start">Start date:</label>
-					<input type="date" id="start" name="time-start" required>
-					<br><br><br>
-
-					<label for="end">End date  : </label>
-					<input type="date" id="end" name="time-end" required>
-					
-					<br><br>
-				</div>
-		
-				Employee
-				<div class="header">
-					<div class="custom-select">
-						<select name="employee">
-							<option value="No Selection">No Selection</option>
-							{% for emp in employees %} 
-							<option value="{{emp}}">{{emp}}</option>
-							{% endfor %}
-						</select>
-					</div>
-				</div>
-				<br><br>
-				Report
-				<div class="header">
-					<div class="custom-select">
-						<select name="type">
-							<option value="No Selection">No Selection</option>
-							<option value="Training">Training</option>
-							<option value="Shifts">Shifts</option>
-							<option value="Actual Calls">Actual Calls</option>
-							<option value="Work Detail">Work Detail</option>
-							<option value="Sundays & Weeklies">Sundays & Weeklies</option>
-							<option value="Fundraisers">Fundraisers</option>
-							<option value="Business Meetings">Business Meetings</option>
-							<option value="LOSAP">LOSAP</option>
-						</select>
-					</div>
-				</div
-				
-				<br><br>
-				
-				<input type="submit" value="Submit" class="button">
-				<br>
-				
-			</form>
+  <div id="centered" class="content">
+    <div class="header">
+	  <h1>Generate Custom Reports</h1>
+	</div>
+	<form action="{% url 'custom_submit' %}" method="post">{% csrf_token %}
+	  <div class="header">
+		<label for="start">Start date:</label>
+		<input type="date" id="start" name="time-start" required>
+		<br><br><br>
+		<label for="end">End date  : </label>
+		<input type="date" id="end" name="time-end" required>
+		<br><br>
+	  </div>
+	  Employee
+	  <div class="header">
+	    <div class="custom-select">
+		<select name="employee">
+		  <option value="No Selection">No Selection</option>
+		    {% for emp in employees %} 
+		  <option value="{{emp}}">{{emp}}</option>
+			{% endfor %}
+		</select>
 		</div>
-				
+	  </div>
+	  <br><br>
+	  Report
+	  <div class="header">
+	    <div class="custom-select">
+		<select name="type">
+		  <option value="No Selection">No Selection</option>
+		  <option value="Training">Training</option>
+		  <option value="Shifts">Shifts</option>
+		  <option value="Actual Calls">Actual Calls</option>
+		  <option value="Work Detail">Work Detail</option>
+		  <option value="Sundays & Weeklies">Sundays & Weeklies</option>
+		  <option value="Fundraisers">Fundraisers</option>
+		  <option value="Business Meetings">Business Meetings</option>
+		  <option value="LOSAP">LOSAP</option>
+		</select>
+		</div>
+	  </div
+	  <br><br>
+	  <input type="submit" value="Submit" class="button">
+	  <br>	
+	</form>
+	  </div>	
 		<script>
 			var x, i, j, selElmnt, a, b, c;
 			/*look for any elements with the class "custom-select":*/
