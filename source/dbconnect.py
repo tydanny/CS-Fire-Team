@@ -82,8 +82,9 @@ class dbconnect():
         return report
 
     #Loads a person.
-    def load_person(self, person_id, fname, lname, title, residency, start):
-        self.i_query("INSERT INTO person (id, fname, lname, title, resident) VALUES ('%s', '%s', '%s', '%s', '%s');" % (self.id, self.fname, self.lname))
+    def load_person(self, id, fname, lname, title, residency, start):
+        self.i_query("INSERT INTO person (id, fname, lname, title, resident) VALUES ('%s', '%s', '%s', '%s', '%s');" % (id, fname, lname, title, residency))
+        self.load_person_status('Active', start, id, 'Start Day')
 
     #Takes in incident id, time, category, and response.
     def load_incident(self, id, time, category, response):
