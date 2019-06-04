@@ -7,7 +7,7 @@ import json
 import http.client
 import datetime
 from getpass import getpass
-from dbconnect import dbconnect
+import dbconnect
 
 def load_incidents(username=None, password=None, **kwargs):
     if username == None:
@@ -56,7 +56,10 @@ def get_auth(username, password):
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
-def get_token_pass(username, password=None):
+def get_token_pass(username=None, password=None):
+
+    if username == None:
+        username = input("Enter your username: ")
 
     if password == None:
         password = get_pass()
