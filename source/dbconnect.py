@@ -30,6 +30,7 @@ class dbconnect():
         try:
             self.cur.execute(query)
             self.con.commit()
+            print('yeet')
         except psycopg2.Error as e:
             print('Query error')
             print (e)
@@ -143,6 +144,11 @@ class dbconnect():
         return self.s_query("""
         SELECT * FROM person_xref_shift WHERE person_id='%s' AND shift_start BETWEEN '%s' and '%s';
         """ % (id, start, end))
+
+    def get_shift(self, start, end, location):
+        return self.s_query("""
+        SELECT * FROM shift WHERE tstart='%s' AND tend='%s' AND station='%s';
+        """ % (start, end, location))
 
     def get_actual_calls(self, id, start, end):
         return self.s_query("""

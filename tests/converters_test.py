@@ -29,7 +29,7 @@ class TestConverters(unittest.TestCase):
 	#def test_load_names():
 	
 	def test_convert_schedule(self):
-		converters.convert_schedule(r'C:\Users\crash\Documents\Field Session\TestDataReport.xls')
+		converters.convert_iar(r'C:\Users\crash\Documents\Field Session\TestDataReport.xls')
 		results = db.s_query("SELECT * FROM shift")
 		print(results)
 	#	self.assertEqual(self.id, results[0][0])

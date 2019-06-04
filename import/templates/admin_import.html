@@ -7,5 +7,9 @@
 			<div class="header">
 				<h1>Import</h1>
 			</div>
+			<form enctype="multipart/form-data" method="post" action="{% url 'upload' %}">{% csrf_token %}
+        			<input type="file" name="fileToUpload" id="fileToUpload">
+				<button type="submit">Upload</button>
+    			</form>
 		</div>
 {% endblock %}
