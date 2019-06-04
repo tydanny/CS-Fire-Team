@@ -30,6 +30,7 @@ class dbconnect():
         try:
             self.cur.execute(query)
             self.con.commit()
+            print('yeet')
         except psycopg2.Error as e:
             print('Query error')
             print (e)
