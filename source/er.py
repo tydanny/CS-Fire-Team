@@ -27,7 +27,7 @@ def load_incidents(username=None, password=None, **kwargs):
         
         for exposure in exposures:
             crewMembers = get_crewMembers(exposures[0]['exposureID'], access_token)
-            #May need to chance the parameter, userID might not be the one we need.
+            #May need to change the parameter, userID might not be the one we need.
             for member in crewMembers:
                 db.load_person_xref_incident(incident['incidentID'], member['agencyPersonnelID'])
     
@@ -259,3 +259,65 @@ def get_my_user(access_token):
         return j['user']
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+def get_events(access_token=None, **kwargs):
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
+    frmtstr = '%Y-%m-%d'
+
+    start_date = kwargs.get('start_date')
+    end_date = kwargs.get('end_date')
+
+    if start_date == None:
+        start = datetime.datetime.strptime(input("Enter start date (yyyy-mm-dd): "), frmtstr)
+    elif type(start_date) == str:
+        start = datetime.datetime.strptime(start_date, frmtstr)
+    elif type(start_date) == datetime.datetime:
+        start = start_date
+    else:
+        raise TypeError('Invalid start date type')
+
+    if end_date == None:
+        end = datetime.datetime.strptime(input("Enter end date (yyyy-mm-dd): "), frmtstr)
+    elif type(end_date) == str:
+        end = datetime.datetime.strptime(end_date, frmtstr)
+    elif type(end_date) == datetime.datetime:
+        end = end_date
+    else:
+        raise TypeError('Invalid end date type')
+
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'filter': 'eventDateTime ge "%s", eventDateTime le "%s"' % (start.date().isoformat(), end.date().isoformat()),
+        'orderby': 'eventDateTime ASC'
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyevents/%s?%s" % params, headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['events']
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+def load_events(username=None, password=None, **kwargs):
+    if username == None:
+        username = input("Enter your username: ")
+    
+    db = dbconnect()
+    
+    access_token = get_token_pass(username, password)
+
+    events = get_events(access_token, kwargs)
+
+    for event in events:
+        db.load_event(start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'), #event type
