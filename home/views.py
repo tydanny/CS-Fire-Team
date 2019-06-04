@@ -21,13 +21,18 @@ def officer(request):
 	return HttpResponse(template.render(context, request))
 	
 def admin(request):
+    if request.method == "POST":
+        startTime = request.POST["time-start"]
+        endTime = request.POST["time-end"]
+    else:
+        curr = datetime.datetime.now(tz=None)
+        startTime = "%s-01-01 00:00:00.00" % curr.year
+        endTime = str(curr)
     connection = dbconnect()
     numsQuery = "SELECT id FROM PERSON;"
     nums = connection.s_query(numsQuery)
     connection.close()
-    curr = datetime.datetime.now(tz=None)
-    startTime = "%s-01-01 00:00:00.00" % curr.year
-    endTime = str(curr)
+    
     i = len(nums)
     x = 0
     empNums = []
@@ -58,11 +63,6 @@ def admin(request):
                'numOnTrack': numOnTrack,
                'numFalling': numFalling,
                'numBehind': numBehind}
-    return HttpResponse(template.render(context, request))
-
-def admin_custom(request):
-    template = loader.get_template('admin_home.html')
-    context = {}
     return HttpResponse(template.render(context, request))
     
 def user_download(request, empNum):
