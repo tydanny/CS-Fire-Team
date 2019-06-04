@@ -8,43 +8,28 @@
 	<meta charset="utf-8">
 	<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
 
-	{% if user.is_authenticated %}
-		<div id ="header">
-		<div id = "title">
-				<div id = "top">
-			<div style="display:inline-block;vertical-align:top;">
-				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
-			</div>
-			<div style="display:inline-block; vertical-align: bottom;">
-				<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
-			</div>
-			</div>
-
-			<div id = "navigation">
-				<ul>
-					<li><a href="{% url 'officer_home' %}">Home</a></li>
-					<li><a href="{% url 'officer_reports' %}">Reports</a></li>
-					<li><a href="{% url 'officer_custom' %}">Custom Reports</a></li>
-					<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
-					<li style="float:right"><a class="active" href="{% url 'officer_about' %}">About</a></li>
-				</ul>
-			</div>
-			</div>
+	<div id ="header">
+	<div id = "title">
+			<div id = "top">
+		<div style="display:inline-block;vertical-align:top;">
+			<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
 		</div>
-	{% else %}
-		<div id="centered" class="content" style="background-color:white">
-				<div class="header" style="background-color:white">
-					<h1>Access Denied</h1>
-				</div>
-				<h2 style="font-size:30px; font-size:3.2vw;">Please log in <br>to access this page</h2>
-				<br>
-				<div class="picture">
-					<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
-				</div>
-				<br><br>
-				<a href="{% url 'login' %}" class = "button">Login</a>
-			</div>
-	{% endif %}
+		<div style="display:inline-block; vertical-align: bottom;">
+			<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+		</div>
+		</div>
+
+		<div id = "navigation">
+			<ul>
+				<li><a href="{% url 'officer_home' %}">Home</a></li>
+				<li><a href="{% url 'officer_reports' %}">Reports</a></li>
+				<li><a href="{% url 'officer_custom' %}">Custom Reports</a></li>
+				<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
+				<li style="float:right"><a class="active" href="{% url 'officer_about' %}">About</a></li>
+			</ul>
+		</div>
+		</div>
+	</div>
 </head>
   <body style="background-image:url({% static 'images/background.jpg' %});">
   <main>
