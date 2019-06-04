@@ -1,12 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from dbconnect import dbconnect
-from loaders import load_note
+from source import dbconnect
 
 # Create your views here.
 def index(request):
-    connection = dbconnect()
+    connection = dbconnect.dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)
     lastQuery = "SELECT lname FROM PERSON;"
@@ -27,10 +26,12 @@ def index(request):
     template = loader.get_template('admin_personnel.html')
     context = {'employees' : emps}
     return HttpResponse(template.render(context, request))
+	
+'''
 
 def submit(request):
     try:
-        connection = dbconnect()
+        connection = dbconnect.dbconnect()
         firstName = request.POST["firstname"]
         lastName = request.POST["lastname"]
         empNum = request.POST["empNumber"]
@@ -49,18 +50,17 @@ def submit(request):
         template = loader.get_template('error.html')
         context = {}
         return HttpResponse(template.render(context, request))
+		'''
 
 def update(request):
     try:
-        connection = dbconnect()
+        connection = dbconnect.dbconnect()
         employee = request.POST["employee"]
         nums = [int(s) for s in employee.split() if s.isdigit()]
         empNum = nums[-1]
         status = request.POST["status"]
         date = request.POST["date"]
         note = request.POST["text"]
-        if note == "Enter note here...":
-            note = ""
         connection.load_person_status(status, date, str(empNum), note)
         connection.close()
         template = loader.get_template('submit.html')

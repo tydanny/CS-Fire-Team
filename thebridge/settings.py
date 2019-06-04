@@ -34,10 +34,10 @@ ALLOWED_HOSTS = ['thebridge-gfd.herokuapp.com','127.0.0.1']
 INSTALLED_APPS = [
     'reports.apps.ReportsConfig',
     'personnel.apps.PersonnelConfig',
-    'home.apps.HomeConfig',
     'about.apps.AboutConfig',
     'import.apps.ImportConfig',
 	'create.apps.CreateConfig',
+	'login.apps.LoginConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

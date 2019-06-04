@@ -82,8 +82,9 @@ class dbconnect():
         return report
 
     #Loads a person.
-    def load_person(self, person_id, fname, lname, title, residency, start):
-        self.i_query("INSERT INTO person (id, fname, lname, title, resident) VALUES ('%s', '%s', '%s', '%s', '%s');" % (self.id, self.fname, self.lname))
+    def load_person(self, id, fname, lname, title, residency, start):
+        self.i_query("INSERT INTO person (id, fname, lname, title, resident) VALUES ('%s', '%s', '%s', '%s', '%s');" % (id, fname, lname, title, residency))
+        self.load_person_status('Active', start, id, 'Start Day')
 
     #Takes in incident id, time, category, and response.
     def load_incident(self, id, time, category, response):
@@ -149,6 +150,17 @@ class dbconnect():
         """ % (start, end, id))
 
     def get_title(self, id):
-        return self.s_query("""
+        title = self.s_query("""
         SELECT title FROM person WHERE id='%s';
-        """)
+        """ % (id))
+        return title[0][0]
+
+    def update_permissions(self, id, newper):
+        self.i_query("""
+        UPDATE person SET title='%s' WHERE id='%s';
+        """ % (newper, id))
+
+    def delete_status(self, id, date_change, status):
+        self.i_query("""
+        DELETE FROM person_status WHERE id='%s' AND date_change='%s' AND status='%s';
+        """ % (id, date_change, status))

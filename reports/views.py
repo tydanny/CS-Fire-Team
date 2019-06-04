@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from dbconnect import dbconnect
-from report import Report
-from losap import LOSAP
+from source import dbconnect, losap as lo
+from source import report as rep
 import datetime
 import csv
 
@@ -14,7 +13,7 @@ def officer(request):
 	return HttpResponse(template.render(context, request))
 	
 def admin(request):
-    connection = dbconnect()
+    connection = dbconnect.dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)
     lastQuery = "SELECT lname FROM PERSON;"
@@ -38,7 +37,7 @@ def admin(request):
 
 
 def index(request):
-    connection = dbconnect()
+    connection = dbconnect.dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)
     lastQuery = "SELECT lname FROM PERSON;"
@@ -69,7 +68,7 @@ def submit(request):
         endTime = "%s %s" % (endDate, currTime)
         reportType = request.POST["type"]
         staff = request.POST.getlist("staff")
-        connection = dbconnect()
+        connection = dbconnect.dbconnect()
         empNums = []
         if staff[0] == "Generate For All":
             numsQuery = "SELECT id FROM PERSON;"
@@ -104,7 +103,7 @@ def officer_submit(request):
         endTime = "%s %s" % (endDate, currTime)
         reportType = request.POST["type"]
         staff = request.POST.getlist("staff")
-        connection = dbconnect()
+        connection = dbconnect.dbconnect()
         empNums = []
         if staff[0] == "Generate For All":
             numsQuery = "SELECT id FROM PERSON;"
@@ -138,7 +137,7 @@ def admin_submit(request):
         endTime = "%s %s" % (endDate, currTime)
         reportType = request.POST["type"]
         staff = request.POST.getlist("staff")
-        connection = dbconnect()
+        connection = dbconnect.dbconnect()
         empNums = []
         if staff[0] == "Generate For All":
             numsQuery = "SELECT id FROM PERSON;"
@@ -167,7 +166,7 @@ def __generate_report(empNums, startTime, endTime, reportType):
     reports = []
     if reportType == "LOSAP":
         for emp in empNums:
-            report = LOSAP(str(emp), startTime, endTime)
+            report = lo.LOSAP(str(emp), startTime, endTime)
             report.compute_losap()
             reports.append(report)
         if len(reports) >= 1:
@@ -182,7 +181,7 @@ def __generate_report(empNums, startTime, endTime, reportType):
             return response
     else:
         for emp in empNums:
-            report = Report(str(emp), startTime, endTime)
+            report = rep.Report(str(emp), startTime, endTime)
             report.compute_full_report()
             reports.append(report)
         if len(reports) >= 1:

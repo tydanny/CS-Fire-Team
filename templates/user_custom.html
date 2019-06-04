@@ -4,7 +4,6 @@
 {% block title %}Custom Reports{% endblock %}
 
 {% block content %}
-	{% if user.is_authenticated %}
 		<div id="centered" class="content">
 			<div class="header">
 				<h1>View Time Logs</h1>
@@ -13,11 +12,11 @@
 			<form method="post">{% csrf_token %}
 				<div class="header">
 					<label for="start">Start date:</label>
-					<input type="date" id="start" name="time-start"[0-9]{4}-[0-9]{2}-[0-9]{2}" required">
+					<input type="date" id="start" name="time-start" required>
 					<br><br><br>
 
 					<label for="end">End date  : </label>
-					<input type="date" id="end" name="time-end"[0-9]{4}-[0-9]{2}-[0-9]{2}" required">
+					<input type="date" id="end" name="time-end" required>
 					
 					<br><br> 
 				</div>
@@ -126,6 +125,4 @@
 				$(this).attr('title', $(this).text())
 			});
 		</script>
-			
-	{% endif %}	
 {% endblock %}

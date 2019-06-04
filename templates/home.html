@@ -28,7 +28,7 @@
 		<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
 	
 		{% if user.is_authenticated %}
-			<!--This is how you do automatic redirecting-->
+			<!--automatic redirecting-->
 			<!--<meta http-equiv="refresh" content="0; URL=http://127.0.0.1:8000/home/" />-->
 			<div id="main">
 				<a href="{% url 'admin_home' %}" class = "button">Admin View</a>
