@@ -186,12 +186,12 @@ margin-right: auto;
 width: 84%;
 }
 
-#value {
+.value {
 font-size: 60px;
 font-size: 6vw;
 }
 
-#label {
+.label {
 font-size: 35px;
 font-size: 2.6vw;
 }
