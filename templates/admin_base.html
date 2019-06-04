@@ -2,42 +2,39 @@
 <!DOCTYPE html>
 {% load static from staticfiles %}
 <html>
-	<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="{% static 'style/site.css' %}">
-	<meta charset="utf-8">
-	<title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
-
-		<div id ="header">
-			<div id = "title">
-				<div id = "top">
-					<div style="display:inline-block;vertical-align:top;">
-						<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
-					</div>
-					<div style="display:inline-block; vertical-align: bottom;">
-						<font face = "georgia">&nbsp&nbspGolden Fire Department Information Tracker</font>
-					</div>
-				</div>
-				
-
-				<div id = "navigation">
-					<ul>
-						<li><a href="{% url 'admin_home' %}">Home</a></li>
-						<li><a href="{% url 'admin_reports' %}">Reports</a></li>
-						<li><a href="{% url 'admin_custom' %}">Custom Reports</a></li>
-						<li><a href="{% url 'personnel' %}">Personnel</a></li>
-						<li><a href="{% url 'import' %}">Import</a></li>
-						<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
-						<li style="float:right"><a class="active" href="{% url 'admin_about' %}">About</a></li>
-					</ul>
-				</div>
-			</div>
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'style/site.css' %}">
+  <meta charset="utf-8">
+  <title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
+    <div id ="header">
+      <div id = "title">
+	    <div id = "top">
+		  <div style="display:inline-block;vertical-align:top;">
+		    <img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+		  </div>
+		  <div style="display:inline-block; vertical-align: bottom;">
+		    <font face = "georgia">&nbsp&nbspGolden Fire Department Information Tracker</font>
+		  </div>
 		</div>
-</head>
- <body style="background-image:url({% static 'images/background.jpg' %});">
- <main>
-    {% block content %}
-	{% endblock %}
-  </main>
-</body>
+		<div id = "navigation">
+		  <ul>
+		    <li><a href="{% url 'admin_home' %}">Home</a></li>
+			<li><a href="{% url 'admin_reports' %}">Reports</a></li>
+			<li><a href="{% url 'admin_custom' %}">Custom Reports</a></li>
+			<li><a href="{% url 'personnel' %}">Personnel</a></li>
+			<li><a href="{% url 'import' %}">Import</a></li>
+			<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
+			<li style="float:right"><a class="active" href="{% url 'admin_about' %}">About</a></li>
+	      </ul>
+		</div>
+	  </div>
+    </div>
+  </head>
+    <body style="background-image:url({% static 'images/background.jpg' %});">
+      <main>
+      {% block content %}
+	  {% endblock %}
+      </main>
+    </body>
 </html>
