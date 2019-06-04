@@ -351,3 +351,38 @@ def get_event_people(event_type, access_token):
         return j["eventPeople"]
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+def get_people(access_token):
+    headers = {
+        # Request headers
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+        'Authorization': '{access token}',
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'rowVersion': '{string}',
+        'limit': '{string}',
+        'offset': '{string}',
+        'filter': '{string}',
+        'orderby': '{string}',
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyusers/users?%s" % params, "{body}", headers)
+        response = conn.getresponse()
+        data = response.read()
+        
+        for p in data['users']:
+            l,f = split(', ', 1)
+            id = p['agencyPersonnelID']
+			#They said that they use shift to store residency
+			#Still need to find out how to get start date
+            if(not db.get_person(id)):
+                db.load_person(id, f, l, p['title'], p['shift'])
+        
+        conn.close()
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
