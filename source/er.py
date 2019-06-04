@@ -17,26 +17,19 @@ def load_incidents(username=None, password=None, **kwargs):
     
     access_token = get_token_pass(username, password)
     
-    incidentIDs = get_incidents(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
-
-    c = []
-    n = []
+    incidents = get_incidents(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
     
-    for incident in incidentIDs: 
-        n.append(incident['incidentNumber'])
-        exposureID = get_exposureIDs(incident['incidentID'], access_token)
-
-        crewMembers = get_crewMembers(exposureID[0]['exposureID'], access_token)
+    for incident in incidents:
+        exposures = get_exposures(incident['incidentID'], access_token)
         
         #The 0 will be changed to a call once we figure out how to get the start time.
-        db.load_incident(incident['incidentNumber'], incident['incidentDateTime'], exposureID['incidentType'], 0)
+        db.load_incident(incident['incidentNumber'], incident['incidentDateTime'], exposures[0]['incidentType'], 0)
         
-        #May need to chance the parameter, userID might not be the one we need.
-        for member in crewMembers:
-            db.load_person_xref_shift(incident['incidentNumber'], member['userID'])
-            c.append(get_user(member['userID'], access_token)['fullName'])
-
-    return n
+        for exposure in exposures:
+            crewMembers = get_crewMembers(exposures[0]['exposureID'], access_token)
+            #May need to chance the parameter, userID might not be the one we need.
+            for member in crewMembers:
+                db.load_person_xref_incident(incident['incidentID'], member['agencyPersonnelID'])
     
     
 def get_auth(username, password):
@@ -178,7 +171,7 @@ def get_pass():
     except Exception as e:
         print('Password Error: ', e)
 
-def get_exposureIDs(incidentID, access_token):
+def get_exposures(incidentID, access_token):
     
     headers = {
         # Request headers
