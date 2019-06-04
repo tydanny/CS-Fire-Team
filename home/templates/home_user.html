@@ -8,7 +8,7 @@
 	</head>
 	
 	<body style="background-image:url({% static 'images/background.jpg' %});">
-		{% if user.is_authenticated %}
+		
 		<div id ="roof">
 			<div id="top">
 				<div style="display:inline-block;vertical-align:top;">
@@ -179,10 +179,10 @@
 					<br>
 				</div>
 				<button class="button" onclick="window.print()">Print</button>
-				<button class="button" onclick="window.location.href = 'download/';">Download</button>
+				<button class="button" onclick="window.location.href = 'download/{{empNum}}/';">Download</button>
 			</div>
 		</div>
-		{%else%}
+		<!--
 			<div id="centered" class="content" style="background-color:white">
 				<div class="header" style="background-color:white">
 					<h1>Access Denied</h1>
@@ -197,6 +197,6 @@
 				<br><br>
 				<a href="{% url 'login' %}" class = "button">Login</a>
 			</div>
-		{%endif%}
+		-->
 	</body>			
 </html>
