@@ -147,3 +147,8 @@ class dbconnect():
         return self.s_query("""
         SELECT * FROM incident WHERE tstamp BETWEEN '%s' AND '%s' AND id IN (SELECT incident_id FROM person_xref_incident WHERE person_id='%s');
         """ % (start, end, id))
+
+    def get_title(self, id):
+        return self.s_query("""
+        SELECT title FROM person WHERE id='%s';
+        """)
