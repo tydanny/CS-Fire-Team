@@ -113,9 +113,9 @@ class dbconnect():
         self.i_query("INSERT INTO event (id, tstart, tend, etype) VALUES ('%s', '%s', '%s', '%s');" % (id, tstart, tend, etype))
 
     #Loads a person_xref_event.  Person_id is a LIST of all the ids for the people who worked an event.	
-    def load_person_xref_event(self, tstart, tend, etype, person_id):
+    def load_person_xref_event(self, event_id, person_id):
         for p in people_id:
-            self.i_query("INSERT INTO person_xref_event (tstart, tend, etype, person_id) VALUES ('%s', '%s', '%s', '%s');" % (tstart, tend, etype, p))
+            self.i_query("INSERT INTO person_xref_event (event_id, person_id) VALUES ('%s', '%s');" % (event_id, person_id))
 
     def get_person(self, id1):
         return self.s_query("""
