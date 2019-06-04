@@ -26,6 +26,8 @@ def index(request):
     template = loader.get_template('admin_personnel.html')
     context = {'employees' : emps}
     return HttpResponse(template.render(context, request))
+	
+'''
 
 def submit(request):
     try:
@@ -48,6 +50,7 @@ def submit(request):
         template = loader.get_template('error.html')
         context = {}
         return HttpResponse(template.render(context, request))
+		'''
 
 def update(request):
     try:
@@ -58,8 +61,6 @@ def update(request):
         status = request.POST["status"]
         date = request.POST["date"]
         note = request.POST["text"]
-        if note == "Enter note here...":
-            note = ""
         connection.load_person_status(status, date, str(empNum), note)
         connection.close()
         template = loader.get_template('submit.html')

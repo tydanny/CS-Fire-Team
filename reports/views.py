@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from source import dbconnect, losap
-from source import report.Report as Report
+from source import dbconnect, losap as lo
+from source import report as rep
 import datetime
 import csv
 
@@ -166,7 +166,7 @@ def __generate_report(empNums, startTime, endTime, reportType):
     reports = []
     if reportType == "LOSAP":
         for emp in empNums:
-            report = LOSAP(str(emp), startTime, endTime)
+            report = lo.LOSAP(str(emp), startTime, endTime)
             report.compute_losap()
             reports.append(report)
         if len(reports) >= 1:
@@ -181,7 +181,7 @@ def __generate_report(empNums, startTime, endTime, reportType):
             return response
     else:
         for emp in empNums:
-            report = Report(str(emp), startTime, endTime)
+            report = rep.Report(str(emp), startTime, endTime)
             report.compute_full_report()
             reports.append(report)
         if len(reports) >= 1:
