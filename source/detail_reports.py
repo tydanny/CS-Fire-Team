@@ -1,4 +1,4 @@
-import dbconnect
+from source import dbconnect
 
 class Event_Detail_Report():
     def __init__(self, empNum, startTime, endTime, reportType):
