@@ -1,11 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from django import forms
-import csv
-
-class DataInput(forms.Form):
-    file = forms.FileField()
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 def index(request):
@@ -14,11 +10,12 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 def upload(request):
-    if request.method == "POST":
-        csv_file = DataInput(request.POST, request.FILES)
-        csv_lines = csv.reader(csv_file.cleaned_data["file"])
-        for line in csv_lines:
-            print(line)
-        return HttpResponse("SUCCESS")
-    else:
-        return HttpResponse("OH NOOOO")
+    try:
+        myfile = request.FILES['fileToUpload']
+        template = loader.get_template('submit.html')
+        context = {}
+        return HttpResponse(template.render(context, request))
+    except:
+        template = loader.get_template('error.html')
+        context = {}
+        return HttpResponse(template.render(context, request))
