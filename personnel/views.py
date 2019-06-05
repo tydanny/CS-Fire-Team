@@ -4,7 +4,7 @@ from django.template import loader
 from source import dbconnect
 
 # Create your views here.
-def index(request):
+def index(request, refreshToken):
     connection = dbconnect.dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)

@@ -258,7 +258,6 @@ def user_download(request, empNum):
     return response
 	
 def admin(request, refreshToken):
-	print(refreshToken)
 	response = er.refresh(refreshToken)
 	
 	if 'error' in response.keys():

@@ -6,7 +6,7 @@ from source import converters
 
 
 # Create your views here.
-def index(request):
+def index(request, refreshToken):
     template = loader.get_template('admin_import.html')
     context = {}
     return HttpResponse(template.render(context, request))

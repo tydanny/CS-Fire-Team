@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from source import dbconnect, losap as lo
-from source import report as rep
+from source import report as rep, er
 import datetime
 import csv
 
@@ -12,7 +12,14 @@ def officer(request):
 	context = {}
 	return HttpResponse(template.render(context, request))
 	
-def admin(request):
+def admin(request, refreshToken):
+    response = er.refresh(refreshToken)
+	
+    if 'error' in response.keys():
+        template = loader.get_template('login.html')
+        context = {"error":"access_error"}
+        return HttpResponse(template.render(context, request))
+
     connection = dbconnect.dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)
@@ -32,7 +39,10 @@ def admin(request):
         emps.append(emp)
         x += 1
     template = loader.get_template('admin_reports.html')
-    context = {'employees' : emps}
+    context = {
+        'employees' : emps,
+        'refreshToken' : response['refresh_token']
+    }
     return HttpResponse(template.render(context, request))
 
 

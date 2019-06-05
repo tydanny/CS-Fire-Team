@@ -15,7 +15,7 @@ def user(request):
 	context = {}
 	return HttpResponse(template.render(context, request))
 
-def custom(request):
+def custom(request, refreshToken):
     connection = dbconnect.dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)
