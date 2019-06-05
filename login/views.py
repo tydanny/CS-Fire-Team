@@ -258,10 +258,21 @@ def user_download(request, empNum):
     return response
 	
 def admin(request, refreshToken):
+	print(refreshToken)
+	response = er.refresh(refreshToken)
 	
-	curr = datetime.datetime.now(tz=None)
-	startTime = "%s-01-01 00:00:00.00" % curr.year
-	endTime = str(curr)
+	if 'error' in response.keys():
+		template = loader.get_template('login.html')
+		context = {"error":"access_error"}
+		return HttpResponse(template.render(context, request))
+
+	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
+		startTime = request.POST['time-start']
+		endTime = request.POST['time-end']
+	else:
+		curr = datetime.datetime.now(tz=None)
+		startTime = "%s-01-01 00:00:00.00" % curr.year
+		endTime = str(curr)
 	connection = dbconnect.dbconnect()
 	numsQuery = "SELECT id FROM PERSON;"
 	nums = connection.s_query(numsQuery)
@@ -296,15 +307,32 @@ def admin(request, refreshToken):
 	context = {'numComplete': numComplete,
 			   'numOnTrack': numOnTrack,
 			   'numFalling': numFalling,
-			   'numBehind': numBehind}
+			   'numBehind': numBehind,
+			   'refreshToken': response['refresh_token']}
 	return HttpResponse(template.render(context, request))
 
 def officer(request):
+	response = er.refresh(refreshToken)
+	
+	if 'error' in response.keys():
+		template = loader.get_template('login.html')
+		context = {"error":"access_error"}
+		return HttpResponse(template.render(context, request))
+
 	template = loader.get_template('officer_home.html')
 	context = {}
 	return HttpResponse(template.render(context, request))
 	
 def user(request, refreshToken):
+	response = er.refresh(refreshToken)
+	
+	if 'error' in response.keys():
+		template = loader.get_template('login.html')
+		context = {"error":"access_error"}
+		return HttpResponse(template.render(context, request))
+		
+	empNum = er.get_my_user(response['access_token'])['agencyPersonnelID']
+
 	tarTrainings = 60
 	tarShifts = 36
 	tarActCalls = 54
@@ -312,9 +340,7 @@ def user(request, refreshToken):
 	tarApparatus = 12
 	tarFunds = 1
 	tarMeets = 6
-	##
-	empNum = 1
-	##
+
 	curr = datetime.datetime.now(tz=None)
 	startTime = "%s-01-01 00:00:00.00" % curr.year
 	endTime = str(curr)
