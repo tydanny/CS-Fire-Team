@@ -5,7 +5,7 @@
   <div id="centered" class="content-wide">
 	<div class="header">
 	  <h1>Dashboard</h1>
-	  <form action="" method="post">{% csrf_token %}
+	  <form action="{% url 'admin_home' refreshToken=refreshToken %}" method="post">{% csrf_token %}
 		<label for="start">Start date:</label>
 		<input type="date" id="start" name="time-start" "[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
 		<br><br>
