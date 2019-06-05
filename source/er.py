@@ -93,6 +93,43 @@ def get_token_pass(username=None, password=None):
         print(data)
         print(e)
 
+def get_token_ref(username=None, password=None):
+
+    if username == None:
+        username = input("Enter your username: ")
+
+    if password == None:
+        password = get_pass()
+
+    headers = {
+        # Request headers
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+    }
+
+    params = urllib.parse.urlencode({
+    })
+
+    body = { 
+        "grant_type": "password",
+        "client_id": "city_of_golden",
+        "client_secret": "d4f030ead6c2d25aed4a57ad8912f90c7f5668a0",
+        "username": username,
+        "password": password
+    }
+    j = json.dumps(body)
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("POST", "/authpass/Token.php?%s" % params, j, headers)
+        response = conn.getresponse()
+        data = json.loads(response.read().decode())
+        conn.close()
+        return data
+    except Exception as e:
+        print(data)
+        print(e)
+
 def get_token(auth_code):
 
     headers = {
@@ -422,5 +459,34 @@ def get_event_types(access_token=None, **kwargs):
         j = json.loads(data)
         conn.close()
         return j['eventTypes']
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+def refresh(refresh_token):
+    headers = {
+        # Request headers
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+    }
+
+    body = {
+        "grant_type": "refresh_token", 
+        "client_id": "city_of_golden", 
+        "client_secret" : "d4f030ead6c2d25aed4a57ad8912f90c7f5668a0", 
+        "refresh_token" : refresh_token
+    }
+
+    j = json.dumps(body)
+
+    params = urllib.parse.urlencode({
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("POST", "/refreshtoken/Token.php?%s" % params, j, headers)
+        response = conn.getresponse()
+        data = json.loads(response.read().decode())
+        conn.close()
+        return data
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
