@@ -109,8 +109,8 @@ class Report():
             self.apparatus = appar[0][0]
 
     def compute_fundraisers(self):
-        funds = self.connection.s_query("""SELECT COUNT(*) FROM event AS e, person_xref_event
-        AS pe WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.tstart = pe.tstart AND e.tend = pe.tend AND e.etype = pe.type
+        funds = self.connection.s_query("""SELECT COUNT(*) FROM event AS e, person_xref_event AS pe 
+        WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
         AND e.etype = 'work detail-fundraiser';""" % (self.empNum, self.startTime, self.endTime))
         if funds == None:
             self.fundraisers = 0
@@ -119,8 +119,8 @@ class Report():
 
     def compute_meetings(self):
         meets = self.connection.s_query("""SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
-        WHERE pe.person_id = '%s' AND e.etype = 'meeting' AND e.tstart BETWEEN '%s'
-        AND '%s' AND e.tstart = pe.tstart AND e.tend = pe.tend AND e.etype = pe.type;""" % (self.empNum, self.startTime, self.endTime))
+        WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
+        AND e.etype = 'meeting';""" % (self.empNum, self.startTime, self.endTime))
         if meets == None:
             self.meetings = 0
         else:
@@ -129,7 +129,7 @@ class Report():
     def compute_trainings(self):
         training = self.connection.s_query("""SELECT e.tend-e.tstart, e.etype FROM event AS e, person_xref_event AS pe
         WHERE pe.person_id = '%s' AND e.etype LIKE 'training%%' AND e.tstart BETWEEN '%s'
-        AND '%s' AND e.tstart = pe.tstart AND e.tend = pe.tend AND e.etype = pe.type;""" % (self.empNum, self.startTime, self.endTime))
+        AND '%s' AND e.id = pe.event_id;""" % (self.empNum, self.startTime, self.endTime))
         
         thours = 0
         tthours = 0
