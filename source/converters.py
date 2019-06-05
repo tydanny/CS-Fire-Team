@@ -20,10 +20,8 @@ def convert_iar(filepath):
         db.load_shift(tstart,tend,location)
     role = row.loc['On duty for']
     
-    #Should work for all, since i believe psycopg2 returns a lsit even if there is only one entry.  
-    #However, it will jsut take the first id if there are two people with the same name.
     person = row.loc['First name'].split(' ')[0]
-    if(not db.get_shift(tstart, tend, location)):
+    if(not db.get_person_xref_shift(tstart, tend, location, person)):
       print(person)
       db.load_person_xref_shift(tstart, tend, location, person, role)
 

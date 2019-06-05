@@ -153,6 +153,11 @@ class dbconnect():
         SELECT * FROM shift WHERE tstart='%s' AND tend='%s' AND station='%s';
         """ % (start, end, location))
 
+    def get_person_xref_shift(self, tstart, tend, location, person_id):
+        return self.s_query("""
+        SELECT * FROM person_xref_shift WHERE tstart='%s' AND tend='%s' AND station='%s' AND person_id='%s';
+        """ % (start, end, location, person_id))
+
     def get_actual_calls(self, id, start, end):
         return self.s_query("""
         SELECT * FROM incident WHERE tstamp BETWEEN '%s' AND '%s' AND id IN (SELECT incident_id FROM person_xref_incident WHERE person_id='%s');
