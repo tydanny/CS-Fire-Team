@@ -92,3 +92,17 @@ form {
 	font-size: 15px;
 	font-size: 1.8vw;
 }
+
+.para {
+    border-radius: 90px / 100px; /* horizontal radius, vertical radius */
+    width: 100%;
+    text-align: left;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    background: #333;
+    margin-top: 50px;
+    color: white;
+	border-style: outset;
+}
