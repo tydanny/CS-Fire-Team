@@ -1,0 +1,210 @@
+<html xmlns:x="urn:schemas-microsoft-com:office:excel"><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Report Data</x:Name><x:WorksheetOptions><x:Print><x:ValidPrinterInfo/></x:Print></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--> Total number of All shifts hours for GOLDEN FIRE DEPT: 512 hrs 0 mins<div>
+	<table class="apparatus-report" cellspacing="0" border="0" id="GridView2" style="border-collapse:collapse;">
+		<tr>
+			<th scope="col">Last name</th><th scope="col">First name</th><th scope="col">Start date</th><th scope="col">Start time</th><th scope="col">End date</th><th scope="col">End time</th><th scope="col">On duty for</th><th scope="col">On duty at</th><th scope="col">Shift hours</th>
+		</tr><tr class="toprow">
+			<td>Fire</td><td>1 James</td><td>04/30/2019</td><td>07:00</td><td>05/02/2019</td><td>07:00</td><td>ShftOffcr</td><td>Station 1                                         </td><td align="right">31</td>
+		</tr><tr class="toprow">
+			<td>Doe</td><td>7 John</td><td>04/30/2019</td><td>19:00</td><td>05/01/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">7</td>
+		</tr><tr class="toprow">
+			<td>Smokes</td><td>1234 Jenny</td><td>05/01/2019</td><td>06:45</td><td>05/02/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">24.25</td>
+		</tr><tr class="toprow">
+			<td>Test</td><td>90 Ty</td><td>05/01/2019</td><td>07:00</td><td>05/01/2019</td><td>18:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">11</td>
+		</tr><tr class="toprow">
+			<td>Test</td><td>888 Hannah</td><td>05/01/2019</td><td>07:00</td><td>05/01/2019</td><td>18:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">11</td>
+		</tr><tr class="toprow">
+			<td>Hufford</td><td>12346 Heidi</td><td>05/01/2019</td><td>07:00</td><td>05/01/2019</td><td>18:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">11</td>
+		</tr><tr class="toprow">
+			<td>Christensen</td><td>12347 Ty</td><td>05/01/2019</td><td>07:00</td><td>05/01/2019</td><td>17:00</td><td>Available</td><td>Station 1                                         </td><td align="right">10</td>
+		</tr><tr class="toprow">
+			<td>Fire</td><td>1 James</td><td>05/01/2019</td><td>18:00</td><td>05/02/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">13</td>
+		</tr><tr class="toprow">
+			<td>Doe</td><td>7 John</td><td>05/02/2019</td><td>07:00</td><td>05/02/2019</td><td>17:00</td><td>Available</td><td>Station 1                                         </td><td align="right">10</td>
+		</tr><tr class="toprow">
+			<td>Smokes</td><td>1234 Jenny</td><td>05/02/2019</td><td>07:00</td><td>05/04/2019</td><td>07:00</td><td>ShftOffcr</td><td>Station 1                                         </td><td align="right">48</td>
+		</tr><tr class="toprow">
+			<td>Test</td><td>90 Ty</td><td>05/02/2019</td><td>18:00</td><td>05/03/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">13</td>
+		</tr><tr class="toprow">
+			<td>Test</td><td>888 Hannah</td><td>05/03/2019</td><td>07:00</td><td>05/03/2019</td><td>16:00</td><td>Available</td><td>Station 1                                         </td><td align="right">9</td>
+		</tr><tr class="toprow">
+			<td>Hufford</td><td>12346 Heidi</td><td>05/03/2019</td><td>09:00</td><td>05/03/2019</td><td>18:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">9</td>
+		</tr><tr class="toprow">
+			<td>Christensen</td><td>12347 Ty</td><td>05/03/2019</td><td>18:00</td><td>05/04/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">13</td>
+		</tr><tr class="toprow">
+			<td>Levy</td><td>12349 Hannah</td><td>05/03/2019</td><td>18:00</td><td>05/04/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">13</td>
+		</tr><tr class="toprow">
+			<td>Fire</td><td>1 James</td><td>05/03/2019</td><td>18:00</td><td>05/04/2019</td><td>18:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">24</td>
+		</tr><tr class="toprow">
+			<td>Doe</td><td>7 John</td><td>05/03/2019</td><td>18:00</td><td>05/05/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">37</td>
+		</tr><tr class="toprow">
+			<td>Smokes</td><td>1234 Jenny</td><td>05/04/2019</td><td>06:00</td><td>05/04/2019</td><td>18:00</td><td>ComDtyOff</td><td>Home                                              </td><td align="right">12</td>
+		</tr><tr class="toprow">
+			<td>Test</td><td>90 Ty</td><td>05/04/2019</td><td>07:00</td><td>05/06/2019</td><td>07:00</td><td>ShftOffcr</td><td>Station 1                                         </td><td align="right">48</td>
+		</tr><tr class="toprow">
+			<td>Test</td><td>888 Hannah</td><td>05/05/2019</td><td>06:00</td><td>05/05/2019</td><td>18:00</td><td>ComDtyOff</td><td>In Area                                           </td><td align="right">12</td>
+		</tr><tr class="toprow">
+			<td>Hufford</td><td>12346 Heidi</td><td>05/05/2019</td><td>07:00</td><td>05/06/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">24</td>
+		</tr><tr class="toprow">
+			<td>Christensen</td><td>12347 Ty</td><td>05/05/2019</td><td>18:00</td><td>05/06/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">13</td>
+		</tr><tr class="toprow">
+			<td>Levy</td><td>12349 Hannah</td><td>05/05/2019</td><td>19:00</td><td>05/06/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">12</td>
+		</tr><tr class="toprow">
+			<td>Fire</td><td>1 James</td><td>05/05/2019</td><td>19:30</td><td>05/06/2019</td><td>06:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">10.5</td>
+		</tr><tr class="toprow">
+			<td>Doe</td><td>7 John</td><td>05/06/2019</td><td>07:00</td><td>05/06/2019</td><td>17:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">10</td>
+		</tr><tr class="toprow">
+			<td>Smokes</td><td>1234 Jenny</td><td>05/06/2019</td><td>07:00</td><td>05/08/2019</td><td>07:00</td><td>ShftOffcr</td><td>Station 1                                         </td><td align="right">41</td>
+		</tr><tr class="toprow">
+			<td>Test</td><td>90 Ty</td><td>05/06/2019</td><td>12:30</td><td>05/06/2019</td><td>16:00</td><td>Available</td><td>Station 1                                         </td><td align="right">3.5</td>
+		</tr><tr class="toprow">
+			<td>Test</td><td>888 Hannah</td><td>05/06/2019</td><td>18:00</td><td>05/07/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">13</td>
+		</tr><tr class="toprow">
+			<td>Hufford</td><td>12346 Heidi</td><td>05/07/2019</td><td>09:00</td><td>05/07/2019</td><td>14:00</td><td>Available</td><td>Station 1                                         </td><td align="right">5</td>
+		</tr><tr class="toprow">
+			<td>Christensen</td><td>12347 Ty</td><td>05/07/2019</td><td>10:45</td><td>05/07/2019</td><td>14:30</td><td>Available</td><td>Station 1                                         </td><td align="right">3.75</td>
+		</tr><tr class="toprow">
+			<td>Levy</td><td>12349 Hannah</td><td>05/07/2019</td><td>14:00</td><td>05/08/2019</td><td>07:00</td><td>Available</td><td>Station 1                                         </td><td align="right">10</td>
+		</tr>
+	</table>
+</div><div>
+	<table class="apparatus-report" cellspacing="0" border="0" id="GridView3" style="border-collapse:collapse;">
+		<tr>
+			<th scope="col">Name</th><th scope="col">Total hours</th>
+		</tr><tr class="toprow">
+			<td>13721 George Stern</td><td>
+                                <span>
+                                    13 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13091 Marc Staley</td><td>
+                                <span>
+                                    72 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>12258 Jeff Hulse</td><td>
+                                <span>
+                                    48 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13928 Stas Koptev</td><td>
+                                <span>
+                                    13 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>12257 Case Collard</td><td>
+                                <span>
+                                    10 hrs 30 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>12741 Jonathan A Priestly</td><td>
+                                <span>
+                                    9 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>10243 Jeff Steinhoff</td><td>
+                                <span>
+                                    29 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13926 Ryan Hyde</td><td>
+                                <span>
+                                    22 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13942 Hunter King</td><td>
+                                <span>
+                                    11 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>14137 Alicia Welch</td><td>
+                                <span>
+                                    12 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13932 Scott Vigil</td><td>
+                                <span>
+                                    11 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13484 Kayla Rhoades</td><td>
+                                <span>
+                                    13 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>12551 Michael Jojola</td><td>
+                                <span>
+                                    24 hrs 15 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>12755 Chase Whitaker</td><td>
+                                <span>
+                                    13 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>12908 Joseph Trujillo</td><td>
+                                <span>
+                                    13 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13929 Jason Miller</td><td>
+                                <span>
+                                    11 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>11276 Joe Gross</td><td>
+                                <span>
+                                    12 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>10784 JJ Risch</td><td>
+                                <span>
+                                    5 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13931 John Templeton</td><td>
+                                <span>
+                                    3 hrs 30 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13307 William Moorhead</td><td>
+                                <span>
+                                    3 hrs 45 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>12545 Anthony Martinez</td><td>
+                                <span>
+                                    24 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>11997 Jason Flickner</td><td>
+                                <span>
+                                    10 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13471 Kyle Diethorn</td><td>
+                                <span>
+                                    7 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>12105 Jason Mulari</td><td>
+                                <span>
+                                    48 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13727 Brandon Dobson</td><td>
+                                <span>
+                                    13 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>12911 Daniel Watters</td><td>
+                                <span>
+                                    24 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13309 Scott Hofmann</td><td>
+                                <span>
+                                    37 hrs 0 mins</span>
+                            </td>
+		</tr>
+	</table>
+</div></head>
