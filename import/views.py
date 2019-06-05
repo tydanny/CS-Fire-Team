@@ -13,7 +13,9 @@ def index(request):
 
 def upload(request):
     try:
+        print('GOT HERE')
         myfile = request.FILES['fileToUpload']
+        print('GOT HERE')
         template = loader.get_template('submit.html')
         context = {}
         
