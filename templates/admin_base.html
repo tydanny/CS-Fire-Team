@@ -19,12 +19,12 @@
 		<div id = "navigation">
 		  <ul>
 			<li><a href="{% url 'admin_home' refreshToken=refreshToken %}">Home</a></li>
-			<li><a href="{% url 'admin_reports' %}">Reports</a></li>
-			<li><a href="{% url 'admin_custom' %}">Custom Reports</a></li>
-			<li><a href="{% url 'personnel' %}">Personnel</a></li>
-			<li><a href="{% url 'import' %}">Import</a></li>
+			<li><a href="{% url 'admin_reports' refreshToken=refreshToken %}">Reports</a></li>
+			<li><a href="{% url 'admin_custom' refreshToken=refreshToken %}">Custom Reports</a></li>
+			<li><a href="{% url 'personnel' refreshToken=refreshToken %}">Personnel</a></li>
+			<li><a href="{% url 'import' refreshToken=refreshToken %}">Import</a></li>
 			<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
-			<li style="float:right"><a class="active" href="{% url 'admin_about' %}">About</a></li>
+			<li style="float:right"><a class="active" href="{% url 'admin_about' refreshToken=refreshToken %}">About</a></li>
 	      </ul>
 		</div>
 	  </div>
