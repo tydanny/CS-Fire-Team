@@ -117,10 +117,13 @@ class dbconnect():
         for p in people_id:
             self.i_query("INSERT INTO person_xref_event (event_id, person_id) VALUES ('%s', '%s');" % (event_id, person_id))
 
-    def get_person(self, id1):
+    def get_person(self, id):
         return self.s_query("""
         SELECT * FROM person WHERE id='%s';
-        """ % (id1))
+        """ % (id))
+
+    def get_ids(self):
+        return self.s_query("SELECT id FROM person")
 
     def get_statuses(self, id):
         return self.s_query("""
@@ -170,3 +173,6 @@ class dbconnect():
         self.i_query("""
         DELETE FROM person_status WHERE id='%s' AND date_change='%s' AND status='%s';
         """ % (id, date_change, status))
+
+    def get_wdt(self, id, start, end):
+        return None
