@@ -57,7 +57,8 @@ class Report():
         self.compute_fundraisers()
         self.compute_meetings()
         self.compute_trainings()
-        self.compute_service()
+        #TODO:FIX COMPUTE SERVICE
+        #self.compute_service()
         self.compute_employee_details()
         self.compute_employee_status()
         self.create_csv_row()
@@ -89,15 +90,12 @@ class Report():
         self.totCalls = self.actCalls + (2 * self.shifts)
 
     def compute_work_detail_hours(self):
-        wdt = self.connection.s_query("""
-        SELECT e.tend-e.tstart, e.etype FROM event AS e, person_xref_event
-        AS pe WHERE pe.person_id = '%s' AND e.etype LIKE 'work detail%%' AND e.tstart BETWEEN '%s'
-        AND '%s' AND e.tstart = pe.tstart AND e.tend = pe.tend AND e.etype = pe.type;""" % (self.empNum, self.startTime, self.endTime))        
+        wdt = self.connection.get_wdt(str(self.empNum), self.startTime, self.endTime)
         wdthours = 0
         if wdt != None:
             for w in wdt:
                 wdthours += (w[0].seconds/3600) + (w[0].days * 24)
-                
+        
         self.WDHours = wdthours
 
     def compute_apparatus(self):
@@ -146,6 +144,7 @@ class Report():
 
     def compute_service(self):
         self.daysService = 0
+        print(self.empNum)
         hireDate = self.connection.get_start(str(self.empNum)).date()
         statuses = self.connection.get_statuses(str(self.empNum))
         lastStatus = statuses[-1]
