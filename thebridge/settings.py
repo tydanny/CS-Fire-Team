@@ -83,19 +83,9 @@ WSGI_APPLICATION = 'thebridge.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dn73j2q782lcl',
-        'USER': 'bhmqlaubbvqtsk',
-        'PASSWORD': '6a143a2104611cd12094839ee7853ed7c7ca2d3db74b2fff9d07e978fd8f941b',
-        'HOST': 'ec2-50-19-114-27.compute-1.amazonaws.com',
-        'PORT': '5432',
-    }
-}
+
 
 prod_db  =  dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(prod_db)
 
 
 # Password validation
