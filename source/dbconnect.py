@@ -173,3 +173,6 @@ class dbconnect():
         self.i_query("""
         DELETE FROM person_status WHERE id='%s' AND date_change='%s' AND status='%s';
         """ % (id, date_change, status))
+
+    def get_wdt(self, id, start, end):
+        return None
