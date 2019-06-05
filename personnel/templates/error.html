@@ -2,8 +2,8 @@
 {% load static %}
 
 <html>
-	<head>
-		<style>
+  <head>
+	<style>
   
 			* {
 			box-sizing: border-box;
@@ -232,39 +232,35 @@
 		#top {
 			margin: 0px 10px 10px 10px;
 		}
-		</style>
-	</head>
-
+	</style>
+  </head>
 	<body>
-		<div id ="header">
-			<div id = "title">
-			<div id = "top">
+	  <div id ="header">
+		<div id = "title">
+		  <div id = "top">
 			<div style="display:inline-block;vertical-align:top;">
-				<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+			  <img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
 			</div>
 			<div style="display:inline-block; vertical-align: bottom;">
-				<font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+			  <font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
 			</div>
-			</div>
-			
-
-			<div id = "navigation">
-				<ul>
-					<li><a href="{% url 'admin_home' %}">Home</a></li>
-					<li><a href="{% url 'admin_reports' %}">Reports</a></li>
-					<li><a href="{% url 'personnel' %}">Personnel</a></li>
-					<li><a href="{% url 'import' %}">Import</a></li>
-					<li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
-					<li style="float:right"><a class="active" href="{% url 'admin_about' %}">About</a></li>
-				</ul>
-			</div>
-			</div>
+		  </div>
+		  <div id = "navigation">
+			<ul>
+			  <li><a href="{% url 'admin_home' %}">Home</a></li>
+			  <li><a href="{% url 'admin_reports' %}">Reports</a></li>
+			  <li><a href="{% url 'personnel' %}">Personnel</a></li>
+			  <li><a href="{% url 'import' %}">Import</a></li>
+			  <li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
+			  <li style="float:right"><a class="active" href="{% url 'admin_about' %}">About</a></li>
+			</ul>
+		  </div>
 		</div>
-		
-		<div id="main">
-			<font face = "georgia" size = "36" color = "red">Error: Form Submission Failed</font>
-			<br>
-			<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="500" height="500"/>
-		</div>
-	</body>
+	  </div>
+	  <div id="main">
+	    <font face = "georgia" size = "36" color = "red">Error: Form Submission Failed</font>
+	    <br>
+	    <img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="500" height="500"/>
+	  </div>
+    </body>
 </html>

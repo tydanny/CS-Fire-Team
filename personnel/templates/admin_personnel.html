@@ -1,56 +1,52 @@
 <!--admin_personnel.html-->
 {% extends 'admin_base.html' %}
 {% block title %}Personnel{% endblock %}
-
 {% block content %}
-		<div id="main2">
-			<div class="column1">
-			
-			<div class="header">
-			<h1>Update Employee</h1>
+  <div id="main2">
+    <div class="column1">
+	  <div class="header">
+	    <h1>Update Employee</h1>
+	  </div>
+	  <div class="header">
+		<form action="{% url 'update' %}" method="post">{% csrf_token %}
+		Employee
+		  <div class="header">
+		    <div class="custom-select" style="width:27vw;">
+			  <select name="employee">
+			    <option value="No Selection">No Selection</option>
+			      {% for emp in employees %} 
+			    <option value="{{emp}}">{{emp}}</option>
+			  	{% endfor %}
+			  </select>
 			</div>
-			
-			<div class="header">
-			<form action="{% url 'update' %}" method="post">{% csrf_token %}
-				Employee
-				<div class="header">
-					<div class="custom-select" style="width:27vw;">
-						<select name="employee">
-							<option value="No Selection">No Selection</option>
-							{% for emp in employees %} 
-							<option value="{{emp}}">{{emp}}</option>
-							{% endfor %}
-						</select>
-					</div>
-				</div>
-				<br><br>
-				New Status
-				<div class="header">
-					<div class="custom-select">
-						<select name="status">
-							<option value="No Selection">No Selection</option>
-							<option value="Active">Active</option>
-							<option value="Approved Leave">Approved Leave</option>
-							<option value="Disability Leave">Disability Leave</option>
-							<option value="Resigned">Resigned</option>
-							<option value="Retired">Retired</option>
-							<option value="Terminated">Terminated</option>
-						</select>
-					</div>
-				</div>
-				<br><br>
-				<label for="start">Effective date</label> <br>
-				<input type="date" name="date" required >
-				<br><br><br>
-				<textarea rows="4" cols="50" placeholder="Enter text here..."></textarea> 
-				<br><br>
-				<input type="submit" class="button" value="Submit">
-				<br><br>
-			</form>
+		  </div>
+		  <br><br>
+		New Status
+		  <div class="header">
+			<div class="custom-select">
+			  <select name="status">
+				<option value="No Selection">No Selection</option>
+				<option value="Active">Active</option>
+				<option value="Approved Leave">Approved Leave</option>
+				<option value="Disability Leave">Disability Leave</option>
+				<option value="Resigned">Resigned</option>
+				<option value="Retired">Retired</option>
+				<option value="Terminated">Terminated</option>
+			  </select>
 			</div>
-			</div>
-			</div>
-		
+		  </div>
+		  <br><br>
+		  <label for="start">Effective date</label> <br>
+		  <input type="date" name="date" required >
+		  <br><br><br>
+		  <textarea rows="4" cols="50" placeholder="Enter text here..."></textarea> 
+		  <br><br>
+		  <input type="submit" class="button" value="Submit">
+		  <br><br>
+		</form>
+	  </div>
+	</div>
+  </div>
 		<!-- Script for custom box -->
 		<script>
 		var x, i, j, selElmnt, a, b, c;
