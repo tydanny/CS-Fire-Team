@@ -8,10 +8,12 @@
 	<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="150" height="150"/>
 	<br>
 	<h2>
-	  {% if error|length > 1 %}
+	  {% if error|stringformat:"s" == "error" %}
 	  <h2 style="color:red"> Invalid username or password </h2>
-	  <br>
+	  {% elif error|stringformat:"s" == "access_error" %}
+	  <h2 style="color:red">Please login to access the website</h2>
 	  {% endif %}
+	  <br>
 	  <form action="{% url 'check' %}" method="post">{% csrf_token %}
 	    Username <input type="text" name="username"><br>
 		Password <input type="password" name="password"><br><br>
