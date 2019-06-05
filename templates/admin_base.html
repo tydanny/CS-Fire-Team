@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="{% static 'style/site.css' %}">
   <meta charset="utf-8">
   <title>{% block title %}Golden Fire Department Information Tracker{% endblock %}</title>
-    <div id ="header">
       <div id = "title">
 	    <div id = "top">
 		  <div style="display:inline-block;vertical-align:top;">
@@ -19,7 +18,7 @@
 		</div>
 		<div id = "navigation">
 		  <ul>
-		    <li><a href="{% url 'admin_home' %}">Home</a></li>
+		    <li><a href="">Home</a></li>
 			<li><a href="{% url 'admin_reports' %}">Reports</a></li>
 			<li><a href="{% url 'admin_custom' %}">Custom Reports</a></li>
 			<li><a href="{% url 'personnel' %}">Personnel</a></li>
@@ -29,7 +28,6 @@
 	      </ul>
 		</div>
 	  </div>
-    </div>
   </head>
     <body style="background-image:url({% static 'images/background.jpg' %});">
       <main>
