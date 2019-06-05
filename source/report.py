@@ -100,7 +100,7 @@ class Report():
 
     def compute_apparatus(self):
         appar = self.connection.s_query("""SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
-        WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.tstart = pe.tstart AND e.tend = pe.tend AND e.etype = pe.type
+        WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
         AND (e.etype = 'work detail-daily' OR e.etype = 'work detail-weekly' OR e.etype = '
         work detail-sunday');""" % (self.empNum, self.startTime, self.endTime))
         if appar == None:
