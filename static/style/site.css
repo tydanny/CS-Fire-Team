@@ -3,13 +3,13 @@
 }
 .column {
 	float: left;
-	width: 70%;
+	width: 47%;
 	padding: 10px;
 }
 
 .column1 {
-	float: center;
-	width: 70%;
+	float: right;
+	width: 47%;
 	padding: 10px;
 }
 
