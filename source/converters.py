@@ -4,23 +4,33 @@ import lxml
 from source import dbconnect
 import json
 
-def convert_iar(filepath):
+def convert_iar(file):
   
   db = dbconnect.dbconnect()
-  #This should be dynamic, and it should function fine.
-  rep = pd.read_html(filepath)
   
+  #log = filepath.read()
+  #print (str(log))
+  #This should be dynamic, and it should function fine.
+  rep = pd.read_html(file)
+  #print(rep[0])
+  #for index, row in rep[0].iterrows():
+  #for index, row in rep[0].iterrows():
+    #print(row)
   for index, row in rep[0].iterrows():
     
     tstart = row.loc['Start date'].replace('/','-') + ' ' + row.loc['Start time'] + ':00'
     tend = row.loc['End date'].replace('/','-') + ' ' + row.loc['End time'] + ':00'
     location = row.loc['On duty at']
-    if(not db.get_shift(tstart, tend, location)):
-        print('Loc: ', location, 'Start time: ', tstart, 'End time: ', tend)
-        db.load_shift(tstart,tend,location)
+    
+    print (row)
+    
+    if(not db.get_shift(tstart, tend, location)[0]):
+      print('Loc: ', location, 'Start time: ', tstart, 'End time: ', tend)
+      db.load_shift(tstart,tend,location)
     role = row.loc['On duty for']
     
-    person = row.loc['First name'].split(' ')[0]
+    person = row.loc['First name'].split(' ',1)[0]
+    
     if(not db.get_person_xref_shift(tstart, tend, location, person)):
       print(person)
       db.load_person_xref_shift(tstart, tend, location, person, role)
