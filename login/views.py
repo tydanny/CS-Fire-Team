@@ -320,7 +320,7 @@ def officer(request):
 		return HttpResponse(template.render(context, request))
 
 	template = loader.get_template('officer_home.html')
-	context = {}
+	context = {'refreshToken': response['refresh_token'],}
 	return HttpResponse(template.render(context, request))
 	
 def user(request, refreshToken):
@@ -372,6 +372,7 @@ def user(request, refreshToken):
 		'meetingStatus': report.statMeets,
 		'leave': losap.total_leave,
 		'yrsService': report.yrsService,
+		'refreshToken': response['refresh_token'],
 	}
 	return HttpResponse(template.render(context, request))
 
