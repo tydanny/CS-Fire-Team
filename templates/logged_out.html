@@ -2,16 +2,15 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Logout{% endblock %}
-
 {% block content %}
 <div id="centered" class="content">
-	<div class="header" style="background-color:white">	
-		<br><br>
-		<h1>You have successfully logged out</h1>
-		<br>
-		<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
-		<br><br>
-		<a href="{% url 'login' %}" class = "button">Login</a>
-	</div>
+  <div class="header" style="background-color:white">	
+    <br><br>
+    <h1>You have successfully logged out</h1>
+	<br>
+	<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="300" height="300"/>
+	<br><br>
+	<a href="{% url 'login' %}" class = "button">Login</a>
+  </div>
 </div>
 {% endblock %}
