@@ -1,26 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Login{% endblock %}
-
 {% block content %}
 <div id="centered" class="content">
-	<div class="header" style="background-color:white">
-		<h1>Golden Fire Department<div>Information Tracker</h1>
-			<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="150" height="150"/>
-		<br>
-		<h2>
-			{% if error|length > 1 %}
-				<h2 style="color:red"> Invalid username or password </h2>
-				<br>
-			{% endif %}
-		
-			<form action="{% url 'check' %}" method="post">{% csrf_token %}
-				Username <input type="text" name="username"><br>
-				Password <input type="password" name="password"><br><br>
-			
-				<button class="button" type="submit">Login</button>
-			</form>
-		</h2>
-	</div>
+  <div class="header" style="background-color:white">
+	<h1>Golden Fire Department<div>Information Tracker</h1>
+	<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="150" height="150"/>
+	<br>
+	<h2>
+	  {% if error|length > 1 %}
+	  <h2 style="color:red"> Invalid username or password </h2>
+	  <br>
+	  {% endif %}
+	  <form action="{% url 'check' %}" method="post">{% csrf_token %}
+	    Username <input type="text" name="username"><br>
+		Password <input type="password" name="password"><br><br>
+		<button class="button" type="submit">Login</button>
+	  </form>
+	</h2>
+  </div>
 </div>
 {% endblock %}
