@@ -419,8 +419,9 @@ def get_people(access_token=None, **kwargs):
         conn.request("GET", "/agencyusers/users?%s" % params, headers=headers)
         response = conn.getresponse()
         data = response.read().decode()
+        j = json.loads(data)
         conn.close()
-        return data
+        return j['users']
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
@@ -431,10 +432,14 @@ def load_people(access_token=None, **kwargs):
 
     users = get_people(access_token)
     db = dbconnect.dbconnect()
-
-    ids = db.s_query("""
-    SELECT id FROM person;
-    """)
+    
+    ids = db.get_ids()
+    id_list = [i[0] for i in ids]
+    
+    for u in users:
+        if(not u['agencyPersonnelID'] in id_list):
+            l, f = u['fullName'].split(', ', 1)
+            db.load_person(u['agencyPersonnelID'], f, l, u['title'], u['shift'])
 
 def get_event_types(access_token=None, **kwargs):
     
