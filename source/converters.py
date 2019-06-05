@@ -29,7 +29,7 @@ def convert_iar(file):
       db.load_shift(tstart,tend,location)
     role = row.loc['On duty for']
     
-    person = row.loc['First name'].split(' ',1)[0]
+    person = row.loc['First name'].split(' ')[0]
     
     if(not db.get_person_xref_shift(tstart, tend, location, person)):
       print(person)
