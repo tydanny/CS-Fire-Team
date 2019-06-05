@@ -135,13 +135,19 @@ def check(request):
 	
 	user = er.get_my_user(response['access_token'])
 	title = db.get_title(user['agencyPersonnelID'])
-	empNum = user['agencyPersonnelID']
 	refreshToken = response['refresh_token']
 	
+	if title == 'Firefighter':
+		page = 'user_home'
+	elif title == 'Office':
+		page = 'officer_home'
+	elif title == 'Admin':
+		page = 'admin_home'
+
 	template = loader.get_template('submit_redirect.html')
 	
 	context = {
-			'title': title,
+			'page': page,
 			'refreshToken':refreshToken}
 	return HttpResponse(template.render(context, request))
 	'''if title == "Firefighter":
@@ -251,14 +257,11 @@ def user_download(request, empNum):
     writer.writerow(report.csvRow)
     return response
 	
-def admin(request):
-	if request.method == "POST":
-		startTime = request.POST["time-start"]
-		endTime = request.POST["time-end"]
-	else:
-		curr = datetime.datetime.now(tz=None)
-		startTime = "%s-01-01 00:00:00.00" % curr.year
-		endTime = str(curr)
+def admin(request, refreshToken):
+	
+	curr = datetime.datetime.now(tz=None)
+	startTime = "%s-01-01 00:00:00.00" % curr.year
+	endTime = str(curr)
 	connection = dbconnect.dbconnect()
 	numsQuery = "SELECT id FROM PERSON;"
 	nums = connection.s_query(numsQuery)
@@ -301,7 +304,7 @@ def officer(request):
 	context = {}
 	return HttpResponse(template.render(context, request))
 	
-def user(request):
+def user(request, refreshToken):
 	tarTrainings = 60
 	tarShifts = 36
 	tarActCalls = 54

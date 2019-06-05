@@ -5,9 +5,8 @@
 {{refreshToken}}
 </body>
 
-<form name="myform" action="{% url 'redirect_user' %}" method="post">{% csrf_token %}
-	<input type="hidden" name="title" value="{{title}}" />
-	<input type="hidden" name="refresh" value="{{refreshToken}}" />
+<form name="myform" action={{page}}/{{refreshToken}}/ method="post">{% csrf_token %}
+	
 </form>
 
 <script type="text/javascript">
