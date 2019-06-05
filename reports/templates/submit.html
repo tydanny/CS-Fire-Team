@@ -1,79 +1,11 @@
-<!DOCTYPE html>
-{% load static %}
+{% extends 'admin_base.html' %}
+{load static from staticfiles %}
+{% block title %}Personnel{% endblock %}
 
-<html>
-  <head>
-    <style>
-  
-			ul {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			background-color: #333;
-				}
-
-			li {
-				float: left;
-			}
-
-			li a {
-				display: block;
-				color: white;
-				text-align: center;
-				padding: 14px 16px;
-				text-decoration: none;
-			}
-
-			li a:hover:not(.active) {
-				background-color: #111;
-			}
-			
-			li a:hover {
-				background-color: #3c8c3f;
-			}
-
-			.active {
-				background-color: #4CAF50;
-			}
-			
-			#main {
-				margin: 10px 50px 10px 50px;
-				text-align: center;
-			}
-			
-			#header {
-				margin: 10px 0px 0px 0px;
-			}
-			
-			#navigation {
-				margin: 10px 0px 0px 0px;
-			}
-    </style>
-  </head>
-	<body>
-	  <div id="header">
-	    <div style="display:inline-block;vertical-align:top;">
-		  <img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
-		</div>
-	    <div style="display:inline-block; vertical-align: bottom;">
-		  <font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
-		</div>
-		<div id="navigation">
-		  <ul>
-		    <li><a href="http://127.0.0.1:8000/home/">Home</a></li>
-			<li><a href="http://127.0.0.1:8000/reports/">Reports</a></li>
-			<li><a href="http://127.0.0.1:8000/personnel/">Personnel</a></li>
-			<li><a href="http://127.0.0.1:8000/import/">Import</a></li>
-			<li style ="float:right"><a class="active" href="">Log Out</a></li>
-			<li style="float:right"><a class="active" href="http://127.0.0.1:8000/about/">About</a></li>
-		  </ul>
-	    </div>
-	  </div>
-	  <div id="main">
-	    <font face = "georgia" size = "36">Form Submitted</font>
-		<br>
-		<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="500" height="500"/>
-	  </div>
-	</body>
-</html>
+{% block content %}
+  <div id="main" class="header">
+    <font face = "georgia" size = "36">Form Submitted</font>
+	<br>
+	<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="500" height="500"/>
+  </div>
+{% endblock %}
