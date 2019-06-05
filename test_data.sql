@@ -23,7 +23,7 @@ INSERT INTO person_xref_incident (person_id, incident_id) VALUES ('1', 1);
 INSERT INTO person_xref_incident (person_id, incident_id) VALUES ('7', 2);
 
 INSERT INTO event (id, tstart, tend, etype) VALUES ('-0', '03-24-2019 09:30 AM', '03-24-2019 11:00 AM', 'training-department');
-INSERT INTO event (id, tstart, tend, etype) VALUES ('-1', '04-02-2019 02:00 PM', '04-02-2019 03:00 PM', 'work detail-weekly');
+INSERT INTO event (id, tstart, tend, etype) VALUES ('-1', '04-02-2019 02:00 PM', '04-02-2019 03:00 PM', 'WORDK DEATIL');
 INSERT INTO event (id, tstart, tend, etype) VALUES ('-2', '04-03-2019 02:00 PM', '04-03-2019 03:00 PM', 'work detail-daily');
 INSERT INTO event (id, tstart, tend, etype) VALUES ('-3', '04-04-2019 02:00 PM', '04-04-2019 03:00 PM', 'work detail-sunday');
 INSERT INTO event (id, tstart, tend, etype) VALUES ('-4', '04-05-2019 02:00 PM', '04-05-2019 03:00 PM', 'work detail-fundraiser');
