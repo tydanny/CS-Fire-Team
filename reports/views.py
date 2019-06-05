@@ -69,7 +69,14 @@ def index(request):
     context = {'employees' : emps}
     return HttpResponse(template.render(context, request))
 
-def submit(request):
+def submit(request, refreshToken):
+    response = er.refresh(refreshToken)
+	
+    if 'error' in response.keys():
+        template = loader.get_template('login.html')
+        context = {"error":"access_error"}
+        return HttpResponse(template.render(context, request))
+
     try:
         startDate = request.POST["time-start"]
         startTime = "%s 00:00:00.00" % startDate
@@ -100,7 +107,9 @@ def submit(request):
     except Exception as e:
         print(e)
         template = loader.get_template('admin_error.html')
-        context = {}
+        context = {
+            'refreshToken': response['refresh_token']
+        }
         return HttpResponse(template.render(context, request))
 
 
