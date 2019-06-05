@@ -399,7 +399,7 @@ def load_people(access_token=None, **kwargs):
     ids = db.get_ids()
     id_list = [i[0] for i in ids]
     
-    for u in users
+    for u in users:
         if(not u['agencyPersonnelID'] in id_list):
             l, f = u['fullName'].split(', ', 1)
             db.load_person(u['agencyPersonnelID'], f, l, u['title'], u['shift'])
