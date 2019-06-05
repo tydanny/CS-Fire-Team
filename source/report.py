@@ -65,8 +65,7 @@ class Report():
         self.connection.close()
 
     def compute_shifts(self):
-        shift = self.connection.s_query("""SELECT shift_end-shift_start, shift_start, shift_end FROM person_xref_shift
-        WHERE person_id = '%s' AND shift_start BETWEEN '%s' AND '%s';""" % (self.empNum, self.startTime, self.endTime))
+        shift = self.connection.get_shift_duration(str(self.empNum), self.startTime, self.endTime)
         credit=0
         counter=0
         if shift != None:
@@ -79,8 +78,7 @@ class Report():
             self.shifts = int(credit)
 
     def compute_act_calls(self):
-        calls = self.connection.s_query("""SELECT COUNT(*) FROM incident AS i, person_xref_incident AS pi
-        WHERE pi.person_id = '%s' AND i.id = pi.incident_id AND i.tstamp BETWEEN '%s' AND '%s';""" % (self.empNum, self.startTime, self.endTime))
+        calls = self.connection.get_num_actual_calls(str(self.empNum), self.startTime, self.endTime)
         if calls == None:
             self.actCalls = 0
         else:
@@ -99,37 +97,28 @@ class Report():
         self.WDHours = wdthours
 
     def compute_apparatus(self):
-        appar = self.connection.s_query("""SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
-        WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
-        AND (e.etype = 'work detail-daily' OR e.etype = 'work detail-weekly' OR e.etype = '
-        work detail-sunday');""" % (self.empNum, self.startTime, self.endTime))
+        appar = self.connection.get_appar(self.empNum, self.startTime, self.endTime)
         if appar == None:
             self.apparatus = 0
         else:
             self.apparatus = appar[0][0]
 
     def compute_fundraisers(self):
-        funds = self.connection.s_query("""SELECT COUNT(*) FROM event AS e, person_xref_event AS pe 
-        WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
-        AND e.etype = 'work detail-fundraiser';""" % (self.empNum, self.startTime, self.endTime))
+        funds = self.connection.get_fundraisers(self.empNum, self.startTime, self.endTime)
         if funds == None:
             self.fundraisers = 0
         else:
             self.fundraisers = funds[0][0]
 
     def compute_meetings(self):
-        meets = self.connection.s_query("""SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
-        WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
-        AND e.etype = 'meeting';""" % (self.empNum, self.startTime, self.endTime))
+        meets = self.connection.get_meetings(self.empNum, self.startTime, self.endTime)
         if meets == None:
             self.meetings = 0
         else:
             self.meetings = meets[0][0]
 
     def compute_trainings(self):
-        training = self.connection.s_query("""SELECT e.tend-e.tstart, e.etype FROM event AS e, person_xref_event AS pe
-        WHERE pe.person_id = '%s' AND e.etype LIKE 'training%%' AND e.tstart BETWEEN '%s'
-        AND '%s' AND e.id = pe.event_id;""" % (self.empNum, self.startTime, self.endTime))
+        training = self.connection.get_trainings(self.empNum, self.startTime, self.endTime)
         
         thours = 0
         tthours = 0
