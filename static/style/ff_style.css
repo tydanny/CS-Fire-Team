@@ -222,7 +222,7 @@ width: 400px;
 width: 20vw;
 }
 .para {
-    border-radius: 90px / 100px; /* horizontal radius, vertical radius */
+    border-radius: 90px / 100px; 
     width: 100%;
     text-align: left;
     padding-top: 50px;
