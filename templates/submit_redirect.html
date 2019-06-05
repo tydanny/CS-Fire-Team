@@ -1,8 +1,21 @@
 <!DOCTYPE html>
+{% load static from staticfiles %}
 <html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'style/site.css' %}">
+  <meta charset="utf-8">
+</head>
 <body>
-{{title}}
-{{refreshToken}}
+<main>
+<div id="main">
+ <div id="centered1">
+	<br><br>
+    <font face = "georgia" size = "36" color="#2586ba">Loading...</font>
+	<br><br><br>
+  </div>
+  </div>
+</main>
 </body>
 
 <form name="myform" action={{page}}/{{refreshToken}}/ method="post">{% csrf_token %}
