@@ -24,9 +24,7 @@ def convert_iar(file):
     
     print (row)
     
-    if(not db.get_shift(tstart, tend, location)):
-      print('Loc: ', location, 'Start time: ', tstart, 'End time: ', tend)
-      db.load_shift(tstart,tend,location)
+    
     role = row.loc['On duty for']
     
     person = row.loc['First name'].split(' ')[0]
