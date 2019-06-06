@@ -146,7 +146,7 @@ class dbconnect():
 
     def get_shift(self, person_id, start, end):
         return self.s_query("""
-        SELECT * FROM shift WHERE tstart='%s' AND tend='%s' AND person_id='%s';
+        SELECT * FROM shift WHERE shift_start='%s' AND shift_end='%s' AND person_id='%s';
         """ % (start, end, person_id))
 
     def get_actual_calls(self, id, start, end):
