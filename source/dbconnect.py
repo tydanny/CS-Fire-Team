@@ -96,13 +96,9 @@ class dbconnect():
         for r, s in response:
             self.i_query("INSERT INTO person_xref_incident (incident_id, person_id) VALUES ('%s', '%s');" % (incident_id, person_id))
 
-    #Loads a shift.  
-    def load_shift(self, tstart, tend, station):
-        self.i_query("INSERT INTO shift (tstart, tend, station) VALUES ('%s', '%s', '%s');" % (tstart, tend, station))
-
-    #Loads a connection between a shift and a person.  THIS LIKELY NEEDS MODIFICATION BECAUSE WE KEEP CHANGING THE TABLES.
-    def load_person_xref_shift(self, shift_start, shift_end, station, person, role):
-        self.i_query("INSERT INTO person_xref_shift (person_id, shift_start, shift_end, role, station) VALUES ('%s', '%s', '%s', '%s', '%s');" % (person, shift_start, shift_end, role, station))
+    #Loads a shift.  We should add in an if once we figure out the bonus column.
+    def load_shift(self, shift_start, shift_end, station, person, role, bonus):
+        self.i_query("INSERT INTO shift (person_id, shift_start, shift_end, station, role, bonus) VALUES ('%s', '%s', '%s', '%s', '%s', '%s');" % (person, shift_start, shift_end, station, role, bonus))
         
     #Loads a person_status change
     def load_person_status(self, status, date_change, person_id, note):
@@ -145,18 +141,13 @@ class dbconnect():
 
     def get_shifts(self, id, start, end):
         return self.s_query("""
-        SELECT * FROM person_xref_shift WHERE person_id='%s' AND shift_start BETWEEN '%s' and '%s';
+        SELECT * FROM shift WHERE person_id='%s' AND shift_start BETWEEN '%s' and '%s';
         """ % (id, start, end))
 
-    def get_shift(self, start, end, location):
+    def get_shift(self, person_id, start, end):
         return self.s_query("""
-        SELECT * FROM shift WHERE tstart='%s' AND tend='%s' AND station='%s';
-        """ % (start, end, location))
-
-    def get_person_xref_shift(self, tstart, tend, location, person_id):
-        return self.s_query("""
-        SELECT * FROM person_xref_shift WHERE tstart='%s' AND tend='%s' AND station='%s' AND person_id='%s';
-        """ % (start, end, location, person_id))
+        SELECT * FROM shift WHERE tstart='%s' AND tend='%s' AND person_id='%s';
+        """ % (start, end, person_id))
 
     def get_actual_calls(self, id, start, end):
         return self.s_query("""
@@ -191,9 +182,10 @@ class dbconnect():
         AND e.tstart BETWEEN '%s' AND '%s' AND e.etype LIKE 'WORK DETAIL%%';
         """ % (id, start, end))
 
+    #Gets all shifts for one person in a range.
     def get_shift_duration(self, id, start, end):
         return self.s_query("""
-        SELECT shift_end-shift_start, shift_start, shift_end FROM person_xref_shift 
+        SELECT shift_end-shift_start, shift_start, shift_end FROM shift 
         WHERE person_id = '%s' AND shift_start BETWEEN '%s' AND '%s';
         """ % (id, start, end))
 
