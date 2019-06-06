@@ -1,10 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from source import dbconnect
+from source import dbconnect, er
 
 # Create your views here.
 def index(request, refreshToken):
+    response = er.refresh(refreshToken)
+	
+    if 'error' in response.keys():
+        template = loader.get_template('login.html')
+        context = {"error":"access_error"}
+        return HttpResponse(template.render(context, request))
+
     connection = dbconnect.dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)
@@ -24,35 +31,20 @@ def index(request, refreshToken):
         emps.append(emp)
         x += 1
     template = loader.get_template('admin_personnel.html')
-    context = {'employees' : emps}
+    context = {
+		'employees' : emps, 
+		'refreshToken': response['refresh_token']
+	}
     return HttpResponse(template.render(context, request))
+
+def update(request, refreshToken):
+    response = er.refresh(refreshToken)
 	
-'''
-
-def submit(request):
-    try:
-        connection = dbconnect.dbconnect()
-        firstName = request.POST["firstname"]
-        lastName = request.POST["lastname"]
-        empNum = request.POST["empNumber"]
-        startDate = request.POST["time-start"]
-        title = request.POST["title"]
-        residency = request.POST["residency"]
-        newPer = "INSERT INTO person (id,fname,lname,title,resident) VALUES ('%s','%s','%s','%s','%s');" % (empNum, firstName, lastName, title, residency)
-        newStat = "INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '%s', '%s');" % (startDate, empNum)
-        connection.i_query(newPer)
-        connection.i_query(newStat)
-        connection.close()
-        template = loader.get_template('submit.html')
-        context = {}
+    if 'error' in response.keys():
+        template = loader.get_template('login.html')
+        context = {"error":"access_error"}
         return HttpResponse(template.render(context, request))
-    except:
-        template = loader.get_template('error.html')
-        context = {}
-        return HttpResponse(template.render(context, request))
-		'''
 
-def update(request):
     try:
         connection = dbconnect.dbconnect()
         employee = request.POST["employee"]
@@ -64,9 +56,27 @@ def update(request):
         connection.load_person_status(status, date, str(empNum), note)
         connection.close()
         template = loader.get_template('submit.html')
-        context = {}
+        context = {
+			'refreshToken': response['refresh_token']
+		}
         return HttpResponse(template.render(context, request))
     except:
-        template = loader.get_template('error.html')
+        template = loader.get_template('admin_error.html')
         context = {}
         return HttpResponse(template.render(context, request))
+		
+def error(request, refreshToken):
+	response = er.refresh(refreshToken)
+	
+	if 'error' in response.keys():
+		template = loader.get_template('login.html')
+		context = {"error":"access_error"}
+		return HttpResponse(template.render(context, request))
+		
+	template = loader.get_template('admin_error.html')
+	context = {
+		'refreshToken': response['refresh_token']
+	}
+	return HttpResponse(template.render(context, request))
+		
+	

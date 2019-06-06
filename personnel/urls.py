@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('<str:refreshToken>/', views.index, name='personnel'),
-    path('update/', views.update, name='update'),
+    path('update/<str:refreshToken>/', views.update, name='update'),
+	path('error/<str:refreshToken>/', views.error, name='personnel_error'),
 ]

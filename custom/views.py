@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from source import dbconnect, detail_reports
+from source import dbconnect, detail_reports, er
 import csv
 
 # Create your views here.
@@ -16,6 +16,13 @@ def user(request):
 	return HttpResponse(template.render(context, request))
 
 def custom(request, refreshToken):
+    response = er.refresh(refreshToken)
+	
+    if 'error' in response.keys():
+        template = loader.get_template('login.html')
+        context = {"error":"access_error"}
+        return HttpResponse(template.render(context, request))
+
     connection = dbconnect.dbconnect()
     firstQuery = "SELECT fname FROM PERSON;"
     firsts = connection.s_query(firstQuery)
@@ -35,7 +42,10 @@ def custom(request, refreshToken):
         emps.append(emp)
         x += 1
     template = loader.get_template('admin_custom.html')
-    context = {'employees': emps}
+    context = {
+		'employees': emps, 
+		'refreshToken': response['refresh_token']
+	}
     return HttpResponse(template.render(context, request))
 
 def submit(request):
@@ -57,6 +67,20 @@ def submit(request):
         return response        
     except Exception as e:
         print(e)
-        template = loader.get_template('error.html')
+        template = loader.get_template('admin_error.html')
         context = {}
         return HttpResponse(template.render(context, request))
+		
+def error(request, refreshToken):
+	response = er.refresh(refreshToken)
+	
+	if 'error' in response.keys():
+		template = loader.get_template('login.html')
+		context = {"error":"access_error"}
+		return HttpResponse(template.render(context, request))
+		
+	template = loader.get_template('admin_error.html')
+	context = {
+		'refreshToken': response['refresh_token']
+	}
+	return HttpResponse(template.render(context, request))
