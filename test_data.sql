@@ -4,6 +4,7 @@ INSERT INTO person (id, fname, lname, title, resident) VALUES ('1234', 'Jenny', 
 INSERT INTO person (id, fname, lname, title, resident) VALUES ('12347', 'Ty', 'Christensen', 'Admin', 'Resident');
 INSERT INTO person (id, fname, lname, title, resident) VALUES ('12349', 'Hannah', 'Levy', 'Admin', 'Resident');
 INSERT INTO person (id, fname, lname, title, resident) VALUES ('12346', 'Heidi', 'Hufford', 'Admin', 'Resident');
+INSERT INTO person (id, fname, lname, title, resident) VALUES ('12348', 'Brad', 'Helliwell', 'Admin', 'Resident');
 
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '01-01-2010', '1');
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '05-10-2019', '1234');
@@ -15,6 +16,7 @@ INSERT INTO person_status (status, date_change, person_id) VALUES ('Retired', '0
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '01-01-2019', '12347');
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '01-01-2019', '12349');
 INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '01-01-2010', '12346');
+INSERT INTO person_status (status, date_change, person_id) VALUES ('Active', '01-01-2019', '12348');
 
 INSERT INTO incident (id, tstamp, category, response) VALUES (1, '02-03-2019 17:56', 'Car Accident', '1 minute 30 seconds');
 INSERT INTO incident (id, tstamp, category, response) VALUES (2, '05-30-2015 22:36', 'Sturcture Fire', '6 minutes 23 seconds');

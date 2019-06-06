@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +25,7 @@ SECRET_KEY = 'kz19-gz$e+05vscyxaibbr-qoq@qo(1$irmmeqt9qf1@&ba@2l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['thebridge-gfd.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['thebridge-env.mvauspfutp.us-west-1.elasticbeanstalk.com', '127.0.0.1']
 
 
 # Application definition
@@ -44,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'herokuapp',
 ]
 
 MIDDLEWARE = [
@@ -84,8 +82,6 @@ WSGI_APPLICATION = 'thebridge.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 
-
-prod_db  =  dj_database_url.config(conn_max_age=500)
 
 
 # Password validation

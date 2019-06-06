@@ -32,10 +32,14 @@ def check(request):
 	
 	if title == 'Firefighter':
 		page = 'user_home'
-	elif title == 'Office':
+	elif title == 'Officer':
 		page = 'officer_home'
 	elif title == 'Admin':
 		page = 'admin_home'
+	else:
+		template = loader.get_template('login.html')
+		context = {"error":"permissions"}
+		return HttpResponse(template.render(context, request))
 
 	template = loader.get_template('submit_redirect.html')
 	
