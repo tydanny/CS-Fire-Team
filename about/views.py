@@ -5,14 +5,30 @@ import datetime
 from source import dbconnect, er
 
 # Create your views here.
-def user(request):
+def user(request, refreshToken):
+	response = er.refresh(refreshToken)
+	
+	if 'error' in response.keys():
+		template = loader.get_template('login.html')
+		context = {"error":"access_error"}
+		return HttpResponse(template.render(context, request))
+
 	template = loader.get_template('user_about.html')
-	context = {}
+	context = {'refreshToken': response['refresh_token']}
 	return HttpResponse(template.render(context, request))
 	
-def officer(request):
+def officer(request, refreshToken):
+	response = er.refresh(refreshToken)
+	
+	if 'error' in response.keys():
+		template = loader.get_template('login.html')
+		context = {"error":"access_error"}
+		return HttpResponse(template.render(context, request))
+	
 	template = loader.get_template('officer_about.html')
-	context = {}
+	context = {
+		'refreshToken': response['refresh_token']
+	}
 	return HttpResponse(template.render(context, request))
 	
 def admin(request, refreshToken):
