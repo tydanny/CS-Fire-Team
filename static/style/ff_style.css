@@ -108,7 +108,7 @@ body {
 	margin: 0;
 	background-image:url({% static "images/background.jpg" %});
 	background-repeat: no-repeat;
-	background-position: bottom;
+	background-position: center;
 	background-attachment: fixed;
 }
 
