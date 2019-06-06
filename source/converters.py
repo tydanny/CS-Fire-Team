@@ -24,13 +24,14 @@ def convert_iar(file):
     
     print (row)
     
+    bonus = row.loc['On duty for']
     
     person = row.loc['First name'].split(' ')[0]
     
     if(not db.get_shift(person, tstart, tend) and db.get_person_id(person) == person):
       print(person)
-      #This will have bonus instead of a blank string once we get that figured out.
-      db.load_shift(tstart, tend, location, person, '')
+      
+      db.load_shift(tstart, tend, location, person, bonus)
   
 def convert_wtw(filepath):
   db = dbconnect()
