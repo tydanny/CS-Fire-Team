@@ -78,5 +78,42 @@ def error(request, refreshToken):
 		'refreshToken': response['refresh_token']
 	}
 	return HttpResponse(template.render(context, request))
+	
+def get(request, refreshToken):
+    response = er.refresh(refreshToken)
+	
+    if 'error' in response.keys():
+        template = loader.get_template('login.html')
+        context = {"error":"access_error"}
+        return HttpResponse(template.render(context, request))
+
+    try:	
+        connection = dbconnect.dbconnect()
+        employee = request.POST["employee"]
+        nums = [int(s) for s in employee.split() if s.isdigit()]
+        empNum = nums[-1]
+        statuses = connection.get_statuses(str(empNum))
+        stats = []
+        for s in statuses:
+            status = s[0]
+            date = s[1]
+            note = s[3]
+            stat = "%s %s %s" % (status, date, note)
+            stats.append(stat)
+        template = loader.get_template('admin_personnel.html')
+        context = {
+			'statuses' : stats,
+			'refreshToken' : response['refresh_token']
+		}
+        return HttpResponse(template.render(context, request))
+    except:
+        template = loader.get_template('admin_error.html')
+        context = {}
+        return HttpResponse(template.render(context, request))
+
+def delete(request):
+    template = loader.get_template('admin_error.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
 		
 	
