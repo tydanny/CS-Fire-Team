@@ -34,7 +34,7 @@ def convert_iar(file):
     if(not db.get_shift(person, tstart, tend)):
       print(person)
       #This will have bonus instead of a blank string once we get that figured out.
-      db.load_shift(tstart, tend, location, person, role, ''")
+      db.load_shift(tstart, tend, location, person, role, '')
   
 def convert_wtw(filepath):
   db = dbconnect()
