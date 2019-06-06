@@ -7,4 +7,5 @@ urlpatterns = [
     path('update/<str:refreshToken>/', views.update, name='update'),
 	path('error/<str:refreshToken>/', views.error, name='personnel_error'),
 	path('get/<str:refreshToken>/', views.get, name='get'),
+    path('delete/<str:refreshToken>/', views.delete, name='delete'),
 ]

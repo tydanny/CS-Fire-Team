@@ -43,7 +43,7 @@
 					<label for="start">Effective date</label> <br>
 					<input type="date" name="date" required >
 					<br><br><br>
-					<textarea rows="4" cols="50" placeholder="Enter text here..."></textarea> 
+					<textarea rows="4" cols="50" name="text" placeholder="Enter text here..."></textarea> 
 					<br><br>
 					<input type="submit" class="button" value="Submit">
 					<br><br>
@@ -75,7 +75,7 @@
 				<br><br>
 			</form>
 			
-			<form method="post">{% csrf_token %}
+			<form action="{% url 'delete' refreshToken=refreshToken %}" method="post">{% csrf_token %}
 				<br>
 				Status
 				<div class="header">
