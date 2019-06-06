@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS person_xref_incident;
-DROP TABLE IF EXISTS person_xref_shift;
 DROP TABLE IF EXISTS person_xref_event;
 DROP TABLE IF EXISTS incident;
 DROP TABLE IF EXISTS shift;
@@ -33,21 +32,13 @@ CREATE TABLE person_xref_incident
 
 CREATE TABLE shift
 (
-    tstart TIMESTAMP,
-    tend TIMESTAMP,
-    station TEXT,
-    PRIMARY KEY (tstart, tend, station)
-);
-
-CREATE TABLE person_xref_shift
-(
     person_id TEXT REFERENCES person(id),
     shift_start TIMESTAMP,
     shift_end TIMESTAMP,
     station TEXT,
     role TEXT,
-    FOREIGN KEY (shift_start, shift_end, station) REFERENCES shift(tstart, tend, station),
-    PRIMARY KEY (person_id, shift_start, shift_end, station)
+    bonus TEXT,
+    PRIMARY KEY (person_id, shift_start, shift_end)
 );
 
 CREATE TABLE person_status
