@@ -97,8 +97,8 @@ class dbconnect():
             self.i_query("INSERT INTO person_xref_incident (incident_id, person_id) VALUES ('%s', '%s');" % (incident_id, person_id))
 
     #Loads a shift.  We should add in an if once we figure out the bonus column.
-    def load_shift(self, shift_start, shift_end, station, person, role, bonus):
-        self.i_query("INSERT INTO shift (person_id, shift_start, shift_end, station, role, bonus) VALUES ('%s', '%s', '%s', '%s', '%s', '%s');" % (person, shift_start, shift_end, station, role, bonus))
+    def load_shift(self, shift_start, shift_end, station, person, bonus):
+        self.i_query("INSERT INTO shift (person_id, shift_start, shift_end, station, bonus) VALUES ('%s', '%s', '%s', '%s', '%s');" % (person, shift_start, shift_end, station, bonus))
         
     #Loads a person_status change
     def load_person_status(self, status, date_change, person_id, note):
@@ -160,6 +160,10 @@ class dbconnect():
         WHERE pi.person_id = '%s' AND i.id = pi.incident_id AND i.tstamp 
         BETWEEN '%s' AND '%s';""" % (id, start, end))
 
+    def get_person_id(self, id):
+        return self.s_query("""
+        SELECT id FROM person WHERE id='%s';
+        """ % (id))[0][0]
     def get_title(self, id):
         title = self.s_query("""
         SELECT title FROM person WHERE id='%s';
