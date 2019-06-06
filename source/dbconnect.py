@@ -177,7 +177,7 @@ class dbconnect():
 
     def delete_status(self, id, date_change, status):
         self.i_query("""
-        DELETE FROM person_status WHERE id='%s' AND date_change='%s' AND status='%s';
+        DELETE FROM person_status WHERE person_id='%s' AND date_change='%s' AND status='%s';
         """ % (id, date_change, status))
 
     def get_wdt(self, id, start, end):

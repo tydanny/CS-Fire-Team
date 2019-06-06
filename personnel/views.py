@@ -60,9 +60,10 @@ def update(request, refreshToken):
 			'refreshToken': response['refresh_token']
 		}
         return HttpResponse(template.render(context, request))
-    except:
+    except Exception as e:
+        print(e)
         template = loader.get_template('admin_error.html')
-        context = {}
+        context = {'refreshToken': response['refresh_token']}
         return HttpResponse(template.render(context, request))
 		
 def error(request, refreshToken):
@@ -97,8 +98,9 @@ def get(request, refreshToken):
         for s in statuses:
             status = s[0]
             date = s[1]
+            emp = s[2]
             note = s[3]
-            stat = "%s %s %s" % (status, date, note)
+            stat = "%s, %s, %s, %s" % (status, date, note, emp)
             stats.append(stat)
         template = loader.get_template('admin_personnel.html')
         context = {
@@ -111,9 +113,34 @@ def get(request, refreshToken):
         context = {}
         return HttpResponse(template.render(context, request))
 
-def delete(request):
-    template = loader.get_template('admin_error.html')
-    context = {}
-    return HttpResponse(template.render(context, request))
+def delete(request, refreshToken):
+    response = er.refresh(refreshToken)
+	
+    if 'error' in response.keys():
+        template = loader.get_template('login.html')
+        context = {"error":"access_error"}
+        return HttpResponse(template.render(context, request))
+    try:
+        connection = dbconnect.dbconnect()
+        statuses = request.POST.getlist("status")
+        for status in statuses:
+            data = status.split(',')
+            emp = data[3]
+            emp = emp[1:]
+            date = data[1]
+            date = date[1:]
+            change = data[0]
+            connection.delete_status(emp, date, change)
+        connection.close()
+
+        template = loader.get_template('submit.html')
+        context = {
+            'refreshToken': response['refresh_token']
+        }
+        return HttpResponse(template.render(context, request))
+    except:    
+        template = loader.get_template('admin_error.html')
+        context = {'refreshToken': response['refresh_token']}
+        return HttpResponse(template.render(context, request))
 		
 	
