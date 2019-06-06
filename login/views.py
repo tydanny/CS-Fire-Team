@@ -113,7 +113,7 @@ def admin(request, refreshToken):
 			   'refreshToken': response['refresh_token']}
 	return HttpResponse(template.render(context, request))
 
-def officer(request):
+def officer(request, refreshToken):
 	response = er.refresh(refreshToken)
 	
 	if 'error' in response.keys():

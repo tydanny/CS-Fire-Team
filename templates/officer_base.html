@@ -19,11 +19,11 @@
 	  </div>
 	  <div id = "navigation">
 		<ul>
-		  <li><a href="{% url 'officer_home' %}">Home</a></li>
-		  <li><a href="{% url 'officer_reports' %}">Reports</a></li>
-		  <li><a href="{% url 'officer_custom' %}">Custom Reports</a></li>
+		  <li><a href="{% url 'officer_home' refreshToken=refreshToken %}">Home</a></li>
+		  <li><a href="{% url 'officer_reports' refreshToken=refreshToken %}">Reports</a></li>
+		  <li><a href="{% url 'officer_custom' refreshToken=refreshToken %}">Custom Reports</a></li>
 		  <li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
-		  <li style="float:right"><a class="active" href="{% url 'officer_about' %}">About</a></li>
+		  <li style="float:right"><a class="active" href="{% url 'officer_about' refreshToken=refreshToken %}">About</a></li>
 		</ul>
 	  </div>
 	</div>

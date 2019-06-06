@@ -7,9 +7,16 @@ import datetime
 import csv
 
 # Create your views here.
-def officer(request):
+def officer(request, refreshToken):
+	response = er.refresh(refreshToken)
+	
+	if 'error' in response.keys():
+		template = loader.get_template('login.html')
+		context = {"error":"access_error"}
+		return HttpResponse(template.render(context, request))
+
 	template = loader.get_template('officer_reports.html')
-	context = {}
+	context = {'refreshToken' : response['refresh_token']}
 	return HttpResponse(template.render(context, request))
 	
 def admin(request, refreshToken):
