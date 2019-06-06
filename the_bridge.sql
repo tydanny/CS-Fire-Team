@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS person_xref_incident;
 DROP TABLE IF EXISTS person_xref_event;
 DROP TABLE IF EXISTS incident;
-DROP TABLE IF EXISTS shift;
+DROP TABLE IF EXISTS shift CASCADE;
 DROP TABLE IF EXISTS person_status;
 DROP TABLE IF EXISTS event CASCADE;
 DROP TABLE IF EXISTS person CASCADE;
@@ -36,7 +36,6 @@ CREATE TABLE shift
     shift_start TIMESTAMP,
     shift_end TIMESTAMP,
     station TEXT,
-    role TEXT,
     bonus TEXT,
     PRIMARY KEY (person_id, shift_start, shift_end)
 );
