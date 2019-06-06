@@ -24,18 +24,17 @@ def convert_iar(file):
     
     print (row)
     
-    if(not db.get_shift(tstart, tend, location)[0]):
+    if(not db.get_shift(tstart, tend, location)):
       print('Loc: ', location, 'Start time: ', tstart, 'End time: ', tend)
       db.load_shift(tstart,tend,location)
     role = row.loc['On duty for']
     
     person = row.loc['First name'].split(' ')[0]
     
-    if(not db.get_person_xref_shift(tstart, tend, location, person)):
+    if(not db.get_shift(person, tstart, tend)):
       print(person)
-      db.load_person_xref_shift(tstart, tend, location, person, role)
-
-  db.close()
+      #This will have bonus instead of a blank string once we get that figured out.
+      db.load_shift(tstart, tend, location, person, role, ''")
   
 def convert_wtw(filepath):
   db = dbconnect()
