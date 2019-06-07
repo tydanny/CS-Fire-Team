@@ -169,16 +169,27 @@ class dbconnect():
         return self.s_query("""
         SELECT id FROM person WHERE id='%s';
         """ % (id))[0][0]
+
+    def get_person_id_check(self, id):
+        return self.s_query("""
+        SELECT id FROM person WHERE id='%s';
+        """ % (id))
+
     def get_title(self, id):
         title = self.s_query("""
         SELECT title FROM person WHERE id='%s';
         """ % (id))
         return title[0][0]
+    
+    def update_bonus(self, tstart, tend, person, bonus):
+        self.i_query("""
+        UPDATE shift SET bonus='%s' WHERE shift_start='%s' AND shift_end='%s' AND person_id='%s';
+        """ % (newper, id))
 
     def update_permissions(self, id, newper):
         self.i_query("""
         UPDATE person SET title='%s' WHERE id='%s';
-        """ % (newper, id))
+        """ % (bonus, tstart, tend, person))
 
     def delete_status(self, id, date_change, status):
         self.i_query("""
