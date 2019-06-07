@@ -253,7 +253,7 @@ select option:checked:before {
 	right: 0;
 	z-index: 99;
 	clear: both;
-	max-height: 20vh;
+	max-height: 22vh;
 	overflow-y: auto;
 }
 
@@ -345,3 +345,4 @@ textarea {
 	margin-right: auto;
 	background-color: white;
 }
+

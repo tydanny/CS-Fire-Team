@@ -25,8 +25,6 @@ class dbconnect():
         except psycopg2.Error as e:
             print('Query error')
             print (e)
-            self.close()
-            self.connect()
 
     def i_query(self, query):
         try:
@@ -36,8 +34,6 @@ class dbconnect():
         except psycopg2.Error as e:
             print('Query error')
             print (e)
-            self.close()
-            self.connect()
 
     def close(self):
         self.cur.close()
@@ -87,10 +83,9 @@ class dbconnect():
         return report
 
     #Loads a person.
-    def load_person(self, id, fname, lname, title, residency, start=None):
+    def load_person(self, id, fname, lname, title, residency, start):
         self.i_query("INSERT INTO person (id, fname, lname, title, resident) VALUES ('%s', '%s', '%s', '%s', '%s');" % (id, fname, lname, title, residency))
-        if start != None:
-            self.load_person_status('Active', start, id, 'Start')
+        self.load_person_status('Active', start, id, 'Start Day')
 
     #Takes in incident id, time, category, and response.
     def load_incident(self, id, time, category, response):
@@ -146,7 +141,7 @@ class dbconnect():
 
     def get_shifts(self, id, start, end):
         return self.s_query("""
-        SELECT * FROM shift WHERE person_id='%s' AND shift_start BETWEEN '%s' and '%s';
+        SELECT * FROM shift WHERE person_id='%s' AND shift_end BETWEEN '%s' and '%s';
         """ % (id, start, end))
 
     def get_shift(self, person_id, start, end):
@@ -205,8 +200,8 @@ class dbconnect():
     #Gets all shifts for one person in a range.
     def get_shift_duration(self, id, start, end):
         return self.s_query("""
-        SELECT shift_end-shift_start, shift_start, shift_end FROM shift 
-        WHERE person_id = '%s' AND shift_start BETWEEN '%s' AND '%s';
+        SELECT shift_end-shift_start, bonus FROM shift 
+        WHERE person_id = '%s' AND shift_end BETWEEN '%s' AND '%s';
         """ % (id, start, end))
 
     def get_appar(self, id, start, end):
