@@ -57,7 +57,6 @@ class Report():
         self.compute_fundraisers()
         self.compute_meetings()
         self.compute_trainings()
-        #TODO:FIX COMPUTE SERVICE
         self.compute_service()
         self.compute_employee_details()
         self.compute_employee_status()
@@ -71,9 +70,9 @@ class Report():
         if shift != None:
             for s in shift:
                 hours = (s[0].seconds/3600) + (s[0].days * 24)
-                credit += hours // 12                
-                if hours>=3 and hours<11:
-                    counter += hours
+                credit += (hours + 1) // 12   # 1 hour wiggle room
+                if hours % 12 >= 3 and hours % 12 < 11:
+                    counter += (hours % 12)
             credit += counter // 12
             self.shifts = int(credit)
 
