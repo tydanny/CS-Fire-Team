@@ -58,7 +58,7 @@ class Report():
         self.compute_meetings()
         self.compute_trainings()
         #TODO:FIX COMPUTE SERVICE
-        #self.compute_service()
+        self.compute_service()
         self.compute_employee_details()
         self.compute_employee_status()
         self.create_csv_row()
@@ -133,7 +133,6 @@ class Report():
 
     def compute_service(self):
         self.daysService = 0
-        print(self.empNum)
         hireDate = self.connection.get_start(str(self.empNum)).date()
         statuses = self.connection.get_statuses(str(self.empNum))
         lastStatus = statuses[-1]
