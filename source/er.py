@@ -412,6 +412,7 @@ def get_people(access_token=None, **kwargs):
 
     params = urllib.parse.urlencode({
         # Request parameters
+        'limit': 10000
     })
 
     try:
@@ -423,7 +424,8 @@ def get_people(access_token=None, **kwargs):
         conn.close()
         return j['users']
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(e.with_traceback())
+
 
 def load_people(access_token=None, **kwargs):
 
@@ -437,8 +439,12 @@ def load_people(access_token=None, **kwargs):
     id_list = [i[0] for i in ids]
     
     for u in users:
-        if(not u['agencyPersonnelID'] in id_list):
+        if(not u['agencyPersonnelID'] in id_list and u['agencyPersonnelID'] != None):
             l, f = u['fullName'].split(', ', 1)
+            if "'" in l:
+                l = l.replace("'", r"''")
+            if "'" in f:
+                f = f.replace("'", r"''")
             db.load_person(u['agencyPersonnelID'], f, l, u['title'], u['shift'])
 
 def get_event_types(access_token=None, **kwargs):
