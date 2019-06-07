@@ -40,7 +40,8 @@ def upload(request, refreshToken):
         }
         
         return HttpResponse(template.render(context, request))
-    except:
+    except Exception as e:
+        print(e)
         template = loader.get_template('error.html')
         context = {
             'refreshToken': response['refresh_token']
