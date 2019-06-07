@@ -252,6 +252,9 @@ select option:checked:before {
 	left: 0;
 	right: 0;
 	z-index: 99;
+	clear: both;
+	max-height: 20vh;
+	overflow-y: auto;
 }
 
 .select-hide {

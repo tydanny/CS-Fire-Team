@@ -30,7 +30,7 @@ def check(request):
 	title = db.get_title(user['agencyPersonnelID'])
 	refreshToken = response['refresh_token']
 	
-	if title == 'Firefighter':
+	if title == 'Fire Fighter':
 		page = 'user_home'
 	elif title == 'Officer':
 		page = 'officer_home'
