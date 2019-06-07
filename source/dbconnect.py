@@ -25,6 +25,8 @@ class dbconnect():
         except psycopg2.Error as e:
             print('Query error')
             print (e)
+            self.close()
+            self.connect()
 
     def i_query(self, query):
         try:
@@ -34,6 +36,8 @@ class dbconnect():
         except psycopg2.Error as e:
             print('Query error')
             print (e)
+            self.close()
+            self.connect()
 
     def close(self):
         self.cur.close()
@@ -83,9 +87,10 @@ class dbconnect():
         return report
 
     #Loads a person.
-    def load_person(self, id, fname, lname, title, residency, start):
+    def load_person(self, id, fname, lname, title, residency, start=None):
         self.i_query("INSERT INTO person (id, fname, lname, title, resident) VALUES ('%s', '%s', '%s', '%s', '%s');" % (id, fname, lname, title, residency))
-        self.load_person_status('Active', start, id, 'Start Day')
+        if start != None:
+            self.load_person_status('Active', start, id, 'Start')
 
     #Takes in incident id, time, category, and response.
     def load_incident(self, id, time, category, response):
