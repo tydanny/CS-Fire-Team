@@ -22,6 +22,7 @@ class Report():
         self.title = ""
         self.resident = ""
         self.shifts = 0
+        self.bonusShifts = 0
         self.actCalls = 0
         self.totCalls = 0
         self.WDHours = 0
@@ -43,7 +44,7 @@ class Report():
         self.statOverall = "On-Track"
         self.csvRow = []
         self.headerRow = ['Rank','Emp #','Last Name','First Name', 'Completion Status',
-                          'Actual Calls', 'Shift Volunteer', 'Resident Volunteer',
+                          'Actual Calls', 'Actual Shifts', 'Bonus Shifts', 'Shift Volunteer', 'Resident Volunteer',
                           'Work Detail Hours', 'Apparatus Checks', 'Training-Dept',
                           'Training-Total', 'Fundraiser', 'Business Meetings',
                           'Days of Service', 'Years of Service']
@@ -57,7 +58,6 @@ class Report():
         self.compute_fundraisers()
         self.compute_meetings()
         self.compute_trainings()
-        #TODO:FIX COMPUTE SERVICE
         self.compute_service()
         self.compute_employee_details()
         self.compute_employee_status()
@@ -68,12 +68,24 @@ class Report():
         shift = self.connection.get_shift_duration(str(self.empNum), self.startTime, self.endTime)
         credit=0
         counter=0
+        self.bonusShifts = 0
+        weekends = 0
         if shift != None:
             for s in shift:
-                hours = (s[0].seconds/3600) + (s[0].days * 24)
-                credit += hours // 12                
-                if hours>=3 and hours<11:
-                    counter += hours
+                if s[1] == "Event":
+                    credit += 1
+                else:
+                    hours = (s[0].seconds/3600) + (s[0].days * 24)
+                    credit += (hours + 1) // 12   # 1 hour wiggle room
+                    if hours % 12 >= 3 and hours % 12 < 11:
+                        counter += (hours % 12)
+                    if s[1] == "Weekend" and weekends < 6:
+                        self.bonusShifts += 1
+                        weekends += 1
+                    if s[1] == "ACO":
+                        self.bonusShifts += (hours + 1) //12
+                    if s[1] == "Holliday":
+                        self.bonusShifts += 2
             credit += counter // 12
             self.shifts = int(credit)
 
@@ -156,7 +168,7 @@ class Report():
         daysPassed = (datetime.date.today() - datetime.date(curr.year, 1, 1)).days
         tarRatio = daysPassed / 365
         ratTrainings = self.trainings / Requirements.TRAININGS.value
-        ratShifts = self.shifts / Requirements.SHIFTS.value
+        ratShifts = (self.shifts + self.bonusShifts) / Requirements.SHIFTS.value
         ratActCalls = self.actCalls / Requirements.ACTUAL_CALLS.value
         ratWorkDeets = self.WDHours / Requirements.WORK_DETAIL_HOURS.value
         ratApparatus = self.apparatus / Requirements.APPARATUS.value
@@ -243,6 +255,8 @@ class Report():
         self.csvRow.append(str(self.statOverall))
         self.csvRow.append(str(self.actCalls))
         self.csvRow.append(str(self.shifts))
+        self.csvRow.append(str(self.bonusShifts))
+        self.csvRow.append(str(self.shifts + self.bonusShifts))
         self.csvRow.append(str(self.totCalls))
         self.csvRow.append(str(self.WDHours))
         self.csvRow.append(str(self.apparatus))

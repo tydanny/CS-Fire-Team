@@ -7,7 +7,7 @@ import json
 def convert_iar(file):
   
   db = dbconnect.dbconnect()
-  
+  print('Yeet')
   #log = filepath.read()
   #print (str(log))
   #This should be dynamic, and it should function fine.
@@ -16,19 +16,34 @@ def convert_iar(file):
   #for index, row in rep[0].iterrows():
   #for index, row in rep[0].iterrows():
     #print(row)
+  #This contains the info for every shift that failed to load because the person id couldn't be found in the database.
+  failures = []
+
   for index, row in rep[0].iterrows():
     
     tstart = row.loc['Start date'].replace('/','-') + ' ' + row.loc['Start time'] + ':00'
     tend = row.loc['End date'].replace('/','-') + ' ' + row.loc['End time'] + ':00'
     location = row.loc['On duty at']
     
-    print (row)
-    
+    #print (row)
+    print('Double yeet')
     bonus = row.loc['On duty for']
     
     person = row.loc['First name'].split(' ')[0]
-    db.load_shift(tstart, tend, location, person, bonus)
-  
+    
+    sft = db.get_shift(person, tstart, tend)
+
+    if(not sft):
+      print (sft)
+      if(not db.get_person_id_check(person)):
+        print('Triple yeet')
+        failures.append([person, tstart, tend])
+      else:
+        db.load_shift(tstart, tend, location, person, bonus)
+    elif (sft[0][4] != bonus):
+      db.update_bonus(tstart, tend, person, bonus)
+      
+  return failures
 def convert_wtw(filepath):
   db = dbconnect()
   

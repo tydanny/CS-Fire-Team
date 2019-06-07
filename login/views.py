@@ -30,16 +30,12 @@ def check(request):
 	title = db.get_title(user['agencyPersonnelID'])
 	refreshToken = response['refresh_token']
 	
-	if title == 'Fire Fighter':
-		page = 'user_home'
-	elif title == 'Officer':
+	if title == 'Shift Officer' or title == 'Training Officer':
 		page = 'officer_home'
-	elif title == 'Data Collection':
+	elif title == 'Fire Chief' or title == 'Administrative Coordinator' or title == 'Data Collection':
 		page = 'admin_home'
 	else:
-		template = loader.get_template('login.html')
-		context = {"error":"permissions"}
-		return HttpResponse(template.render(context, request))
+		page = 'user_home'
 
 	template = loader.get_template('submit_redirect.html')
 	
@@ -165,6 +161,7 @@ def user(request, refreshToken):
 		'training': str(report.trainings),
 		'trainingStatus': report.statTrainings,
 		'shifts': str(report.shifts),
+                'bonusShifts': str(report.bonusShifts),
 		'shiftStatus': report.statShifts,
 		'actCalls': str(report.actCalls),
 		'callStatus': report.statActCalls,

@@ -7,7 +7,7 @@
     <div class="header">
 	  <h1>View Time Logs</h1>
 	</div>
-	<form action="" method="post">{% csrf_token %}
+	<form action="{% url 'custom_user_submit' refreshToken=refreshToken %}" method="post">{% csrf_token %}
 	  <div class="header">
 		<label for="start">Start date:</label>
 		<input type="date" id="start" name="time-start" required>
@@ -19,7 +19,7 @@
 	  Report
 	  <div class="header">
 	    <div class="custom-select">
-		  <select name="status">
+		  <select name="type">
 			<option value="No Selection">No Selection</option>
 			<option value="Training">Training</option>
 			<option value="Shifts">Shifts</option>
@@ -28,6 +28,7 @@
 			<option value="Apparatus">Sundays & Weeklies</option>
 			<option value="Fundraisers">Fundraisers</option>
 			<option value="Meetings">Business Meetings</option>
+			<option value="LOSAP">LOSAP</option>
 		  </select>
 		</div>
 	  </div>
