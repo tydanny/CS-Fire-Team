@@ -58,12 +58,6 @@ def get_auth(username, password):
 
 def get_token_pass(username=None, password=None):
 
-    if username == None:
-        username = input("Enter your username: ")
-
-    if password == None:
-        password = get_pass()
-
     headers = {
         # Request headers
         'Content-Type': 'application/json',
@@ -73,25 +67,34 @@ def get_token_pass(username=None, password=None):
     params = urllib.parse.urlencode({
     })
 
-    body = { 
-        "grant_type": "password",
-        "client_id": "city_of_golden",
-        "client_secret": "d4f030ead6c2d25aed4a57ad8912f90c7f5668a0",
-        "username": username,
-        "password": password
-    }
-    j = json.dumps(body)
+    while True:
+        if username == None:
+            username = input("Enter your username: ")
 
-    try:
-        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
-        conn.request("POST", "/authpass/Token.php?%s" % params, j, headers)
-        response = conn.getresponse()
-        data = json.loads(response.read().decode())
-        conn.close()
-        return data["access_token"]
-    except Exception as e:
-        print(data)
-        print(e)
+        if password == None:
+            password = get_pass()
+
+        body = { 
+            "grant_type": "password",
+            "client_id": "city_of_golden",
+            "client_secret": "d4f030ead6c2d25aed4a57ad8912f90c7f5668a0",
+            "username": username,
+            "password": password
+        }
+        j = json.dumps(body)
+
+        try:
+            conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+            conn.request("POST", "/authpass/Token.php?%s" % params, j, headers)
+            response = conn.getresponse()
+            data = json.loads(response.read().decode())
+            conn.close()
+            if 'error' not in data.keys():
+                return data["access_token"]
+        except Exception as e:
+            print(data['error description'])
+        password = None
+        username = None
 
 def get_token_ref(username=None, password=None):
 

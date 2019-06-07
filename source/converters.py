@@ -27,11 +27,7 @@ def convert_iar(file):
     bonus = row.loc['On duty for']
     
     person = row.loc['First name'].split(' ')[0]
-    
-    if(not db.get_shift(person, tstart, tend) and db.get_person_id(person) == person):
-      print(person)
-      
-      db.load_shift(tstart, tend, location, person, bonus)
+    db.load_shift(tstart, tend, location, person, bonus)
   
 def convert_wtw(filepath):
   db = dbconnect()
@@ -56,4 +52,3 @@ def convert_wtw(filepath):
       print(person)
       db.load_person_xref_shift(tstart, tend, location, person, role)
 
-  db.close()
