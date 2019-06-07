@@ -90,6 +90,24 @@ def get(request, refreshToken):
 
     try:	
         connection = dbconnect.dbconnect()
+		
+        firstQuery = "SELECT fname FROM PERSON;"
+        firsts = connection.s_query(firstQuery)
+        lastQuery = "SELECT lname FROM PERSON;"
+        lasts = connection.s_query(lastQuery)
+        numsQuery = "SELECT id FROM PERSON;"
+        nums = connection.s_query(numsQuery)
+        i = len(firsts)
+        x = 0
+        emps = []
+        while x < i:
+            empfirst = firsts[x][0]
+            emplast = lasts[x][0]
+            empNum = nums[x][0]
+            emp = "%s, %s %s" % (emplast, empfirst, empNum)
+            emps.append(emp)
+            x += 1
+		
         employee = request.POST["employee"]
         nums = [int(s) for s in employee.split() if s.isdigit()]
         empNum = nums[-1]
@@ -105,6 +123,7 @@ def get(request, refreshToken):
         template = loader.get_template('admin_personnel.html')
         context = {
 			'statuses' : stats,
+			'employees': emps,
 			'refreshToken' : response['refresh_token']
 		}
         return HttpResponse(template.render(context, request))
@@ -121,7 +140,7 @@ def delete(request, refreshToken):
         context = {"error":"access_error"}
         return HttpResponse(template.render(context, request))
     try:
-        connection = dbconnect.dbconnect()
+        connection = dbconnect.dbconnect()		
         statuses = request.POST.getlist("status")
         for status in statuses:
             data = status.split(',')

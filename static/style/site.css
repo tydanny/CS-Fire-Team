@@ -103,7 +103,7 @@ table {
 }
 	
 .button {
-	background-color: #4CAF50;
+	background-color: #333;
 	border: none;
 	color: white;
 	padding: 15px 32px;
@@ -170,17 +170,6 @@ body {
 	font-size: 14px;
 	color: gray;
 	font-weight: lighter;
-}
-
-.button {
-	background-color: #333;
-	border: none;
-	color: white;
-	padding: 15px 32px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
 }
 
 select {
@@ -352,9 +341,4 @@ textarea {
 	margin-left: auto;
 	margin-right: auto;
 	background-color: white;
-}
-
-#signup {
-	margin: 50px 50px 50px 50px;
-	font-family: sans-serif;
 }

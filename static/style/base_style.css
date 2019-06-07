@@ -1,9 +1,3 @@
-#main {
-	margin: 50px 50px 50px 50px;
-	text-align: center;
-	font-family: sans-serif;
-}
-
 #centered {
 	text-align: center;
 	font-family: sans-serif;
@@ -12,21 +6,8 @@
 	background-color: #e5e5e5;
 }
 
-#centered1 {
-	text-align: center;
-	font-family: sans-serif;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: white;
-}
-
-#signup {
-	margin: 50px 50px 50px 50px;
-	font-family: sans-serif;
-}
-
 .button {
-	background-color: #4CAF50;
+	background-color: #333;
 	border: none;
 	color: white;
 	padding: 15px 32px;
@@ -68,41 +49,9 @@ body {
 	max-width: 70%;
 	margin: auto;
 	background: #e5e5e5;
-	padding: 0px;
-}
-
-.button {
-	background-color: #333;
-	border: none;
-	color: white;
-	padding: 15px 32px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-}
-
-p {
-	font-size: 15px;
-	font-size: 1.8vw;
-	margin-right: auto;
 }
 
 form {
 	font-size: 15px;
 	font-size: 1.8vw;
-}
-
-.para {
-    border-radius: 90px / 100px;
-    width: 100%;
-    text-align: left;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
-    background: #333;
-    margin-top: 50px;
-    color: white;
-	border-style: outset;
 }

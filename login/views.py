@@ -34,7 +34,7 @@ def check(request):
 		page = 'user_home'
 	elif title == 'Officer':
 		page = 'officer_home'
-	elif title == 'Admin':
+	elif title == 'Data Collection':
 		page = 'admin_home'
 	else:
 		template = loader.get_template('login.html')

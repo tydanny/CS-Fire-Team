@@ -7,7 +7,7 @@
 	<div class="header">
 	  <h1>Generate Custom Reports</h1>
 	</div>
-    <form method="post">{% csrf_token %}
+    <form action="{% url 'custom_off_submit' %}" method="post">{% csrf_token %}
 	  <div class="header">
 	    <label for="start">Start date:</label>
 	    <input type="date" id="start" name="time-start" required>

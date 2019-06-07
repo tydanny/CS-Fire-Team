@@ -63,7 +63,7 @@ li a:hover {
 }
 
 .button {
-	background-color: #4CAF50;
+	background-color: #333;
 	border: none;
 	color: white;
 	padding: 15px 32px;
@@ -143,18 +143,6 @@ color: white;
 background: #333;
 }
 
-
-.button {
-	background-color: #333;
-	border: none;
-	color: white;
-	padding: 15px 32px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-}
-
 #title {
 background-color: white;
 }
@@ -220,17 +208,4 @@ height: 200px;
 height: 8vw;
 width: 400px;
 width: 20vw;
-}
-.para {
-    border-radius: 90px / 100px; 
-    width: 100%;
-    text-align: left;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
-    background: #333;
-    margin-top: 50px;
-    color: white;
-	border-style: outset;
 }
