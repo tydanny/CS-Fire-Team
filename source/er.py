@@ -9,13 +9,11 @@ import datetime
 from getpass import getpass
 from source import dbconnect
 
-def load_incidents(username=None, password=None, **kwargs):
-    if username == None:
-        username = input("Enter your username: ")
+def load_incidents(access_token=None, **kwargs):
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
     
     db = dbconnect.dbconnect()
-    
-    access_token = get_token_pass(username, password)
     
     incidents = get_incidents(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
     
@@ -23,13 +21,14 @@ def load_incidents(username=None, password=None, **kwargs):
         exposures = get_exposures(incident['incidentID'], access_token)
         
         #The 0 will be changed to a call once we figure out how to get the start time.
-        db.load_incident(incident['incidentNumber'], incident['incidentDateTime'], exposures[0]['incidentType'], 0)
+        db.load_incident(incident['incidentID'], incident['incidentDateTime'], exposures[0]['incidentType'], 0)
         
         for exposure in exposures:
             crewMembers = get_crewMembers(exposures[0]['exposureID'], access_token)
             #May need to change the parameter, userID might not be the one we need.
             for member in crewMembers:
-                db.load_person_xref_incident(incident['incidentID'], member['agencyPersonnelID'])
+                if 'agencyPersonnelID' in member.keys():
+                    db.load_person_xref_incident(incident['incidentID'], member['agencyPersonnelID'])
     
     
 def get_auth(username, password):
@@ -92,7 +91,9 @@ def get_token_pass(username=None, password=None):
             if 'error' not in data.keys():
                 return data["access_token"]
         except Exception as e:
-            print(data['error description'])
+            print(e)
+
+        print(data)
         password = None
         username = None
 
@@ -195,7 +196,8 @@ def get_incidents(access_token, **kwargs):
 
     params = urllib.parse.urlencode({
         'filter': 'incidentDateTime ge "%s", incidentDateTime le "%s"' % (start.date().isoformat(), end.date().isoformat()),
-        'orderby': 'incidentDateTime ASC'
+        'orderby': 'incidentDateTime ASC',
+        'limit': 900000
     })
 
     try:
@@ -224,6 +226,7 @@ def get_exposures(incidentID, access_token):
 
     params = urllib.parse.urlencode({
         # Request parameters
+        'limit': 10000
     })
 
     try:
@@ -246,6 +249,7 @@ def get_crewMembers(exposureID, access_token):
 
     params = urllib.parse.urlencode({
         # Request parameters
+        'limit': 10000
     })
 
     try:
