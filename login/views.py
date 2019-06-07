@@ -161,6 +161,7 @@ def user(request, refreshToken):
 		'training': str(report.trainings),
 		'trainingStatus': report.statTrainings,
 		'shifts': str(report.shifts),
+                'bonusShifts': str(report.bonusShifts),
 		'shiftStatus': report.statShifts,
 		'actCalls': str(report.actCalls),
 		'callStatus': report.statActCalls,
