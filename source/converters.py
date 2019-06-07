@@ -7,7 +7,7 @@ import json
 def convert_iar(file):
   
   db = dbconnect.dbconnect()
-  
+  print('Yeet')
   #log = filepath.read()
   #print (str(log))
   #This should be dynamic, and it should function fine.
