@@ -14,9 +14,31 @@ def officer(request, refreshToken):
 		template = loader.get_template('login.html')
 		context = {"error":"access_error"}
 		return HttpResponse(template.render(context, request))
+		
+	connection = dbconnect.dbconnect()
+	firstQuery = "SELECT fname FROM PERSON;"
+	firsts = connection.s_query(firstQuery)
+	lastQuery = "SELECT lname FROM PERSON;"
+	lasts = connection.s_query(lastQuery)
+	numsQuery = "SELECT id FROM PERSON;"
+	nums = connection.s_query(numsQuery)
+	connection.close()
+	i = len(firsts)
+	x = 0
+	emps = []
+	while x < i:
+		empfirst = firsts[x][0]
+		emplast = lasts[x][0]
+		empNum = nums[x][0]
+		emp = "%s, %s %s" % (emplast, empfirst, empNum)
+		emps.append(emp)
+		x += 1
 
 	template = loader.get_template('officer_reports.html')
-	context = {'refreshToken' : response['refresh_token']}
+	context = {
+		'employees' : emps,
+		'refreshToken' : response['refresh_token']
+	}
 	return HttpResponse(template.render(context, request))
 	
 def admin(request, refreshToken):
