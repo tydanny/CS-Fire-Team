@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     'personnel.apps.PersonnelConfig',
     'about.apps.AboutConfig',
     'import.apps.ImportConfig',
-	'create.apps.CreateConfig',
 	'login.apps.LoginConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -125,9 +124,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'../CS-Fire-Team/static/'),)
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
-
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'loggedout'

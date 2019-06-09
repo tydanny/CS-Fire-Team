@@ -31,7 +31,7 @@ def upload(request, refreshToken):
 
     try:
         myfile = request.FILES['fileToUpload']
-        template = loader.get_template('submit.html')
+        template = loader.get_template('admin_submit.html')
         
         #I dont know if this works or if changes need to be made to account for django stuff
         converters.convert_iar(myfile)
@@ -42,7 +42,7 @@ def upload(request, refreshToken):
         return HttpResponse(template.render(context, request))
     except Exception as e:
         print(e)
-        template = loader.get_template('error.html')
+        template = loader.get_template('admin_error.html')
         context = {
             'refreshToken': response['refresh_token']
         }

@@ -55,7 +55,7 @@ def update(request, refreshToken):
         note = request.POST["text"]
         connection.load_person_status(status, date, str(empNum), note)
         connection.close()
-        template = loader.get_template('submit.html')
+        template = loader.get_template('admin_submit.html')
         context = {
 			'refreshToken': response['refresh_token']
 		}
@@ -152,7 +152,7 @@ def delete(request, refreshToken):
             connection.delete_status(emp, date, change)
         connection.close()
 
-        template = loader.get_template('submit.html')
+        template = loader.get_template('admin_submit.html')
         context = {
             'refreshToken': response['refresh_token']
         }

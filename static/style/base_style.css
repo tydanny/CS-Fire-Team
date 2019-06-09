@@ -24,7 +24,6 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 0;
-	background-image:url({% static "images/background.jpg" %});
 	background-repeat: no-repeat;
 	background-position: bottom;
 	background-attachment: fixed;

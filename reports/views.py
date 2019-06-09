@@ -52,30 +52,6 @@ def admin(request, refreshToken):
     }
     return HttpResponse(template.render(context, request))
 
-
-def index(request):
-    connection = dbconnect.dbconnect()
-    firstQuery = "SELECT fname FROM PERSON;"
-    firsts = connection.s_query(firstQuery)
-    lastQuery = "SELECT lname FROM PERSON;"
-    lasts = connection.s_query(lastQuery)
-    numsQuery = "SELECT id FROM PERSON;"
-    nums = connection.s_query(numsQuery)
-    connection.close()
-    i = len(firsts)
-    x = 0
-    emps = []
-    while x < i:
-        empfirst = firsts[x][0]
-        emplast = lasts[x][0]
-        empNum = nums[x][0]
-        emp = "%s, %s %s" % (emplast, empfirst, empNum)
-        emps.append(emp)
-        x += 1
-    template = loader.get_template('reports.html')
-    context = {'employees' : emps}
-    return HttpResponse(template.render(context, request))
-
 def submit(request, refreshToken):
     response = er.refresh(refreshToken)
 	
@@ -120,7 +96,14 @@ def submit(request, refreshToken):
         return HttpResponse(template.render(context, request))
 
 
-def officer_submit(request):
+def officer_submit(request, refreshToken):
+    response = er.refresh(refreshToken)
+	
+    if 'error' in response.keys():
+        template = loader.get_template('login.html')
+        context = {"error":"access_error"}
+        return HttpResponse(template.render(context, request))
+
     try:
         startDate = request.POST["time-start"]
         startTime = "%s 00:00:00.00" % startDate
@@ -151,41 +134,9 @@ def officer_submit(request):
     except Exception as e:
         print(e)
         template = loader.get_template('officer_error.html')
-        context = {}
-        return HttpResponse(template.render(context, request))
-
-def admin_submit(request):
-    try:
-        startDate = request.POST["time-start"]
-        startTime = "%s 00:00:00.00" % startDate
-        endDate = request.POST["time-end"]
-        currTime = str(datetime.datetime.now().time())
-        endTime = "%s %s" % (endDate, currTime)
-        reportType = request.POST["type"]
-        staff = request.POST.getlist("staff")
-        connection = dbconnect.dbconnect()
-        empNums = []
-        if staff[0] == "Generate For All":
-            numsQuery = "SELECT id FROM PERSON;"
-            nums = connection.s_query(numsQuery)
-            i = len(nums)
-            x = 0
-            while x < i:
-                empNums.append(nums[x][0])
-                x += 1
-        elif len(staff) == 1:
-            nums = [int(s) for s in staff[0].split() if s.isdigit()]
-            empNums.append(nums[-1])
-        else:
-            for person in staff:
-                nums = [int(s) for s in person.split() if s.isdigit()]
-                empNums.append(nums[-1])
-        connection.close()
-        return __generate_report(empNums, startTime, endTime, reportType)
-    except Exception as e:
-        print(e)
-        template = loader.get_template('admin_error.html')
-        context = {}
+        context = {
+            'refreshToken': response['refresh_token']
+        }
         return HttpResponse(template.render(context, request))
 
 def __generate_report(empNums, startTime, endTime, reportType):
