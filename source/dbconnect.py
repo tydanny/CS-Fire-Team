@@ -229,3 +229,6 @@ class dbconnect():
         SELECT e.tend-e.tstart, e.etype FROM event AS e, person_xref_event AS pe
         WHERE pe.person_id = '%s' AND e.etype LIKE 'training%%' AND e.tstart BETWEEN '%s'
         AND '%s' AND e.id = pe.event_id;""" % (id, start, end))
+
+    def dashboard_calls(self, start, end, station):
+        return self.s_query("SELECT COUNT(*) FROM incident WHERE tstamp BETWEEN '%s' AND '%s';" % (start, end))[0][0]
