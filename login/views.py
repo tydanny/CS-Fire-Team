@@ -71,13 +71,16 @@ def admin(request, refreshToken):
 	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
 		startTime = request.POST['time-start']
 		endTime = request.POST['time-end']
+		station = request.POST['station']
 	else:
 		curr = datetime.datetime.now(tz=None)
 		startTime = "%s-01-01 00:00:00.00" % curr.year
 		endTime = str(curr)
+		station = "Both"
 	connection = dbconnect.dbconnect()
 	numsQuery = "SELECT id FROM PERSON;"
 	nums = connection.s_query(numsQuery)
+	totalCalls = connection.dashboard_calls(startTime, endTime, station)
 	connection.close()
 	
 	i = len(nums)
@@ -110,6 +113,7 @@ def admin(request, refreshToken):
 			   'numOnTrack': numOnTrack,
 			   'numFalling': numFalling,
 			   'numBehind': numBehind,
+                           'totalCalls': totalCalls,
 			   'refreshToken': response['refresh_token']}
 	return HttpResponse(template.render(context, request))
 
