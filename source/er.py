@@ -21,21 +21,22 @@ def load_incidents(access_token=None, **kwargs):
         exposures = get_exposures(incident['incidentID'], access_token)
         
         #The 0 will be changed to a call once we figure out how to get the start time.
-        db.load_incident(incident['incidentID'], incident['incidentDateTime'], exposures[0]['incidentType'], 0)
+        #db.load_incident(incident['incidentID'], incident['incidentDateTime'], exposures[0]['incidentType'], 0)
         
         for exposure in exposures:
-            crewMembers = get_crewMembers(exposures[0]['exposureID'], access_token)
+            crewMembers = get_crewMembers(exposure['exposureID'], access_token)
             #May need to change the parameter, userID might not be the one we need.
             for member in crewMembers:
-                if 'agencyPersonnelID' in member.keys():
-                    db.load_person_xref_incident(incident['incidentID'], member['agencyPersonnelID'])
+                user = get_user(member['userID'], access_token)
+                if user and user['agencyPersonnelID'] != None:
+                    db.load_person_xref_incident(incident['incidentID'], user['agencyPersonnelID'])
     
     
 def get_auth(username, password):
     headers = {
         # Request headers
         'Content-Type': 'application/json',
-        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
+        'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080'
     }
 
     params = urllib.parse.urlencode({
@@ -281,11 +282,18 @@ def get_user(userID, access_token):
         data = response.read().decode()
         j = json.loads(data)
         conn.close()
-        return j['user']
+        if j:
+            return j['user'] 
+        else:
+            return None
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
-def get_my_user(access_token):
+def get_my_user(access_token=None):
+
+    if access_token == None:
+        access_token = get_token_pass()
+
     headers = {
         # Request headers
         'Content-Type': 'application/json',
@@ -358,28 +366,46 @@ def get_events(access_token=None, **kwargs):
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
-def load_events(username=None, password=None, **kwargs):
-    if username == None:
-        username = input("Enter your username: ")
-    if password == None:
-        password = get_pass()
+def load_events(access_token=None, **kwargs):
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
 
     db = dbconnect.dbconnect()
-    
-    access_token = get_token_pass(username, password)
 
     events = get_events(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
-    eventTypesList = get_event_types(access_token)
+    eventCatList = get_event_cat(access_token)
 
-    eventTypes = {}
+    eventCats = {}
     
-    for eventType in eventTypesList:
-        eventTypes[eventType['eventTypeID']] = eventType['eventType']
     
+    for eventCat in eventCatList:
+        eventCats[eventCat['eventCategoriesID']] = eventCat['category']
+    
+    eventIDs = []
     for event in events:
-        db.load_event(event['eventDate'], event['eventEndDate'], eventTypes[event['eventTypeID']])
-        
-def get_event_people(event_type, access_token):
+        #db.load_event(event['eventsID'], event['eventDate'], event['eventEndDate'], eventCats[event['eventCategoryID']])
+        eventIDs.append(event['eventsID'])
+        print(event['eventDate'])
+
+    load_events_xref(eventIDs, access_token)
+    
+
+def load_events_xref(eventIDs, access_token=None, **kwargs):
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+
+    db = dbconnect.dbconnect()
+    attendees = get_event_people(access_token)
+    users = get_users(access_token)
+    for attendee in attendees:
+        if attendee['eventID'] in eventIDs:
+            eventIDs.remove(attendee['eventID'])
+            db.load_person_xref_event(attendee['eventID'], users[attendee['userID']])
+
+def get_users(access_token=None, **kwargs):
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+
     headers = {
         # Request headers
         'Ocp-Apim-Subscription-Key': 'dd47ea607c5648dc8c2677b5fe8c6126',
@@ -388,22 +414,83 @@ def get_event_people(event_type, access_token):
 
     params = urllib.parse.urlencode({
         # Request parameters
-        'limit': '{number}',
-        'offset': '{number}',
-        'filter': '{string}',
-        'orderby': '{string}',
+        'limit': 1000,
+    })
+
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyusers/users?%s" % params, headers=headers)
+        response = conn.getresponse()
+        data = response.read()
+        conn.close()
+        j = json.loads(data)
+        conn.close()
+        users = {}
+
+        for user in j['users']:
+            users[str(user['userID'])] = str(user['agencyPersonnelID'])
+
+        return users
+    except Exception as e:
+        print(e)
+
+def get_event_cat(access_token=None, **kwargs):
+    
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+        
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': 'dd47ea607c5648dc8c2677b5fe8c6126',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        "limit": 100
     })
 
     try:
         conn = http.client.HTTPSConnection('data.emergencyreporting.com')
-        conn.request("GET", "/agencyevents/events/%s/people?%s" % params, headers=headers)
+        conn.request("GET", "/agencyevents/events/categories?%s" % params, headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        if j:
+            return j['eventCategories']
+        else:
+            return None
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+
+def get_event_people(access_token=None, **kwargs):
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': 'dd47ea607c5648dc8c2677b5fe8c6126',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'limit': 1000000
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyevents/events/people?%s"% (params), headers=headers)
         response = conn.getresponse()
         data = response.read().decode()
         j = json.loads(data)
         conn.close()
         return j["eventPeople"]
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(e)
 
 def get_people(access_token=None, **kwargs):
 

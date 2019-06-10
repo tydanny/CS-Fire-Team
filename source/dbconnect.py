@@ -25,6 +25,8 @@ class dbconnect():
         except psycopg2.Error as e:
             print('Query error')
             print (e)
+            self.close()
+            self.connect()
 
     def i_query(self, query):
         try:
@@ -34,6 +36,8 @@ class dbconnect():
         except psycopg2.Error as e:
             print('Query error')
             print (e)
+            self.close()
+            self.connect()
 
     def close(self):
         self.cur.close()
@@ -93,8 +97,7 @@ class dbconnect():
 
     #Takes in an incident id and a list of personnel who responded and where they came from.
     def load_person_xref_incident(self, incident_id, person_id):
-        for r, s in response:
-            self.i_query("INSERT INTO person_xref_incident (incident_id, person_id) VALUES ('%s', '%s');" % (incident_id, person_id))
+        self.i_query("INSERT INTO person_xref_incident (incident_id, person_id) VALUES ('%s', '%s');" % (incident_id, person_id))
 
     #Loads a shift.  We should add in an if once we figure out the bonus column.
     def load_shift(self, shift_start, shift_end, station, person, bonus):
@@ -110,8 +113,7 @@ class dbconnect():
 
     #Loads a person_xref_event.  Person_id is a LIST of all the ids for the people who worked an event.	
     def load_person_xref_event(self, event_id, person_id):
-        for p in people_id:
-            self.i_query("INSERT INTO person_xref_event (event_id, person_id) VALUES ('%s', '%s');" % (event_id, person_id))
+        self.i_query("INSERT INTO person_xref_event (event_id, person_id) VALUES ('%s', '%s');" % (event_id, person_id))
 
     def get_person(self, id):
         return self.s_query("""
@@ -193,7 +195,7 @@ class dbconnect():
 
     def get_wdt(self, id, start, end):
         return self.s_query("""
-        SELECT e.tstart-e.tend FROM event AS e, person_xref_event AS pe WHERE e.id = pe.event_id AND pe.person_id = '%s'
+        SELECT e.tend-e.tstart FROM event AS e, person_xref_event AS pe WHERE e.id = pe.event_id AND pe.person_id = '%s'
         AND e.tstart BETWEEN '%s' AND '%s' AND e.etype LIKE 'WORK DETAIL%%';
         """ % (id, start, end))
 
