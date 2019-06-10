@@ -173,8 +173,8 @@ body {
 }
 
 select {
-  width: 30vw;
-  height: 20vw;
+  width: 24vw;
+  height: 32vh;
   padding: 5px 15px;
 }
 
@@ -217,7 +217,7 @@ select option:checked:before {
 }
 
 .select-selected {
-	background-color: #333
+	background-color: #333;
 }
 
 .select-selected:after {
