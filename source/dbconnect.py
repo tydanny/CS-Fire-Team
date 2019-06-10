@@ -194,7 +194,7 @@ class dbconnect():
     def get_wdt(self, id, start, end):
         return self.s_query("""
         SELECT e.tstart-e.tend FROM event AS e, person_xref_event AS pe WHERE e.id = pe.event_id AND pe.person_id = '%s'
-        AND e.tstart BETWEEN '%s' AND '%s' AND e.etype LIKE 'WORK DETAIL%%';
+        AND e.tstart BETWEEN '%s' AND '%s' AND e.etype LIKE 'Work Detail%%';
         """ % (id, start, end))
 
     #Gets all shifts for one person in a range.
@@ -208,9 +208,10 @@ class dbconnect():
         return self.s_query("""
         SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
         WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
-        AND (e.etype = 'work detail-daily' OR e.etype = 'work detail-weekly' OR e.etype = '
-        work detail-sunday');""" % (id, start, end))
+        AND (e.etype = 'Work Detail - Daily' OR e.etype = 'Work Detail - Weekly' OR e.etype = '
+        Work Detail - Sunday');""" % (id, start, end))
 
+    # fix this when fundraisers are loaded
     def get_fundraisers(self, id, start, end):
         return self.s_query("""
         SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
