@@ -210,9 +210,10 @@ class dbconnect():
         return self.s_query("""
         SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
         WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
-        AND (e.etype = 'work detail-daily' OR e.etype = 'work detail-weekly' OR e.etype = '
-        work detail-sunday');""" % (id, start, end))
+        AND (e.etype = 'Work Detail - Daily' OR e.etype = 'Work Detail - Weekly' OR e.etype = '
+        Work Detail - Sunday');""" % (id, start, end))
 
+    # fix this when fundraisers are loaded
     def get_fundraisers(self, id, start, end):
         return self.s_query("""
         SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
@@ -231,3 +232,6 @@ class dbconnect():
         SELECT e.tend-e.tstart, e.etype FROM event AS e, person_xref_event AS pe
         WHERE pe.person_id = '%s' AND e.etype LIKE 'training%%' AND e.tstart BETWEEN '%s'
         AND '%s' AND e.id = pe.event_id;""" % (id, start, end))
+
+    def dashboard_calls(self, start, end, station):
+        return self.s_query("SELECT COUNT(*) FROM incident WHERE tstamp BETWEEN '%s' AND '%s';" % (start, end))[0][0]

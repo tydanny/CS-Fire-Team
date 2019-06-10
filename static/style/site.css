@@ -1,16 +1,17 @@
 * {
 	box-sizing: border-box;
 }
+
+/*First column on personnel page*/
 .column {
 	float: left;
 	width: 47%;
-	padding: 10px;
 }
 
+/*Second column on personnel page*/
 .column1 {
 	float: right;
 	width: 47%;
-	padding: 10px;
 }
 
 .row {
@@ -19,23 +20,27 @@
 	clear: both;
 }
 
+/*Section backgrounds on about pages*/
 .para {
     border-radius: 60px;
     width: 100%;
     text-align: left;
 	font-size: 15px;
 	font-size: 5vw;
-    padding: 50px;
+    padding: 3vw;
     background: #333;
-    margin-top: 50px;
+    margin-top: 3vw;
     color: white;
 }
 
+/*Text on about pages*/
 .para p {
 	font-size: 15px;
 	font-size: 5vw;
 }
 
+
+/*Navigation bar styling*/
 ul {
 	list-style-type: none;
 	margin: 0;
@@ -52,7 +57,7 @@ li a {
 	display: block;
 	color: white;
 	text-align: center;
-	padding: 14px 16px;
+	padding: 2.3vh 1.4vw;
 	text-decoration: none;
 }
 
@@ -69,19 +74,9 @@ li a:hover {
 }			
 	
 #navigation {
-	margin: 10px 0px 0px 0px;
+	margin: 1vw 0px 0px 0px;
 	font-size: 15px;
 	font-size: 1.4vw;
-}
-
-#main {
-	margin: 50px 50px 50px 50px;
-	font-family: sans-serif;
-}
-
-#main2 {
-	margin: 0px 50px 0px 50px;
-	font-family: sans-serif;
 }
 	
 #centered {
@@ -92,25 +87,56 @@ li a:hover {
 	background-color: #e5e5e5;
 }
 
+/*Start of styling for admin homepage formatting*/
 table {
 	border-collapse: collapse;
 	font-size: 28px;
 	font-size: 2vw;
 	margin-left: auto;
 	margin-right: auto;
-	padding: 10px;
+	padding: 1vw;
 	background-color: #e5e5e5;
 }
-	
+
+td {
+	padding: 1.8vw;
+}
+
+.legend td, th {
+	padding: 8px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+#myCanvas {
+	padding: 8px;
+	width: 20vw;
+	height: 20vw;
+}
+
+#value {
+	font-size: 60px;
+	font-size: 6vw;
+}
+
+#label {
+	font-size: 35px;
+	font-size: 2.6vw;
+}
+/*end of styling for admin homepage formatting*/
+
+/*buttons*/
 .button {
 	background-color: #333;
 	border: none;
 	color: white;
-	padding: 15px 32px;
+	padding: 2vh 2.7vw;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
 	font-size: 16px;
+	font-size: 1.4vw;
 	font-family: sans-serif;
 	margin: 4px 2px;
 	cursor: pointer;
@@ -133,7 +159,7 @@ body {
 }
 
 .header h1 {
-	padding: 5px;
+	padding: 0.5vh;
 	font-size: 2.5em;
 	font-size: 3.5vw;
 	color: white;
@@ -143,7 +169,7 @@ body {
 .header h2 {
 	font-size: 2em;
 	font-size: 2.5vw;
-	padding: 5px;
+	padding: 0.5vh;
 	color: white;
 	background: #333;
 }
@@ -159,50 +185,31 @@ body {
 	padding: 0px;
 }
 
-.content-wide {
-	max-width: 70%;
-	margin: auto;
-	background: #e5e5e5;
-	padding: 0px;
-}
-
+/*Text below select box on the reports page*/
 .help-block {
 	font-size: 14px;
+	font-size: 1.3vw;
 	color: gray;
 	font-weight: lighter;
 }
 
+/*Select box on reports page*/
 select {
-  width: 30vw;
-  height: 20vw;
-  padding: 5px 15px;
+  width: 24vw;
+  height: 32vh;
+  padding: .5vh .7vw;
 }
 
+/*Options containing person name and id*/
 select option {
   border-bottom: 1px dashed #333;
-  height: 30px;
-  line-height: 30px;
+  height: 5vh;
   position: relative;
+  padding: 2vh 1vw;
+  font-size: 2.2vmin;
 }
 
-select option:before {
-  content: attr(title);
-  position: absolute;
-  height: 100%;
-  line-height: 30px;
-  left: 300px;
-  right: 0px;
-  top: 0px;
-  color: #000;
-  padding-left: 10px;
-  background-color: #fff;
-}
-
-select option:checked:before {
-  color: #fff;
-  background-color: #333;
-}
-
+/*Dropdown menu*/
 .custom-select {
 	left: 0px;
 	margin-left: auto;
@@ -217,7 +224,7 @@ select option:checked:before {
 }
 
 .select-selected {
-	background-color: #333
+	background-color: #333;
 }
 
 .select-selected:after {
@@ -265,42 +272,13 @@ select option:checked:before {
 	background-color: rgba(0, 0, 0, 0.1);
 }
 
+/*White background behind webpage title*/
 #title {
 	background-color: white;
 }
 
 #top {
-	margin: 0px 10px 10px 10px;
-}
-
-td {
-	padding: 18px;
-}
-
-.legend td, th {
-	padding: 8px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-#width {
-	width: 84%;
-}
-
-#myCanvas {
-	padding: 8px;
-	width: 20vw;
-	height: 20vw;
-}
-
-#value {
-	font-size: 60px;
-	font-size: 6vw;
-}
-
-#label {
-	font-size: 35px;
-	font-size: 2.6vw;
+	margin: 0px 1vw 1vw 1vw;
 }
 
 font {
@@ -330,7 +308,7 @@ textarea {
 }
 
 #chart {
-	margin: 50px 50px 50px 50px;
+	margin: 5vw 5vw 5vw 5vw;
 	font-family: sans-serif;
 }
 	
