@@ -25,20 +25,11 @@
     border-radius: 60px;
     width: 100%;
     text-align: left;
-	font-size: 15px;
-	font-size: 5vw;
     padding: 3vw;
     background: #333;
     margin-top: 3vw;
     color: white;
 }
-
-/*Text on about pages*/
-.para p {
-	font-size: 15px;
-	font-size: 5vw;
-}
-
 
 /*Navigation bar styling*/
 ul {
@@ -300,6 +291,7 @@ img {
 	width: 14vw;
 }
 
+/*Textbox for comments for the update status section of the personnel page*/
 textarea {
 	height: 200px;
 	height: 8vw;
@@ -323,4 +315,3 @@ textarea {
 	margin-right: auto;
 	background-color: white;
 }
-

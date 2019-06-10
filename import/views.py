@@ -47,3 +47,25 @@ def upload(request, refreshToken):
             'refreshToken': response['refresh_token']
         }
         return HttpResponse(template.render(context, request))
+		
+def refresh(request, refreshToken):
+	response = er.refresh(refreshToken)
+	
+	if 'error' in response.keys():
+		template = loader.get_template('login.html')
+		context = {"error":"access_error"}
+		return HttpResponse(template.render(context, request))
+		
+	try:
+		template = loader.get_template('admin_submit.html')
+		context = {
+			'refreshToken': response['refresh_token']
+		}
+
+	except Exception as e:
+		print(e)
+		template = loader.get_template('admin_error.html')
+		context = {
+			'refreshToken': response['refresh_token']
+		}
+		return HttpResponse(template.render(context, request))
