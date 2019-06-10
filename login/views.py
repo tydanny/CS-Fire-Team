@@ -30,9 +30,11 @@ def check(request):
 	title = db.get_title(user['agencyPersonnelID'])
 	refreshToken = response['refresh_token']
 	
-	if title == 'Shift Officer' or title == 'Training Officer':
+	if title == 'Fire Chief' or title == 'Deputy Chief' or title == 'Training Officer' or title == 'Administrative Coordinator' or title == 'Deputy Fire Marshall' or title == 'Ops Captain':
+		page = 'admin_home'
+	elif title == 'Lieutenant' or title == 'Assistant Chief' or title == 'Fire Inspector' or title == 'Shift Officer' or title == 'Captain' or title == 'Administrative Assistant':
 		page = 'officer_home'
-	elif title == 'Fire Chief' or title == 'Administrative Coordinator' or title == 'Data Collection':
+	elif title == 'Data Collection':
 		page = 'admin_home'
 	else:
 		page = 'user_home'

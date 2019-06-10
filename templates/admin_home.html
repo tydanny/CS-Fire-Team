@@ -2,7 +2,7 @@
 {% extends 'admin_base.html' %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
-  <div id="centered" class="content-wide">
+  <div id="centered" class="content">
 	<div class="header">
 	  <h1>Dashboard</h1>
 	  <form action="{% url 'admin_home' refreshToken=refreshToken %}" method="post">{% csrf_token %}
