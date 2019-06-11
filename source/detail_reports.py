@@ -50,11 +50,17 @@ class Event_Detail_Report():
         elif self.reportType == "Training":
             data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'training%')
         elif self.reportType == "Work Detail":
-            data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail%')
+            data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail%%')
+            data2 = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Fund Raiser%%')
+            if data == None:
+                data = []
+            if data2 != None:
+                for dat in data2:
+                    data.append(dat)
         elif self.reportType == "Sundays & Weeklies":
-            data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail - Daily')
-            data2 = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail - Weekly')
-            data3 = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail - Sunday')
+            data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail - Daily%%')
+            data2 = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail - Weekly%%')
+            data3 = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail - Sunday%%')
             if data == None:
                 data = []
             if data2 != None:
@@ -65,9 +71,9 @@ class Event_Detail_Report():
                     data.append(dat)
         # fix when fundraisers and meetings are in the database
         elif self.reportType == "Fundraisers":
-            data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'work detail-fundraiser')
+            data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Fund Raiser%%')
         elif self.reportType == "Business Meetings":
-            data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'business-meeting')
+            data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Business Meetings%%')
         if data != None:
             for event in data:
                 row = []

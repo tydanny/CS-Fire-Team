@@ -135,9 +135,10 @@ class dbconnect():
 
     def get_events(self, id, start, end, type):
         return self.s_query("""
-        SELECT * FROM person_xref_event WHERE person_id='%s' AND tstart BETWEEN '%s' AND '%s' AND type LIKE '%s';
-        """ % (id, start, end, type))
-
+        SELECT * FROM event WHERE tstart BETWEEN '%s' AND '%s' AND id IN (SELECT event_id FROM person_xref_event
+        WHERE person_id = '%s') AND etype LIKE '%s';
+        """ % (start, end, id, type))
+   
     def get_start(self, id):
         return self.get_statuses(id)[0][1]
 
@@ -196,7 +197,7 @@ class dbconnect():
     def get_wdt(self, id, start, end):
         return self.s_query("""
         SELECT e.tend-e.tstart FROM event AS e, person_xref_event AS pe WHERE e.id = pe.event_id AND pe.person_id = '%s'
-        AND e.tstart BETWEEN '%s' AND '%s' AND e.etype LIKE 'WORK DETAIL%%';
+        AND e.tstart BETWEEN '%s' AND '%s' AND (e.etype LIKE 'Work Detail%%' OR e.etype LIKE 'Fund Raiser%%');
         """ % (id, start, end))
 
     #Gets all shifts for one person in a range.
@@ -208,24 +209,23 @@ class dbconnect():
 
     def get_appar(self, id, start, end):
         return self.s_query("""
-        SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
-        WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
-        AND (e.etype = 'Work Detail - Daily' OR e.etype = 'Work Detail - Weekly' OR e.etype = '
-        Work Detail - Sunday');""" % (id, start, end))
+        SELECT COUNT(*) FROM event WHERE tstart BETWEEN '%s' AND '%s'
+        AND (etype LIKE 'Work Detail - Sunday%%' OR etype LIKE 'Work Detail - Weekly%%' OR etype LIKE
+        'Work Detail - Daily%%') AND id IN (SELECT event_id FROM person_xref_event WHERE
+        person_id = '%s');""" % (start, end, id))
 
     # fix this when fundraisers are loaded
     def get_fundraisers(self, id, start, end):
         return self.s_query("""
         SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
         WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
-        AND (e.etype = 'work detail-daily' OR e.etype = 'work detail-weekly' OR e.etype = '
-        work detail-sunday');""" % (id, start, end))
+        AND e.etype LIKE 'Fund Raiser%%';""" % (id, start, end))
 
     def get_meetings(self, id, start, end):
         return self.s_query("""
         SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
         WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
-        AND e.etype = 'meeting';""" % (id, start, end))
+        AND e.etype LIKE 'Business Meetings%%';""" % (id, start, end))
 
     def get_trainings(self, id, start, end):
         return self.s_query("""
