@@ -115,6 +115,12 @@ class dbconnect():
     def load_person_xref_event(self, event_id, person_id):
         self.i_query("INSERT INTO person_xref_event (event_id, person_id) VALUES ('%s', '%s');" % (event_id, person_id))
 
+    def load_class(self, id, tstart, tend, type):
+        self.i_query("INSERT INTO class (id, tstart, tend, type) VALUES ('%s', '%s', '%s', '%s');" % (id, tstart, tend, type))
+
+    def load_person_xref_event(self, class_id, person_id):
+        self.i_query("INSERT INTO person_xref_class (class_id, person_id) VALUES ('%s', '%s');" % (class_id, person_id))
+
     def get_person(self, id):
         return self.s_query("""
         SELECT * FROM person WHERE id='%s';
