@@ -158,7 +158,7 @@ class dbconnect():
 
     def get_people(self):
         people = []
-        people.append(self.s_query("SELECT id, fname, lname FROM person")
+        people.append(self.s_query("SELECT id, fname, lname FROM person"))
         return people
 
     def get_active_people(self):
