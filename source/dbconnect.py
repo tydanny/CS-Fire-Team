@@ -108,12 +108,12 @@ class dbconnect():
         self.i_query("INSERT INTO person_status (status, date_change, person_id, note) VALUES ('%s', '%s', '%s', '%s');" % (status, date_change, person_id, note))
 
     #Loads an event
-    def load_event(self, id, tstart, duration, etype):
-        self.i_query("INSERT INTO event (id, tstart, duration, etype) VALUES ('%s', '%s', %s, '%s');" % (id, tstart, duration, etype))
+    def load_event(self, id, tstart, etype):
+        self.i_query("INSERT INTO event (id, tstart, etype) VALUES ('%s', '%s', '%s');" % (id, tstart, etype))
 
     #Loads a person_xref_event.  Person_id is a LIST of all the ids for the people who worked an event.	
-    def load_person_xref_event(self, event_id, person_id):
-        self.i_query("INSERT INTO person_xref_event (event_id, person_id) VALUES ('%s', '%s');" % (event_id, person_id))
+    def load_person_xref_event(self, event_id, person_id, duration):
+        self.i_query("INSERT INTO person_xref_event (event_id, person_id, duration) VALUES ('%s', '%s', %s);" % (event_id, person_id, duration))
 
     def load_class(self, id, tstart, duration, type):
         self.i_query("INSERT INTO class (id, tstart, duration, type) VALUES ('%s', '%s', '%s', '%s');" % (id, tstart, duration, type))
@@ -230,8 +230,9 @@ class dbconnect():
 
     def get_wdt(self, id, start, end):
         return self.s_query("""
-        SELECT duration FROM event AS e, person_xref_event AS pe WHERE e.id = pe.event_id AND pe.person_id = '%s'
-        AND e.tstart BETWEEN '%s' AND '%s' AND (e.etype LIKE 'Work Detail%%' OR e.etype LIKE 'Fund Raiser%%');
+        SELECT duration FROM person_xref_event WHERE person_id='%s' AND event_id IN 
+        (SELECT id FROM event WHERE (etype LIKE 'Work Detail%%' OR etype LIKE 'Fund Raiser%%') 
+        AND tstart BETWEEN '%s' AND '%s');
         """ % (id, start, end))
 
     #Gets all shifts for one person in a range.
