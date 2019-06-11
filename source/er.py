@@ -378,7 +378,7 @@ def load_events(access_token=None, **kwargs):
     
     eventIDs = []
     for event in events:
-        #db.load_event(event['eventsID'], event['eventDate'], event['eventEndDate'], eventCats[event['eventCategoryID']])
+        db.load_event(event['eventsID'], event['eventDate'], event['eventEndDate'], eventCats[event['eventCategoryID']])
         eventIDs.append(event['eventsID'])
         print(event['eventDate'])
 
@@ -591,73 +591,21 @@ def refresh(refresh_token):
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
-def get_all_trainings(access_token=None, **kwargs):
 
-    if access_token==None:
+def load_trainings_xref(classIDs, access_token=None, **kwargs):
+
+    if access_token == None:
         access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
-
-    frmtstr = '%Y-%m-%d'
-
-    if kwargs.get('end_date') == None:
-        end = datetime.datetime.strptime(input("Enter end date (yyyy-mm-dd): "), frmtstr)
-    elif type(kwargs.get('end_date')) == str:
-        end = datetime.datetime.strptime(kwargs.get('end_date'), frmtstr)
-    elif type(kwargs.get('end_date')) == datetime.datetime:
-        end = kwargs.get('end_date')
-    else:
-        raise TypeError('Invalid end date type')
-
-    headers = {
-        # Request headers
-        'Ocp-Apim-Subscription-Key': '{subscription key}',
-        'Authorization': access_token
-    }
-
-    params = urllib.parse.urlencode({
-        # Request parameters
-        'limit': 1000000
-    })
-
-    try:
-        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
-        conn.request("GET", "/agencyclasses/classes?%s" % params, headers=headers)
-        response = conn.getresponse()
-        data = response.read().decode()
-        j = json.loads(data)
-        conn.close()
-        return j['classes']
-    except Exception as e:
-        print(e)
-
-def load_trainings(access_token=None, **kwargs):
-
-    if access_token==None:
-        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
-
-    trainings = get_all_trainings(start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
-
-    trainingCats = get_training_cats(access_token)
-
-    students = get_all_students(access_token)
 
     db = dbconnect.dbconnect()
+    users = get_users(access_token)
+    for classID in classIDs:
+        students = get_students(classID, access_token)
+        for student in students:
+            if student['classID'] in classIDs:
+                classIDs.remove(student['classID'])
+                db.load_person_xref_class(student['classID'], users[student['agencyPersonnelID']])    
 
-    for training in trainings:
-        db.load_trng()
-
-def load_trainings_xref(access_token=None, **kwargs):
-
-    if access_token==None:
-        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
-
-    
-
-def get_all_students(access_token=None, **kwargs):
-
-    if access_token==None:
-        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
-
-    return []
 
 def get_trainings(access_token=None, **kwargs):
 
@@ -715,7 +663,7 @@ def get_training_cat(access_token=None, **kwargs):
     except Exception as e:
         print(e.with_traceback())
 
-def get_all_class_students(classID, access_token=None, **kwargs):
+def get_students(classID, access_token=None, **kwargs):
 
     if access_token==None:
         access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
@@ -759,8 +707,9 @@ def load_trainings(access_token, **kwargs):
     
     trainingIDs = []
     for training in trainings:
-        #db.load_event(event['eventsID'], event['eventDate'], event['eventEndDate'], eventCats[event['eventCategoryID']])
-        eventIDs.append(event['eventsID'])
-        print(event['eventDate'])
+        db.load_class(training['classID'], training['classDate'], training['classLengthInMinutes'], trainingCats[training['classCategoryID']])
+        trainingIDs.append(training['classID'])
+        print(training['classDate'])
 
-    load_events_xref(eventIDs, access_token)
+    load_trainings_xref(trainingIDs, access_token)
+                               
