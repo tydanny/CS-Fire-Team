@@ -235,3 +235,8 @@ class dbconnect():
 
     def dashboard_calls(self, start, end, station):
         return self.s_query("SELECT COUNT(*) FROM incident WHERE tstamp BETWEEN '%s' AND '%s';" % (start, end))[0][0]
+
+    def dashboard_responders(self, start, end, station):
+        totalCalls = self.dashboard_calls(start, end, station)	
+        totalResponders = self.s_query("SELECT COUNT(*) FROM incident AS i, person_xref_incident AS ref WHERE i.id=ref.incident_id AND i.tstamp BETWEEN '%s' AND '%s';" % (start, end))[0][0]
+        return totalResponders/totalCalls

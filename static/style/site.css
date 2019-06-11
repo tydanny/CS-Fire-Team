@@ -31,7 +31,7 @@
     color: white;
 }
 
-/*Navigation bar styling*/
+/*Navigation bar styling starts*/
 ul {
 	list-style-type: none;
 	margin: 0;
@@ -69,6 +69,7 @@ li a:hover {
 	font-size: 15px;
 	font-size: 1.4vw;
 }
+/*Navigation bar styling ends*/
 	
 #centered {
 	text-align: center;
