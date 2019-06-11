@@ -62,7 +62,7 @@ def get_auth(username, password):
         conn.close()
         return data[33:73]
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(e.with_traceback())
 
 def get_token_pass(username=None, password=None):
 
@@ -605,12 +605,13 @@ def get_trainings(access_token=None, **kwargs):
 
     if access_token==None:
         access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
-    start, end = get_dates(kwargs.get('start_date'), kwargs.get('end_date')    
+
+    start, end = get_dates(kwargs.get('start_date'), kwargs.get('end_date'))
     
     headers = {
         # Request headers
         'Ocp-Apim-Subscription-Key': '{subscription key}',
-        'Authorization': access_token,
+        'Authorization': access_token
     }
 
     params = urllib.parse.urlencode({
