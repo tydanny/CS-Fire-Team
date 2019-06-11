@@ -1,0 +1,68 @@
+<html xmlns:x="urn:schemas-microsoft-com:office:excel"><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Report Data</x:Name><x:WorksheetOptions><x:Print><x:ValidPrinterInfo/></x:Print></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--> Total number of All shifts hours for GOLDEN FIRE DEPT: 112 hrs 0 mins<div>
+	<table class="apparatus-report" cellspacing="0" border="0" id="GridView2" style="border-collapse:collapse;">
+		<tr>
+			<th scope="col">Last name</th><th scope="col">First name</th><th scope="col">Start date</th><th scope="col">Start time</th><th scope="col">End date</th><th scope="col">End time</th><th scope="col">On duty for</th><th scope="col">On duty at</th><th scope="col">Shift hours</th>
+		</tr><tr class="toprow">
+			<td>Fire</td><td>10000000 Joe</td><td>05/30/2019</td><td>07:00</td><td>06/01/2019</td><td>07:00</td><td>ShftOffcr</td><td>Station 1                                         </td><td align="right">7</td>
+		</tr><tr class="toprow">
+			<td>Smokes</td><td>10000001 James</td><td>05/31/2019</td><td>17:00</td><td>06/01/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">7</td>
+		</tr><tr class="toprow">
+			<td>Inferno</td><td>10000002 Jane</td><td>05/31/2019</td><td>18:00</td><td>06/01/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">7</td>
+		</tr><tr class="toprow">
+			<td>Fire</td><td>10000000 Joe</td><td>05/31/2019</td><td>18:00</td><td>06/01/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">7</td>
+		</tr><tr class="toprow">
+			<td>Inferno</td><td>10000002 Jane</td><td>05/31/2019</td><td>18:00</td><td>06/01/2019</td><td>07:00</td><td>DutyCrew1</td><td>Station 1                                         </td><td align="right">7</td>
+		</tr>
+	</table>
+</div><div>
+	<table class="apparatus-report" cellspacing="0" border="0" id="GridView3" style="border-collapse:collapse;">
+		<tr>
+			<th scope="col">Name</th><th scope="col">Total hours</th>
+		</tr><tr class="toprow">
+			<td>13086 Tony Orlando</td><td>
+                                <span>
+                                    17 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13091 Marc Staley</td><td>
+                                <span>
+                                    7 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13472 Morgan Sellers</td><td>
+                                <span>
+                                    7 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13926 Ryan Hyde</td><td>
+                                <span>
+                                    7 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>11496 Debbie Testroet</td><td>
+                                <span>
+                                    24 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>12258 Jeff Hulse</td><td>
+                                <span>
+                                    17 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>12908 Joseph Trujillo</td><td>
+                                <span>
+                                    13 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>11618 Ryan Smith</td><td>
+                                <span>
+                                    7 hrs 0 mins</span>
+                            </td>
+		</tr><tr class="toprow">
+			<td>13310 Amelia Engelmann</td><td>
+                                <span>
+                                    13 hrs 0 mins</span>
+                            </td>
+		</tr>
+	</table>
+</div></head>
