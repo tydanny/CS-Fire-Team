@@ -5,24 +5,22 @@ sys.path.append('C:\\Users\\crash\\Documents\\Field Session\\Repo\\CS-Fire-Team\
 #print(sys.path)
 
 import unittest
-from dbconnect import dbconnect
+from source import dbconnect
 import converters
 
 #This code is here temporarily .
-db = dbconnect()
+db = dbconnect.dbconnect()
 
 
 class TestConverters(unittest.TestCase):
 
 	def setUp(self):
 		self.db = dbconnect()
-		#self.id = '999999'
-		#self.fname = 'Joji'
-		#self.lname = 'Seshamekish'
-		#self.title = 'Fire Fighter'
-		#self.resident = 'Non-Resident'
-		#self.startDate = '2019-05-10'
-		#self.endDate = '2019-05-20'
+		self.id1 = '10000000'
+		self.fname1 = 'Joe'
+		self.lname1 = 'Fire'
+		
+		self.db.i_query("INSERT INTO person (id1, fname1, lname1) VALUES ('%s', '%s', '%s');" % (self.id, self.fname, self.lname))
 		
 		self.filepath = r'C:\Users\crash\Documents\Field Session\TestDataReport.xls'
 	
