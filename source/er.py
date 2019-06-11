@@ -9,6 +9,15 @@ import datetime
 from getpass import getpass
 from source import dbconnect
 
+def update(access_token=None, **kwargs):
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
+
+    load_people(access_token)
+    load_incidents(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
+    load_events(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
+    load_trainings(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
+
 def load_incidents(access_token=None, **kwargs):
     if access_token == None:
         access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
@@ -44,7 +53,6 @@ def get_auth(username, password):
 
     body = { "response_type": "code", "client_id": "city_of_golden", "username": username, "password": password, "state": "xyz" }
     j = json.dumps(body)
-    #body = '{ "response_type": "code", "client_id": "city_of_golden", "username": %s, "password": %s, "state": "xyz" }' % (username, password)
 
     try:
         conn = http.client.HTTPSConnection('data.emergencyreporting.com')
@@ -166,28 +174,11 @@ def get_token(auth_code):
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
 def get_incidents(access_token, **kwargs):
-    frmtstr = '%Y-%m-%d'
 
     start_date = kwargs.get('start_date')
     end_date = kwargs.get('end_date')
 
-    if start_date == None:
-        start = datetime.datetime.strptime(input("Enter start date (yyyy-mm-dd): "), frmtstr)
-    elif type(start_date) == str:
-        start = datetime.datetime.strptime(start_date, frmtstr)
-    elif type(start_date) == datetime.datetime:
-        start = start_date
-    else:
-        raise TypeError('Invalid start date type')
-
-    if end_date == None:
-        end = datetime.datetime.strptime(input("Enter end date (yyyy-mm-dd): "), frmtstr)
-    elif type(end_date) == str:
-        end = datetime.datetime.strptime(end_date, frmtstr)
-    elif type(end_date) == datetime.datetime:
-        end = end_date
-    else:
-        raise TypeError('Invalid end date type')
+    start, end = get_dates(start_date, end_date)
 
     headers = {
         # Request headers
@@ -210,6 +201,28 @@ def get_incidents(access_token, **kwargs):
         return data['incidents']
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+def get_dates(start_date, end_date):
+    frmtstr = '%Y-%m-%d'
+
+    if start_date == None:
+        start = datetime.datetime.strptime(input("Enter start date (yyyy-mm-dd): "), frmtstr)
+    elif type(start_date) == str:
+        start = datetime.datetime.strptime(start_date, frmtstr)
+    elif type(start_date) == datetime.datetime:
+        start = start_date
+    else:
+        raise TypeError('Invalid start date type')
+
+    if end_date == None:
+        end = datetime.datetime.strptime(input("Enter end date (yyyy-mm-dd): "), frmtstr)
+    elif type(end_date) == str:
+        end = datetime.datetime.strptime(end_date, frmtstr)
+    elif type(end_date) == datetime.datetime:
+        end = end_date
+    else:
+        raise TypeError('Invalid end date type')
+    return start, end
 
 def get_pass():
     try:
@@ -313,34 +326,13 @@ def get_my_user(access_token=None):
         j = json.loads(data)
         return j['user']
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(e.with_traceback())
 
 def get_events(access_token=None, **kwargs):
     if access_token == None:
         access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
 
-    frmtstr = '%Y-%m-%d'
-
-    start_date = kwargs.get('start_date')
-    end_date = kwargs.get('end_date')
-
-    if start_date == None:
-        start = datetime.datetime.strptime(input("Enter start date (yyyy-mm-dd): "), frmtstr)
-    elif type(start_date) == str:
-        start = datetime.datetime.strptime(start_date, frmtstr)
-    elif type(start_date) == datetime.datetime:
-        start = start_date
-    else:
-        raise TypeError('Invalid start date type')
-
-    if end_date == None:
-        end = datetime.datetime.strptime(input("Enter end date (yyyy-mm-dd): "), frmtstr)
-    elif type(end_date) == str:
-        end = datetime.datetime.strptime(end_date, frmtstr)
-    elif type(end_date) == datetime.datetime:
-        end = end_date
-    else:
-        raise TypeError('Invalid end date type')
+    start, end = get_dates(kwargs.get('start_date'), kwargs.get('end_date'))
 
     headers = {
         # Request headers
@@ -370,8 +362,6 @@ def load_events(access_token=None, **kwargs):
     if access_token == None:
         access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
 
-    db = dbconnect.dbconnect()
-
     events = get_events(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
     eventCatList = get_event_cat(access_token)
 
@@ -383,9 +373,8 @@ def load_events(access_token=None, **kwargs):
     
     eventIDs = []
     for event in events:
-        #db.load_event(event['eventsID'], event['eventDate'], event['eventEndDate'], eventCats[event['eventCategoryID']])
+        db.load_event(event['eventsID'], event['eventDate'], event['eventEndDate'], eventCats[event['eventCategoryID']])
         eventIDs.append(event['eventsID'])
-        print(event['eventDate'])
 
     load_events_xref(eventIDs, access_token)
     
@@ -595,3 +584,126 @@ def refresh(refresh_token):
         return data
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+
+def load_trainings_xref(classIDs, access_token=None, **kwargs):
+
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+
+    db = dbconnect.dbconnect()
+    users = get_users(access_token)
+    for classID in classIDs:
+        students = get_students(classID, access_token)
+        for student in students:
+            if student['classID'] in classIDs:
+                classIDs.remove(student['classID'])
+                db.load_person_xref_class(student['classID'], users[student['agencyPersonnelID']])    
+
+
+def get_trainings(access_token=None, **kwargs):
+
+    if access_token==None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+    start, end = get_dates(kwargs.get('start_date'), kwargs.get('end_date')    
+    
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '{subscription key}',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'limit': 999999,
+        'filter': 'classDate ge %s, classDate le %s' % (start, end)
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyclasses/classes?%s" % params, headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['classes']
+    except Exception as e:
+        print(e.with_traceback())
+
+def get_training_cat(access_token=None, **kwargs):
+
+    if access_token==None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+        
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '{subscription key}',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'limit': 999999
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyclasses/classes/categories?%s" % params, headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['categories']
+    except Exception as e:
+        print(e.with_traceback())
+
+def get_students(classID, access_token=None, **kwargs):
+
+    if access_token==None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '{subscription key}',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'limit': 999999
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyclasses/classes/%s/students?%s" % (classID, params), headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['students']
+    except Exception as e:
+        print(e.with_traceback())
+
+def load_trainings(access_token, **kwargs):
+
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+
+    db = dbconnect.dbconnect()
+
+    trainings = get_trainings(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
+    trainingCatList = get_training_cat(access_token)
+
+    trainingCats = {}
+    
+    for trainingCat in trainingCatList:
+        trainingCats[trainingCat['categoryID']] = trainingCat['name']
+    
+    trainingIDs = []
+    for training in trainings:
+        db.load_class(training['classID'], training['classDate'], training['classLengthInMinutes'], trainingCats[training['classCategoryID']])
+        trainingIDs.append(training['classID'])
+        print(training['classDate'])
+
+    load_trainings_xref(trainingIDs, access_token)
+                               
