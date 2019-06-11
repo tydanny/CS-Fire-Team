@@ -367,13 +367,14 @@ def load_events(access_token=None, **kwargs):
 
     eventCats = {}
     
-    
+    db = dbconnect.dbconnect()
+
     for eventCat in eventCatList:
         eventCats[eventCat['eventCategoriesID']] = eventCat['category']
     
     eventIDs = []
     for event in events:
-        db.load_event(event['eventsID'], event['eventDate'], event['eventEndDate'], eventCats[event['eventCategoryID']])
+        db.load_event(event['eventsID'], event['eventEndDate'], event['hours'], eventCats[event['eventCategoryID']])
         eventIDs.append(event['eventsID'])
 
     load_events_xref(eventIDs, access_token)
