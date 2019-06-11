@@ -100,9 +100,9 @@ th {
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 0;
-	background-image:url({% static "images/background.jpg" %});
 	background-repeat: no-repeat;
 	background-position: center;
+	background-size: cover;
 	background-attachment: fixed;
 }
 
