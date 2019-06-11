@@ -57,7 +57,7 @@ class Report():
         self.compute_apparatus()
         self.compute_fundraisers()
         self.compute_meetings()
-        self.compute_trainings()
+       # self.compute_trainings()
         self.compute_service()
         self.compute_employee_details()
         self.compute_employee_status()
@@ -104,7 +104,7 @@ class Report():
         wdthours = 0
         if wdt != None:
             for w in wdt:
-                wdthours += (w[0].seconds/3600) + (w[0].days * 24)
+                wdthours += w[0]
         
         self.WDHours = wdthours
 
