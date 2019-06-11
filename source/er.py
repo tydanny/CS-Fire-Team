@@ -53,7 +53,6 @@ def get_auth(username, password):
 
     body = { "response_type": "code", "client_id": "city_of_golden", "username": username, "password": password, "state": "xyz" }
     j = json.dumps(body)
-    #body = '{ "response_type": "code", "client_id": "city_of_golden", "username": %s, "password": %s, "state": "xyz" }' % (username, password)
 
     try:
         conn = http.client.HTTPSConnection('data.emergencyreporting.com')
@@ -175,28 +174,11 @@ def get_token(auth_code):
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
 def get_incidents(access_token, **kwargs):
-    frmtstr = '%Y-%m-%d'
 
     start_date = kwargs.get('start_date')
     end_date = kwargs.get('end_date')
 
-    if start_date == None:
-        start = datetime.datetime.strptime(input("Enter start date (yyyy-mm-dd): "), frmtstr)
-    elif type(start_date) == str:
-        start = datetime.datetime.strptime(start_date, frmtstr)
-    elif type(start_date) == datetime.datetime:
-        start = start_date
-    else:
-        raise TypeError('Invalid start date type')
-
-    if end_date == None:
-        end = datetime.datetime.strptime(input("Enter end date (yyyy-mm-dd): "), frmtstr)
-    elif type(end_date) == str:
-        end = datetime.datetime.strptime(end_date, frmtstr)
-    elif type(end_date) == datetime.datetime:
-        end = end_date
-    else:
-        raise TypeError('Invalid end date type')
+    start, end = get_dates(start_date, end_date)
 
     headers = {
         # Request headers
@@ -219,6 +201,28 @@ def get_incidents(access_token, **kwargs):
         return data['incidents']
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+def get_dates(start_date, end_date):
+    frmtstr = '%Y-%m-%d'
+
+    if start_date == None:
+        start = datetime.datetime.strptime(input("Enter start date (yyyy-mm-dd): "), frmtstr)
+    elif type(start_date) == str:
+        start = datetime.datetime.strptime(start_date, frmtstr)
+    elif type(start_date) == datetime.datetime:
+        start = start_date
+    else:
+        raise TypeError('Invalid start date type')
+
+    if end_date == None:
+        end = datetime.datetime.strptime(input("Enter end date (yyyy-mm-dd): "), frmtstr)
+    elif type(end_date) == str:
+        end = datetime.datetime.strptime(end_date, frmtstr)
+    elif type(end_date) == datetime.datetime:
+        end = end_date
+    else:
+        raise TypeError('Invalid end date type')
+    return start, end
 
 def get_pass():
     try:
@@ -333,23 +337,7 @@ def get_events(access_token=None, **kwargs):
     start_date = kwargs.get('start_date')
     end_date = kwargs.get('end_date')
 
-    if start_date == None:
-        start = datetime.datetime.strptime(input("Enter start date (yyyy-mm-dd): "), frmtstr)
-    elif type(start_date) == str:
-        start = datetime.datetime.strptime(start_date, frmtstr)
-    elif type(start_date) == datetime.datetime:
-        start = start_date
-    else:
-        raise TypeError('Invalid start date type')
-
-    if end_date == None:
-        end = datetime.datetime.strptime(input("Enter end date (yyyy-mm-dd): "), frmtstr)
-    elif type(end_date) == str:
-        end = datetime.datetime.strptime(end_date, frmtstr)
-    elif type(end_date) == datetime.datetime:
-        end = end_date
-    else:
-        raise TypeError('Invalid end date type')
+    start, end = get_dates(start_date, end_date)
 
     headers = {
         # Request headers
@@ -378,8 +366,6 @@ def get_events(access_token=None, **kwargs):
 def load_events(access_token=None, **kwargs):
     if access_token == None:
         access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
-
-    db = dbconnect.dbconnect()
 
     events = get_events(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
     eventCatList = get_event_cat(access_token)
