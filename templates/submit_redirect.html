@@ -5,13 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{% static 'style/site.css' %}">
   <meta charset="utf-8">
+  <style>
+	img {
+		height: 15vw;
+		width: 15vw;
+	}
+	
+	font {
+		font-size: 7.5vw;
+	}
+  </style>
 </head>
 <body>
 <main>
 <div id="main">
  <div id="centered1">
-	<br><br>
-    <font face = "georgia" size = "36" color="#2586ba">Loading...</font>
+	<br><br><br>
+	<img src="{% static "images/gear.gif" %}" alt="Loading" />
+	<br><br><br>
+    <font face = "georgia" color="#2586ba">Loading</font>
 	<br><br><br>
   </div>
   </div>
