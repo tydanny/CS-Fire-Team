@@ -172,7 +172,7 @@
 		<br>
 	  </div>
 	<button class="button" onclick="window.print()">Print</button>
-	<button class="button" onclick="window.location.href = 'download/{{empNum}}/';">Download</button>
+	<button class="button" onclick="window.location.href = '{% url 'download' empNum=empNum %}';">Download</button>
 	</div>
   </div>
   </body>			

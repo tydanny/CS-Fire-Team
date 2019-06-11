@@ -48,7 +48,10 @@ def user(request, refreshToken):
 		return HttpResponse(template.render(context, request))
 
 	template = loader.get_template('user_custom.html')
-	context = {'refreshToken': response['refresh_token']}
+	context = {
+		'refreshToken': response['refresh_token'],
+		'empNum': er.get_my_user(response['access_token'])['agencyPersonnelID']
+	}
 	return HttpResponse(template.render(context, request))
 
 def custom(request, refreshToken):
@@ -85,13 +88,6 @@ def custom(request, refreshToken):
     return HttpResponse(template.render(context, request))
 
 def submit(request, refreshToken):
-    response = er.refresh(refreshToken)
-	
-    if 'error' in response.keys():
-        template = loader.get_template('login.html')
-        context = {"error":"access_error"}
-        return HttpResponse(template.render(context, request))
-
     try:
         startTime = request.POST["time-start"]
         endTime = request.POST["time-end"]
@@ -111,17 +107,10 @@ def submit(request, refreshToken):
     except Exception as e:
         print(e)
         template = loader.get_template('admin_error.html')
-        context = {'refreshToken': response['refresh_token']}
+        context = {'refreshToken': refreshToken}
         return HttpResponse(template.render(context, request))
 		
 def officer_submit(request, refreshToken):
-    response = er.refresh(refreshToken)
-	
-    if 'error' in response.keys():
-        template = loader.get_template('login.html')
-        context = {"error":"access_error"}
-        return HttpResponse(template.render(context, request))
-
     try:
         startTime = request.POST["time-start"]
         endTime = request.POST["time-end"]
@@ -141,21 +130,13 @@ def officer_submit(request, refreshToken):
     except Exception as e:
         print(e)
         template = loader.get_template('officer_error.html')
-        context = {'refreshToken': response['refresh_token']}
+        context = {'refreshToken': refreshToken}
         return HttpResponse(template.render(context, request))
 		
-def user_submit(request, refreshToken):
-    response = er.refresh(refreshToken)
-	
-    if 'error' in response.keys():
-        template = loader.get_template('login.html')
-        context = {"error":"access_error"}
-        return HttpResponse(template.render(context, request))
-
+def user_submit(request, refreshToken, empNum):
     try:
         startTime = request.POST["time-start"]
         endTime = request.POST["time-end"]
-        empNum = er.get_my_user(response['access_token'])['agencyPersonnelID']
         reportType = request.POST["type"]
         detailReport = detail_reports.Event_Detail_Report(str(empNum), startTime, endTime, reportType)
         csv_name = "%s_Event_Detail_Report_%s_%s.csv" %(str(empNum), startTime, endTime)
@@ -169,7 +150,7 @@ def user_submit(request, refreshToken):
     except Exception as e:
         print(e)
         template = loader.get_template('user_error.html')
-        context = {'refreshToken': response['refresh_token']}
+        context = {'refreshToken': refreshToken}
         return HttpResponse(template.render(context, request))
 		
 def error(request, refreshToken):

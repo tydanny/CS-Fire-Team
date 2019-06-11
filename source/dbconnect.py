@@ -247,6 +247,7 @@ class dbconnect():
         WHERE pe.person_id = '%s' AND e.etype LIKE 'training%%' AND e.tstart BETWEEN '%s'
         AND '%s' AND e.id = pe.event_id;""" % (id, start, end))
 
+	#Returns the total number of calls over a specified date range on the admin page*/
     def dashboard_calls(self, start, end, station):
         return self.s_query("SELECT COUNT(*) FROM incident WHERE tstamp BETWEEN '%s' AND '%s';" % (start, end))[0][0]
 
