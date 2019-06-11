@@ -326,18 +326,13 @@ def get_my_user(access_token=None):
         j = json.loads(data)
         return j['user']
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(e.with_traceback())
 
 def get_events(access_token=None, **kwargs):
     if access_token == None:
         access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
 
-    frmtstr = '%Y-%m-%d'
-
-    start_date = kwargs.get('start_date')
-    end_date = kwargs.get('end_date')
-
-    start, end = get_dates(start_date, end_date)
+    start, end = get_dates(kwargs.get('start_date'), kwargs.get('end_date'))
 
     headers = {
         # Request headers
@@ -380,7 +375,6 @@ def load_events(access_token=None, **kwargs):
     for event in events:
         db.load_event(event['eventsID'], event['eventDate'], event['eventEndDate'], eventCats[event['eventCategoryID']])
         eventIDs.append(event['eventsID'])
-        print(event['eventDate'])
 
     load_events_xref(eventIDs, access_token)
     
