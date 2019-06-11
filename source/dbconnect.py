@@ -126,6 +126,11 @@ class dbconnect():
         SELECT * FROM person WHERE id='%s';
         """ % (id))
 
+    def get_person_name(self, id):
+        fName = self.s_query("SELECT fname FROM person WHERE id = '%s'" % (id))[0][0]
+        lName = self.s_query("SELECT lname FROM person WHERE id = '%s'" % (id))[0][0]
+        return [id, fName, lName]
+
     def get_ids(self):
         return self.s_query("SELECT id FROM person")
 
@@ -151,7 +156,22 @@ class dbconnect():
         WHERE person_id = '%s') AND etype LIKE '%s';
         """ % (start, end, id, type))
 
-    
+    def get_people(self):
+        people = []
+        people.append(self.s_query("SELECT id, fname, lname FROM person")
+        return people
+
+    def get_active_people(self):
+        stats = self.s_query("SELECT status, person_id FROM person_status WHERE date_change IN (SELECT MAX(date_change) FROM person_status group by person_id)"
+        statuses = []
+        people = []
+        for s in stats:
+            if s[0] != 'Resigned' and s[0] != 'Retired':
+                statuses.append(s[1])
+        
+        for s in statuses:
+            people.append(self.get_person_name(s))
+        return people
    
     def get_start(self, id):
         return self.get_statuses(id)[0][1]
