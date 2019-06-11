@@ -20,7 +20,7 @@
 	    <br>
 		<p style="font-size: 1.8vw; padding: 0vw 4vw 0vw 4vw;">To refresh the database to show new or edited information in Emergency Reporting, select a date range and click Refresh.</p>
 		<br>
-		<form method="post" action="">{% csrf_token %}
+		<form method="post" action="{% url 'refresh' refreshToken=refreshToken %}">{% csrf_token %}
 		  <label for="start">Start date:</label>
 		  <input type="date" id="start" name="time-start" "[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
 		  <br><br>
