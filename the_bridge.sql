@@ -55,7 +55,7 @@ CREATE TABLE event
 (
     id TEXT,
     tstart TIMESTAMP,
-    tend TIMESTAMP,
+    duration INTEGER,
     etype TEXT,
     PRIMARY KEY (id)
 );
@@ -71,7 +71,7 @@ CREATE TABLE class
 (
     id TEXT,
     tstart TIMESTAMP,
-    duration INTEGER,
+    duration DECIMAL,
     type TEXT,
     PRIMARY KEY (id)
 );

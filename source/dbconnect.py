@@ -108,8 +108,8 @@ class dbconnect():
         self.i_query("INSERT INTO person_status (status, date_change, person_id, note) VALUES ('%s', '%s', '%s', '%s');" % (status, date_change, person_id, note))
 
     #Loads an event
-    def load_event(self, id, tstart, tend, etype):
-        self.i_query("INSERT INTO event (id, tstart, tend, etype) VALUES ('%s', '%s', '%s', '%s');" % (id, tstart, tend, etype))
+    def load_event(self, id, tstart, duration, etype):
+        self.i_query("INSERT INTO event (id, tstart, duration, etype) VALUES ('%s', '%s', %s, '%s');" % (id, tstart, duration, etype))
 
     #Loads a person_xref_event.  Person_id is a LIST of all the ids for the people who worked an event.	
     def load_person_xref_event(self, event_id, person_id):
@@ -118,7 +118,7 @@ class dbconnect():
     def load_class(self, id, tstart, duration, type):
         self.i_query("INSERT INTO class (id, tstart, duration, type) VALUES ('%s', '%s', '%s', '%s');" % (id, tstart, duration, type))
 
-    def load_person_xref_event(self, class_id, person_id):
+    def load_person_xref_class(self, class_id, person_id):
         self.i_query("INSERT INTO person_xref_class (class_id, person_id) VALUES ('%s', '%s');" % (class_id, person_id))
 
     def get_person(self, id):
@@ -210,7 +210,7 @@ class dbconnect():
 
     def get_wdt(self, id, start, end):
         return self.s_query("""
-        SELECT e.tend-e.tstart FROM event AS e, person_xref_event AS pe WHERE e.id = pe.event_id AND pe.person_id = '%s'
+        SELECT duration FROM event AS e, person_xref_event AS pe WHERE e.id = pe.event_id AND pe.person_id = '%s'
         AND e.tstart BETWEEN '%s' AND '%s' AND (e.etype LIKE 'Work Detail%%' OR e.etype LIKE 'Fund Raiser%%');
         """ % (id, start, end))
 
@@ -254,3 +254,34 @@ class dbconnect():
         totalCalls = self.dashboard_calls(start, end, station)	
         totalResponders = self.s_query("SELECT COUNT(*) FROM incident AS i, person_xref_incident AS ref WHERE i.id=ref.incident_id AND i.tstamp BETWEEN '%s' AND '%s';" % (start, end))[0][0]
         return totalResponders/totalCalls
+    
+    def delete(self, start, end):
+        self.delete_incidents(start, end)
+        self.delete_events(start, end)
+        self.delete_classes(start, end)
+    
+    def delete_incidents(self, start, end):
+        self.i_query("""
+        DELETE FROM person_xref_incident WHERE incident_id IN 
+        (SELECT id FROM incident WHERE tstamp BETWEEN '%s' AND '%s');
+        """ % (start, end))
+
+        self.i_query("""
+        DELETE FROM incident WHERE tstamp BETWEEN '%s' AND '%s';
+        """ % (start, end))
+
+    def delete_classes(self, start, end):
+        self.i_query("""
+        DELETE FROM person_xref_class WHERE class_id IN
+        (SELECT id FROM class WHERE tstart BETWEEN '%s' AND '%s');
+        """ % (start, end))
+
+        self.i_query("""
+        DELETE FROM class WHERE tstart BETWEEN '%s' AND '%s';
+        """ % (start, end))
+
+    def delete_events(self, start, end):
+        self.i_query("""
+        DELETE FROM person_xref_event WHERE event_id IN
+        (SELECT id FROM event WHERE tstart BETWEEN '%s' AND '%s');
+        """ % (start, end))
