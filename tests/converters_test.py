@@ -38,7 +38,6 @@ class TestConverters(unittest.TestCase):
 	def test_convert_schedule(self):
 		converters.convert_iar(self.filepath)
 		
-		
 		shifts1 = self.db.get_shifts(self.id1, '2019-6-1', '2019-6-2')
 		shifts2 = self.db.get_shifts(self.id2, '2019-6-1', '2019-6-2')
 		shifts3 = self.db.get_shifts(self.id3, '2019-6-1', '2019-6-2')
@@ -47,6 +46,7 @@ class TestConverters(unittest.TestCase):
 		self.assertEqual(self.fname2, self.db.get_person_name(self.id2)[1])
 		self.assertEqual(self.lname3, self.db.get_person_name(self.id3)[2])
 		self.assertEqual(shifts2[0][1], datetime.datetime.strptime('2019-5-31 17:00:00', '%Y-%m-%d %H:%M:%S'))
+		self.assertEqual(shifts1[0][1], datetime.datetime.strptime('2019-5-30 07:00:00', '%Y-%m-%d %H:%M:%S'))
 		
 
 	#def test_select(self):
