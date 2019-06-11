@@ -672,3 +672,109 @@ def get_all_students(access_token=None, **kwargs):
         access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
 
     return []
+
+def get_trainings(access_token=None, **kwargs):
+
+    if access_token==None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+    start, end = get_dates(kwargs.get('start_date'), kwargs.get('end_date')    
+    
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '{subscription key}',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'limit': 999999,
+        'filter': 'classDate ge %s, classDate le %s' % (start, end)
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyclasses/classes?%s" % params, headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['classes']
+    except Exception as e:
+        print(e.with_traceback())
+
+def get_training_cat(access_token=None, **kwargs):
+
+    if access_token==None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+        
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '{subscription key}',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'limit': 999999
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyclasses/classes/categories?%s" % params, headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['categories']
+    except Exception as e:
+        print(e.with_traceback())
+
+def get_all_class_students(classID, access_token=None, **kwargs):
+
+    if access_token==None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '{subscription key}',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'limit': 999999
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyclasses/classes/%s/students?%s" % (classID, params), headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['students']
+    except Exception as e:
+        print(e.with_traceback())
+
+def load_trainings(access_token, **kwargs):
+
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+
+    db = dbconnect.dbconnect()
+
+    trainings = get_trainings(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
+    trainingCatList = get_training_cat(access_token)
+
+    trainingCats = {}
+    
+    for trainingCat in trainingCatList:
+        trainingCats[trainingCat['categoryID']] = trainingCat['name']
+    
+    trainingIDs = []
+    for training in trainings:
+        #db.load_event(event['eventsID'], event['eventDate'], event['eventEndDate'], eventCats[event['eventCategoryID']])
+        eventIDs.append(event['eventsID'])
+        print(event['eventDate'])
+
+    load_events_xref(eventIDs, access_token)
