@@ -144,6 +144,14 @@ class dbconnect():
         SELECT * FROM event WHERE tstart BETWEEN '%s' AND '%s' AND id IN (SELECT event_id FROM person_xref_event
         WHERE person_id = '%s') AND etype LIKE '%s';
         """ % (start, end, id, type))
+
+    def get_classes(self, id, start, end, type):
+        return self.s_query("""
+        SELECT * FROM class WHERE tstart BETWEEN '%s' AND '%s' AND id IN (SELECT class_id FROM person_xref_class
+        WHERE person_id = '%s') AND etype LIKE '%s';
+        """ % (start, end, id, type))
+
+    
    
     def get_start(self, id):
         return self.get_statuses(id)[0][1]
