@@ -71,7 +71,7 @@ CREATE TABLE class
 (
     id TEXT,
     tstart TIMESTAMP,
-    tend TIMESTAMP,
+    duration INTEGER,
     type TEXT,
     PRIMARY KEY (id)
 );
