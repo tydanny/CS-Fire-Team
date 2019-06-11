@@ -162,7 +162,7 @@ class dbconnect():
         return people
 
     def get_active_people(self):
-        stats = self.s_query("SELECT status, person_id FROM person_status WHERE date_change IN (SELECT MAX(date_change) FROM person_status group by person_id)"
+        stats = self.s_query("SELECT status, person_id FROM person_status WHERE date_change IN (SELECT MAX(date_change) FROM person_status group by person_id)")
         statuses = []
         people = []
         for s in stats:
