@@ -1,41 +1,51 @@
 import sys
 #This path is for Connor's computer and it is working, when for some reason the normal ../ thing was literally just inserting "../" as a path.  Gotta get that fixed.
-sys.path.append('C:\\Users\\crash\\Documents\\Field Session\\Repo\\CS-Fire-Team\\source\\')
+sys.path.append('..')
 
 #print(sys.path)
 
 import unittest
-from dbconnect import dbconnect
+from source import dbconnect
 import converters
 
 #This code is here temporarily .
-db = dbconnect()
+db = dbconnect.dbconnect()
 
 
 class TestConverters(unittest.TestCase):
 
 	def setUp(self):
 		self.db = dbconnect()
-		#self.id = '999999'
-		#self.fname = 'Joji'
-		#self.lname = 'Seshamekish'
-		#self.title = 'Fire Fighter'
-		#self.resident = 'Non-Resident'
-		#self.startDate = '2019-05-10'
-		#self.endDate = '2019-05-20'
+		self.id1 = '10000000'
+		self.fname1 = 'Joe'
+		self.lname1 = 'Fire'
+		self.id2 = '10000001'
+		self.fname2 = 'James'
+		self.lname2 = 'Smokes'
+		self.id3 = '10000002'
+		self.fname3 = 'Jane'
+		self.lname3 = 'Inferno'
+		
+		self.db.i_query("INSERT INTO person (id, fname, lname) VALUES ('%s', '%s', '%s');" % (self.id1, self.fname1, self.lname1))
+		self.db.i_query("INSERT INTO person (id, fname, lname) VALUES ('%s', '%s', '%s');" % (self.id2, self.fname2, self.lname2))
+		self.db.i_query("INSERT INTO person (id, fname, lname) VALUES ('%s', '%s', '%s');" % (self.id3, self.fname3, self.lname3))
 		
 		self.filepath = r'C:\Users\crash\Documents\Field Session\TestDataReport.xls'
 	
 	#def test_load_names():
 	
 	def test_convert_schedule(self):
-		converters.convert_iar(r'C:\Users\crash\Documents\Field Session\TestDataReport.xls')
-		results = db.s_query("SELECT * FROM shift")
-		print(results)
-	#	self.assertEqual(self.id, results[0][0])
-	#	self.assertEqual(self.fname, results[0][1])
-	#	self.assertEqual(self.lname, results[0][2])
-    #   self.db.i_query("DELETE FROM person WHERE id='%s';" % (self.id))
+		converters.convert_iar(self.filepath)
+		
+		self.assertEqual(self.fname1, db.get_person_name(id1)[1])
+		self.assertEqual(self.fname2, db.get_person_name(id2)[1])
+		self.assertEqual(self.lname3, db.get_person_name(id3)[2])
+		shifts1 = db.get_shifts(id1, '2019-6-1', '2019-6-2')
+		shifts2 = db.get_shifts(id2, '2019-6-1', '2019-6-2')
+		shifts3 = db.get_shifts(id3, '2019-6-1', '2019-6-2')
+		
+		self.assertEqual(shifts2[0][0], '2019-5-31 07:00:00')
+		
 
 	#def test_select(self):
     #    self.db.i_query("INSERT INTO person (id, fname, lname) VALUES ('%s', '%s', '%s');" % (self.id, self.fname, self.lname))
@@ -83,7 +93,12 @@ class TestConverters(unittest.TestCase):
     #            self.assertEqual(1, report.totTrainings)
     #            
 	def tearDown(self):
-		#self.db.i_query("DELETE FROM person WHERE id='%s';" % (self.id))
+		self.db.i_query("DELETE FROM shift WHERE person_id='%s';" % (self.id1))
+		self.db.i_query("DELETE FROM shift WHERE person_id='%s';" % (self.id2))
+		self.db.i_query("DELETE FROM shift WHERE person_id='%s';" % (self.id3))
+		self.db.i_query("DELETE FROM person WHERE id='%s';" % (self.id1))
+		self.db.i_query("DELETE FROM person WHERE id='%s';" % (self.id2))
+		self.db.i_query("DELETE FROM person WHERE id='%s';" % (self.id3))
 		self.db.close()
 
 if __name__ == '__man__':
