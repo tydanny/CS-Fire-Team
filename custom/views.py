@@ -14,24 +14,11 @@ def officer(request, refreshToken):
 		return HttpResponse(template.render(context, request))
 		
 	connection = dbconnect.dbconnect()
-	firstQuery = "SELECT fname FROM PERSON;"
-	firsts = connection.s_query(firstQuery)
-	lastQuery = "SELECT lname FROM PERSON;"
-	lasts = connection.s_query(lastQuery)
-	numsQuery = "SELECT id FROM PERSON;"
-	nums = connection.s_query(numsQuery)
-	connection.close()
-	i = len(firsts)
-	x = 0
+	people = connection.get_active_people()
 	emps = []
-	while x < i:
-		empfirst = firsts[x][0]
-		emplast = lasts[x][0]
-		empNum = nums[x][0]
-		emp = "%s, %s %s" % (emplast, empfirst, empNum)
+	for p in people:
+		emp = "%s, %s %s" % (p[2], p[1], p[0])
 		emps.append(emp)
-		x += 1
-
 	template = loader.get_template('officer_custom.html')
 	context = {
 		'employees': emps, 
@@ -63,23 +50,11 @@ def custom(request, refreshToken):
         return HttpResponse(template.render(context, request))
 
     connection = dbconnect.dbconnect()
-    firstQuery = "SELECT fname FROM PERSON;"
-    firsts = connection.s_query(firstQuery)
-    lastQuery = "SELECT lname FROM PERSON;"
-    lasts = connection.s_query(lastQuery)
-    numsQuery = "SELECT id FROM PERSON;"
-    nums = connection.s_query(numsQuery)
-    connection.close()
-    i = len(firsts)
-    x = 0
+    people = connection.get_active_people()
     emps = []
-    while x < i:
-        empfirst = firsts[x][0]
-        emplast = lasts[x][0]
-        empNum = nums[x][0]
-        emp = "%s, %s %s" % (emplast, empfirst, empNum)
+    for p in people:
+        emp = "%s, %s %s" % (p[2], p[1], p[0])
         emps.append(emp)
-        x += 1
     template = loader.get_template('admin_custom.html')
     context = {
 		'employees': emps, 
