@@ -1,10 +1,12 @@
 DROP TABLE IF EXISTS person_xref_incident;
 DROP TABLE IF EXISTS person_xref_event;
 DROP TABLE IF EXISTS incident;
+DROP TABLE IF EXISTS person_xref_class;
 DROP TABLE IF EXISTS shift CASCADE;
 DROP TABLE IF EXISTS person_status;
 DROP TABLE IF EXISTS event CASCADE;
 DROP TABLE IF EXISTS person CASCADE;
+DROP TABLE IF EXISTS class CASCADE;
 
 CREATE TABLE person
 (
@@ -63,4 +65,20 @@ CREATE TABLE person_xref_event
     event_id TEXT REFERENCES event(id),
     person_id TEXT REFERENCES person(id),
     PRIMARY KEY (event_id,person_id)
+);
+
+CREATE TABLE class
+(
+    id TEXT,
+    tstart TIMESTAMP,
+    tend TIMESTAMP,
+    type TEXT,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE person_xref_class
+(
+    class_id TEXT REFERENCES class(id),
+    person_id TEXT REFERENCES person(id),
+    PRIMARY KEY (class_id,person_id)
 );
