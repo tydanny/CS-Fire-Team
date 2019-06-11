@@ -62,7 +62,7 @@ def get_auth(username, password):
         conn.close()
         return data[33:73]
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(e.with_traceback())
 
 def get_token_pass(username=None, password=None):
 
@@ -326,18 +326,13 @@ def get_my_user(access_token=None):
         j = json.loads(data)
         return j['user']
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(e.with_traceback())
 
 def get_events(access_token=None, **kwargs):
     if access_token == None:
         access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
 
-    frmtstr = '%Y-%m-%d'
-
-    start_date = kwargs.get('start_date')
-    end_date = kwargs.get('end_date')
-
-    start, end = get_dates(start_date, end_date)
+    start, end = get_dates(kwargs.get('start_date'), kwargs.get('end_date'))
 
     headers = {
         # Request headers
@@ -372,15 +367,15 @@ def load_events(access_token=None, **kwargs):
 
     eventCats = {}
     
-    
+    db = dbconnect.dbconnect()
+
     for eventCat in eventCatList:
         eventCats[eventCat['eventCategoriesID']] = eventCat['category']
     
     eventIDs = []
     for event in events:
-        #db.load_event(event['eventsID'], event['eventDate'], event['eventEndDate'], eventCats[event['eventCategoryID']])
+        db.load_event(event['eventsID'], event['eventEndDate'], event['hours'], eventCats[event['eventCategoryID']])
         eventIDs.append(event['eventsID'])
-        print(event['eventDate'])
 
     load_events_xref(eventIDs, access_token)
     
@@ -591,22 +586,29 @@ def refresh(refresh_token):
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
-def get_all_trainings(access_token=None, **kwargs):
+
+def load_trainings_xref(classIDs, access_token=None, **kwargs):
+
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+
+    db = dbconnect.dbconnect()
+    users = get_users(access_token)
+    for classID in classIDs:
+        students = get_students(classID, access_token)
+        for student in students:
+            if student['classID'] in classIDs:
+                classIDs.remove(student['classID'])
+                db.load_person_xref_class(student['classID'], users[student['agencyPersonnelID']])    
+
+
+def get_trainings(access_token=None, **kwargs):
 
     if access_token==None:
         access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
 
-    frmtstr = '%Y-%m-%d'
-
-    if kwargs.get('end_date') == None:
-        end = datetime.datetime.strptime(input("Enter end date (yyyy-mm-dd): "), frmtstr)
-    elif type(kwargs.get('end_date')) == str:
-        end = datetime.datetime.strptime(kwargs.get('end_date'), frmtstr)
-    elif type(kwargs.get('end_date')) == datetime.datetime:
-        end = kwargs.get('end_date')
-    else:
-        raise TypeError('Invalid end date type')
-
+    start, end = get_dates(kwargs.get('start_date'), kwargs.get('end_date'))
+    
     headers = {
         # Request headers
         'Ocp-Apim-Subscription-Key': '{subscription key}',
@@ -615,7 +617,8 @@ def get_all_trainings(access_token=None, **kwargs):
 
     params = urllib.parse.urlencode({
         # Request parameters
-        'limit': 1000000
+        'limit': 999999,
+        'filter': 'classDate ge %s, classDate le %s' % (start, end)
     })
 
     try:
@@ -627,34 +630,82 @@ def get_all_trainings(access_token=None, **kwargs):
         conn.close()
         return j['classes']
     except Exception as e:
-        print(e)
+        print(e.with_traceback())
 
-def load_trainings(access_token=None, **kwargs):
+def get_training_cat(access_token=None, **kwargs):
+
+    if access_token==None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+        
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '{subscription key}',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'limit': 999999
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyclasses/classes/categories?%s" % params, headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['categories']
+    except Exception as e:
+        print(e.with_traceback())
+
+def get_students(classID, access_token=None, **kwargs):
 
     if access_token==None:
         access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
 
-    trainings = get_all_trainings(start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '{subscription key}',
+        'Authorization': access_token,
+    }
 
-    trainingCats = get_training_cats(access_token)
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'limit': 999999
+    })
 
-    students = get_all_students(access_token)
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyclasses/classes/%s/students?%s" % (classID, params), headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['students']
+    except Exception as e:
+        print(e.with_traceback())
+
+def load_trainings(access_token, **kwargs):
+
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
 
     db = dbconnect.dbconnect()
 
-    for training in trainings:
-        db.load_trng()
+    trainings = get_trainings(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
+    trainingCatList = get_training_cat(access_token)
 
-def load_trainings_xref(access_token=None, **kwargs):
-
-    if access_token==None:
-        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
-
+    trainingCats = {}
     
+    for trainingCat in trainingCatList:
+        trainingCats[trainingCat['categoryID']] = trainingCat['name']
+    
+    trainingIDs = []
+    for training in trainings:
+        db.load_class(training['classID'], training['classDate'], training['classLengthInMinutes'], trainingCats[training['classCategoryID']])
+        trainingIDs.append(training['classID'])
+        print(training['classDate'])
 
-def get_all_students(access_token=None, **kwargs):
-
-    if access_token==None:
-        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
-
-    return []
+    load_trainings_xref(trainingIDs, access_token)
+                               

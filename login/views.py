@@ -9,6 +9,7 @@ from source import report as rep
 from source import losap as lo
 import datetime
 import csv
+from decimal import Decimal
 
 # Create your views here.
 def login(request):
@@ -83,6 +84,7 @@ def admin(request, refreshToken):
 	numsQuery = "SELECT id FROM PERSON;"
 	nums = connection.s_query(numsQuery)
 	totalCalls = connection.dashboard_calls(startTime, endTime, station)
+	avgResponders = Decimal(str(connection.dashboard_responders(startTime, endTime, station))).quantize(Decimal('.1'))
 	connection.close()
 	
 	i = len(nums)
@@ -115,6 +117,7 @@ def admin(request, refreshToken):
 			   'numOnTrack': numOnTrack,
 			   'numFalling': numFalling,
 			   'numBehind': numBehind,
+			   'avgResponders': avgResponders,
                            'totalCalls': totalCalls,
 			   'refreshToken': response['refresh_token']}
 	return HttpResponse(template.render(context, request))

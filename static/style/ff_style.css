@@ -1,3 +1,4 @@
+/*Navigation bar styling starts*/
 ul {
 	list-style-type: none;
 	margin: 0;
@@ -14,7 +15,7 @@ li a {
 	display: block;
 	color: white;
 	text-align: center;
-	padding: 14px 16px;
+	padding: 2.3vh 1.4vw;
 	text-decoration: none;
 }
 
@@ -31,21 +32,11 @@ li a:hover {
 }			
 
 #navigation {
-	margin: 10px 0px 0px 0px;
+	margin: 1vw 0px 0px 0px;
 	font-size: 15px;
 	font-size: 1.4vw;
 }
-
-#main {
-	margin: 50px 50px 50px 50px;
-	font-family: sans-serif;
-}
-
-#centered {
-	margin: 50px 50px 50px 50px;
-	text-align: center;
-	font-family: sans-serif;
-}
+/*Navigation bar styling ends*/
 
 #centered1 {
 	text-align: center;
@@ -62,15 +53,17 @@ li a:hover {
 	margin-right: auto;
 }
 
+/*buttons*/
 .button {
 	background-color: #333;
 	border: none;
 	color: white;
-	padding: 15px 32px;
+	padding: 2vh 2.7vw;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
 	font-size: 16px;
+	font-size: 1.4vw;
 	font-family: sans-serif;
 	margin: 4px 2px;
 	cursor: pointer;
@@ -81,6 +74,7 @@ li{
 	list-style: none;
 }
 
+/*Individual Firefighter report table*/
 table {
 	border-collapse: collapse;
 	font-size: 20px;
@@ -93,14 +87,14 @@ table {
 td {
 	text-align: left;
 	border-bottom: 1px solid #ddd;
-	padding: 10px;
+	padding: 1.5vw;
 }
 
 th {
 	background-color: #333;
 	color:white;
 	border-bottom: 1px solid #ddd;
-	padding: 10px;
+	padding: 1vw;
 }
 
 body {
@@ -128,13 +122,6 @@ background: #e5e5e5;
 padding: 0px;
 }
 
-.content-wide {
-max-width: 70%;
-margin: auto;
-background: #e5e5e5;
-padding: 0px;
-}
-
 .header h1 {
 padding: 5px;
 font-size: 2.5em;
@@ -143,45 +130,12 @@ color: white;
 background: #333;
 }
 
-#title {
-background-color: white;
-}
-
-#chart {
-	margin: 50px 50px 50px 50px;
-	font-family: sans-serif;
-}
-
 #roof {
 	background: white;
 }
 
 #top {
 	margin: 0px 10px 10px 10px;
-}
-
-td {
-padding: 18px;
-}
-
-.legend td, th {
-padding: 8px;
-margin-left: auto;
-margin-right: auto;
-}
-
-#width {
-width: 84%;
-}
-
-.value {
-font-size: 60px;
-font-size: 6vw;
-}
-
-.label {
-font-size: 35px;
-font-size: 2.6vw;
 }
 
 font {
@@ -194,18 +148,4 @@ height: 300px;
 height: 8vw;
 width: 300px;
 width: 8vw;
-}
-
-img {
-height: 300px;
-height: 8vw;
-width: 300px;
-width: 8vw;
-}
-
-textarea {
-height: 200px;
-height: 8vw;
-width: 400px;
-width: 20vw;
 }

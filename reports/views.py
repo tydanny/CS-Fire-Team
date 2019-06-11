@@ -75,13 +75,6 @@ def admin(request, refreshToken):
     return HttpResponse(template.render(context, request))
 
 def submit(request, refreshToken):
-    response = er.refresh(refreshToken)
-	
-    if 'error' in response.keys():
-        template = loader.get_template('login.html')
-        context = {"error":"access_error"}
-        return HttpResponse(template.render(context, request))
-
     try:
         startDate = request.POST["time-start"]
         startTime = "%s 00:00:00.00" % startDate
@@ -108,24 +101,17 @@ def submit(request, refreshToken):
                 nums = [int(s) for s in person.split() if s.isdigit()]
                 empNums.append(nums[-1])
         connection.close()
-        return __generate_report(empNums, startTime, endTime, reportType)
+        return __generate_report(empNums, startTime, endTime, reportType, refreshToken, request)
     except Exception as e:
         print(e)
         template = loader.get_template('admin_error.html')
         context = {
-            'refreshToken': response['refresh_token']
+            'refreshToken': refreshToken
         }
         return HttpResponse(template.render(context, request))
 
 
 def officer_submit(request, refreshToken):
-    response = er.refresh(refreshToken)
-	
-    if 'error' in response.keys():
-        template = loader.get_template('login.html')
-        context = {"error":"access_error"}
-        return HttpResponse(template.render(context, request))
-
     try:
         startDate = request.POST["time-start"]
         startTime = "%s 00:00:00.00" % startDate
@@ -152,16 +138,16 @@ def officer_submit(request, refreshToken):
                 nums = [int(s) for s in person.split() if s.isdigit()]
                 empNums.append(nums[-1])
         connection.close()
-        return __generate_report(empNums, startTime, endTime, reportType)
+        return __generate_report(empNums, startTime, endTime, reportType, refreshToken, request)
     except Exception as e:
         print(e)
         template = loader.get_template('officer_error.html')
         context = {
-            'refreshToken': response['refresh_token']
+            'refreshToken': refreshToken
         }
         return HttpResponse(template.render(context, request))
 
-def __generate_report(empNums, startTime, endTime, reportType):
+def __generate_report(empNums, startTime, endTime, reportType, refreshToken, request):
     reports = []
     if reportType == "LOSAP":
         for emp in empNums:
@@ -193,6 +179,8 @@ def __generate_report(empNums, startTime, endTime, reportType):
                 writer.writerow(report.csvRow)
             return response
     template = loader.get_template('admin_error.html')
-    context = {}
+    context = {
+            'refreshToken': refreshToken
+    }
     return HttpResponse(template.render(context, request))
         
