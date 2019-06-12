@@ -13,10 +13,12 @@ def update(access_token=None, **kwargs):
     if access_token == None:
         access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
 
+    start, end = get_dates(kwargs.get('start_date'), kwargs.get('end_date'))
+
     load_people(access_token)
-    load_incidents(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
-    load_events(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
-    load_trainings(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
+    load_incidents(access_token, start_date=start, end_date=end)
+    load_events(access_token, start_date=start, end_date=end)
+    load_trainings(access_token, start_date=start, end_date=end)
 
 def load_incidents(access_token=None, **kwargs):
     if access_token == None:
@@ -37,10 +39,7 @@ def load_incidents(access_token=None, **kwargs):
     
     for exposure in exposures:
         if exposure['incidentID'] in incidentDates.keys() and exposure['exposureID'] in crewMembers.keys():
-            print(exposure['incidentID'])
-            print(exposure['exposureID'])
             db.load_incident(exposure['incidentID'], incidentDates[exposure['incidentID']], exposure['incidentType'], 0)
-            #May need to change the parameter, userID might not be the one we need.
             for member in crewMembers[exposure['exposureID']]:
                 db.load_person_xref_incident(exposure['incidentID'], users[member])
     
@@ -611,12 +610,38 @@ def load_trainings_xref(classIDs, access_token=None, **kwargs):
     db = dbconnect.dbconnect()
     users = get_users(access_token)
     students = get_students(access_token)
-
+    
     for student in students:
-        if student['classID'] in classIDs:
-            classIDs.remove(student['classID'])
-            db.load_person_xref_class(student['classID'], users[student['studentUserID']])    
+        if student['classID'] in classIDs and student['studentUserID'] in users.keys():
+            db.load_person_xref_class(student['classID'], users[student['studentUserID']], student['hours'])   
 
+
+def get_students_class(classID, access_token=None, **kwargs):
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+    
+    headers = {
+        # Request headers
+        'Ocp-Apim-Subscription-Key': '9fabb21336d64b24a7774cf528ea8e46',
+        'Authorization': access_token,
+    }
+
+    params = urllib.parse.urlencode({
+        # Request parameters
+        'limit': 9999999
+    })
+
+    try:
+        conn = http.client.HTTPSConnection('data.emergencyreporting.com')
+        conn.request("GET", "/agencyclasses/classes/%s/students?%s" % (classID, params), headers=headers)
+        response = conn.getresponse()
+        data = response.read().decode()
+        j = json.loads(data)
+        conn.close()
+        return j['students']
+    except Exception as e:
+        print("get students error")
+        print(e)
 
 def get_trainings(access_token=None, **kwargs):
 
@@ -688,7 +713,7 @@ def get_students(access_token=None, **kwargs):
 
     params = urllib.parse.urlencode({
         # Request parameters
-        'limit': 999999
+        'limit': 9999999
     })
 
     try:
@@ -719,7 +744,7 @@ def load_trainings(access_token=None, **kwargs):
     
     trainingIDs = []
     for training in trainings:
-        db.load_class(training['classID'], training['classDate'], training['classLengthInMinutes'], trainingCats[training['classCategoryID']])
+        db.load_class(training['classID'], training['classDate'], trainingCats[training['classCategoryID']])
         trainingIDs.append(training['classID'])
         print(training['classDate'])
 
