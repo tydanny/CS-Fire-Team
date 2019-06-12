@@ -9,7 +9,9 @@
 	  <p style="font-size: 1.8vw; padding: 0vw 4vw 0vw 4vw;">Use this form to upload the shift report from IamResponding</p>
 	  <br>
 	  <form enctype="multipart/form-data" method="post" action="{% url 'upload' refreshToken=refreshToken %}">{% csrf_token %}
-		<input type="file" name="fileToUpload" id="fileToUpload" style="font-size:1.5vw">
+		<input type="file" name="fileToUpload" id="fileToUpload" style="font-size:1.5vw; left: 8px;">
+		<input type="checkbox" name="iar_refresh">This report contains corrections</input>
+		<br><br>
 		<button type="submit" class="button">Upload</button>
       </form>
 	  
@@ -26,7 +28,7 @@
 		  <br><br>
 		  <label for="end">End date:  </label>
 		  <input type="date" id="end" name="time-end" "[0-9]{4}-[0-9]{2}-[0-9]{2}" required> 
-		  <br><br> 
+		  <br><br>
 		  <input type="submit" value="Refresh" class="button">	
 		</form>
   </div>

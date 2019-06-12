@@ -31,6 +31,7 @@ def upload(request, refreshToken):
 
     try:
         myfile = request.FILES['fileToUpload']
+        checked = request.form.get('iar_refresh')
         template = loader.get_template('admin_submit.html')
         
         #I dont know if this works or if changes need to be made to account for django stuff
