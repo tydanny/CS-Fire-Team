@@ -71,7 +71,6 @@ CREATE TABLE class
 (
     id TEXT,
     tstart TIMESTAMP,
-    duration INTEGER,
     type TEXT,
     PRIMARY KEY (id)
 );
@@ -80,5 +79,6 @@ CREATE TABLE person_xref_class
 (
     class_id TEXT REFERENCES class(id),
     person_id TEXT REFERENCES person(id),
+    duration NUMERIC(4,2) NOT NULL,
     PRIMARY KEY (class_id,person_id)
 );
