@@ -46,7 +46,7 @@ def update(request, refreshToken):
         return HttpResponse(template.render(context, request))
 
     try:
-        connection = dbconnect.dbconnect()
+        connection = dbconnect.dbconnect("error")
         employee = request.POST["employee"]
         nums = [int(s) for s in employee.split() if s.isdigit()]
         empNum = nums[-1]
