@@ -38,17 +38,32 @@ class TestConverters(unittest.TestCase):
 	def test_convert_schedule(self):
 		converters.convert_iar(self.filepath)
 		
-		shifts1 = self.db.get_shifts(self.id1, '2019-6-1', '2019-6-2')
-		shifts2 = self.db.get_shifts(self.id2, '2019-6-1', '2019-6-2')
-		shifts3 = self.db.get_shifts(self.id3, '2019-6-1', '2019-6-2')
+		shifts1 = self.db.get_shifts(self.id1, '1919-6-1', '1919-6-2')
+		shifts2 = self.db.get_shifts(self.id2, '1919-6-1', '1919-6-2')
+		shifts3 = self.db.get_shifts(self.id3, '1919-6-1', '1919-6-2')
 		
 		self.assertEqual(self.fname1, self.db.get_person_name(self.id1)[1])
 		self.assertEqual(self.fname2, self.db.get_person_name(self.id2)[1])
 		self.assertEqual(self.lname3, self.db.get_person_name(self.id3)[2])
-		self.assertEqual(shifts2[0][1], datetime.datetime.strptime('2019-5-31 17:00:00', '%Y-%m-%d %H:%M:%S'))
-		self.assertEqual(shifts1[0][1], datetime.datetime.strptime('2019-5-30 07:00:00', '%Y-%m-%d %H:%M:%S'))
+		self.assertEqual(shifts2[0][1], datetime.datetime.strptime('1919-5-31 17:00:00', '%Y-%m-%d %H:%M:%S'))
+		self.assertEqual(shifts1[0][1], datetime.datetime.strptime('1919-5-30 07:00:00', '%Y-%m-%d %H:%M:%S'))
 		
-
+		
+	def test_convert_schedule_delete(self):
+		#This shift should get removed.
+		self.db.load_shift('1919-6-1 9:00:00', '1919-6-2 13:00:00', 'Station 21', self.id2, 'BlahBlah')
+		converters.convert_iar(self.filepath)
+		
+		shifts1 = self.db.get_shifts(self.id1, '1919-6-1', '1919-6-2')
+		shifts2 = self.db.get_shifts(self.id2, '1919-6-1', '1919-6-2')
+		shifts3 = self.db.get_shifts(self.id3, '1919-6-1', '1919-6-2')
+		
+		self.assertEqual(self.fname1, self.db.get_person_name(self.id1)[1])
+		self.assertEqual(self.fname2, self.db.get_person_name(self.id2)[1])
+		self.assertEqual(self.lname3, self.db.get_person_name(self.id3)[2])
+		self.assertEqual(shifts2[0][1], datetime.datetime.strptime('1919-5-31 17:00:00', '%Y-%m-%d %H:%M:%S'))
+		self.assertEqual(shifts1[0][1], datetime.datetime.strptime('1919-5-30 07:00:00', '%Y-%m-%d %H:%M:%S'))
+		self.assertTrue(len(shifts2)==1)
 	#def test_select(self):
     #    self.db.i_query("INSERT INTO person (id, fname, lname) VALUES ('%s', '%s', '%s');" % (self.id, self.fname, self.lname))
 	#	results = self.db.s_query("SELECT fname FROM person WHERE id='%s';" % (self.id))
@@ -60,7 +75,7 @@ class TestConverters(unittest.TestCase):
 
 	#def test_individual_report(self):
 
-    #           self.db.load_shift('05-11-2019 6:00 AM', '05-11-2019 12:00 PM', 1)
+    #           self.db.load_shift('05-11-1919 6:00 AM', '05-11-2019 12:00 PM', 1)
     #            self.db.load_shift('05-12-2019 6:00 AM', '05-12-2019 12:00 PM', 1)
     #            self.db.load_shift('05-13-2019 6:00 AM', '05-13-2019 12:00 PM', 1)
     #            self.db.load_shift('05-14-2019 6:00 AM', '05-14-2019 12:00 PM', 1)
