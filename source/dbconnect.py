@@ -155,8 +155,8 @@ class dbconnect():
 
     def get_classes(self, id, start, end):
         return self.s_query("""
-        SELECT * FROM class WHERE tstart BETWEEN '%s' AND '%s' AND id IN (SELECT class_id FROM person_xref_class
-        WHERE person_id = '%s');
+        SELECT c.type, pc.duration FROM class AS c, person_xref_class AS pc WHERE tstart BETWEEN '%s' AND '%s' AND
+        c.id = pc.class_id AND pc.person_id = '%s';
         """ % (start, end, id))
 
     def get_people(self):
