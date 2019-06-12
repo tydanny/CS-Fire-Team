@@ -73,7 +73,8 @@ def admin(request, refreshToken):
 	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
 		startTime = request.POST['time-start']
 		endTime = request.POST['time-end']
-		station = request.POST['station']
+		#station = request.POST['station']
+		station = "Both"
 	else:
 		curr = datetime.datetime.now(tz=None)
 		startTime = "%s-01-01 00:00:00.00" % curr.year
@@ -132,7 +133,8 @@ def officer(request, refreshToken):
 	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
 		startTime = request.POST['time-start']
 		endTime = request.POST['time-end']
-		station = request.POST['station']
+		#station = request.POST['station']
+		station = "Both"
 	else:
 		curr = datetime.datetime.now(tz=None)
 		startTime = "%s-01-01 00:00:00.00" % curr.year
