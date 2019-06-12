@@ -8,28 +8,30 @@
 	</div>
 	<div class="header">
 	  <h2>Intro</h2>
-	  <p class="para" style="font-size: 1.5vw;">The Bridge ™ software is designed to integrate the data gathered by the Golden Fire Department and represent it in a meaningful way. As an administrator, you can update the status of personnel to reflect leave time, allowing them to generate an accurate LOSAP report. You can run reports on individuals, groups, or the entire staff to see where the department stands in terms of progress towards fulfilling requirements. Additionally, as an administrator you can upload data to the system at any time on the imports page and view overarching departmental statistics on the home page.</p>
+	  <p class="para" style="font-size: 1.5vw;">The GFD Information Tracker is designed to integrate and meaningfully represent the data gathered by the Golden Fire Department. As an administrator, you can use this tool to view department statistics and generate department, individual, or group reports to monitor each firefighter’s progress toward their requirements. To keep the database updated, you can update personnel status, upload data, or initiate a database refresh.</p>
 	</div>	
 	<div class="header">
 	  <h2>Home</h2>
-	  <p class="para" style="font-size: 1.5vw;">This view will show you department-wide statistics including the proportion of staff that is on-track, behind, falling-behind, or complete with their requirements. You can customize the date-range for which the data is generated. Keep in mind, however, that the personnel requirement status data in the pie chart will always be generated as a year-to-date.</p>
+	  <p class="para" style="font-size: 1.5vw;">The homepage view displays department-wide statistics, including the progress that firefighters have made on their requirements. You can customize the date range for which the numerical data is calculated, but the pie chart always displays year-to-date information.</p>
 	</div>
 	<div class="header">
 	  <h2>Reports</h2>
-	  <p class="para" style="font-size: 1.5vw;">This feature is only available to officers and administrators. This view allows you to select a date-range, group of individuals, and report type and run a report. This report is then downloaded to your computer as a csv file. Standard reports contain information regarding calls (actual and total), shifts (including bonus shifts), work detail hours, sundays/dailies/weeklies, fundraisers, business meetings, and days/years of service. Additionally, there is a column indicating if the individual is on-track, behind, falling-behind, or complete with their requirements. </p>
+	  <p class="para" style="font-size: 1.5vw;">The Reports feature generates a CSV file containing a report based on a specified date range, a report type, and a group of individuals. Standard reports show whether the staff members are on track to meet their requirements, and contain summary data for each requirement. LOSAP reports show the amount of leave that the selected staff members have taken.</p>
 	</div>
 	<div class="header">
 	  <h2>Custom Reports</h2>
-	  <p class="para" style="font-size: 1.5vw;">To create a custom report, first select the date range of interest. Next, select the individual employee you would like to run the report on. Then, select the type of report you would like to generate. Then click the submit button. This will download a csv for the selected report type. The report will list all the data regarding the type selected from the database that we use to create the statistics. This function is mainly used to see a greater amount of details on the selected report type.</p>
+	  <p class="para" style="font-size: 1.5vw;">Custom reports allow you to view the records stored in the database for an individual staff member and report type. This form generates a CSV that shows each record that is used to calculate a firefighter’s progress towards their requirement.</p>
 	</div>
 	<div class="header">
 	  <h2>Personnel</h2>
-	  <p class="para" style="font-size: 1.5vw;">This form is used to update a user’s status in the database. First select the employee you wish to modify from the drop down menu. Then from the next dropdown select that employee’s new status. You will be able to select a date in which you plan to make this status change go live. Lastly, there is a field to add a short note associated with the status change. Simply write this note in the given box. Once you have filled all the fields and are ready to change the employee’s status, simply press the ‘Submit’ button at the end of the page.</p>
+	  <p class="para" style="font-size: 1.5vw;">This page can be used to create or delete a status for any staff member. If an employee joins the fire department, their start date should be recorded as an active status. Statuses can also be changed to indicate that an employee has gone on leave, returned from leave, resigned, or retired. The date on this form should indicate the date on which the status change occurred. If any inaccurate status changes are made, they can be deleted simply by selecting the employee in the Delete Status form and selecting the inaccurate status change.</p>
 	</div>
 	<div class="header">
 	  <h2>Import</h2>
-	  <p class="para" style="font-size: 1.5vw;">This part of the website is used to upload csv files from When2Work and IamResponding into the database. <br>
-	IamResponding: First navigate to the IamResponding homepage. Click on subscriber login at the top right of the page. Once logged in, select the “Administrator Functions” button. You will be prompted to login again. Login, then once you are logged in go down to reports and select scheduling. Then fill in the necessary fields on the scheduling form and press the ‘Run Report’ button. Then in the newly opened report, click ‘Export to Excel’. This is the file you want to upload to the import page. Go to the import tab and select browse. Find the excel file you just downloaded and press the ‘upload’ button. The excel file will then be imported into the database.</p>
+	  <p class="para" style="font-size: 1.5vw;">This part of the website is used to update the database using CSV reports from IamResponding and Emergency Reporting’s API.<br><br>
+To upload data from IamResponding, navigate to the IamResponding homepage and log in. Select the ‘Administrator Functions’ button and log in again. Scroll down to reports and select ‘Scheduling.’ Fill in the necessary fields and press ‘Run Report.’ In the newly opened report, click ‘Export to Excel.’ In the GFD Information tracker, upload this file, entering the same date range that you used to generate the CSV on IamResponding. If a previous report had an error, and the current report contains data to correct the error, check the box before clicking ‘Submit.’
+<br><br>The refresh functionality should be used to update the database when old data has been edited on Emergency Reporting. To maintain the accuracy and stability of the database, select a short date range surrounding the days for which data was changed. 
+</p>
 	</div>
   </div>
 {% endblock %}
