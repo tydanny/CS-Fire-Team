@@ -173,23 +173,27 @@ class Report():
         ratApparatus = self.apparatus / Requirements.APPARATUS.value
         ratMeets = self.meetings / Requirements.MEETINGS.value
 
-        if tarRatio - 0.1 >= ratTrainings:
+        if tarRatio - 0.15 >= ratTrainings:
             self.statTrainings = "Behind-Schedule"
-        elif tarRatio - 0.01 >= ratTrainings:
+        elif tarRatio - 0.05 >= ratTrainings:
             self.statTrainings = "Falling-Behind"
         elif ratTrainings >= 0.99:
             self.statTrainings = "Complete"
 
-        if tarRatio - 0.1 >= ratShifts:
+        if "Resident" in self.resident and "Non-Resident" not in self.resident:
+            self.statShifts = "Complete"
+        elif tarRatio - 0.15 >= ratShifts:
             self.statShifts = "Behind-Schedule"
-        elif tarRatio - 0.01 >= ratShifts:
+        elif tarRatio - 0.05 >= ratShifts:
             self.statShifts = "Falling-Behind"
         elif ratTrainings >= 0.99:
             self.statShifts = "Complete"
 
-        if tarRatio - 0.1 >= ratActCalls:
+        if "Non-Resident" in self.resident:
+            self.statActCalls = "Complete"
+        elif tarRatio - 0.15 >= ratActCalls:
             self.statActCalls = "Behind-Schedule"
-        elif tarRatio - 0.01 >= ratActCalls:
+        elif tarRatio - 0.05 >= ratActCalls:
             self.statActCalls = "Falling-Behind"
         elif ratActCalls >= 0.99:
             self.statActCalls = "Complete"
@@ -201,16 +205,16 @@ class Report():
         elif ratWorkDeets >= 0.99:
             self.statWorkDeets = "Complete"
 
-        if tarRatio - 0.1 >= ratApparatus:
+        if tarRatio - 0.15 >= ratApparatus:
             self.statApparatus = "Behind-Schedule"
-        elif tarRatio - 0.01 >= ratApparatus:
+        elif tarRatio - 0.05 >= ratApparatus:
             self.statApparatus = "Falling-Behind"
         elif ratApparatus >= 0.99:
             self.statApparatus = "Complete"
 
-        if tarRatio - 0.1 >= ratMeets:
+        if tarRatio - 0.15 >= ratMeets:
             self.statMeets = "Behind-Schedule"
-        elif tarRatio - 0.01 >= ratMeets:
+        elif tarRatio - 0.05 >= ratMeets:
             self.statMeets = "Falling-Behind"
         elif ratMeets >= 0.99:
             self.statMeets = "Complete"
@@ -231,19 +235,25 @@ class Report():
         stats.append(self.statMeets)
         stats.append(self.statFunds)
         completed = True
+        numBehind = 0
+        numPartBehind = 0
         for stat in stats:
             if stat == "Behind-Schedule":
-                self.statOverall = "Behind-Schedule"
+                numBehind += 1
                 completed = False
-                break
             if stat == "Falling-Behind":
-                self.statOverall = "Falling-Behind"
+                numPartBehind += 1
                 completed = False
             if stat == "On-Track":
                 completed = False
         if completed:
             self.statOverall = "Complete"
-            
+        elif numBehind >= 3:
+            self.statOverall = "Behind-Schedule"
+        elif numBehind <= 2 or numPartBehind > 0:
+            self.statOverall = "Falling-Behind"
+        else:
+            self.statOverall = "On-Track"
 
     def create_csv_row(self):
         rank = "%s-%s" %(self.title, self.resident)
