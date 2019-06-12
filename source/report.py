@@ -130,15 +130,14 @@ class Report():
             self.meetings = meets[0][0]
 
     def compute_trainings(self):
-        training = self.connection.get_classes(self.empNum, self.startTime, self.endTime)
-        
+        training = self.connection.get_classes(self.empNum, self.startTime, self.endTime)        
         thours = 0
         tthours = 0
         if training != None:
             for t in training:
-                tthours += t[2]/60
-                if "DEPT TRNG" in t[3]:
-                    thours += t[2]/60
+                tthours += t[1]
+                if "DEPT TRNG" in t[0]:
+                    thours += t[1]
                 
             self.totTrainings = tthours
             self.trainings = thours
