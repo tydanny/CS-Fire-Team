@@ -138,11 +138,12 @@ body {
 	margin: 0;
 	background-repeat: no-repeat;
 	background-position: center;
+	background-size: cover;
 	background-attachment: fixed;
 }
 
 .header {
-	padding: 1px;
+	padding: 0.1px;
 	text-align: center;
 	background: #e5e5e5;
 	color: black;
@@ -293,9 +294,9 @@ img {
 /*Textbox for comments for the update status section of the personnel page*/
 textarea {
 	height: 200px;
-	height: 8vw;
+	height: 25vh;
 	width: 400px;
-	width: 20vw;
+	width: 22vw;
 }
 
 #chart {
