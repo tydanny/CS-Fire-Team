@@ -149,13 +149,19 @@ class dbconnect():
 
     def get_events(self, id, start, end, type):
         return self.s_query("""
-        SELECT * FROM event WHERE tstart BETWEEN '%s' AND '%s' AND id IN (SELECT event_id FROM person_xref_event
-        WHERE person_id = '%s') AND etype LIKE '%s';
+        SELECT e.etype, e.tstart, pe.duration FROM event AS e, person_xref_event AS pe WHERE e.tstart BETWEEN '%s' AND '%s'
+        AND pe.person_id = '%s' AND pe.event_id = e.id AND e.etype LIKE '%s';
         """ % (start, end, id, type))
 
     def get_classes(self, id, start, end):
         return self.s_query("""
         SELECT c.type, pc.duration FROM class AS c, person_xref_class AS pc WHERE tstart BETWEEN '%s' AND '%s' AND
+        c.id = pc.class_id AND pc.person_id = '%s';
+        """ % (start, end, id))
+
+    def get_classes_detail(self, id, start, end):
+        return self.s_query("""
+        SELECT c.type, c.tstart, pc.duration FROM class AS c, person_xref_class AS pc WHERE tstart BETWEEN '%s' AND '%s' AND
         c.id = pc.class_id AND pc.person_id = '%s';
         """ % (start, end, id))
 
