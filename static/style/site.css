@@ -291,6 +291,11 @@ img {
 	width: 14vw;
 }
 
+#logo img {
+	height: 20vw;
+	width: 20vw;	
+}
+
 /*Textbox for comments for the update status section of the personnel page*/
 textarea {
 	height: 200px;

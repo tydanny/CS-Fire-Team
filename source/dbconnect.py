@@ -1,4 +1,7 @@
 import psycopg2
+from decimal import Decimal
+import datetime
+from operator import itemgetter
 
 class dbconnect():
     def __init__(self):
@@ -162,16 +165,11 @@ class dbconnect():
         return people
 
     def get_active_people(self):
-        stats = self.s_query("SELECT status, person_id FROM person_status WHERE date_change IN (SELECT MAX(date_change) FROM person_status group by person_id)")
-        statuses = []
-        people = []
-        for s in stats:
-            if s[0] != 'Resigned' and s[0] != 'Retired':
-                statuses.append(s[1])
-        
-        for s in statuses:
-            people.append(self.get_person_name(s))
-        return people
+        return self.s_query("""
+        SELECT id, fname, lname FROM person WHERE id IN
+        (SELECT person_id FROM person_status AS p1 WHERE p1.status != 'Retired' AND p1.status != 'Resigned' AND 
+        p1.date_change=(SELECT MAX(date_change) FROM person_status AS p2 WHERE p2.person_id=p1.person_id)) ORDER BY lname;
+        """)
    
     def get_start(self, id):
         return self.get_statuses(id)[0][1]
@@ -259,9 +257,8 @@ class dbconnect():
 
     def get_trainings(self, id, start, end):
         return self.s_query("""
-        SELECT e.tend-e.tstart, e.etype FROM event AS e, person_xref_event AS pe
-        WHERE pe.person_id = '%s' AND e.etype LIKE 'training%%' AND e.tstart BETWEEN '%s'
-        AND '%s' AND e.id = pe.event_id;""" % (id, start, end))
+        SELECT duration, type 
+        """ % (id, start, end))
 
 	#Returns the total number of calls over a specified date range on the admin page*/
     def dashboard_calls(self, start, end, station):
@@ -270,7 +267,10 @@ class dbconnect():
     def dashboard_responders(self, start, end, station):
         totalCalls = self.dashboard_calls(start, end, station)	
         totalResponders = self.s_query("SELECT COUNT(*) FROM incident AS i, person_xref_incident AS ref WHERE i.id=ref.incident_id AND i.tstamp BETWEEN '%s' AND '%s';" % (start, end))[0][0]
-        return totalResponders/totalCalls
+        if totalCalls == 0:
+            return "No Data"
+        else:
+            return Decimal(str(totalResponders/totalCalls)).quantize(Decimal('.1'))
     
     def delete(self, start, end):
         self.delete_incidents(start, end)

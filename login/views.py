@@ -9,7 +9,6 @@ from source import report as rep
 from source import losap as lo
 import datetime
 import csv
-from decimal import Decimal
 
 # Create your views here.
 def login(request):
@@ -74,7 +73,8 @@ def admin(request, refreshToken):
 	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
 		startTime = request.POST['time-start']
 		endTime = request.POST['time-end']
-		station = request.POST['station']
+		#station = request.POST['station']
+		station = "Both"
 	else:
 		curr = datetime.datetime.now(tz=None)
 		startTime = "%s-01-01 00:00:00.00" % curr.year
@@ -84,7 +84,7 @@ def admin(request, refreshToken):
 	numsQuery = "SELECT id FROM PERSON;"
 	nums = connection.s_query(numsQuery)
 	totalCalls = connection.dashboard_calls(startTime, endTime, station)
-	avgResponders = Decimal(str(connection.dashboard_responders(startTime, endTime, station))).quantize(Decimal('.1'))
+	avgResponders = connection.dashboard_responders(startTime, endTime, station)
 	connection.close()
 	
 	i = len(nums)
@@ -133,7 +133,8 @@ def officer(request, refreshToken):
 	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
 		startTime = request.POST['time-start']
 		endTime = request.POST['time-end']
-		station = request.POST['station']
+		#station = request.POST['station']
+		station = "Both"
 	else:
 		curr = datetime.datetime.now(tz=None)
 		startTime = "%s-01-01 00:00:00.00" % curr.year
@@ -143,7 +144,7 @@ def officer(request, refreshToken):
 	numsQuery = "SELECT id FROM PERSON;"
 	nums = connection.s_query(numsQuery)
 	totalCalls = connection.dashboard_calls(startTime, endTime, station)
-	avgResponders = Decimal(str(connection.dashboard_responders(startTime, endTime, station))).quantize(Decimal('.1'))
+	avgResponders = connection.dashboard_responders(startTime, endTime, station)
 	connection.close()
 	
 	i = len(nums)

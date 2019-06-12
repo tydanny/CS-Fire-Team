@@ -1,12 +1,15 @@
 <!--admin_submit.html-->
 {% extends 'admin_base.html' %}
 {% load static from staticfiles %}
-{% block title %}Reports{% endblock %}
+{% block title %}Submitted{% endblock %}
 
 {% block content %}
-  <div id="main">
-    <font face = "georgia" size = "36">Form Submitted</font>
-	<br>
-	<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="500" height="500"/>
+  <div id="centered" class="content">
+	<div class="header" style="background-color: white;">
+    <h1>Form Submitted</h1>
+	  <div id="logo">
+	  <img src="{% static 'images/golden_fire.png' %}" alt="Fire Station Logo" height="8vw" width="8vw"/>
+      </div>
+	</div>
   </div>
 {% endblock %}
