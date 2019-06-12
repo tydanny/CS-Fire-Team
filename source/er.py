@@ -610,12 +610,12 @@ def load_trainings_xref(classIDs, access_token=None, **kwargs):
 
     db = dbconnect.dbconnect()
     users = get_users(access_token)
-    for classID in classIDs:
-        students = get_students(classID, access_token)
-        for student in students:
-            if student['classID'] in classIDs:
-                classIDs.remove(student['classID'])
-                db.load_person_xref_class(student['classID'], users[student['agencyPersonnelID']])    
+    students = get_students(access_token)
+
+    for student in students:
+        if student['classID'] in classIDs:
+            classIDs.remove(student['classID'])
+            db.load_person_xref_class(student['classID'], users[student['studentUserID']])    
 
 
 def get_trainings(access_token=None, **kwargs):
@@ -627,7 +627,7 @@ def get_trainings(access_token=None, **kwargs):
     
     headers = {
         # Request headers
-        'Ocp-Apim-Subscription-Key': '{subscription key}',
+        'Ocp-Apim-Subscription-Key': '9fabb21336d64b24a7774cf528ea8e46',
         'Authorization': access_token
     }
 
@@ -655,7 +655,7 @@ def get_training_cat(access_token=None, **kwargs):
         
     headers = {
         # Request headers
-        'Ocp-Apim-Subscription-Key': '{subscription key}',
+        'Ocp-Apim-Subscription-Key': '9fabb21336d64b24a7774cf528ea8e46',
         'Authorization': access_token,
     }
 
@@ -675,14 +675,14 @@ def get_training_cat(access_token=None, **kwargs):
     except Exception as e:
         print(e)
 
-def get_students(classID, access_token=None, **kwargs):
+def get_students(access_token=None, **kwargs):
 
     if access_token==None:
         access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
 
     headers = {
         # Request headers
-        'Ocp-Apim-Subscription-Key': '{subscription key}',
+        'Ocp-Apim-Subscription-Key': '9fabb21336d64b24a7774cf528ea8e46',
         'Authorization': access_token,
     }
 
@@ -693,7 +693,7 @@ def get_students(classID, access_token=None, **kwargs):
 
     try:
         conn = http.client.HTTPSConnection('data.emergencyreporting.com')
-        conn.request("GET", "/agencyclasses/classes/%s/students?%s" % (classID, params), headers=headers)
+        conn.request("GET", "/agencyclasses/classes/students?%s" % (params), headers=headers)
         response = conn.getresponse()
         data = response.read().decode()
         j = json.loads(data)
@@ -702,7 +702,7 @@ def get_students(classID, access_token=None, **kwargs):
     except Exception as e:
         print(e)
 
-def load_trainings(access_token, **kwargs):
+def load_trainings(access_token=None, **kwargs):
 
     if access_token == None:
         access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
