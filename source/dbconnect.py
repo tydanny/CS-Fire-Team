@@ -118,11 +118,11 @@ class dbconnect():
     def load_person_xref_event(self, event_id, person_id, duration):
         self.i_query("INSERT INTO person_xref_event (event_id, person_id, duration) VALUES ('%s', '%s', %s);" % (event_id, person_id, duration))
 
-    def load_class(self, id, tstart, duration, type):
-        self.i_query("INSERT INTO class (id, tstart, duration, type) VALUES ('%s', '%s', '%s', '%s');" % (id, tstart, duration, type))
+    def load_class(self, id, tstart, type):
+        self.i_query("INSERT INTO class (id, tstart, type) VALUES ('%s', '%s', '%s');" % (id, tstart, type))
 
-    def load_person_xref_class(self, class_id, person_id):
-        self.i_query("INSERT INTO person_xref_class (class_id, person_id) VALUES ('%s', '%s');" % (class_id, person_id))
+    def load_person_xref_class(self, class_id, person_id, duration):
+        self.i_query("INSERT INTO person_xref_class (class_id, person_id, duration) VALUES ('%s', '%s', %s);" % (class_id, person_id, duration))
 
     def get_person(self, id):
         return self.s_query("""
@@ -149,15 +149,21 @@ class dbconnect():
 
     def get_events(self, id, start, end, type):
         return self.s_query("""
-        SELECT * FROM event WHERE tstart BETWEEN '%s' AND '%s' AND id IN (SELECT event_id FROM person_xref_event
-        WHERE person_id = '%s') AND etype LIKE '%s';
+        SELECT e.etype, e.tstart, pe.duration FROM event AS e, person_xref_event AS pe WHERE e.tstart BETWEEN '%s' AND '%s'
+        AND pe.person_id = '%s' AND pe.event_id = e.id AND e.etype LIKE '%s';
         """ % (start, end, id, type))
 
-    def get_classes(self, id, start, type):
+    def get_classes(self, id, start, end):
         return self.s_query("""
-        SELECT * FROM class WHERE tstart BETWEEN '%s' AND '%s' AND id IN (SELECT class_id FROM person_xref_class
-        WHERE person_id = '%s') AND etype LIKE '%s';
-        """ % (start, end, id, type))
+        SELECT c.type, pc.duration FROM class AS c, person_xref_class AS pc WHERE tstart BETWEEN '%s' AND '%s' AND
+        c.id = pc.class_id AND pc.person_id = '%s';
+        """ % (start, end, id))
+
+    def get_classes_detail(self, id, start, end):
+        return self.s_query("""
+        SELECT c.type, c.tstart, pc.duration FROM class AS c, person_xref_class AS pc WHERE tstart BETWEEN '%s' AND '%s' AND
+        c.id = pc.class_id AND pc.person_id = '%s';
+        """ % (start, end, id))
 
     def get_people(self):
         people = []
@@ -254,12 +260,7 @@ class dbconnect():
         SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
         WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
         AND e.etype LIKE 'Business Meetings%%';""" % (id, start, end))
-
-    def get_trainings(self, id, start, end):
-        return self.s_query("""
-        SELECT duration, type 
-        """ % (id, start, end))
-
+    
 	#Returns the total number of calls over a specified date range on the admin page*/
     def dashboard_calls(self, start, end, station):
         return self.s_query("SELECT COUNT(*) FROM incident WHERE tstamp BETWEEN '%s' AND '%s';" % (start, end))[0][0]
