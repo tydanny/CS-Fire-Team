@@ -15,7 +15,7 @@ def convert_iar(file, deleteBeforeAddition=False, timeRangeStart=None, timeRange
   failures = []
   
   if(deleteBeforeAddition):
-    delete_shift_range(timeRangeStart, timeRangeEnd)
+    db.delete_shift_range(timeRangeStart, timeRangeEnd)
   
   for index, row in rep[0].iterrows():
     
