@@ -37,7 +37,7 @@ def upload(request, refreshToken):
         template = loader.get_template('admin_submit.html')
         
         #I dont know if this works or if changes need to be made to account for django stuff
-        converters.convert_iar(myfile, checked)
+        converters.convert_iar(myfile, checked, startTime, endTime)
         context = {
             'refreshToken': response['refresh_token']
         }
