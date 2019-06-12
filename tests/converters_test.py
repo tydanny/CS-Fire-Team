@@ -52,7 +52,7 @@ class TestConverters(unittest.TestCase):
 	def test_convert_schedule_delete(self):
 		#This shift should get removed.
 		self.db.load_shift('1919-6-1 9:00:00', '1919-6-2 13:00:00', 'Station 21', self.id2, 'BlahBlah')
-		converters.convert_iar(self.filepath)
+		converters.convert_iar(self.filepath, True, '1919-6-1', '1919-6-2')
 		
 		shifts1 = self.db.get_shifts(self.id1, '1919-6-1', '1919-6-2')
 		shifts2 = self.db.get_shifts(self.id2, '1919-6-1', '1919-6-2')
