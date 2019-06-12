@@ -151,11 +151,11 @@ class dbconnect():
         WHERE person_id = '%s') AND etype LIKE '%s';
         """ % (start, end, id, type))
 
-    def get_classes(self, id, start, type):
+    def get_classes(self, id, start, end):
         return self.s_query("""
         SELECT * FROM class WHERE tstart BETWEEN '%s' AND '%s' AND id IN (SELECT class_id FROM person_xref_class
-        WHERE person_id = '%s') AND etype LIKE '%s';
-        """ % (start, end, id, type))
+        WHERE person_id = '%s');
+        """ % (start, end, id))
 
     def get_people(self):
         people = []
@@ -257,12 +257,6 @@ class dbconnect():
         SELECT COUNT(*) FROM event AS e, person_xref_event AS pe
         WHERE pe.person_id = '%s' AND e.tstart BETWEEN '%s' AND '%s' AND e.id = pe.event_id
         AND e.etype LIKE 'Business Meetings%%';""" % (id, start, end))
-
-    def get_trainings(self, id, start, end):
-        return self.s_query("""
-        SELECT e.tend-e.tstart, e.etype FROM event AS e, person_xref_event AS pe
-        WHERE pe.person_id = '%s' AND e.etype LIKE 'training%%' AND e.tstart BETWEEN '%s'
-        AND '%s' AND e.id = pe.event_id;""" % (id, start, end))
 
 	#Returns the total number of calls over a specified date range on the admin page*/
     def dashboard_calls(self, start, end, station):

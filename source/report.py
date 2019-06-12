@@ -57,7 +57,7 @@ class Report():
         self.compute_apparatus()
         self.compute_fundraisers()
         self.compute_meetings()
-       # self.compute_trainings()
+        self.compute_trainings()
         self.compute_service()
         self.compute_employee_details()
         self.compute_employee_status()
@@ -130,15 +130,15 @@ class Report():
             self.meetings = meets[0][0]
 
     def compute_trainings(self):
-        training = self.connection.get_trainings(self.empNum, self.startTime, self.endTime)
+        training = self.connection.get_classes(self.empNum, self.startTime, self.endTime)
         
         thours = 0
         tthours = 0
         if training != None:
             for t in training:
-                tthours += t[0].seconds/3600
-                if t[1] == 'training-department':
-                    thours += t[0].seconds/3600
+                tthours += t[2]/60
+                if "DEPT TRNG" in t[3]:
+                    thours += t[2]/60
                 
             self.totTrainings = tthours
             self.trainings = thours
