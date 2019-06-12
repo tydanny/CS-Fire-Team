@@ -4,9 +4,12 @@
 {% block title %}Error{% endblock %}
 
 {% block content %}
-  <div id="main" class="header">
+  <div id="centered" class="content">
+	<div class="header" style="background-color: white;">
     <font face = "georgia" size = "36" color = "red">Error: Form Submission Failed</font>
-	<br>
-	<img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="500" height="500"/>
+	  <div id="logo">
+	  <img src="{% static 'images/golden_fire.png' %}" alt="Fire Station Logo" height="8vw" width="8vw"/>
+      </div>
+	</div>
   </div>
 {% endblock %}

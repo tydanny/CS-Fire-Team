@@ -1,4 +1,5 @@
 import psycopg2
+from decimal import Decimal
 import datetime
 from operator import itemgetter
 
@@ -266,7 +267,10 @@ class dbconnect():
     def dashboard_responders(self, start, end, station):
         totalCalls = self.dashboard_calls(start, end, station)	
         totalResponders = self.s_query("SELECT COUNT(*) FROM incident AS i, person_xref_incident AS ref WHERE i.id=ref.incident_id AND i.tstamp BETWEEN '%s' AND '%s';" % (start, end))[0][0]
-        return totalResponders/totalCalls
+        if totalCalls == 0:
+            return "No Data"
+        else:
+            return Decimal(str(totalResponders/totalCalls)).quantize(Decimal('.1'))
     
     def delete(self, start, end):
         self.delete_incidents(start, end)
