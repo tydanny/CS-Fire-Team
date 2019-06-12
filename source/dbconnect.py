@@ -276,6 +276,11 @@ class dbconnect():
         self.delete_incidents(start, end)
         self.delete_events(start, end)
         self.delete_classes(start, end)
+
+    def delete_shift_range(self, start, end):
+        self.i_query("""
+        DELETE FROM shift WHERE (tstart BETWEEN '%s' AND '%s') OR (tend BETWEEN '%s' AND '%s') OR (tstart < '%s' AND tend > '%s'));
+        """ % (start, end, start, end, start, end))
     
     def delete_incidents(self, start, end):
         self.i_query("""
