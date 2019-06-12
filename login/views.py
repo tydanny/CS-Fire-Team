@@ -130,8 +130,55 @@ def officer(request, refreshToken):
 		context = {"error":"access_error"}
 		return HttpResponse(template.render(context, request))
 
+	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
+		startTime = request.POST['time-start']
+		endTime = request.POST['time-end']
+		station = request.POST['station']
+	else:
+		curr = datetime.datetime.now(tz=None)
+		startTime = "%s-01-01 00:00:00.00" % curr.year
+		endTime = str(curr)
+		station = "Both"
+	connection = dbconnect.dbconnect()
+	numsQuery = "SELECT id FROM PERSON;"
+	nums = connection.s_query(numsQuery)
+	totalCalls = connection.dashboard_calls(startTime, endTime, station)
+	avgResponders = Decimal(str(connection.dashboard_responders(startTime, endTime, station))).quantize(Decimal('.1'))
+	connection.close()
+	
+	i = len(nums)
+	x = 0
+	empNums = []
+	reports = []
+	numComplete = 0
+	numOnTrack = 0
+	numFalling = 0
+	numBehind = 0
+	while x < i:
+		emp = nums[x][0]
+		empNums.append(emp)
+		x += 1
+	for emp in empNums:
+		report = rep.Report(str(emp), startTime, endTime)
+		report.compute_full_report()
+		reports.append(report)
+	for report in reports:
+		if report.statOverall == "Complete":
+			numComplete += 1
+		elif report.statOverall == "On-Track":
+			numOnTrack += 1
+		elif report.statOverall == "Falling-Behind":
+			numFalling += 1
+		elif report.statOverall == "Behind-Schedule":
+			numBehind += 1
 	template = loader.get_template('officer_home.html')
-	context = {'refreshToken': response['refresh_token'],}
+	context = {'numComplete': numComplete,
+			   'numOnTrack': numOnTrack,
+			   'numFalling': numFalling,
+			   'numBehind': numBehind,
+			   'avgResponders': avgResponders,
+                           'totalCalls': totalCalls,
+			   'refreshToken': response['refresh_token']}
 	return HttpResponse(template.render(context, request))
 	
 def user(request, refreshToken):
