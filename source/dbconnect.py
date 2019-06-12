@@ -118,11 +118,11 @@ class dbconnect():
     def load_person_xref_event(self, event_id, person_id, duration):
         self.i_query("INSERT INTO person_xref_event (event_id, person_id, duration) VALUES ('%s', '%s', %s);" % (event_id, person_id, duration))
 
-    def load_class(self, id, tstart, duration, type):
-        self.i_query("INSERT INTO class (id, tstart, duration, type) VALUES ('%s', '%s', '%s', '%s');" % (id, tstart, duration, type))
+    def load_class(self, id, tstart, type):
+        self.i_query("INSERT INTO class (id, tstart, type) VALUES ('%s', '%s', '%s');" % (id, tstart, type))
 
-    def load_person_xref_class(self, class_id, person_id):
-        self.i_query("INSERT INTO person_xref_class (class_id, person_id) VALUES ('%s', '%s');" % (class_id, person_id))
+    def load_person_xref_class(self, class_id, person_id, duration):
+        self.i_query("INSERT INTO person_xref_class (class_id, person_id, duration) VALUES ('%s', '%s', %s);" % (class_id, person_id, duration))
 
     def get_person(self, id):
         return self.s_query("""
