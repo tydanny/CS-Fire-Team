@@ -200,11 +200,6 @@ class dbconnect():
     def get_person_id(self, id):
         return self.s_query("""
         SELECT id FROM person WHERE id='%s';
-        """ % (id))[0][0]
-
-    def get_person_id_check(self, id):
-        return self.s_query("""
-        SELECT id FROM person WHERE id='%s';
         """ % (id))
 
     def get_title(self, id):
