@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django.core.files.storage import FileSystemStorage
-from source import converters, er
+from source import converters, er, dbconnect
 
 
 # Create your views here.
@@ -57,6 +57,11 @@ def refresh(request, refreshToken):
     try:
         start = request.POST['time-start']
         end = request.POST['time-end']
+
+        db = dbconnect.dbconnect()
+        db.delete(start, end)
+        er.update(response['access_token'], start_date=start, end_date=end)
+
         template = loader.get_template('admin_submit.html')
         context = {'refreshToken': response['refresh_token']}
         return HttpResponse(template.render(context, request))

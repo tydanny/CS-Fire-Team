@@ -55,7 +55,6 @@ CREATE TABLE event
 (
     id TEXT,
     tstart TIMESTAMP,
-    duration NUMERIC(4,2),
     etype TEXT,
     PRIMARY KEY (id)
 );
@@ -64,6 +63,7 @@ CREATE TABLE person_xref_event
 (
     event_id TEXT REFERENCES event(id),
     person_id TEXT REFERENCES person(id),
+    duration NUMERIC(4,2),
     PRIMARY KEY (event_id,person_id)
 );
 

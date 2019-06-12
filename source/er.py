@@ -25,20 +25,24 @@ def load_incidents(access_token=None, **kwargs):
     db = dbconnect.dbconnect()
     
     incidents = get_incidents(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
-    
+
+    incidentDates = {}
+
     for incident in incidents:
-        exposures = get_exposures(incident['incidentID'], access_token)
-        
-        #The 0 will be changed to a call once we figure out how to get the start time.
-        #db.load_incident(incident['incidentID'], incident['incidentDateTime'], exposures[0]['incidentType'], 0)
-        
-        for exposure in exposures:
-            crewMembers = get_crewMembers(exposure['exposureID'], access_token)
+        incidentDates[incident['incidentID']] = incident['incidentDateTime']
+
+    exposures = get_exposures(access_token)
+    crewMembers = get_crewMembers(access_token)
+    users = get_users(access_token)
+    
+    for exposure in exposures:
+        if exposure['incidentID'] in incidentDates.keys() and exposure['exposureID'] in crewMembers.keys():
+            print(exposure['incidentID'])
+            print(exposure['exposureID'])
+            db.load_incident(exposure['incidentID'], incidentDates[exposure['incidentID']], exposure['incidentType'], 0)
             #May need to change the parameter, userID might not be the one we need.
-            for member in crewMembers:
-                user = get_user(member['userID'], access_token)
-                if user and user['agencyPersonnelID'] != None:
-                    db.load_person_xref_incident(incident['incidentID'], user['agencyPersonnelID'])
+            for member in crewMembers[exposure['exposureID']]:
+                db.load_person_xref_incident(exposure['incidentID'], users[member])
     
     
 def get_auth(username, password):
@@ -62,7 +66,7 @@ def get_auth(username, password):
         conn.close()
         return data[33:73]
     except Exception as e:
-        print(e.with_traceback())
+        print(e)
 
 def get_token_pass(username=None, password=None):
 
@@ -230,8 +234,11 @@ def get_pass():
     except Exception as e:
         print('Password Error: ', e)
 
-def get_exposures(incidentID, access_token):
+def get_exposures(access_token=None, **kwargs):
     
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
+
     headers = {
         # Request headers
         'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
@@ -240,21 +247,26 @@ def get_exposures(incidentID, access_token):
 
     params = urllib.parse.urlencode({
         # Request parameters
-        'limit': 10000
+        'limit': 1000000
     })
 
     try:
         conn = http.client.HTTPSConnection('data.emergencyreporting.com')
-        conn.request("GET", "/agencyincidents/incidents/%s/exposures?%s" % (incidentID, params), headers=headers)
+        conn.request("GET", "/agencyincidents/incidents/exposures?%s" % (params), headers=headers)
         response = conn.getresponse()
         data = response.read().decode()
         j = json.loads(data)
         conn.close()
         return j['exposures']
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print("Get exposures error")
+        print(e)
 
-def get_crewMembers(exposureID, access_token):
+def get_crewMembers(access_token=None, **kwargs):
+
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
+
     headers = {
          # Request headers
         'Ocp-Apim-Subscription-Key': '1e9590cf0a134d4c99c3527775b03080',
@@ -268,14 +280,20 @@ def get_crewMembers(exposureID, access_token):
 
     try:
         conn = http.client.HTTPSConnection('data.emergencyreporting.com')
-        conn.request("GET", "/agencyincidents/exposures/%s/crewmembers?%s" % (exposureID, params), headers=headers)
+        conn.request("GET", "/agencyincidents/exposures/crewmembers?%s" % (params), headers=headers)
         response = conn.getresponse()
         data = response.read().decode()
         j = json.loads(data)
         conn.close()
-        return j['crewMembers']
+        crewDict = {}
+        for crewMember in j['crewMembers']:
+            if crewMember['exposureID'] not in crewDict.keys():
+                crewDict[crewMember['exposureID']] = []
+            crewDict[crewMember['exposureID']].append(crewMember['userID'])
+        return crewDict
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print("Get crew members error")
+        print(e)
 
 def get_user(userID, access_token):
     headers = {
@@ -326,7 +344,7 @@ def get_my_user(access_token=None):
         j = json.loads(data)
         return j['user']
     except Exception as e:
-        print(e.with_traceback())
+        print(e)
 
 def get_events(access_token=None, **kwargs):
     if access_token == None:
@@ -342,7 +360,7 @@ def get_events(access_token=None, **kwargs):
 
     params = urllib.parse.urlencode({
         # Request parameters
-        'filter': 'eventDateTime ge "%s", eventDateTime le "%s"' % (start.date().isoformat(), end.date().isoformat()),
+        'filter': 'eventDateTime ge "%s", eventDateTime lt "%s"' % (start.date().isoformat(), end.date().isoformat()),
         'orderby': 'eventDateTime ASC',
         'limit': 999999
     })
@@ -374,7 +392,7 @@ def load_events(access_token=None, **kwargs):
     
     eventIDs = []
     for event in events:
-        db.load_event(event['eventsID'], event['eventEndDate'], event['hours'], eventCats[event['eventCategoryID']])
+        db.load_event(event['eventsID'], event['eventEndDate'], eventCats[event['eventCategoryID']])
         eventIDs.append(event['eventsID'])
 
     load_events_xref(eventIDs, access_token)
@@ -389,8 +407,7 @@ def load_events_xref(eventIDs, access_token=None, **kwargs):
     users = get_users(access_token)
     for attendee in attendees:
         if attendee['eventID'] in eventIDs:
-            eventIDs.remove(attendee['eventID'])
-            db.load_person_xref_event(attendee['eventID'], users[attendee['userID']])
+            db.load_person_xref_event(attendee['eventID'], users[attendee['userID']], attendee['hours'])
 
 def get_users(access_token=None, **kwargs):
     if access_token == None:
@@ -508,7 +525,7 @@ def get_people(access_token=None, **kwargs):
         conn.close()
         return j['users']
     except Exception as e:
-        print(e.with_traceback())
+        print(e)
 
 
 def load_people(access_token=None, **kwargs):
@@ -521,7 +538,6 @@ def load_people(access_token=None, **kwargs):
     
     ids = db.get_ids()
     id_list = [i[0] for i in ids]
-    
     for u in users:
         if(not u['agencyPersonnelID'] in id_list and u['agencyPersonnelID'] != None):
             l, f = u['fullName'].split(', ', 1)
@@ -630,7 +646,7 @@ def get_trainings(access_token=None, **kwargs):
         conn.close()
         return j['classes']
     except Exception as e:
-        print(e.with_traceback())
+        print(e)
 
 def get_training_cat(access_token=None, **kwargs):
 
@@ -657,7 +673,7 @@ def get_training_cat(access_token=None, **kwargs):
         conn.close()
         return j['categories']
     except Exception as e:
-        print(e.with_traceback())
+        print(e)
 
 def get_students(classID, access_token=None, **kwargs):
 
@@ -684,7 +700,7 @@ def get_students(classID, access_token=None, **kwargs):
         conn.close()
         return j['students']
     except Exception as e:
-        print(e.with_traceback())
+        print(e)
 
 def load_trainings(access_token, **kwargs):
 

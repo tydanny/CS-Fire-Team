@@ -307,3 +307,7 @@ class dbconnect():
         DELETE FROM person_xref_event WHERE event_id IN
         (SELECT id FROM event WHERE tstart BETWEEN '%s' AND '%s');
         """ % (start, end))
+
+        self.i_query("""
+        DELETE FROM event WHERE tstart BETWEEN '%s' AND '%s';
+        """ % (start, end))
