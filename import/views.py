@@ -31,7 +31,9 @@ def upload(request, refreshToken):
 
     try:
         myfile = request.FILES['fileToUpload']
-        checked = request.form.get('iar_refresh')
+        print('yeet')
+        checked = request.POST['iar_refresh']
+        print('yeet')
         startTime = request.POST['time-start']
         endTime = request.POST['time-end']
         template = loader.get_template('admin_submit.html')
