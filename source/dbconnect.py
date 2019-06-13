@@ -312,3 +312,15 @@ class dbconnect():
         self.i_query("""
         DELETE FROM event WHERE tstart BETWEEN '%s' AND '%s';
         """ % (start, end))
+
+    def log_update(self):
+        today = datetime.date.today()
+
+        self.i_query("""
+        INSERT INTO updates (date) VALUES ('%s');
+        """ % today.isoformat())
+
+    def get_last_update(self):
+        return self.s_query("""
+        SELECT date FROM updates ORDER BY date asc;
+        """)[0][0]
