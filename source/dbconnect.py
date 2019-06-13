@@ -7,8 +7,8 @@ from operator import itemgetter
 class dbconnect():
     def __init__(self):
         self.connect()
-    #def __del__(self):
-        #self.close()
+    def __del__(self):
+        self.close()
 
     def connect(self):
         try:
