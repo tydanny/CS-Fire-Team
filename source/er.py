@@ -38,7 +38,7 @@ def load_incidents(access_token=None, **kwargs):
     users = get_users(access_token)
     
     for exposure in exposures:
-        if exposure['incidentID'] in incidentDates.keys() and exposure['exposureID'] in crewMembers.keys():
+        if exposure['incidentID'] in incidentDates.keys():
             db.load_incident(exposure['incidentID'], incidentDates[exposure['incidentID']], exposure['incidentType'], 0)
             for member in crewMembers[exposure['exposureID']]:
                 db.load_person_xref_incident(exposure['incidentID'], users[member])
@@ -171,8 +171,8 @@ def get_token(auth_code):
         conn.request("POST", "/authtoken/Token.php?%s" % params, j, headers)
         response = conn.getresponse()
         data = json.loads(response.read().decode())
-        return data['access_token']
         conn.close()
+        return data['access_token']
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
@@ -274,7 +274,7 @@ def get_crewMembers(access_token=None, **kwargs):
 
     params = urllib.parse.urlencode({
         # Request parameters
-        'limit': 10000
+        'limit': 10000000
     })
 
     try:
