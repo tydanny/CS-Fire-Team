@@ -18,7 +18,11 @@ class dbconnect():
             host='bridge-db.c6xgclrgfvud.us-west-1.rds.amazonaws.com',
             password='thebridge')
             self.cur = self.con.cursor()
-        except psycopg2.Error:
+        except yaml.YAMLError as e:
+            print('con.yaml error')
+            print(e)
+            raise(e)
+        except psycopg2.Error as e:
             print('Failed to connect to DB')
 
     def s_query(self, query):
