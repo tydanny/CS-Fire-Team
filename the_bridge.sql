@@ -82,3 +82,8 @@ CREATE TABLE person_xref_class
     duration NUMERIC(4,2) NOT NULL,
     PRIMARY KEY (class_id,person_id)
 );
+
+CREATE TABLE updates
+(
+    date DATE PRIMARY KEY
+);

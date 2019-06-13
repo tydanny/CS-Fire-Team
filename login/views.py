@@ -85,7 +85,7 @@ def admin(request, refreshToken):
 	nums = connection.s_query(numsQuery)
 	totalCalls = connection.dashboard_calls(startTime, endTime, station)
 	avgResponders = connection.dashboard_responders(startTime, endTime, station)
-	connection.close()
+	
 	
 	i = len(nums)
 	x = 0
@@ -112,6 +112,14 @@ def admin(request, refreshToken):
 			numFalling += 1
 		elif report.statOverall == "Behind-Schedule":
 			numBehind += 1
+
+	lastUpdate = connection.get_last_update()
+	diff = datetime.date.today() - lastUpdate
+
+	if diff.days >= 7:
+		er.update(response['access_token'], start_date=lastUpdate.isoformat(), end_date=datetime.date.today().isoformat())
+		connection.log_update()
+
 	template = loader.get_template('admin_home.html')
 	context = {'numComplete': numComplete,
 			   'numOnTrack': numOnTrack,
