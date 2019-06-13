@@ -2,6 +2,7 @@ import psycopg2
 from decimal import Decimal
 import datetime
 from operator import itemgetter
+import yaml
 
 class dbconnect():
     def __init__(self):
@@ -11,12 +12,14 @@ class dbconnect():
 
     def connect(self):
         try:
+            with open("dbconnect.yaml", 'r') as conFile:
+                cred = yaml.safe_load(conFile)
             self.con = psycopg2.connect(
-            dbname='bridge_db',
-            user='csfire',
-            port=5432,
-            host='bridge-db.c6xgclrgfvud.us-west-1.rds.amazonaws.com',
-            password='thebridge')
+            dbname=cred['dbname'],
+            user=cred['user'],
+            port=cred['port'],
+            host=cred['host'],
+            password=cred['password'])
             self.cur = self.con.cursor()
         except yaml.YAMLError as e:
             print('con.yaml error')
@@ -39,7 +42,7 @@ class dbconnect():
         try:
             self.cur.execute(query)
             self.con.commit()
-            print('yeet')
+            print('Query Successful')
         except psycopg2.Error as e:
             print('Query error')
             print (e)
