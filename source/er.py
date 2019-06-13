@@ -40,9 +40,14 @@ def load_incidents(access_token=None, **kwargs):
     for exposure in exposures:
         if exposure['incidentID'] in incidentDates.keys():
             db.load_incident(exposure['incidentID'], incidentDates[exposure['incidentID']], exposure['incidentType'], 0)
-            for member in crewMembers[exposure['exposureID']]:
-                db.load_person_xref_incident(exposure['incidentID'], users[member])
-    
+            try:
+                for member in crewMembers[exposure['exposureID']]:
+                    db.load_person_xref_incident(exposure['incidentID'], users[member])
+            except Exception as e:
+                f = open("error.log", "a")
+                f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
+                print(e)
+
     
 def get_auth(username, password):
     headers = {
@@ -192,7 +197,7 @@ def get_incidents(access_token, **kwargs):
     params = urllib.parse.urlencode({
         'filter': 'incidentDateTime ge "%s", incidentDateTime le "%s"' % (start.date().isoformat(), end.date().isoformat()),
         'orderby': 'incidentDateTime ASC',
-        'limit': 900000
+        'limit': 9999999
     })
 
     try:
@@ -246,7 +251,7 @@ def get_exposures(access_token=None, **kwargs):
 
     params = urllib.parse.urlencode({
         # Request parameters
-        'limit': 1000000
+        'limit': 99999999
     })
 
     try:
@@ -274,7 +279,7 @@ def get_crewMembers(access_token=None, **kwargs):
 
     params = urllib.parse.urlencode({
         # Request parameters
-        'limit': 10000000
+        'limit': 99999999
     })
 
     try:
