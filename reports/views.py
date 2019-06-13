@@ -62,7 +62,7 @@ def submit(request, refreshToken):
         connection = dbconnect.dbconnect()
         empNums = []
         if staff[0] == "Generate For All":
-            numsQuery = "SELECT id FROM PERSON;"
+            numsQuery = "SELECT id FROM PERSON order by lname;"
             nums = connection.s_query(numsQuery)
             i = len(nums)
             x = 0
