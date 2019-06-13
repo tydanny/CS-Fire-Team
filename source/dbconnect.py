@@ -3,7 +3,6 @@ import yaml
 from decimal import Decimal
 import datetime
 from operator import itemgetter
-import sys
 
 class dbconnect():
     def __init__(self):
@@ -13,7 +12,6 @@ class dbconnect():
 
     def connect(self):
         try:
-            sys.path.append('.')
             with open("dbconnect.yaml", 'r') as conFile:
                 cred = yaml.safe_load(conFile)
             self.con = psycopg2.connect(
