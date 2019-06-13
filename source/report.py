@@ -180,7 +180,7 @@ class Report():
         elif ratTrainings >= 0.99:
             self.statTrainings = "Complete"
 
-        if "Resident" in self.resident and "Non-Resident" not in self.resident:
+        if "Non-Resident" not in self.resident:
             self.statShifts = "Complete"
         elif tarRatio - 0.15 >= ratShifts:
             self.statShifts = "Behind-Schedule"
