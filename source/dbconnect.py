@@ -3,15 +3,17 @@ import yaml
 from decimal import Decimal
 import datetime
 from operator import itemgetter
+import sys
 
 class dbconnect():
     def __init__(self):
         self.connect()
-    #def __del__(self):
-        #self.close()
+    def __del__(self):
+        self.close()
 
     def connect(self):
         try:
+            sys.path.append('.')
             with open("dbconnect.yaml", 'r') as conFile:
                 cred = yaml.safe_load(conFile)
             self.con = psycopg2.connect(
@@ -24,6 +26,7 @@ class dbconnect():
         except yaml.YAMLError as e:
             print('con.yaml error')
             print(e)
+            raise(e)
         except psycopg2.Error as e:
             print('Failed to connect to DB')
             print(e)
