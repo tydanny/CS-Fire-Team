@@ -14,3 +14,5 @@ virt/
 !.elasticbeanstalk/*.global.yml
 
 error\.log
+
+con\.yaml
