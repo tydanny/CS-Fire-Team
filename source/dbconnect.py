@@ -90,9 +90,10 @@ class dbconnect():
         return report
 
     #Loads a person.
-    def load_person(self, id, fname, lname, title, residency, start):
+    def load_person(self, id, fname, lname, title, residency, start=None):
         self.i_query("INSERT INTO person (id, fname, lname, title, resident) VALUES ('%s', '%s', '%s', '%s', '%s');" % (id, fname, lname, title, residency))
-        self.load_person_status('Active', start, id, 'Start Day')
+        if start != None:
+            self.load_person_status('Active', start, id, 'Start Day')
 
     #Takes in incident id, time, category, and response.
     def load_incident(self, id, time, category, response):
@@ -135,7 +136,7 @@ class dbconnect():
         return [id, fName, lName]
 
     def get_ids(self):
-        return self.s_query("SELECT id FROM person")
+        return self.s_query("SELECT id, resident, title, fname, lname FROM person")
 
     def get_statuses(self, id):
         return self.s_query("""
@@ -330,3 +331,23 @@ class dbconnect():
         SELECT pi.person_id, pi.incident_id, i.tstamp FROM incident AS i, person_xref_incident AS pi WHERE 
         pi.incident_id = i.id AND i.tstamp BETWEEN '%s' AND '%s';
         """ % (start, end))
+
+    def update_residency(self, id, residency):
+        self.i_query("""
+        UPDATE person SET resident='%s' WHERE id='%s';
+        """ % (residency, id))
+
+    def update_lname(self, id, lname):
+        self.i_query("""
+        UPDATE person SET lname='%s' WHERE id='%s';
+        """ % (lname, id))
+
+    def update_fname(self, id, fname):
+        self.i_query("""
+        UPDATE person SET fname='%s' WHERE id='%s';
+        """ % (fname, id))
+
+    def update_title(self, id, title):
+        self.i_query("""
+        UPDATE person SET title='%s' WHERE id='%s';
+        """ % (title, id))

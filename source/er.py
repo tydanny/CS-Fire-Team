@@ -41,7 +41,7 @@ def load_incidents(access_token=None, **kwargs):
 
     exposures = get_exposures(access_token)
     crewMembers = get_crewMembers(access_token)
-    users = get_users(access_token)
+    users = get_uids(access_token)
     
     for exposure in exposures:
         if exposure['incidentID'] in incidents.keys():
@@ -414,12 +414,12 @@ def load_events_xref(eventIDs, access_token=None, **kwargs):
 
     db = dbconnect.dbconnect()
     attendees = get_event_people(access_token)
-    users = get_users(access_token)
+    users = get_uids(access_token)
     for attendee in attendees:
         if attendee['eventID'] in eventIDs:
             db.load_person_xref_event(attendee['eventID'], users[attendee['userID']], attendee['hours'])
 
-def get_users(access_token=None, **kwargs):
+def get_uids(access_token=None, **kwargs):
     if access_token == None:
         access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
 
@@ -547,15 +547,28 @@ def load_people(access_token=None, **kwargs):
     db = dbconnect.dbconnect()
     
     ids = db.get_ids()
-    id_list = [i[0] for i in ids]
+    idDict = {}
+    for id in ids:
+        idDict[id[0]] = (id[1], id[2], id[3], id[4])
+
     for u in users:
-        if(not u['agencyPersonnelID'] in id_list and u['agencyPersonnelID'] != None):
+        if u['agencyPersonnelID'] not in idDict.keys() and u['agencyPersonnelID'] != None:
             l, f = u['fullName'].split(', ', 1)
             if "'" in l:
                 l = l.replace("'", r"''")
             if "'" in f:
                 f = f.replace("'", r"''")
             db.load_person(u['agencyPersonnelID'], f, l, u['title'], u['shift'])
+        elif u['agencyPersonnelID'] != None:
+            if u['shift'] != idDict[u['agencyPersonnelID']][0]:
+                db.update_residency(u['agencyPersonnelID'], u['shift'])
+            l, f = u['fullName'].split(', ', 1)
+            if l != idDict[u['agencyPersonnelID']][2]:
+                db.update_lname(u['agencyPersonnelID'], l)
+            if f != idDict[u['agencyPersonnelID']][3]:
+                db.update_fname(u['agencyPersonnelID'], f)
+            if u['title'] != idDict[u['agencyPersonnelID']][1]:
+                db.update_title(u['agencyPersonnelID'], u['title'])
 
 def get_event_types(access_token=None, **kwargs):
     
@@ -619,7 +632,7 @@ def load_trainings_xref(classIDs, access_token=None, **kwargs):
         access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
 
     db = dbconnect.dbconnect()
-    users = get_users(access_token)
+    users = get_uids(access_token)
     students = get_students(access_token)
     
     for student in students:
