@@ -116,18 +116,21 @@ def admin(request, refreshToken):
 	lastUpdate = connection.get_last_update()
 	diff = datetime.date.today() - lastUpdate
 
-	if diff.days >= 7:
+	if diff.days >= 1:
 		er.update(response['access_token'], start_date=lastUpdate.isoformat(), end_date=datetime.date.today().isoformat())
 		connection.log_update()
 
 	template = loader.get_template('admin_home.html')
-	context = {'numComplete': numComplete,
-			   'numOnTrack': numOnTrack,
-			   'numFalling': numFalling,
-			   'numBehind': numBehind,
-			   'avgResponders': avgResponders,
-                           'totalCalls': totalCalls,
-			   'refreshToken': response['refresh_token']}
+	context = {
+		'numComplete': numComplete,
+		'numOnTrack': numOnTrack,
+		'numFalling': numFalling,
+		'numBehind': numBehind,
+		'avgResponders': avgResponders,
+		'totalCalls': totalCalls,
+		'refreshToken': response['refresh_token'],
+		'lastUpdate': connection.get_last_update().isoformat()
+	}
 	return HttpResponse(template.render(context, request))
 
 def officer(request, refreshToken):
@@ -153,7 +156,6 @@ def officer(request, refreshToken):
 	nums = connection.s_query(numsQuery)
 	totalCalls = connection.dashboard_calls(startTime, endTime, station)
 	avgResponders = connection.dashboard_responders(startTime, endTime, station)
-	connection.close()
 	
 	i = len(nums)
 	x = 0
@@ -186,8 +188,9 @@ def officer(request, refreshToken):
 			   'numFalling': numFalling,
 			   'numBehind': numBehind,
 			   'avgResponders': avgResponders,
-                           'totalCalls': totalCalls,
-			   'refreshToken': response['refresh_token']}
+			   'totalCalls': totalCalls,
+			   'refreshToken': response['refresh_token'],
+			   'lastUpdate': connection.get_last_update().isoformat()}
 	return HttpResponse(template.render(context, request))
 	
 def user(request, refreshToken):
@@ -218,6 +221,7 @@ def user(request, refreshToken):
 	fullName = "%s, %s" % (report.lastName, report.firstName)
 
 	template = loader.get_template('home_user.html')
+	db = dbconnect.dbconnect()
 	context = {
 		'empNum': empNum,
 		'employee': fullName,
@@ -226,7 +230,7 @@ def user(request, refreshToken):
 		'training': str(report.trainings),
 		'trainingStatus': report.statTrainings,
 		'shifts': str(report.shifts),
-                'bonusShifts': str(report.bonusShifts),
+		'bonusShifts': str(report.bonusShifts),
 		'shiftStatus': report.statShifts,
 		'actCalls': str(report.actCalls),
 		'callStatus': report.statActCalls,
@@ -241,5 +245,6 @@ def user(request, refreshToken):
 		'leave': losap.total_leave,
 		'yrsService': report.yrsService,
 		'refreshToken': response['refresh_token'],
+		'lastUpdate': db.get_last_update().isoformat()
 	}
 	return HttpResponse(template.render(context, request))
