@@ -66,16 +66,12 @@ class Event_Detail_Report():
                 for dat in data2:
                     data.append(dat)
         elif self.reportType == "Sundays & Weeklies":
-            data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail - Daily%%')
-            data2 = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail - Weekly%%')
-            data3 = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail - Sunday%%')
+            data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail - Weekly%%')
+            data2 = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Work Detail - Sunday%%')
             if data == None:
                 data = []
             if data2 != None:
                 for dat in data2:
-                    data.append(dat)
-            if data3 != None:
-                for dat in data3:
                     data.append(dat)
         # fix when fundraisers and meetings are in the database
         elif self.reportType == "Fundraisers":
