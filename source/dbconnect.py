@@ -324,3 +324,9 @@ class dbconnect():
         return self.s_query("""
         SELECT date FROM updates ORDER BY date asc;
         """)[0][0]
+
+    def get_incident_people(self, start, end):
+        return self.s_query("""
+        SELECT pi.person_id, pi.incident_id, i.tstamp FROM incident AS i, person_xref_incident AS pi WHERE 
+        pi.incident_id = i.id AND i.tstamp BETWEEN '%s' AND '%s';
+        """ % (start, end))
