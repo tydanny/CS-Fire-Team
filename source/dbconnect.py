@@ -12,7 +12,7 @@ class dbconnect():
 
     def connect(self):
         try:
-            with open("con.yaml", 'r') as conFile:
+            with open("dbconnect.yaml", 'r') as conFile:
                 cred = yaml.safe_load(conFile)
             self.con = psycopg2.connect(
             dbname=cred['dbname'],
