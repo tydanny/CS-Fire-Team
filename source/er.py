@@ -214,7 +214,7 @@ def get_incidents(access_token, **kwargs):
         conn.close()
         return data['incidents']
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print("Get incidents error")
 
 def get_dates(start_date, end_date):
     frmtstr = '%Y-%m-%d'

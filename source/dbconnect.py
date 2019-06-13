@@ -322,7 +322,7 @@ class dbconnect():
 
     def get_last_update(self):
         return self.s_query("""
-        SELECT date FROM updates ORDER BY date asc;
+        SELECT date FROM updates ORDER BY date DESC;
         """)[0][0]
 
     def get_incident_people(self, start, end):
