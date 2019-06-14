@@ -82,25 +82,25 @@ class Report():
         self.compute_employee_status()
         self.create_csv_row()
         self.connection.close()
-"""
-Counts up shifts and bonus shifts using the following criteria:
-1) If a shift's type is "Event", the person gets 1 shift credit
-2) If a shift is > 11 hours long, the person gets shift credit
-   equal to the (shift duration) + (1 hour wiggle room) / (12)
-   rounded down.
-3) If a shift lasts between 3 and 11 hours, the duration is added
-   to a counter to be counted as AWS credit.
-4) If a shift lasts at least 3 hours past a multiple of 12 but not
-   long enough to earn another shift, the excess is counted as AWS.
-5) Bonus shifts consist of shifts flagged as Weekends, ACO, or Holliday.
-6) Each Weekend shift adds one bonus shift to the counter unless 6
-   bonus weekend shifts have already been encountered. There is
-   currently no way to tell if two weekend bonus shifts were earned on
-   the same weekend through a 48-hour shift.
-7) Each 12 hours of a shift marked ACO counts as a bonus shift with 1
-   hour of wiggle room.
-8) Each shift flagged as a Holliday counts as 2 bonus shifts. 
-"""
+    """
+    Counts up shifts and bonus shifts using the following criteria:
+    1) If a shift's type is "Event", the person gets 1 shift credit
+    2) If a shift is > 11 hours long, the person gets shift credit
+       equal to the (shift duration) + (1 hour wiggle room) / (12)
+       rounded down.
+    3) If a shift lasts between 3 and 11 hours, the duration is added
+       to a counter to be counted as AWS credit.
+    4) If a shift lasts at least 3 hours past a multiple of 12 but not
+       long enough to earn another shift, the excess is counted as AWS.
+    5) Bonus shifts consist of shifts flagged as Weekends, ACO, or Holliday.
+    6) Each Weekend shift adds one bonus shift to the counter unless 6
+       bonus weekend shifts have already been encountered. There is
+       currently no way to tell if two weekend bonus shifts were earned on
+       the same weekend through a 48-hour shift.
+    7) Each 12 hours of a shift marked ACO counts as a bonus shift with 1
+       hour of wiggle room.
+    8) Each shift flagged as a Holliday counts as 2 bonus shifts. 
+    """
     def compute_shifts(self):
         shift = self.connection.get_shift_duration(str(self.empNum), self.startTime, self.endTime)
         credit=0
@@ -125,10 +125,10 @@ Counts up shifts and bonus shifts using the following criteria:
                         self.bonusShifts += 2
             credit += counter // 12
             self.shifts = int(credit)
-"""
-The following few functions simply call dbconnect functions and add the
-data returned to the appropriate data member.
-"""
+    """
+    The following few functions simply call dbconnect functions and add the
+    data returned to the appropriate data member.
+    """
     def compute_act_calls(self):
         calls = self.connection.get_num_actual_calls(str(self.empNum), self.startTime, self.endTime)
         if calls == None:
@@ -181,14 +181,14 @@ data returned to the appropriate data member.
                 
             self.totTrainings = tthours
             self.trainings = thours
-"""
-Computes days and years of service. If the person has not resigned or retired,
-this is calculated by subtracting the persons hire date from the current date.
-If the person has retired or resigned, this is calculated by subracting the hire
-date from the date of the person's last status change. The person's hire date is
-the date corresponding to the person's first Active status recorded in our database.
-This can be changed manually through the personnel tab on the website. 
-"""
+    """
+    Computes days and years of service. If the person has not resigned or retired,
+    this is calculated by subtracting the persons hire date from the current date.
+    If the person has retired or resigned, this is calculated by subracting the hire
+    date from the date of the person's last status change. The person's hire date is
+    the date corresponding to the person's first Active status recorded in our database.
+    This can be changed manually through the personnel tab on the website. 
+    """
     def compute_service(self):
         self.daysService = 0
         hireDate = self.connection.get_start(str(self.empNum)).date()
@@ -208,21 +208,21 @@ This can be changed manually through the personnel tab on the website.
             self.lastName = person[0][2]
             self.title = person[0][3]
             self.resident = person[0][4]
-"""
-Computes the person's status through tracking progress towards meeting each of their
-requirements for the current year. Uses the current date to figure out the percentage
-of the year that has passed and compute target values for each of the requirements based
-on this percentage. Compares the person's progress to these values to determine their
-status with respect to each requirement. For each individual status, the person is
-behind schedule if they are at least 15% behind where they should be with the requirement.
-They are falling behind if they are between 5% and 15% behind on the requirement. They are
-marked as complete once the requirement is completed and they are on-track otherwise.
-Fundraiser statusese are computed based on time of the year not based on percentage
-completion. A person's overall status is behind schedule if they are behind schedule towards
-at least three requirements. They are falling behind if they are behind in on or two
-requirements or are falling behind in any requirements. They are complete if all requirements
-have been completed and are on-track otherwise.
-"""
+    """
+    Computes the person's status through tracking progress towards meeting each of their
+    requirements for the current year. Uses the current date to figure out the percentage
+    of the year that has passed and compute target values for each of the requirements based
+    on this percentage. Compares the person's progress to these values to determine their
+    status with respect to each requirement. For each individual status, the person is
+    behind schedule if they are at least 15% behind where they should be with the requirement.
+    They are falling behind if they are between 5% and 15% behind on the requirement. They are
+    marked as complete once the requirement is completed and they are on-track otherwise.
+    Fundraiser statusese are computed based on time of the year not based on percentage
+    completion. A person's overall status is behind schedule if they are behind schedule towards
+    at least three requirements. They are falling behind if they are behind in on or two
+    requirements or are falling behind in any requirements. They are complete if all requirements
+    have been completed and are on-track otherwise.
+    """
     def compute_employee_status(self):
         curr = datetime.datetime.now(tz=None)
         daysPassed = (datetime.date.today() - datetime.date(curr.year, 1, 1)).days
@@ -315,10 +315,10 @@ have been completed and are on-track otherwise.
             self.statOverall = "Falling-Behind"
         else:
             self.statOverall = "On-Track"
-"""
-Adds gathered data to the csvRow data member to allow for easy addition
-to a csv file. Order shoulf match the order of the headerRow. 
-"""
+    """
+    Adds gathered data to the csvRow data member to allow for easy addition
+    to a csv file. Order shoulf match the order of the headerRow. 
+    """
     def create_csv_row(self):
         rank = "%s-%s" %(self.title, self.resident)
         self.csvRow.append(rank)
