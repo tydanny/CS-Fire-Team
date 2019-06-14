@@ -3,7 +3,8 @@
 <html>
   <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="{% static 'style/ff_style.css' %}">
+	<link rel="stylesheet" href="{% static 'style/ff_style.css' %}" type="text/css" media="screen">
+	<link rel="stylesheet" href="{% static 'style/ff_style_print.css' %}" type="text/css" media="print">
 	<meta charset="utf-8">
   </head>
   <body style="background-image:url({% static 'images/background.jpg' %});">
@@ -40,14 +41,14 @@
 		  <h2>You are {{empStatus}}</h2>
 		{% endif %}
 		
-		<div id="mainChartContainer" style="height: 12vw; width: 100%;"></div>
+		<div id="mainChartContainer" class="noprint" style="height: 12vw; width: 100%;"></div>
 		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		
 		<p style="font-size:2.5vw">Database last updated {{lastUpdate}} </p>
 	  <div id="centered1">
 	    <table>
 		  <tr>
-		    <th>Progress</th>
+		    <th class="noprint">Progress</th>
 		    <th>Category</th>
 			<th>Current</th>
 			<th>Required</th>
@@ -63,8 +64,7 @@
 			{% else %}
 			  <tr>
 			{% endif %}
-			  <td bgcolor="#e5e5e5"> <div id="trainingChartContainer" style="height: 8vw; width: 100%;"></div>
-			  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
+			  <td bgcolor="#e5e5e5" class="noprint"> <div id="trainingChartContainer" style="height: 8vw; width: 100%;"></div></td>
 			  <td>Training hours</td>
 			  <td><p id="train"></p>{{training}} - {{trainingStatus}}</td>
 			  <td>60</td>
@@ -81,8 +81,7 @@
 			{% else %}
 			  <tr>
 				{% endif %}
-				  <td bgcolor="#e5e5e5"> <div id="shiftChartContainer" style="height: 8vw; width: 100%;"></div>
-			      <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
+				  <td bgcolor="#e5e5e5" class="noprint"> <div id="shiftChartContainer" style="height: 8vw; width: 100%;"></div></td>
 				  <td>Shifts</td>
 				  <td>{{shifts}} - {{shiftStatus}}</td>
 				  <td>36</td>
@@ -98,8 +97,7 @@
 			{% else %}
 			  <tr>
 			{% endif %}
-			  <td bgcolor="#e5e5e5"> <div id="callChartContainer" style="height: 8vw; width: 100%;"></div>
-			  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
+			  <td bgcolor="#e5e5e5" class="noprint"> <div id="callChartContainer" style="height: 8vw; width: 100%;"></div></td>
 			  <td>Actual Calls</td>
 			  <td>{{actCalls}} - {{callStatus}}</td>
 			  <td>54</td>
@@ -115,8 +113,7 @@
 			{% else %}
 			  <tr>
 			{% endif %}
-			  <td bgcolor="#e5e5e5"> <div id="wdChartContainer" style="height: 8vw; width: 100%;"></div>
-			  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
+			  <td bgcolor="#e5e5e5" class="noprint"> <div id="wdChartContainer" style="height: 8vw; width: 100%;"></div></td>
 			  <td>Work Detail Hours</td>
 			  <td>{{workDeets}} - {{workDeetStatus}}</td>
 			  <td>36</td>
@@ -132,8 +129,7 @@
 			{% else %}
 			  <tr>
 			{% endif %}
-			  <td bgcolor="#e5e5e5"> <div id="appChartContainer" style="height: 8vw; width: 100%;"></div>
-			  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
+			  <td bgcolor="#e5e5e5" class="noprint"> <div id="appChartContainer" style="height: 8vw; width: 100%;"></div></td>
 			  <td>Sundays & Weeklies</td>
 			  <td>{{apparatus}} - {{apparatusStatus}}</td>
 			  <td>12</td>
@@ -149,8 +145,7 @@
 			{% else %}
 			  <tr>
 			{% endif %}
-			<td bgcolor="#e5e5e5"> <div id="fundraiserChartContainer" style="height: 8vw; width: 100%;"></div>
-			      <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
+			<td bgcolor="#e5e5e5" class="noprint"> <div id="fundraiserChartContainer" style="height: 8vw; width: 100%;"></div></td>
 			  <td>Fundraisers</td>
 			  <td>{{fundraisers}} - {{fundraiserStatus}}</td>
 			  <td>1</td>
@@ -167,8 +162,7 @@
 			{% else %}
 			  <tr>
 			{% endif %}
-			  <td bgcolor="#e5e5e5"> <div id="meetChartContainer" style="height: 8vw; width: 100%;"></div>
-			  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
+			  <td bgcolor="#e5e5e5" class="noprint"> <div id="meetChartContainer" style="height: 8vw; width: 100%;"></div></td>
 			  <td>Business Meetings</td>
 			  <td>{{meetings}} - {{meetingStatus}}</td>
 		      <td>6</td>
@@ -210,11 +204,11 @@ var main_chart = new CanvasJS.Chart("mainChartContainer", {
 		type: "doughnut",
 		startAngle: 90,
 		dataPoints: [
-			{ y: 133,
+			{ y: {{totalComp}},
 			  color: '#6fa5ed'},
-			{ y: 12,
+			{ y: {{totalBehind}},
 			 color: '#d63737'},
-			{ y: 60,
+			{ y: {{totalRemain}},
 			color: '#7f7f7f'}
 		]
 	}]
@@ -230,9 +224,9 @@ var training_chart = new CanvasJS.Chart("trainingChartContainer", {
 		dataPoints: [
 			{ y: {{training}},
 			  color: '#6fa5ed'},
-			{ y: 0,
+			{ y: {{trainingBehind}},
 			 color: '#d63737'},
-			{ y: 12,
+			{ y: {{trainingRemain}},
 			color: '#7f7f7f'}
 		]
 	}]
@@ -248,9 +242,9 @@ var shift_chart = new CanvasJS.Chart("shiftChartContainer", {
 		dataPoints: [
 			{ y: {{shifts}},
 			  color: '#6fa5ed'},
-			{ y: 10,
+			{ y: {{shiftBehind}},
 			 color: '#d63737'},
-			{ y: 10,
+			{ y: {{shiftRemain}},
 			color: '#7f7f7f'}
 		]
 	}]
@@ -267,9 +261,9 @@ var call_chart = new CanvasJS.Chart("callChartContainer", {
 		dataPoints: [
 			{ y: {{actCalls}},
 			  color: '#6fa5ed'},
-			{ y: 0,
+			{ y: {{callsBehind}},
 			 color: '#d63737'},
-			{ y: 22,
+			{ y: {{callsRemain}},
 			color: '#7f7f7f'}
 		]
 	}]
@@ -286,9 +280,9 @@ var wd_chart = new CanvasJS.Chart("wdChartContainer", {
 		dataPoints: [
 			{ y: {{workDeets}},
 			  color: '#6fa5ed'},
-			{ y: 2,
+			{ y: {{wdBehind}},
 			 color: '#d63737'},
-			{ y: 15,
+			{ y: {{wdRemain}},
 			color: '#7f7f7f'}
 		]
 	}]
@@ -302,11 +296,11 @@ var app_chart = new CanvasJS.Chart("appChartContainer", {
 		startAngle: 90,
 		
 		dataPoints: [
-			{ y: 12,
+			{ y: {{apparatus}},
 			  color: '#6fa5ed'},
-			{ y: 0,
+			{ y: {{apparatusBehind}},
 			 color: '#d63737'},
-			{ y: 0,
+			{ y: {{apparatusRemain}},
 			color: '#7f7f7f'}
 		]
 	}]
@@ -320,11 +314,11 @@ var fundraiser_chart = new CanvasJS.Chart("fundraiserChartContainer", {
 		startAngle: 90,
 		
 		dataPoints: [
-			{ y: 1,
+			{ y: {{fundraisers}},
 			  color: '#6fa5ed'},
-			{ y: 0,
+			{ y: {{fundraiserBehind}},
 			 color: '#d63737'},
-			{ y: 0,
+			{ y: {{fundraiserRemain}},
 			color: '#7f7f7f'}
 		]
 	}]
@@ -339,11 +333,11 @@ var meet_chart = new CanvasJS.Chart("meetChartContainer", {
 		startAngle: 90,
 		
 		dataPoints: [
-			{ y: 5,
+			{ y: {{meetings}},
 			  color: '#6fa5ed'},
-			{ y: 0,
+			{ y: {{meetingsBehind}},
 			 color: '#d63737'},
-			{ y: 1,
+			{ y: {{meetingsRemain}},
 			color: '#7f7f7f'}
 		]
 	}]

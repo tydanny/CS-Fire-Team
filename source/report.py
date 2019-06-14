@@ -33,6 +33,23 @@ class Report():
         self.totTrainings = 0
         self.daysService = 0
         self.yrsService = 0
+        self.trainingBehind = 0
+        self.shiftBehind = 0
+        self.callsBehind = 0
+        self.wdBehind = 0
+        self.apparatusBehind = 0
+        self.fundraiserBehind = 0
+        self.meetingsBehind = 0
+        self.trainingRemain = 0
+        self.shiftRemain = 0
+        self.callsRemain = 0
+        self.wdRemain = 0
+        self.apparatusRemain = 0
+        self.fundraiserRemain = 0
+        self.meetingsRemain = 0
+        self.totalComp = 0
+        self.totalBehind = 0
+        self.totalRemain = 0
         self.connection = dbconnect.dbconnect()
         self.statTrainings = "On-Track"
         self.statShifts = "On-Track"
@@ -173,30 +190,58 @@ class Report():
         ratApparatus = self.apparatus / Requirements.APPARATUS.value
         ratMeets = self.meetings / Requirements.MEETINGS.value
 
+        self.trainingBehind = (tarRatio * Requirements.TRAININGS.value) - self.trainings
+        self.trainingRemain = Requirements.TRAININGS.value - self.trainingBehind - self.trainings
+
+        self.shiftBehind = (tarRatio * Requirements.SHIFTS.value) - self.shifts - self.bonusShifts
+        self.shiftRemain = Requirements.SHIFTS.value - self.shiftBehind - self.shifts - self.bonusShifts
+
+        self.callsBehind = (tarRatio * Requirements.ACTUAL_CALLS.value) - self.actCalls
+        self.callsRemain = Requirements.ACTUAL_CALLS.value - self.callsBehind - self.actCalls
+
+        self.wdBehind = (tarRatio * Requirements.WORK_DETAIL_HOURS.value) - self.WDHours
+        self.wdRemain = Requirements.WORK_DETAIL_HOURS.value - self.wdBehind - self.WDHours
+		
+        self.apparatusBehind = (tarRatio * Requirements.APPARATUS.value) - self.apparatus
+        self.apparatusRemain = Requirements.APPARATUS.value - self.apparatusBehind - self.apparatus
+		
+        self.meetingsBehind = (tarRatio * Requirements.MEETINGS.value) - self.meetings
+        self.meetingsRemain = Requirements.MEETINGS.value - self.meetingsBehind - self.meetings
+
         if tarRatio - 0.15 >= ratTrainings:
             self.statTrainings = "Behind-Schedule"
         elif tarRatio - 0.05 >= ratTrainings:
             self.statTrainings = "Falling-Behind"
         elif ratTrainings >= 0.99:
             self.statTrainings = "Complete"
+            self.trainingBehind = 0
+            self.trainingRemain = 0
 
         if "Non-Resident" not in self.resident:
             self.statShifts = "Complete"
+            self.shiftBehind = 0
+            self.shiftRemain = 0
         elif tarRatio - 0.15 >= ratShifts:
             self.statShifts = "Behind-Schedule"
         elif tarRatio - 0.05 >= ratShifts:
             self.statShifts = "Falling-Behind"
         elif ratTrainings >= 0.99:
             self.statShifts = "Complete"
+            self.shiftBehind = 0
+            self.shiftRemain = 0
 
         if "Non-Resident" in self.resident:
             self.statActCalls = "Complete"
+            self.callsBehind = 0
+            self.callsRemain = 0
         elif tarRatio - 0.15 >= ratActCalls:
             self.statActCalls = "Behind-Schedule"
         elif tarRatio - 0.05 >= ratActCalls:
             self.statActCalls = "Falling-Behind"
         elif ratActCalls >= 0.99:
             self.statActCalls = "Complete"
+            self.callsBehind = 0
+            self.callsRemain = 0
 
         if tarRatio - 0.1 >= ratWorkDeets:
             self.statWorkDeets = "Behind-Schedule"
@@ -204,6 +249,8 @@ class Report():
             self.statWorkDeets = "Falling-Behind"
         elif ratWorkDeets >= 0.99:
             self.statWorkDeets = "Complete"
+            self.wdBehind = 0
+            self.wdRemain = 0
 
         if tarRatio - 0.15 >= ratApparatus:
             self.statApparatus = "Behind-Schedule"
@@ -211,6 +258,8 @@ class Report():
             self.statApparatus = "Falling-Behind"
         elif ratApparatus >= 0.99:
             self.statApparatus = "Complete"
+            self.apparatusBehind = 0
+            self.apparatusRemain = 0
 
         if tarRatio - 0.15 >= ratMeets:
             self.statMeets = "Behind-Schedule"
@@ -218,13 +267,33 @@ class Report():
             self.statMeets = "Falling-Behind"
         elif ratMeets >= 0.99:
             self.statMeets = "Complete"
+            self.meetingsBehind = 0
+            self.meetingsRemain = 0
 
         if self.fundraisers >= 1:
             self.statFunds = "Complete"
+            self.fundraiserBehind = 0
+            self.fundraiserRemain = 0
         elif curr.month == 8 or curr.month == 9:
             self.statFunds = "Falling-Behind"
+            self.fundraiserBehind = 1
+            self.fundraiserRemain = 0
         elif curr.month >= 10:
             self.statFunds = "Behind-Schedule"
+            self.fundraiserBehind = 1
+            self.fundraiserRemain = 0
+        else:
+            self.fundraiserBehind = 0
+            self.fundraiserRemain = 1
+        
+        if "Non-Resident" in self.resident:
+            totalRequired = Requirements.TRAININGS.value + Requirements.SHIFTS.value + Requirements.WORK_DETAIL_HOURS.value + Requirements.APPARATUS.value + Requirements.MEETINGS.value + 1
+            self.totalBehind = self.trainingBehind + self.shiftBehind + self.wdBehind + self.apparatusBehind + self.fundraiserBehind + self.meetingsBehind
+        else:
+            totalRequired = Requirements.TRAININGS.value + Requirements.ACTUAL_CALLS.value + Requirements.WORK_DETAIL_HOURS.value + Requirements.APPARATUS.value + Requirements.MEETINGS.value + 1
+            self.totalBehind = self.trainingBehind + self.callsBehind + self.wdBehind + self.apparatusBehind + self.fundraiserBehind + self.meetingsBehind
+
+        self.totalRemain = totalRequired - self.totalComp - self.totalBehind
 
         stats = []
         stats.append(self.statTrainings)
