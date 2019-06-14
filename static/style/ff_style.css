@@ -24,11 +24,11 @@ li a:hover:not(.active) {
 }
 
 li a:hover {
-	background-color: #3c8c3f;
+	background-color: #1d3c75;
 }
 
 .active {
-	background-color: #4CAF50;
+	background-color: #234787;
 }			
 
 #navigation {
