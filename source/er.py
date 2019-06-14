@@ -9,11 +9,11 @@ import datetime
 from getpass import getpass
 from source import dbconnect
 
-'''
+"""
 This module handles all interaction with the api and the database.
 Any data pulled from Emergency Reporting is pulled through the
 API using the functions below.
-'''
+"""
 
 def update(access_token=None, **kwargs):
     if access_token == None:

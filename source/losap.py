@@ -1,7 +1,7 @@
 from source import dbconnect
 import datetime
 
-'''
+"""
 This module handles the generation of losap reports.
 Eash row of the csv is made by pulling information
 from the database about a given person's status changes.
@@ -12,7 +12,7 @@ checking the dates to see if it is within the specified
 date range. Then the total leave is found by stripping away
 any leave time not within this year and totaling it
 into a single number. 
-'''
+"""
 
 class LOSAP():
     def __init__(self, empNum, startTime, endTime):
@@ -37,6 +37,9 @@ class LOSAP():
         self.populate_csv_rows()
         self.connection.close()
 
+    '''
+
+    '''
     def compute_losap_information(self):
         self.total_leave = 0
         leave_instances = self.connection.get_statuses(str(self.empNum))
