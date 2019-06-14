@@ -45,7 +45,7 @@ def check(request):
 	elif title == 'Lieutenant' or title == 'Assistant Chief' or title == 'Fire Inspector' or title == 'Shift Officer' or title == 'Captain' or title == 'Administrative Assistant':
 		page = 'officer_home'
 	elif title == 'Data Collection':
-		page = 'user_home'
+		page = 'admin_home'
 	else:
 		page = 'user_home'
 
