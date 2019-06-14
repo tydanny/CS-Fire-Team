@@ -1,0 +1,322 @@
+* {
+	box-sizing: border-box;
+}
+
+/*First column on personnel page*/
+.column {
+	float: left;
+	width: 47%;
+}
+
+/*Second column on personnel page*/
+.column1 {
+	float: right;
+	width: 47%;
+}
+
+.row {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+/*Section backgrounds on about pages*/
+.para {
+    border-radius: 60px;
+    width: 100%;
+    text-align: left;
+    padding: 3.3vw;
+    background: #333;
+    margin-top: 3vw;
+    color: white;
+}
+
+/*Navigation bar styling starts*/
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+}
+
+li {
+	float: left;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 2.3vh 1.4vw;
+	text-decoration: none;
+}
+
+li a:hover:not(.active) {
+	background-color: #111;
+}
+	
+li a:hover {
+	background-color: #3c8c3f;
+}
+
+.active {
+	background-color: #4CAF50;
+}			
+	
+#navigation {
+	margin: 1vw 0px 0px 0px;
+	font-size: 15px;
+	font-size: 1.4vw;
+}
+/*Navigation bar styling ends*/
+	
+#centered {
+	text-align: center;
+	font-family: sans-serif;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #e5e5e5;
+}
+
+/*Start of styling for admin homepage formatting*/
+table {
+	border-collapse: collapse;
+	font-size: 28px;
+	font-size: 2vw;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1vw;
+	background-color: #e5e5e5;
+}
+
+td {
+	padding: 1.8vw;
+}
+
+.legend td, th {
+	padding: 8px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+#myCanvas {
+	padding: 8px;
+	width: 20vw;
+	height: 20vw;
+}
+
+#value {
+	font-size: 6vw;
+}
+
+#label {
+	font-size: 2.6vw;
+}
+/*end of styling for admin homepage formatting*/
+
+/*buttons*/
+.button {
+	background-color: #333;
+	border: none;
+	color: white;
+	padding: 2vh 2.7vw;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	font-size: 1.4vw;
+	font-family: sans-serif;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 8px;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+.header {
+	padding: 0.1px;
+	text-align: center;
+	background: #e5e5e5;
+	color: black;
+}
+
+.header h1 {
+	padding: 0.5vh;
+	font-size: 2.5em;
+	font-size: 3.5vw;
+	color: white;
+	background: #333;
+}
+
+.header h2 {
+	font-size: 2em;
+	font-size: 2.5vw;
+	padding: 0.5vh;
+	color: white;
+	background: #333;
+}
+
+.header h3 {
+
+}
+
+.content {
+	max-width: 70%;
+	margin: auto;
+	background: #e5e5e5;
+	padding: 0px;
+}
+
+/*Text below select box on the reports page*/
+.help-block {
+	font-size: 14px;
+	font-size: 1.3vw;
+	color: gray;
+	font-weight: lighter;
+}
+
+/*Select box on reports page*/
+select {
+  width: 24vw;
+  height: 32vh;
+  padding: .5vh .7vw;
+}
+
+/*Options containing person name and id*/
+select option {
+  border-bottom: 1px dashed #333;
+  height: 5vh;
+  position: relative;
+  padding: 2vh 1vw;
+  font-size: 2.2vmin;
+}
+
+/*Dropdown menu*/
+.custom-select {
+	left: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	font-family: Helvetica;
+	width:27vw;
+}
+
+.custom-select select {
+	display: none;
+}
+
+.select-selected {
+	background-color: #333;
+}
+
+.select-selected:after {
+	position: absolute;
+	content: "";
+	top: 14px;
+	right: 10px;
+	width: 0;
+	height: 0;
+	border: 6px solid transparent;
+	border-color: #fff transparent transparent transparent;
+}
+
+.select-selected.select-arrow-active:after {
+	border-color: transparent transparent #fff transparent;
+	top: 7px;
+}
+
+.select-items div,.select-selected {
+	color: #ffffff;
+	padding: 8px 16px;
+	border: 1px solid transparent;
+	border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+	cursor: pointer;
+	user-select: none;
+}
+
+.select-items {
+	position: absolute;
+	background-color: #333;
+	top: 100%;
+	left: 0;
+	right: 0;
+	z-index: 99;
+	clear: both;
+	max-height: 22vh;
+	overflow-y: auto;
+}
+
+.select-hide {
+	display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+/*White background behind webpage title*/
+#title {
+	background-color: white;
+}
+
+#top {
+	margin: 0px 1vw 1vw 1vw;
+}
+
+font {
+	font-size: 40px;
+	font-size: 3.5vw;
+}
+
+img {
+	height: 300px;
+	height: 8vw;
+	width: 300px;
+	width: 8vw;
+}
+
+.picture img {
+	height: 400px;
+	height: 14vw;
+	width: 400px;
+	width: 14vw;
+}
+
+#logo img {
+	height: 20vw;
+	width: 20vw;	
+}
+
+/*Textbox for comments for the update status section of the personnel page*/
+textarea {
+	height: 200px;
+	height: 25vh;
+	width: 400px;
+	width: 22vw;
+}
+
+#chart {
+	margin: 5vw 5vw 5vw 5vw;
+	font-family: sans-serif;
+}
+	
+#roof {
+	background: white;
+}
+
+#centered1 {
+	text-align: center;
+	font-family: sans-serif;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: white;
+}

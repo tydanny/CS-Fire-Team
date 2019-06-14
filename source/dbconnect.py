@@ -4,6 +4,18 @@ import datetime
 from operator import itemgetter
 import yaml
 
+'''
+This module handles all interactions with the database.
+The connection settings are pulled from a .yaml file
+and used to make a psycopg2 connection object.
+The two main functions are s_query and i_query.
+s_query returns all the information from a select
+query while i_query maked the changes to the database
+specified by the insert/update/delete query and then
+commits those changes to the database. All other functions
+are helper functions that just call a canned SQL query.
+'''
+
 class dbconnect():
     def __init__(self):
         self.connect()

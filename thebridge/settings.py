@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'kz19-gz$e+05vscyxaibbr-qoq@qo(1$irmmeqt9qf1@&ba@2l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['thebridge-env.mvauspfutp.us-west-1.elasticbeanstalk.com', '127.0.0.1']
 
