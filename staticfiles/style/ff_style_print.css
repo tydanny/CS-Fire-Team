@@ -1,0 +1,156 @@
+/*Navigation bar styling starts*/
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+}
+
+li {
+	float: left;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 2.3vh 1.4vw;
+	text-decoration: none;
+}
+
+li a:hover:not(.active) {
+	background-color: #111;
+}
+
+li a:hover {
+	background-color: #1d3c75;
+}
+
+.active {
+	background-color: #234787;
+}			
+
+#navigation {
+	margin: 1vw 0px 0px 0px;
+	font-size: 15px;
+	font-size: 1.4vw;
+}
+/*Navigation bar styling ends*/
+
+#centered1 {
+	text-align: center;
+	font-family: sans-serif;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#centered2 {
+	text-align: center;
+	font-family: sans-serif;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*buttons*/
+.button {
+	background-color: #333;
+	border: none;
+	color: white;
+	padding: 2vh 2.7vw;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	font-size: 1.4vw;
+	font-family: sans-serif;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 8px;
+}
+
+li{
+	list-style: none;
+}
+
+/*Individual Firefighter report table*/
+table {
+	border-collapse: collapse;
+	font-size: 20px;
+	font-size: 1.7vw;
+	margin-left: auto;
+	margin-right: auto;
+	color: white;
+}
+
+td {
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+	padding: 1.5vw;
+}
+
+th {
+	background-color: #333;
+	color:white;
+	border-bottom: 1px solid #ddd;
+	padding: 1vw;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+.header {
+	padding: 0.1px;
+	text-align: center;
+	font-size: 21px;
+	font-size: 2.3vw;
+	background: #e5e5e5;
+	color: black;
+}
+
+.content {
+max-width: 70%;
+margin: auto;
+background: #e5e5e5;
+padding: 0px;
+}
+
+.header h1 {
+padding: 5px;
+font-size: 2.5em;
+font-size: 3.5vw;
+color: white;
+background: #333;
+}
+
+#roof {
+	background: white;
+}
+
+#top {
+	margin: 0px 10px 10px 10px;
+}
+
+font {
+font-size: 40px;
+font-size: 3.5vw;
+}
+
+img {
+height: 300px;
+height: 8vw;
+width: 300px;
+width: 8vw;
+}
+
+@media print
+{
+.noprint {display:none;}
+}

@@ -251,23 +251,23 @@ class Report():
         ratApparatus = self.apparatus / Requirements.APPARATUS.value
         ratMeets = self.meetings / Requirements.MEETINGS.value
 
-        self.trainingBehind = (tarRatio * Requirements.TRAININGS.value) - self.trainings
-        self.trainingRemain = Requirements.TRAININGS.value - self.trainingBehind - self.trainings
+        self.trainingBehind = (tarRatio * Requirements.TRAININGS.value) - float(self.trainings)
+        self.trainingRemain = Requirements.TRAININGS.value - self.trainingBehind - float(self.trainings)
 
         self.shiftBehind = (tarRatio * Requirements.SHIFTS.value) - self.shifts - self.bonusShifts
-        self.shiftRemain = Requirements.SHIFTS.value - self.shiftBehind - self.shifts - self.bonusShifts
+        self.shiftRemain = Requirements.SHIFTS.value - self.shiftBehind - float(self.shifts) - float(self.bonusShifts)
 
-        self.callsBehind = (tarRatio * Requirements.ACTUAL_CALLS.value) - self.actCalls
-        self.callsRemain = Requirements.ACTUAL_CALLS.value - self.callsBehind - self.actCalls
+        self.callsBehind = (tarRatio * Requirements.ACTUAL_CALLS.value) - float(self.actCalls)
+        self.callsRemain = Requirements.ACTUAL_CALLS.value - self.callsBehind - float(self.actCalls)
 
-        self.wdBehind = (tarRatio * Requirements.WORK_DETAIL_HOURS.value) - self.WDHours
-        self.wdRemain = Requirements.WORK_DETAIL_HOURS.value - self.wdBehind - self.WDHours
+        self.wdBehind = (tarRatio * Requirements.WORK_DETAIL_HOURS.value) - float(self.WDHours)
+        self.wdRemain = Requirements.WORK_DETAIL_HOURS.value - self.wdBehind - float(self.WDHours)
 		
-        self.apparatusBehind = (tarRatio * Requirements.APPARATUS.value) - self.apparatus
-        self.apparatusRemain = Requirements.APPARATUS.value - self.apparatusBehind - self.apparatus
+        self.apparatusBehind = (tarRatio * Requirements.APPARATUS.value) - float(self.apparatus)
+        self.apparatusRemain = Requirements.APPARATUS.value - self.apparatusBehind - float(self.apparatus)
 		
-        self.meetingsBehind = (tarRatio * Requirements.MEETINGS.value) - self.meetings
-        self.meetingsRemain = Requirements.MEETINGS.value - self.meetingsBehind - self.meetings
+        self.meetingsBehind = (tarRatio * Requirements.MEETINGS.value) - float(self.meetings)
+        self.meetingsRemain = Requirements.MEETINGS.value - self.meetingsBehind - float(self.meetings)
 
         if tarRatio - 0.15 >= ratTrainings:
             self.statTrainings = "Behind-Schedule"
