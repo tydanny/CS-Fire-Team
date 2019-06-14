@@ -52,6 +52,7 @@ def load_incidents(access_token=None, **kwargs):
                         db.load_person_xref_incident(exposure['incidentID'], users[member])
             except Exception as e:
                 f = open("error.log", "a")
+                f.write(datetime.datetime.now())
                 f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
                 print(e)
     
