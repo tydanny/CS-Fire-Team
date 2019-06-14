@@ -1,3 +1,9 @@
+"""
+This module contains the class used to compute reports requested on
+the custom reports page. Calls dbconnect functions and updates the
+header row based on which type of report is requested. Data is stored
+in csvRows that can be easily written to a csv file. 
+"""
 from source import dbconnect
 
 class Event_Detail_Report():
@@ -73,7 +79,6 @@ class Event_Detail_Report():
             if data2 != None:
                 for dat in data2:
                     data.append(dat)
-        # fix when fundraisers and meetings are in the database
         elif self.reportType == "Fundraisers":
             data = self.connection.get_events(str(self.empNum), self.startTime, self.endTime, 'Fund Raiser%%')
         elif self.reportType == "Business Meetings":

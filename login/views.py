@@ -10,6 +10,16 @@ from source import losap as lo
 import datetime
 import csv
 
+"""
+This creates the login page as well as the home
+page for users, officers and admins. Each view
+has a different function that generates the appropriate
+page. The page generated is determined by rank saved by
+the database. The check function pulls the user's rank
+from the database using the dbconnect module. The page
+variable is then set determines what page is returned.
+"""
+
 # Create your views here.
 def login(request):
 	template = loader.get_template('login.html')

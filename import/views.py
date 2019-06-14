@@ -4,6 +4,12 @@ from django.template import loader
 from django.core.files.storage import FileSystemStorage
 from source import converters, er, dbconnect
 
+"""
+Creates the import page for admins. This page
+calls the update function when the refresh button
+is clicked and calls converters.py when an I Am
+Responding scheduling report is uploaded.
+"""
 
 # Create your views here.
 def index(request, refreshToken):

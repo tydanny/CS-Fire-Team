@@ -1,7 +1,16 @@
+"""
+This file contatins the Requirements enum which is used by the Report class.
+The report class is used to create all reports requested in the reports tab.
+The class uses dbconnect functions to query the database and compile all
+necessary information needed to create a report csv. 
+"""
 from source import dbconnect
 import datetime
 from enum import Enum
 
+"""
+Enum that stores criteria that personnel status should be graded against
+"""
 class Requirements(Enum):
     TRAININGS = 60
     SHIFTS = 36
@@ -12,6 +21,16 @@ class Requirements(Enum):
     FUNDRAISERS = 1
     MEETINGS = 6
 
+"""
+This class is used to compile all of the stats needed for a report for
+one individual firefighter. The constructor takes in the person's employee
+number and the start and end times for which the report should be computed.
+The compute_full_report() function calls all of the helper methods to
+populate the report's data members. Once the report has been computed,
+the relevant data is stored in a list of strings in self.csvRow. The order
+of the data in this list matches the labels in self.headerRow. These lists
+can be easily written to a csv file to create a report. 
+"""
 class Report():
     def __init__(self, empNum, startTime, endTime):
         self.empNum = empNum
@@ -80,7 +99,25 @@ class Report():
         self.compute_employee_status()
         self.create_csv_row()
         self.connection.close()
-
+    """
+    Counts up shifts and bonus shifts using the following criteria:
+    1) If a shift's type is "Event", the person gets 1 shift credit
+    2) If a shift is > 11 hours long, the person gets shift credit
+       equal to the (shift duration) + (1 hour wiggle room) / (12)
+       rounded down.
+    3) If a shift lasts between 3 and 11 hours, the duration is added
+       to a counter to be counted as AWS credit.
+    4) If a shift lasts at least 3 hours past a multiple of 12 but not
+       long enough to earn another shift, the excess is counted as AWS.
+    5) Bonus shifts consist of shifts flagged as Weekends, ACO, or Holliday.
+    6) Each Weekend shift adds one bonus shift to the counter unless 6
+       bonus weekend shifts have already been encountered. There is
+       currently no way to tell if two weekend bonus shifts were earned on
+       the same weekend through a 48-hour shift.
+    7) Each 12 hours of a shift marked ACO counts as a bonus shift with 1
+       hour of wiggle room.
+    8) Each shift flagged as a Holliday counts as 2 bonus shifts. 
+    """
     def compute_shifts(self):
         shift = self.connection.get_shift_duration(str(self.empNum), self.startTime, self.endTime)
         credit=0
@@ -100,12 +137,15 @@ class Report():
                         self.bonusShifts += 1
                         weekends += 1
                     if s[1] == "ACO":
-                        self.bonusShifts += (hours + 1) //12
+                        self.bonusShifts += (hours + 1) // 12
                     if s[1] == "Holliday":
                         self.bonusShifts += 2
             credit += counter // 12
             self.shifts = int(credit)
-
+    """
+    The following few functions simply call dbconnect functions and add the
+    data returned to the appropriate data member.
+    """
     def compute_act_calls(self):
         calls = self.connection.get_num_actual_calls(str(self.empNum), self.startTime, self.endTime)
         if calls == None:
@@ -158,7 +198,14 @@ class Report():
                 
             self.totTrainings = tthours
             self.trainings = thours
-
+    """
+    Computes days and years of service. If the person has not resigned or retired,
+    this is calculated by subtracting the persons hire date from the current date.
+    If the person has retired or resigned, this is calculated by subracting the hire
+    date from the date of the person's last status change. The person's hire date is
+    the date corresponding to the person's first Active status recorded in our database.
+    This can be changed manually through the personnel tab on the website. 
+    """
     def compute_service(self):
         self.daysService = 0
         hireDate = self.connection.get_start(str(self.empNum)).date()
@@ -178,7 +225,21 @@ class Report():
             self.lastName = person[0][2]
             self.title = person[0][3]
             self.resident = person[0][4]
-
+    """
+    Computes the person's status through tracking progress towards meeting each of their
+    requirements for the current year. Uses the current date to figure out the percentage
+    of the year that has passed and compute target values for each of the requirements based
+    on this percentage. Compares the person's progress to these values to determine their
+    status with respect to each requirement. For each individual status, the person is
+    behind schedule if they are at least 15% behind where they should be with the requirement.
+    They are falling behind if they are between 5% and 15% behind on the requirement. They are
+    marked as complete once the requirement is completed and they are on-track otherwise.
+    Fundraiser statusese are computed based on time of the year not based on percentage
+    completion. A person's overall status is behind schedule if they are behind schedule towards
+    at least three requirements. They are falling behind if they are behind in on or two
+    requirements or are falling behind in any requirements. They are complete if all requirements
+    have been completed and are on-track otherwise.
+    """
     def compute_employee_status(self):
         curr = datetime.datetime.now(tz=None)
         daysPassed = (datetime.date.today() - datetime.date(curr.year, 1, 1)).days
@@ -319,11 +380,14 @@ class Report():
             self.statOverall = "Complete"
         elif numBehind >= 3:
             self.statOverall = "Behind-Schedule"
-        elif numBehind <= 2 or numPartBehind > 0:
+        elif numBehind == 2 or numBehind == 1 or numPartBehind > 0:
             self.statOverall = "Falling-Behind"
         else:
             self.statOverall = "On-Track"
-
+    """
+    Adds gathered data to the csvRow data member to allow for easy addition
+    to a csv file. Order shoulf match the order of the headerRow. 
+    """
     def create_csv_row(self):
         rank = "%s-%s" %(self.title, self.resident)
         self.csvRow.append(rank)

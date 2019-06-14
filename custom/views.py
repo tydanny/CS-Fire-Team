@@ -4,6 +4,11 @@ from django.template import loader
 from source import dbconnect, detail_reports, er
 import csv
 
+"""
+Generates the custom reprots page for officers and
+admins
+"""
+
 # Create your views here.
 def officer(request, refreshToken):
 	response = er.refresh(refreshToken)

@@ -4,6 +4,13 @@ from django.template import loader
 import datetime
 from source import dbconnect, er
 
+"""
+Generate the appropriate about page for the
+corresponding view (i.e. the user about page
+does not have any information about generating
+reports for others)
+"""
+
 # Create your views here.
 def user(request, refreshToken):
 	response = er.refresh(refreshToken)

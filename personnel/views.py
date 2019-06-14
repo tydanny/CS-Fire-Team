@@ -3,6 +3,12 @@ from django.http import HttpResponse
 from django.template import loader
 from source import dbconnect, er
 
+"""
+This module generates the personnel page for admins.
+This page uses dbconnect to update a person's status
+and delete a status if it was updated by msitake.
+"""
+
 # Create your views here.
 def index(request, refreshToken):
     response = er.refresh(refreshToken)
