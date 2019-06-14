@@ -54,7 +54,6 @@ def load_incidents(access_token=None, **kwargs):
         f = open("error.log", "a")
         f.write(datetime.datetime.now())
         f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
-        print(e)
     
 def get_auth(username, password):
     headers = {
