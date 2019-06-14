@@ -63,6 +63,7 @@ class TestConverters(unittest.TestCase):
 		self.assertEqual(self.lname3, self.db.get_person_name(self.id3)[2])
 		self.assertEqual(shifts2[0][1], datetime.datetime.strptime('1919-5-31 17:00:00', '%Y-%m-%d %H:%M:%S'))
 		self.assertEqual(shifts1[0][1], datetime.datetime.strptime('1919-5-30 07:00:00', '%Y-%m-%d %H:%M:%S'))
+		#Confirms that the shift that was not in the file has been removed.
 		self.assertTrue(len(shifts2)==1)
 	#def test_select(self):
     #    self.db.i_query("INSERT INTO person (id, fname, lname) VALUES ('%s', '%s', '%s');" % (self.id, self.fname, self.lname))

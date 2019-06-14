@@ -63,8 +63,7 @@ def submit(request, refreshToken):
         connection = dbconnect.dbconnect()
         empNums = []
         if staff[0] == "Generate For All":
-            numsQuery = "SELECT id FROM PERSON order by lname;"
-            nums = connection.s_query(numsQuery)
+            nums = connection.get_employee_nums_for_rept()
             i = len(nums)
             x = 0
             while x < i:
@@ -100,8 +99,7 @@ def officer_submit(request, refreshToken):
         connection = dbconnect.dbconnect()
         empNums = []
         if staff[0] == "Generate For All":
-            numsQuery = "SELECT id FROM PERSON;"
-            nums = connection.s_query(numsQuery)
+            connection.get_employee_nums_for_rept()
             i = len(nums)
             x = 0
             while x < i:

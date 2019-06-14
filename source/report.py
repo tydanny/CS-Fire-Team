@@ -45,7 +45,7 @@ class Report():
         self.csvRow = []
         self.headerRow = ['Rank','Emp #','Last Name','First Name', 'Completion Status',
                           'Actual Calls', 'Actual Shifts', 'Bonus Shifts', 'Shift Volunteer', 'Resident Volunteer',
-                          'Work Detail Hours', 'Apparatus Checks', 'Training-Dept',
+                          'Work Detail Hours', 'Sundays & Weeklies', 'Training-Dept',
                           'Training-Total', 'Fundraiser', 'Business Meetings',
                           'Days of Service', 'Years of Service']
 

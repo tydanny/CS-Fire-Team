@@ -1,8 +1,8 @@
 import psycopg2
-import yaml
 from decimal import Decimal
 import datetime
 from operator import itemgetter
+import yaml
 
 class dbconnect():
     def __init__(self):
@@ -24,9 +24,9 @@ class dbconnect():
         except yaml.YAMLError as e:
             print('con.yaml error')
             print(e)
+            raise(e)
         except psycopg2.Error as e:
             print('Failed to connect to DB')
-            print(e)
 
     def s_query(self, query):
         try:
@@ -42,7 +42,7 @@ class dbconnect():
         try:
             self.cur.execute(query)
             self.con.commit()
-            print('yeet')
+            print('Query Successful')
         except psycopg2.Error as e:
             print('Query error')
             print (e)
@@ -158,7 +158,7 @@ class dbconnect():
     def get_events(self, id, start, end, type):
         return self.s_query("""
         SELECT e.etype, e.tstart, pe.duration FROM event AS e, person_xref_event AS pe WHERE e.tstart BETWEEN '%s' AND '%s'
-        AND pe.person_id = '%s' AND pe.event_id = e.id AND e.etype LIKE '%s';
+        AND pe.person_id = '%s' AND pe.event_id = e.id AND e.etype LIKE '%s' ORDER BY e.tstart;
         """ % (start, end, id, type))
 
     def get_classes(self, id, start, end):
@@ -170,7 +170,7 @@ class dbconnect():
     def get_classes_detail(self, id, start, end):
         return self.s_query("""
         SELECT c.type, c.tstart, pc.duration FROM class AS c, person_xref_class AS pc WHERE tstart BETWEEN '%s' AND '%s' AND
-        c.id = pc.class_id AND pc.person_id = '%s';
+        c.id = pc.class_id AND pc.person_id = '%s' ORDER BY c.tstart;
         """ % (start, end, id))
 
     def get_people(self):
@@ -180,17 +180,20 @@ class dbconnect():
 
     def get_active_people(self):
         return self.s_query("""
-        SELECT id, fname, lname FROM person WHERE id IN
+        SELECT id, fname, lname FROM person WHERE title <> 'Data Collection' AND id IN
         (SELECT person_id FROM person_status AS p1 WHERE p1.status != 'Retired' AND p1.status != 'Resigned' AND 
         p1.date_change=(SELECT MAX(date_change) FROM person_status AS p2 WHERE p2.person_id=p1.person_id)) ORDER BY lname;
         """)
+
+    def get_employee_nums_for_rept(self):
+        return self.s_query("SELECT id FROM PERSON WHERE title <> 'Data Collection' order by lname;")
    
     def get_start(self, id):
         return self.get_statuses(id)[0][1]
 
     def get_shifts(self, id, start, end):
         return self.s_query("""
-        SELECT * FROM shift WHERE person_id='%s' AND shift_end BETWEEN '%s' and '%s';
+        SELECT * FROM shift WHERE person_id='%s' AND shift_end BETWEEN '%s' and '%s' ORDER BY shift_start;
         """ % (id, start, end))
 
     def get_shift(self, person_id, start, end):
@@ -200,7 +203,8 @@ class dbconnect():
 
     def get_actual_calls(self, id, start, end):
         return self.s_query("""
-        SELECT * FROM incident WHERE tstamp BETWEEN '%s' AND '%s' AND id IN (SELECT incident_id FROM person_xref_incident WHERE person_id='%s');
+        SELECT * FROM incident WHERE tstamp BETWEEN '%s' AND '%s' AND id IN
+        (SELECT incident_id FROM person_xref_incident WHERE person_id='%s') ORDER BY tstamp;
         """ % (start, end, id))
 
     def get_num_actual_calls(self, id, start, end):
@@ -252,8 +256,8 @@ class dbconnect():
     def get_appar(self, id, start, end):
         return self.s_query("""
         SELECT COUNT(*) FROM event WHERE tstart BETWEEN '%s' AND '%s'
-        AND (etype LIKE 'Work Detail - Sunday%%' OR etype LIKE 'Work Detail - Weekly%%' OR etype LIKE
-        'Work Detail - Daily%%') AND id IN (SELECT event_id FROM person_xref_event WHERE
+        AND (etype LIKE 'Work Detail - Sunday%%' OR etype LIKE 'Work Detail - Weekly%%')
+        AND id IN (SELECT event_id FROM person_xref_event WHERE
         person_id = '%s');""" % (start, end, id))
 
     # fix this when fundraisers are loaded
