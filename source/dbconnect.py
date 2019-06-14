@@ -180,10 +180,13 @@ class dbconnect():
 
     def get_active_people(self):
         return self.s_query("""
-        SELECT id, fname, lname FROM person WHERE id IN
+        SELECT id, fname, lname FROM person WHERE title <> 'Data Collection' AND id IN
         (SELECT person_id FROM person_status AS p1 WHERE p1.status != 'Retired' AND p1.status != 'Resigned' AND 
         p1.date_change=(SELECT MAX(date_change) FROM person_status AS p2 WHERE p2.person_id=p1.person_id)) ORDER BY lname;
         """)
+
+    def get_employee_nums_for_rept(self):
+        return self.s_query("SELECT id FROM PERSON WHERE title <> 'Data Collection' order by lname;")
    
     def get_start(self, id):
         return self.get_statuses(id)[0][1]

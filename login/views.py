@@ -73,7 +73,6 @@ def admin(request, refreshToken):
 	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
 		startTime = request.POST['time-start']
 		endTime = request.POST['time-end']
-		#station = request.POST['station']
 		station = "Both"
 	else:
 		curr = datetime.datetime.now(tz=None)
@@ -81,8 +80,7 @@ def admin(request, refreshToken):
 		endTime = str(curr)
 		station = "Both"
 	connection = dbconnect.dbconnect()
-	numsQuery = "SELECT id FROM PERSON;"
-	nums = connection.s_query(numsQuery)
+	nums = connection.get_employee_nums_for_rept()
 	totalCalls = connection.dashboard_calls(startTime, endTime, station)
 	avgResponders = connection.dashboard_responders(startTime, endTime, station)
 	
@@ -141,7 +139,6 @@ def officer(request, refreshToken):
 	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
 		startTime = request.POST['time-start']
 		endTime = request.POST['time-end']
-		#station = request.POST['station']
 		station = "Both"
 	else:
 		curr = datetime.datetime.now(tz=None)
@@ -149,8 +146,7 @@ def officer(request, refreshToken):
 		endTime = str(curr)
 		station = "Both"
 	connection = dbconnect.dbconnect()
-	numsQuery = "SELECT id FROM PERSON;"
-	nums = connection.s_query(numsQuery)
+	nums = connection.get_employee_nums_for_rept()
 	totalCalls = connection.dashboard_calls(startTime, endTime, station)
 	avgResponders = connection.dashboard_responders(startTime, endTime, station)
 	connection.close()
