@@ -51,7 +51,7 @@ def load_incidents(access_token=None, **kwargs):
                     if users[member] != 'None' and users[member] not in incidents[exposure['incidentID']][1]:
                         db.load_person_xref_incident(exposure['incidentID'], users[member])
             except Exception as e:
-                f = open("error.log", "a")
+                f = open("incidents.log", "a")
                 f.write(datetime.datetime.now())
                 f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
                 print(e)
@@ -215,7 +215,7 @@ def get_incidents(access_token, **kwargs):
         conn.close()
         return data['incidents']
     except Exception as e:
-        print("Get incidents error")
+        raise e
 
 def get_dates(start_date, end_date):
     frmtstr = '%Y-%m-%d'
