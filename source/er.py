@@ -407,7 +407,7 @@ def load_events(access_token=None, **kwargs):
     except Exception as e:
         f = open("events.log", "a")
         f.write(datetime.datetime.now())
-        f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
+        f.write(e)
         print(e)
     
 
@@ -575,7 +575,7 @@ def load_people(access_token=None, **kwargs):
     except Exception as e:
         f = open("people.log", "a")
         f.write(datetime.datetime.now())
-        f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
+        f.write(e)
         print(e)
 
 def get_event_types(access_token=None, **kwargs):
@@ -783,7 +783,5 @@ def load_trainings(access_token=None, **kwargs):
     except Exception as e:
         f = open("trainings.log", "a")
         f.write(datetime.datetime.now())
-        f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
+        f.write(e)
         print(e)
-        
-                                   
