@@ -21,40 +21,40 @@ def update(access_token=None, **kwargs):
     load_trainings(access_token, start_date=start, end_date=end)
 
 def load_incidents(access_token=None, **kwargs):
-    if access_token == None:
-        access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
-    
-    db = dbconnect.dbconnect()
+    try:
+        if access_token == None:
+            access_token = get_token_pass(kwargs.get('username'),kwargs.get('password'))
+        
+        db = dbconnect.dbconnect()
 
-    start, end = get_dates(kwargs.get('start_date'), kwargs.get('end_date'))
-    
-    incidentsList = get_incidents(access_token, start_date=start, end_date=end)
+        start, end = get_dates(kwargs.get('start_date'), kwargs.get('end_date'))
+        
+        incidentsList = get_incidents(access_token, start_date=start, end_date=end)
 
-    incidents = {}
+        incidents = {}
 
-    for incident in incidentsList:
-        incidents[incident['incidentID']] = (incident['incidentDateTime'], [])
+        for incident in incidentsList:
+            incidents[incident['incidentID']] = (incident['incidentDateTime'], [])
 
-    xref = db.get_incident_people(start, end)
-    for pair in xref:
-        incidents[str(pair[1])][1].append(pair[0])
+        xref = db.get_incident_people(start, end)
+        for pair in xref:
+            incidents[str(pair[1])][1].append(pair[0])
 
-    exposures = get_exposures(access_token)
-    crewMembers = get_crewMembers(access_token)
-    users = get_uids(access_token)
-    
-    for exposure in exposures:
-        if exposure['incidentID'] in incidents.keys():
-            db.load_incident(exposure['incidentID'], incidents[exposure['incidentID']][0], exposure['incidentType'], 0)
-            try:
-                for member in crewMembers[exposure['exposureID']]:
-                    if users[member] != 'None' and users[member] not in incidents[exposure['incidentID']][1]:
-                        db.load_person_xref_incident(exposure['incidentID'], users[member])
-            except Exception as e:
-                f = open("error.log", "a")
-                f.write(datetime.datetime.now())
-                f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
-                print(e)
+        exposures = get_exposures(access_token)
+        crewMembers = get_crewMembers(access_token)
+        users = get_uids(access_token)
+        
+        for exposure in exposures:
+            if exposure['incidentID'] in incidents.keys():
+                    db.load_incident(exposure['incidentID'], incidents[exposure['incidentID']][0], exposure['incidentType'], 0)
+                    for member in crewMembers[exposure['exposureID']]:
+                        if users[member] != 'None' and users[member] not in incidents[exposure['incidentID']][1]:
+                            db.load_person_xref_incident(exposure['incidentID'], users[member])
+    except Exception as e:
+        f = open("error.log", "a")
+        f.write(datetime.datetime.now())
+        f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
+        print(e)
     
 def get_auth(username, password):
     headers = {
@@ -77,7 +77,7 @@ def get_auth(username, password):
         conn.close()
         return data[33:73]
     except Exception as e:
-        print(e)
+        raise(e)
 
 def get_token_pass(username=None, password=None):
 
