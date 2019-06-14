@@ -112,7 +112,7 @@ def admin(request, refreshToken):
 			numBehind += 1
 
 	lastUpdate = connection.get_last_update()
-	diff = datetime.date.today() - lastUpdate
+	diff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6) - lastUpdate
 
 	if diff.days >= 1:
 		er.update(response['access_token'], start_date=lastUpdate.isoformat(), end_date=datetime.date.today().isoformat())
