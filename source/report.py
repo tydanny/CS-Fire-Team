@@ -277,6 +277,9 @@ class Report():
             self.statTrainings = "Complete"
             self.trainingBehind = 0
             self.trainingRemain = 0
+        else:
+            self.trainingBehind = 0
+            self.trainingRemain = Requirements.TRAININGS.value - float(self.trainings)
 
         if "Non-Resident" not in self.resident:
             self.statShifts = "Complete"
@@ -290,6 +293,9 @@ class Report():
             self.statShifts = "Complete"
             self.shiftBehind = 0
             self.shiftRemain = 0
+        else:
+            self.shiftBehind = 0
+            self.shiftRemain = Requirements.SHIFTS.value - float(self.shifts) - float(self.bonusShifts)
 
         if "Non-Resident" in self.resident:
             self.statActCalls = "Complete"
@@ -303,6 +309,9 @@ class Report():
             self.statActCalls = "Complete"
             self.callsBehind = 0
             self.callsRemain = 0
+        else:
+            self.callsBehind = 0
+            self.callsRemain = Requirements.ACTUAL_CALLS.value - float(self.actCalls)
 
         if tarRatio - 0.1 >= ratWorkDeets:
             self.statWorkDeets = "Behind-Schedule"
@@ -312,6 +321,9 @@ class Report():
             self.statWorkDeets = "Complete"
             self.wdBehind = 0
             self.wdRemain = 0
+        else:
+            self.wdBehind = 0
+            self.wdRemain = Requirements.WORK_DETAIL_HOURS.value - float(self.WDHours)
 
         if tarRatio - 0.15 >= ratApparatus:
             self.statApparatus = "Behind-Schedule"
@@ -321,6 +333,9 @@ class Report():
             self.statApparatus = "Complete"
             self.apparatusBehind = 0
             self.apparatusRemain = 0
+        else:
+            self.apparatusBehind = 0
+            self.apparatusRemain = Requirements.APPARATUS.value- float(self.apparatus)
 
         if tarRatio - 0.15 >= ratMeets:
             self.statMeets = "Behind-Schedule"
@@ -330,6 +345,9 @@ class Report():
             self.statMeets = "Complete"
             self.meetingsBehind = 0
             self.meetingsRemain = 0
+        else:
+            self.meetingsBehind = 0
+            self.meetingsRemain = Requirements.MEETINGS.value - float(self.meetings)
 
         if self.fundraisers >= 1:
             self.statFunds = "Complete"
@@ -350,9 +368,11 @@ class Report():
         if "Non-Resident" in self.resident:
             totalRequired = Requirements.TRAININGS.value + Requirements.SHIFTS.value + Requirements.WORK_DETAIL_HOURS.value + Requirements.APPARATUS.value + Requirements.MEETINGS.value + 1
             self.totalBehind = self.trainingBehind + self.shiftBehind + self.wdBehind + self.apparatusBehind + self.fundraiserBehind + self.meetingsBehind
+            self.totalComp = float(self.trainings) + float(self.shifts) + float(self.bonusShifts) + float(self.WDHours) + float(self.apparatus) + float(self.fundraisers) + float(self.meetings)
         else:
             totalRequired = Requirements.TRAININGS.value + Requirements.ACTUAL_CALLS.value + Requirements.WORK_DETAIL_HOURS.value + Requirements.APPARATUS.value + Requirements.MEETINGS.value + 1
             self.totalBehind = self.trainingBehind + self.callsBehind + self.wdBehind + self.apparatusBehind + self.fundraiserBehind + self.meetingsBehind
+            self.totalComp = float(self.trainings) + float(self.actCalls) + float(self.shifts) + float(self.bonusShifts) + float(self.WDHours) + float(self.apparatus) + float(self.fundraisers) + float(self.meetings)
 
         self.totalRemain = totalRequired - self.totalComp - self.totalBehind
 
