@@ -5,15 +5,15 @@
 {% block content %}
   <div id="centered" class="content">
     <div class="header">
-	  <h1>View Time Logs</h1>
+	  <h1>Reports</h1>
 	</div>
 	<form action="{% url 'custom_user_submit' refreshToken=refreshToken empNum=empNum %}" method="post">{% csrf_token %}
 	  <div class="header">
 		<label for="start">Start date:</label>
-		<input type="date" id="start" name="time-start" required>
+		<input type="date" placeholder="mm/dd/yyyy" id="start" name="time-start" required>
 		<br><br><br>
 		<label for="end">End date: </label>
-		<input type="date" id="end" name="time-end" required>
+		<input type="date" placeholder="mm/dd/yyyy" id="end" name="time-end" required>
 		<br><br> 
 	  </div>	
 	  Report
@@ -117,4 +117,23 @@
 				$(this).attr('title', $(this).text())
 			});
 		</script>
+		
+		<script type="text/javascript">
+    var datefield=document.createElement("input")
+    datefield.setAttribute("type", "date")
+    if (datefield.type!="date"){ //if browser doesn't support input type="date", load files for jQuery UI Date Picker
+        document.write('<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />\n')
+        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"><\/script>\n')
+        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"><\/script>\n') 
+    }
+</script>
+ 
+<script>
+if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
+    jQuery(function($){ //on document.ready
+        $('#start').datepicker();
+		$('#end').datepicker();
+    })
+}
+</script>
 {% endblock %}

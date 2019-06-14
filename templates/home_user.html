@@ -39,10 +39,15 @@
 		{% else %}
 		  <h2>You are {{empStatus}}</h2>
 		{% endif %}
+		
+		<div id="mainChartContainer" style="height: 12vw; width: 100%;"></div>
+		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+		
 		<p style="font-size:2.5vw">Database last updated {{lastUpdate}} </p>
 	  <div id="centered1">
 	    <table>
 		  <tr>
+		    <th>Progress</th>
 		    <th>Category</th>
 			<th>Current</th>
 			<th>Required</th>
@@ -58,6 +63,8 @@
 			{% else %}
 			  <tr>
 			{% endif %}
+			  <td bgcolor="#e5e5e5"> <div id="trainingChartContainer" style="height: 8vw; width: 100%;"></div>
+			  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
 			  <td>Training hours</td>
 			  <td><p id="train"></p>{{training}} - {{trainingStatus}}</td>
 			  <td>60</td>
@@ -74,6 +81,8 @@
 			{% else %}
 			  <tr>
 				{% endif %}
+				  <td bgcolor="#e5e5e5"> <div id="shiftChartContainer" style="height: 8vw; width: 100%;"></div>
+			      <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
 				  <td>Shifts</td>
 				  <td>{{shifts}} - {{shiftStatus}}</td>
 				  <td>36</td>
@@ -89,6 +98,8 @@
 			{% else %}
 			  <tr>
 			{% endif %}
+			  <td bgcolor="#e5e5e5"> <div id="callChartContainer" style="height: 8vw; width: 100%;"></div>
+			  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
 			  <td>Actual Calls</td>
 			  <td>{{actCalls}} - {{callStatus}}</td>
 			  <td>54</td>
@@ -104,6 +115,8 @@
 			{% else %}
 			  <tr>
 			{% endif %}
+			  <td bgcolor="#e5e5e5"> <div id="wdChartContainer" style="height: 8vw; width: 100%;"></div>
+			  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
 			  <td>Work Detail Hours</td>
 			  <td>{{workDeets}} - {{workDeetStatus}}</td>
 			  <td>36</td>
@@ -119,6 +132,8 @@
 			{% else %}
 			  <tr>
 			{% endif %}
+			  <td bgcolor="#e5e5e5"> <div id="appChartContainer" style="height: 8vw; width: 100%;"></div>
+			  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
 			  <td>Sundays & Weeklies</td>
 			  <td>{{apparatus}} - {{apparatusStatus}}</td>
 			  <td>12</td>
@@ -134,6 +149,8 @@
 			{% else %}
 			  <tr>
 			{% endif %}
+			<td bgcolor="#e5e5e5"> <div id="fundraiserChartContainer" style="height: 8vw; width: 100%;"></div>
+			      <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
 			  <td>Fundraisers</td>
 			  <td>{{fundraisers}} - {{fundraiserStatus}}</td>
 			  <td>1</td>
@@ -150,21 +167,26 @@
 			{% else %}
 			  <tr>
 			{% endif %}
-			  <td>Buisness Meetings</td>
+			  <td bgcolor="#e5e5e5"> <div id="meetChartContainer" style="height: 8vw; width: 100%;"></div>
+			  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></td>
+			  <td>Business Meetings</td>
 			  <td>{{meetings}} - {{meetingStatus}}</td>
 		      <td>6</td>
 			  </tr>			
 			  <tr bgcolor="#a8a8a8">
+			    <td bgcolor="#e5e5e5"></td>
 				<td>Bonus Shifts</td>
 				<td>{{bonusShifts}}</td>
 				<td>-</td>
 			  </tr>
 			  <tr bgcolor="#a8a8a8">
+			    <td bgcolor="#e5e5e5"></td>
 				<td>Leave</td>
 				<td>{{leave}}</td>
 				<td>-</td>
 			  </tr>
 			  <tr bgcolor="#a8a8a8">
+			    <td bgcolor="#e5e5e5"></td>
 				<td>Years of Service</td>
 				<td>{{yrsService}}</td>
 				<td>-</td>
@@ -176,5 +198,168 @@
 	<button class="button" onclick="window.location.href = '{% url 'download' empNum=empNum %}';">Download</button>
 	</div>
   </div>
-  </body>			
+  </body>
+<script>
+window.onload = function () {
+
+var main_chart = new CanvasJS.Chart("mainChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	textSize: 0,
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		dataPoints: [
+			{ y: 133,
+			  color: '#6fa5ed'},
+			{ y: 12,
+			 color: '#d63737'},
+			{ y: 60,
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+var training_chart = new CanvasJS.Chart("trainingChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{training}},
+			  color: '#6fa5ed'},
+			{ y: 0,
+			 color: '#d63737'},
+			{ y: 12,
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+var shift_chart = new CanvasJS.Chart("shiftChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{shifts}},
+			  color: '#6fa5ed'},
+			{ y: 10,
+			 color: '#d63737'},
+			{ y: 10,
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+
+var call_chart = new CanvasJS.Chart("callChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{actCalls}},
+			  color: '#6fa5ed'},
+			{ y: 0,
+			 color: '#d63737'},
+			{ y: 22,
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+
+var wd_chart = new CanvasJS.Chart("wdChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{workDeets}},
+			  color: '#6fa5ed'},
+			{ y: 2,
+			 color: '#d63737'},
+			{ y: 15,
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+var app_chart = new CanvasJS.Chart("appChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: 12,
+			  color: '#6fa5ed'},
+			{ y: 0,
+			 color: '#d63737'},
+			{ y: 0,
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+var fundraiser_chart = new CanvasJS.Chart("fundraiserChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: 1,
+			  color: '#6fa5ed'},
+			{ y: 0,
+			 color: '#d63737'},
+			{ y: 0,
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+
+var meet_chart = new CanvasJS.Chart("meetChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: 5,
+			  color: '#6fa5ed'},
+			{ y: 0,
+			 color: '#d63737'},
+			{ y: 1,
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+main_chart.render();
+training_chart.render();
+shift_chart.render();
+call_chart.render();
+wd_chart.render();
+app_chart.render();
+fundraiser_chart.render();
+meet_chart.render();
+
+}
+</script>
+
+  
 </html>
