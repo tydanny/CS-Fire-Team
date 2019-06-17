@@ -58,7 +58,7 @@ def load_incidents(access_token=None, **kwargs):
                             db.load_person_xref_incident(exposure['incidentID'], users[member])
     except Exception as e:
         f = open("incidents.log", "a")
-        f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6))
+        f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6)))
         f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
     
 def get_auth(username, password):
@@ -411,7 +411,7 @@ def load_events(access_token=None, **kwargs):
 
         load_events_xref(eventIDs, access_token)
     except Exception as e:
-        f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6))
+        f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6)))
         f.write(e)
         print(e)
     
@@ -579,7 +579,7 @@ def load_people(access_token=None, **kwargs):
                     db.update_title(u['agencyPersonnelID'], u['title'])
     except Exception as e:
         f = open("people.log", "a")
-        f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6))
+        f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6)))
         f.write(e)
         print(e)
 
@@ -787,6 +787,6 @@ def load_trainings(access_token=None, **kwargs):
         load_trainings_xref(trainingIDs, access_token)
     except Exception as e:
         f = open("trainings.log", "a")
-        f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6))
+        f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6)))
         f.write(e)
         print(e)
