@@ -135,6 +135,8 @@ def __generate_report(empNums, startTime, endTime, reportType, refreshToken, req
             response['Content-Disposition'] = 'attachment; filename="%s"' % csv_name
             writer = csv.writer(response)
             writer.writerow(reports[0].headerRow)
+            writer.writerow(reports[0].headerRow2)
+            writer.writerow(reports[0].headerRow3)
             for report in reports:
                 for row in report.csvRows:
                     writer.writerow(row)
@@ -149,7 +151,9 @@ def __generate_report(empNums, startTime, endTime, reportType, refreshToken, req
             response = HttpResponse(content_type='text/csv')
             response['Content-Disposition'] = 'attachment; filename="%s"' % csv_name
             writer = csv.writer(response)
-            writer.writerow(reports[0].headerRow)
+            writer.writerow(reports[0].headerRow)            
+            writer.writerow(reports[0].headerRow2)
+            writer.writerow(reports[0].headerRow3)
             for report in reports:
                 writer.writerow(report.csvRow)
             return response
@@ -172,6 +176,8 @@ def __generate_report_officer(empNums, startTime, endTime, reportType, refreshTo
             response['Content-Disposition'] = 'attachment; filename="%s"' % csv_name
             writer = csv.writer(response)
             writer.writerow(reports[0].headerRow)
+            writer.writerow(reports[0].headerRow2)
+            writer.writerow(reports[0].headerRow3)
             for report in reports:
                 for row in report.csvRows:
                     writer.writerow(row)
@@ -186,7 +192,9 @@ def __generate_report_officer(empNums, startTime, endTime, reportType, refreshTo
             response = HttpResponse(content_type='text/csv')
             response['Content-Disposition'] = 'attachment; filename="%s"' % csv_name
             writer = csv.writer(response)
-            writer.writerow(reports[0].headerRow)
+            writer.writerow(reports[0].headerRow)            
+            writer.writerow(reports[0].headerRow2)
+            writer.writerow(reports[0].headerRow3)
             for report in reports:
                 writer.writerow(report.csvRow)
             return response
