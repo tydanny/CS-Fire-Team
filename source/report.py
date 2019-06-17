@@ -56,6 +56,7 @@ class Report():
         self.trainingBehind = 0
         self.shiftBehind = 0
         self.callsBehind = 0
+        self.totCallsBehind = 0
         self.wdBehind = 0
         self.apparatusBehind = 0
         self.fundraiserBehind = 0
@@ -63,6 +64,7 @@ class Report():
         self.trainingRemain = 0
         self.shiftRemain = 0
         self.callsRemain = 0
+        self.totCallsRemain = 0
         self.wdRemain = 0
         self.apparatusRemain = 0
         self.fundraiserRemain = 0
@@ -74,6 +76,7 @@ class Report():
         self.statTrainings = "On-Track"
         self.statShifts = "On-Track"
         self.statActCalls = "On-Track"
+        self.statTotCalls = "On-Track"
         self.statWorkDeets = "On-Track"
         self.statApparatus = "On-Track"
         self.statFunds = "On-Track"
@@ -255,6 +258,7 @@ class Report():
         ratTrainings = self.trainings / Requirements.TRAININGS.value
         ratShifts = (self.shifts + self.bonusShifts) / Requirements.SHIFTS.value
         ratActCalls = self.actCalls / Requirements.ACTUAL_CALLS.value
+        ratTotCalls = self.totCalls / Requirements.TOTAL_CALLS.value
         ratWorkDeets = self.WDHours / Requirements.WORK_DETAIL_HOURS.value
         ratApparatus = self.apparatus / Requirements.APPARATUS.value
         ratMeets = self.meetings / Requirements.MEETINGS.value
@@ -268,6 +272,9 @@ class Report():
         self.callsBehind = (tarRatio * Requirements.ACTUAL_CALLS.value) - float(self.actCalls)
         self.callsRemain = Requirements.ACTUAL_CALLS.value - self.callsBehind - float(self.actCalls)
 
+        self.totCallsBehind = (tarRatio * Requirements.TOTAL_CALLS.value) - float(self.totCalls)
+        self.totCallsRemain = Requirements.TOTAL_CALLS.value - self.totCallsBehind - float(self.totCalls)
+
         self.wdBehind = (tarRatio * Requirements.WORK_DETAIL_HOURS.value) - float(self.WDHours)
         self.wdRemain = Requirements.WORK_DETAIL_HOURS.value - self.wdBehind - float(self.WDHours)
 		
@@ -280,6 +287,7 @@ class Report():
         chartTrain = float(self.trainings)
         chartShifts = float(self.shifts + self.bonusShifts)
         chartCalls = float(self.actCalls)
+        chartTotCalls = float(self.totCalls)
         chartWD = float(self.WDHours)
         chartApparatus = float(self.apparatus)
         chartFundraiser = float(self.fundraisers)
@@ -331,6 +339,23 @@ class Report():
         else:
             self.callsBehind = 0
             self.callsRemain = Requirements.ACTUAL_CALLS.value - float(self.actCalls)
+
+        if "Non-Resident" in self.resident:
+            self.statTotCalls = "Complete"
+            self.totCallsBehind = 0
+            self.totCallsRemain = 0
+        elif tarRatio - 0.15 >= ratTotCalls:
+            self.statTotCalls = "Behind-Schedule"
+        elif tarRatio - 0.05 >= ratTotCalls:
+            self.statTotCalls = "Falling-Behind"
+        elif ratTotCalls >= 0.99:
+            self.statTotCalls = "Complete"
+            self.totCallsBehind = 0
+            self.totCallsRemain = 0
+            chartCalls = Requirements.TOTAL_CALLS.value
+        else:
+            self.totCallsBehind = 0
+            self.totCallsRemain = Requirements.TOTAL_CALLS.value - float(self.totCalls)
 
         if tarRatio - 0.1 >= ratWorkDeets:
             self.statWorkDeets = "Behind-Schedule"
@@ -393,9 +418,9 @@ class Report():
             self.totalBehind = self.trainingBehind + self.shiftBehind + self.wdBehind + self.apparatusBehind + self.fundraiserBehind + self.meetingsBehind
             self.totalComp = chartTrain + chartShifts + chartWD + chartApparatus + chartFundraiser + chartMeetings
         else:
-            totalRequired = Requirements.TRAININGS.value + Requirements.ACTUAL_CALLS.value + Requirements.WORK_DETAIL_HOURS.value + Requirements.APPARATUS.value + Requirements.MEETINGS.value + 1
-            self.totalBehind = self.trainingBehind + self.callsBehind + self.wdBehind + self.apparatusBehind + self.fundraiserBehind + self.meetingsBehind
-            self.totalComp = chartTrain + chartCalls + chartWD + chartApparatus + chartFundraiser + chartMeetings
+            totalRequired = Requirements.TRAININGS.value + Requirements.TOTAL_CALLS.value + Requirements.WORK_DETAIL_HOURS.value + Requirements.APPARATUS.value + Requirements.MEETINGS.value + 1
+            self.totalBehind = self.trainingBehind + self.totCallsBehind + self.wdBehind + self.apparatusBehind + self.fundraiserBehind + self.meetingsBehind
+            self.totalComp = chartTrain + chartTotCalls + chartWD + chartApparatus + chartFundraiser + chartMeetings
 
         self.totalRemain = totalRequired - self.totalComp - self.totalBehind
 
@@ -403,6 +428,7 @@ class Report():
         stats.append(self.statTrainings)
         stats.append(self.statShifts)
         stats.append(self.statActCalls)
+        stats.append(self.statTotCalls)
         stats.append(self.statWorkDeets)
         stats.append(self.statApparatus)
         stats.append(self.statMeets)
