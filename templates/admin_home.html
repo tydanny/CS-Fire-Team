@@ -5,27 +5,6 @@
   <div id="centered" class="content">
 	<div class="header">
 	  <h1>Dashboard</h1>
-	  <form action="{% url 'admin_home' refreshToken=refreshToken %}" method="post">{% csrf_token %}
-		<label for="start">Start date:</label>
-		<input type="date" id="start" name="time-start" "[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
-		<br><br>
-		<label for="end">End date:  </label>
-		<input type="date" id="end" name="time-end" "[0-9]{4}-[0-9]{2}-[0-9]{2}" required>
-		<br><!--<br> 
-		<label for="station">Station</label>
-		<div class="header">
-		  <div class="custom-select">
-			  <select name="station">
-			    <option value="none">No Selection</option>
-			    <option value="both">Both</option>
-			    <option value="21">Station 21</option>
-			    <option value="24">Station 24</option>
-			  </select>
-		  </div>
-		</div>-->
-		<br>
-		<input type="submit" value="Submit" class="button">	
-	  </form>
 	  <table>
 	    <tr>
 		  <td>
