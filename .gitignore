@@ -18,3 +18,7 @@ error\.log
 con\.yaml
 
 dbconnect\.yaml
+
+hannah\.py
+
+login/hannah\.sql
