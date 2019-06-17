@@ -11,10 +11,10 @@
 	<form action="{% url 'custom_submit' refreshToken=refreshToken %}" method="post">{% csrf_token %}
 	  <div class="header">
 		<label for="start">Start date:</label>
-		<input type="date" id="start" name="time-start" required>
+		<input type="date" id="start" value={{defaultStart}} name="time-start" required>
 		<br><br><br>
 		<label for="end">End date: </label>
-		<input type="date" id="end" name="time-end" required>
+		<input type="date" id="end" value={{defaultEnd}} name="time-end" required>
 		<br><br>
 	  </div>
 	  Employee
