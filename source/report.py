@@ -52,6 +52,7 @@ class Report():
         self.totTrainings = 0
         self.daysService = 0
         self.yrsService = 0
+        self.targetRatio = 0
         self.trainingBehind = 0
         self.shiftBehind = 0
         self.callsBehind = 0
@@ -84,6 +85,12 @@ class Report():
                           'Work Detail Hours', 'Sundays & Weeklies', 'Training-Dept',
                           'Training-Total', 'Fundraiser', 'Business Meetings',
                           'Days of Service', 'Years of Service']
+        self.headerRow2 = ["---", "----", "---", "---", "Annual Requirements: ", str(Requirements.ACTUAL_CALLS.value),
+                           "---", "---", str(Requirements.SHIFTS.value), str(Requirements.TOTAL_CALLS.value),
+                           str(Requirements.WORK_DETAIL_HOURS.value), str(Requirements.APPARATUS.value),
+                           str(Requirements.TRAININGS.value), "---", str(Requirements.FUNDRAISERS.value),
+                           str(Requirements.MEETINGS.value), "---", "---"]
+        self.headerRow3 = ["---", "---", "---", "---", "Expected Progress: ", "", "---", "---", "", "", "", "", "", "---", "", "", "---", "---"]
 
     def compute_full_report(self):
         self.compute_shifts()
@@ -97,6 +104,7 @@ class Report():
         self.compute_service()
         self.compute_employee_details()
         self.compute_employee_status()
+        self.compute_progress_header()
         self.create_csv_row()
         self.connection.close()
     """
@@ -193,9 +201,8 @@ class Report():
         if training != None:
             for t in training:
                 tthours += t[1]
-                if "DEPT TRNG" in t[0]:
-                    thours += t[1]
-                
+                if "DEPT TRNG" in t[0] or "Outside Training" in t[0]:
+                    thours += t[1]                
             self.totTrainings = tthours
             self.trainings = thours
     """
@@ -244,6 +251,7 @@ class Report():
         curr = datetime.datetime.now(tz=None)
         daysPassed = (datetime.date.today() - datetime.date(curr.year, 1, 1)).days
         tarRatio = daysPassed / 365
+        self.targetRatio = tarRatio
         ratTrainings = self.trainings / Requirements.TRAININGS.value
         ratShifts = (self.shifts + self.bonusShifts) / Requirements.SHIFTS.value
         ratActCalls = self.actCalls / Requirements.ACTUAL_CALLS.value
@@ -419,6 +427,17 @@ class Report():
             self.statOverall = "Falling-Behind"
         else:
             self.statOverall = "On-Track"
+
+    def compute_progress_header(self):
+        self.headerRow3[5] = "%.2f" % (Requirements.ACTUAL_CALLS.value * self.targetRatio)
+        self.headerRow3[8] = "%.2f" % (Requirements.SHIFTS.value * self.targetRatio)
+        self.headerRow3[9] = "%.2f" % (Requirements.TOTAL_CALLS.value * self.targetRatio)
+        self.headerRow3[10] = "%.2f" % (Requirements.WORK_DETAIL_HOURS.value * self.targetRatio)
+        self.headerRow3[11] = "%.2f" % (Requirements.APPARATUS.value * self.targetRatio)
+        self.headerRow3[12] = "%.2f" % (Requirements.TRAININGS.value * self.targetRatio)
+        self.headerRow3[14] = "%.2f" % (Requirements.FUNDRAISERS.value * self.targetRatio)
+        self.headerRow3[15] = "%.2f" % (Requirements.MEETINGS.value * self.targetRatio)
+        
     """
     Adds gathered data to the csvRow data member to allow for easy addition
     to a csv file. Order shoulf match the order of the headerRow. 
