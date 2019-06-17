@@ -10,10 +10,10 @@
 	<form action="{% url 'custom_user_submit' refreshToken=refreshToken empNum=empNum %}" method="post">{% csrf_token %}
 	  <div class="header">
 		<label for="start">Start date:</label>
-		<input type="date" placeholder="mm/dd/yyyy" id="start" name="time-start" required>
+		<input type="date" placeholder="mm/dd/yyyy" value={{defaultStart}} id="start" name="time-start" required>
 		<br><br><br>
 		<label for="end">End date: </label>
-		<input type="date" placeholder="mm/dd/yyyy" id="end" name="time-end" required>
+		<input type="date" placeholder="mm/dd/yyyy" value={{defaultEnd}} id="end" name="time-end" required>
 		<br><br> 
 	  </div>	
 	  Report
