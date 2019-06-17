@@ -79,16 +79,10 @@ def admin(request, refreshToken):
 		template = loader.get_template('login.html')
 		context = {"error":"access_error"}
 		return HttpResponse(template.render(context, request))
-
-	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
-		startTime = request.POST['time-start']
-		endTime = request.POST['time-end']
-		station = "Both"
-	else:
-		curr = datetime.datetime.now(tz=None)
-		startTime = "%s-01-01 00:00:00.00" % curr.year
-		endTime = str(curr)
-		station = "Both"
+	curr = datetime.datetime.now(tz=None)
+	startTime = "%s-01-01 00:00:00.00" % curr.year
+	endTime = str(curr)
+	station = "Both"
 	connection = dbconnect.dbconnect()
 	nums = connection.get_employee_nums_for_rept()
 	totalCalls = connection.dashboard_calls(startTime, endTime, station)
@@ -149,16 +143,10 @@ def officer(request, refreshToken):
 		template = loader.get_template('login.html')
 		context = {"error":"access_error"}
 		return HttpResponse(template.render(context, request))
-
-	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
-		startTime = request.POST['time-start']
-		endTime = request.POST['time-end']
-		station = "Both"
-	else:
-		curr = datetime.datetime.now(tz=None)
-		startTime = "%s-01-01 00:00:00.00" % curr.year
-		endTime = str(curr)
-		station = "Both"
+	curr = datetime.datetime.now(tz=None)
+	startTime = "%s-01-01 00:00:00.00" % curr.year
+	endTime = str(curr)
+	station = "Both"
 	connection = dbconnect.dbconnect()
 	nums = connection.get_employee_nums_for_rept()
 	totalCalls = connection.dashboard_calls(startTime, endTime, station)
