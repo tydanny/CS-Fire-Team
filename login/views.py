@@ -69,6 +69,8 @@ def user_download(request, empNum):
     response['Content-Disposition'] = 'attachment; filename="%s"' % csv_name
     writer = csv.writer(response)
     writer.writerow(report.headerRow)
+    writer.writerow(report.headerRow2)
+    writer.writerow(report.headerRow3)
     writer.writerow(report.csvRow)
     return response
 	
