@@ -42,6 +42,7 @@ class Report():
         self.resident = ""
         self.shifts = 0
         self.bonusShifts = 0
+        self.totalShifts = 0
         self.actCalls = 0
         self.totCalls = 0
         self.WDHours = 0
@@ -153,6 +154,7 @@ class Report():
                         self.bonusShifts += 2
             credit += counter // 12
             self.shifts = int(credit)
+            self.totalShifts = self.shifts + self.bonusShifts
     """
     The following few functions simply call dbconnect functions and add the
     data returned to the appropriate data member.
