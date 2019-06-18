@@ -167,7 +167,7 @@ class Report():
             self.actCalls = calls[0][0]
 
     def compute_total_calls(self):
-        self.totCalls = self.actCalls + (2 * self.shifts)
+        self.totCalls = self.actCalls + (2 * self.totalShifts)
 
     def compute_work_detail_hours(self):
         wdt = self.connection.get_wdt(str(self.empNum), self.startTime, self.endTime)
