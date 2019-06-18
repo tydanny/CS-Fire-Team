@@ -79,16 +79,10 @@ def admin(request, refreshToken):
 		template = loader.get_template('login.html')
 		context = {"error":"access_error"}
 		return HttpResponse(template.render(context, request))
-
-	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
-		startTime = request.POST['time-start']
-		endTime = request.POST['time-end']
-		station = "Both"
-	else:
-		curr = datetime.datetime.now(tz=None)
-		startTime = "%s-01-01 00:00:00.00" % curr.year
-		endTime = str(curr)
-		station = "Both"
+	curr = datetime.datetime.now(tz=None)
+	startTime = "%s-01-01 00:00:00.00" % curr.year
+	endTime = str(curr)
+	station = "Both"
 	connection = dbconnect.dbconnect()
 	nums = connection.get_employee_nums_for_rept()
 	totalCalls = connection.dashboard_calls(startTime, endTime, station)
@@ -149,16 +143,10 @@ def officer(request, refreshToken):
 		template = loader.get_template('login.html')
 		context = {"error":"access_error"}
 		return HttpResponse(template.render(context, request))
-
-	if 'time-start' in request.POST.keys() and 'time-end' in request.POST.keys():
-		startTime = request.POST['time-start']
-		endTime = request.POST['time-end']
-		station = "Both"
-	else:
-		curr = datetime.datetime.now(tz=None)
-		startTime = "%s-01-01 00:00:00.00" % curr.year
-		endTime = str(curr)
-		station = "Both"
+	curr = datetime.datetime.now(tz=None)
+	startTime = "%s-01-01 00:00:00.00" % curr.year
+	endTime = str(curr)
+	station = "Both"
 	connection = dbconnect.dbconnect()
 	nums = connection.get_employee_nums_for_rept()
 	totalCalls = connection.dashboard_calls(startTime, endTime, station)
@@ -238,8 +226,9 @@ def user(request, refreshToken):
 		'trainingStatus': report.statTrainings,
 		'trainingBehind': str(report.trainingBehind),
 		'trainingRemain': str(report.trainingRemain),
-		'shifts': str(report.shifts),
-		'bonusShifts': str(report.bonusShifts),
+		'shifts': str(int(report.totalShifts)),
+                'actualShifts': str(report.shifts),
+		'bonusShifts': str(int(report.bonusShifts)),
 		'shiftStatus': report.statShifts,
 		'shiftBehind': str(report.shiftBehind),
 		'shiftRemain': str(report.shiftRemain),
@@ -247,6 +236,10 @@ def user(request, refreshToken):
 		'callStatus': report.statActCalls,
 		'callsBehind': str(report.callsBehind),
 		'callsRemain': str(report.callsRemain),
+                'totalCalls': str(int(report.totCalls)),
+		'totalCallStatus': report.statTotCalls,
+		'totalCallsBehind': str(report.totCallsBehind),
+		'totalCallsRemain': str(report.totCallsRemain),
 		'workDeets': str(report.WDHours),
 		'workDeetStatus': report.statWorkDeets,
 		'wdBehind': str(report.wdBehind),

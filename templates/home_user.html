@@ -82,7 +82,7 @@
 			  <tr>
 				{% endif %}
 				  <td bgcolor="#e5e5e5" class="noprint"> <div id="shiftChartContainer" style="height: 8vw; width: 100%;"></div></td>
-				  <td>Shifts</td>
+				  <td>Total Shift Credits</td>
 				  <td>{{shifts}} - {{shiftStatus}}</td>
 				  <td>36</td>
 			  </tr>
@@ -102,6 +102,24 @@
 			  <td>{{actCalls}} - {{callStatus}}</td>
 			  <td>54</td>
 			  </tr>
+			  
+			{% if callStatus|stringformat:"s" == "Behind-Schedule" %}
+			  <tr bgcolor="#d63737">
+			{% elif callStatus|stringformat:"s" == "Falling-Behind" %}
+			  <tr bgcolor="#dddd00">
+			{% elif callStatus|stringformat:"s" == "On-Track" %}
+			  <tr bgcolor="#4fbc56">
+			{% elif callStatus|stringformat:"s" == "Complete" %}
+			  <tr bgcolor="#6fa5ed">
+			{% else %}
+			  <tr>
+			{% endif %}
+			  <td bgcolor="#e5e5e5" class="noprint"> <div id="totalCallChartContainer" style="height: 8vw; width: 100%;"></div></td>
+			  <td>Total Calls</td>
+			  <td>{{totalCalls}} - {{totalCallStatus}}</td>
+			  <td>72</td>
+			  </tr>
+			  
 			{% if workDeetStatus|stringformat:"s" == "Behind-Schedule" %}
 			  <tr bgcolor="#d63737">
 			{% elif workDeetStatus|stringformat:"s" == "Falling-Behind" %}
@@ -166,6 +184,12 @@
 			  <td>Business Meetings</td>
 			  <td>{{meetings}} - {{meetingStatus}}</td>
 		      <td>6</td>
+			  </tr>
+			  <tr bgcolor="#a8a8a8">
+			    <td bgcolor="#e5e5e5"></td>
+				<td>Actual Shifts</td>
+				<td>{{actualShifts}}</td>
+				<td>-</td>
 			  </tr>			
 			  <tr bgcolor="#a8a8a8">
 			    <td bgcolor="#e5e5e5"></td>
@@ -175,7 +199,7 @@
 			  </tr>
 			  <tr bgcolor="#a8a8a8">
 			    <td bgcolor="#e5e5e5"></td>
-				<td>Leave</td>
+				<td>Leave Days (current year only)</td>
 				<td>{{leave}}</td>
 				<td>-</td>
 			  </tr>
@@ -269,6 +293,23 @@ var call_chart = new CanvasJS.Chart("callChartContainer", {
 	}]
 });
 
+var total_call_chart = new CanvasJS.Chart("totalCallChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{totalCalls}},
+			  color: '#6fa5ed'},
+			{ y: {{totalCallsBehind}},
+			 color: '#d63737'},
+			{ y: {{totalCallsRemain}},
+			color: '#7f7f7f'}
+		]
+	}]
+});
 
 var wd_chart = new CanvasJS.Chart("wdChartContainer", {
 	animationEnabled: true,
@@ -347,6 +388,7 @@ main_chart.render();
 training_chart.render();
 shift_chart.render();
 call_chart.render();
+total_call_chart.render();
 wd_chart.render();
 app_chart.render();
 fundraiser_chart.render();

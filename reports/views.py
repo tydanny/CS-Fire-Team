@@ -22,10 +22,16 @@ def officer(request, refreshToken):
 	for p in people:
 		emp = "%s, %s %s" % (p[2], p[1], p[0])
 		emps.append(emp)
+		
+	curr = datetime.datetime.now(tz=None)
+	defaultStart = "%s-01-01" % curr.year
+	defaultEnd = str(curr)
 
 	template = loader.get_template('officer_reports.html')
 	context = {
 		'employees' : emps,
+		'defaultStart' : defaultStart,
+		'defaultEnd' : defaultEnd,
 		'refreshToken' : response['refresh_token']
 	}
 	return HttpResponse(template.render(context, request))
@@ -44,9 +50,16 @@ def admin(request, refreshToken):
     for p in people:
         emp = "%s, %s %s" % (p[2], p[1], p[0])
         emps.append(emp)
+		
+    curr = datetime.datetime.now(tz=None)
+    defaultStart = "%s-01-01" % curr.year
+    defaultEnd = str(curr)
+		
     template = loader.get_template('admin_reports.html')
     context = {
         'employees' : emps,
+        'defaultStart' : defaultStart,
+        'defaultEnd' : defaultEnd,
         'refreshToken' : response['refresh_token']
     }
     return HttpResponse(template.render(context, request))

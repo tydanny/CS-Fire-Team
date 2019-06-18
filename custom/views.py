@@ -5,7 +5,7 @@ from source import dbconnect, detail_reports, er
 import csv
 
 """
-Generates the custom reprots page for officers and
+Generates the custom reports page for officers and
 admins
 """
 
@@ -24,9 +24,16 @@ def officer(request, refreshToken):
 	for p in people:
 		emp = "%s, %s %s" % (p[2], p[1], p[0])
 		emps.append(emp)
+		
+	curr = datetime.datetime.now(tz=None)
+	defaultStart = "%s-01-01" % curr.year
+	defaultEnd = str(curr)
+
 	template = loader.get_template('officer_custom.html')
 	context = {
 		'employees': emps, 
+		'defaultStart' : defaultStart,
+		'defaultEnd' : defaultEnd,
 		'refreshToken': response['refresh_token']
 	}
 	return HttpResponse(template.render(context, request))
@@ -39,9 +46,15 @@ def user(request, refreshToken):
 		context = {"error":"access_error"}
 		return HttpResponse(template.render(context, request))
 
+	curr = datetime.datetime.now(tz=None)
+	defaultStart = "%s-01-01" % curr.year
+	defaultEnd = str(curr)
+
 	template = loader.get_template('user_custom.html')
 	context = {
 		'refreshToken': response['refresh_token'],
+		'defaultStart' : defaultStart,
+		'defaultEnd' : defaultEnd,
 		'empNum': er.get_my_user(response['access_token'])['agencyPersonnelID']
 	}
 	return HttpResponse(template.render(context, request))
@@ -60,9 +73,16 @@ def custom(request, refreshToken):
     for p in people:
         emp = "%s, %s %s" % (p[2], p[1], p[0])
         emps.append(emp)
+		
+    curr = datetime.datetime.now(tz=None)
+    defaultStart = "%s-01-01" % curr.year
+    defaultEnd = str(curr)
+	
     template = loader.get_template('admin_custom.html')
     context = {
-		'employees': emps, 
+		'employees': emps,
+        'defaultStart' : defaultStart,
+        'defaultEnd' : defaultEnd,
 		'refreshToken': response['refresh_token']
 	}
     return HttpResponse(template.render(context, request))
