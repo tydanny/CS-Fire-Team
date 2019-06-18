@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from source import dbconnect, detail_reports, er
-import csv
+import csv, datetime
 
 """
 Generates the custom reports page for officers and
