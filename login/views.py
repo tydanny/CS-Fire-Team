@@ -122,7 +122,9 @@ def admin(request, refreshToken):
 	diff = datetime.date(now.year, now.month, now.day) - lastUpdate
 
 	if diff.days >= 1:
-		er.update(response['access_token'], start_date=lastUpdate.isoformat(), end_date=datetime.date.today().isoformat())
+		diff7 = datetime.timedelta(days=7)
+		start = now - diff7
+		er.update(response['access_token'], start_date=start.date().isoformat(), end_date=datetime.date.today().isoformat())
 		connection.log_update()
 
 	template = loader.get_template('admin_home.html')
