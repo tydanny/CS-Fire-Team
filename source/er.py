@@ -560,17 +560,16 @@ def load_people(access_token=None, **kwargs):
             idDict[id[0]] = (id[1], id[2], id[3], id[4])
 
         for u in users:
+            l, f = u['fullName'].split(', ', 1)
+            if "'" in l:
+                l = l.replace("'", r"''")
+            if "'" in f:
+                f = f.replace("'", r"''")
             if u['agencyPersonnelID'] not in idDict.keys() and u['agencyPersonnelID'] != None:
-                l, f = u['fullName'].split(', ', 1)
-                if "'" in l:
-                    l = l.replace("'", r"''")
-                if "'" in f:
-                    f = f.replace("'", r"''")
                 db.load_person(u['agencyPersonnelID'], f, l, u['title'], u['shift'])
             elif u['agencyPersonnelID'] != None:
                 if u['shift'] != idDict[u['agencyPersonnelID']][0]:
                     db.update_residency(u['agencyPersonnelID'], u['shift'])
-                l, f = u['fullName'].split(', ', 1)
                 if l != idDict[u['agencyPersonnelID']][2]:
                     db.update_lname(u['agencyPersonnelID'], l)
                 if f != idDict[u['agencyPersonnelID']][3]:
