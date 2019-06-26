@@ -22,9 +22,13 @@ def update(access_token=None, **kwargs):
     start, end = get_dates(kwargs.get('start_date'), kwargs.get('end_date'))
 
     load_people(access_token)
+    print('People updated successfully')
     load_incidents(access_token, start_date=start, end_date=end)
+    print('Incidents updated successfully')
     load_events(access_token, start_date=start, end_date=end)
+    print('Events updated successfully')
     load_trainings(access_token, start_date=start, end_date=end)
+    print('Trainings updated successfully')
 
 def load_incidents(access_token=None, **kwargs):
     try:
@@ -51,15 +55,20 @@ def load_incidents(access_token=None, **kwargs):
         users = get_uids(access_token)
         
         for exposure in exposures:
-            if exposure['incidentID'] in incidents.keys():
-                    db.load_incident(exposure['incidentID'], incidents[exposure['incidentID']][0], exposure['incidentType'], 0)
-                    for member in crewMembers[exposure['exposureID']]:
-                        if users[member] != 'None' and users[member] not in incidents[exposure['incidentID']][1]:
-                            db.load_person_xref_incident(exposure['incidentID'], users[member])
+            try:
+                if exposure['incidentID'] in incidents.keys():
+                        db.load_incident(exposure['incidentID'], incidents[exposure['incidentID']][0], exposure['incidentType'], 0)
+                        for member in crewMembers[exposure['exposureID']]:
+                            if users[member] != 'None' and users[member] not in incidents[exposure['incidentID']][1]:
+                                db.load_person_xref_incident(exposure['incidentID'], users[member])
+            except Exception as e:
+                f = open("incidents.log", "a")
+                f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
+
     except Exception as e:
         f = open("incidents.log", "a")
         f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6)))
-        f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
+        f.write('An error occurred while loading incidents')
     
 def get_auth(username, password):
     headers = {
