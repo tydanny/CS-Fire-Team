@@ -422,7 +422,7 @@ def load_events(access_token=None, **kwargs):
     except Exception as e:
         f = open("incidents.log", "a")
         f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6)))
-        f.write(e)
+        f.write(str(e))
     
 
 def load_events_xref(eventIDs, access_token=None, **kwargs):
