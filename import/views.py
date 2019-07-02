@@ -37,9 +37,10 @@ def upload(request, refreshToken):
 
     try:
         myfile = request.FILES['fileToUpload']
-        print('yeet')
-        checked = request.POST['iar_refresh']
-        print('yeet')
+        if r"iar_refresh" in request.POST.keys():
+            checked = True
+        else:
+            checked = False
         startTime = request.POST['time-start']
         endTime = request.POST['time-end']
         template = loader.get_template('admin_submit.html')
