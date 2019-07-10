@@ -1,4 +1,3 @@
-beautifulsoup4==4.7.1
 Django==2.2.2
 django-secure==1.0.1
 django-sslserver==0.20
