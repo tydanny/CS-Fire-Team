@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.core.files.storage import FileSystemStorage
 from source import converters, er, dbconnect
+import os
 
 """
 Creates the import page for admins. This page
@@ -29,6 +30,7 @@ def index(request, refreshToken):
 
 def upload(request, refreshToken):
     response = er.refresh(refreshToken)
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     if 'error' in response.keys():
         template = loader.get_template('login.html')
@@ -41,17 +43,21 @@ def upload(request, refreshToken):
             checked = True
         else:
             checked = False
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
         startTime = request.POST['time-start']
         endTime = request.POST['time-end']
         template = loader.get_template('admin_submit.html')
-        converters.convert_iar(myfile, checked, startTime, endTime)
+        converters.convert_iar(os.path.join(BASE_DIR, 'media', filename), checked, startTime, endTime)
         
         context = {
-            'refreshToken': response['refresh_token']
+            'refreshToken': response['refresh_token'],
         }
         
         return HttpResponse(template.render(context, request))
     except Exception as e:
+        with open("import.log", 'w') as log:
+            log.write(str(e))
         print(e)
         template = loader.get_template('admin_error.html')
         context = {
