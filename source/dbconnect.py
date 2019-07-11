@@ -3,7 +3,6 @@ from decimal import Decimal
 import datetime
 from operator import itemgetter
 import yaml
-from pathlib import Path
 
 """
 This module handles all interactions with the database.
@@ -25,8 +24,7 @@ class dbconnect():
 
     def connect(self):
         try:
-            home = str(Path.home())
-            with open("%s/dbconnect.yaml" % home, 'r') as conFile:
+            with open("dbconnect.yaml", 'r') as conFile:
                 cred = yaml.safe_load(conFile)
             self.con = psycopg2.connect(
             dbname=cred['dbname'],
