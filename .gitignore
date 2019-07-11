@@ -24,3 +24,5 @@ hannah\.py
 login/hannah\.sql
 
 *.log
+
+*.xlsx
