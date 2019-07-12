@@ -30,6 +30,7 @@ def update(access_token=None, **kwargs):
     load_trainings(access_token, start_date=start, end_date=end)
     print('Trainings updated successfully')
 
+#test
 def load_incidents(access_token=None, **kwargs):
     try:
         if access_token == None:
