@@ -45,7 +45,7 @@ def check(request):
 	elif title == 'Lieutenant' or title == 'Assistant Chief' or title == 'Fire Inspector' or title == 'Shift Officer' or title == 'Captain' or title == 'Administrative Assistant':
 		page = 'officer_home'
 	elif title == 'Data Collection':
-		page = 'admin_home'
+		page = 'officer_home'
 	else:
 		page = 'user_home'
 
@@ -147,49 +147,75 @@ def officer(request, refreshToken):
 		template = loader.get_template('login.html')
 		context = {"error":"access_error"}
 		return HttpResponse(template.render(context, request))
+		
+	empNum = er.get_my_user(response['access_token'])['agencyPersonnelID']
+
+	tarTrainings = 60
+	tarShifts = 36
+	tarActCalls = 54
+	tarWorkDeets = 36
+	tarApparatus = 12
+	tarFunds = 1
+	tarMeets = 6
+
 	curr = datetime.datetime.now(tz=None)
 	startTime = "%s-01-01 00:00:00.00" % curr.year
 	endTime = str(curr)
-	station = "Both"
-	connection = dbconnect.dbconnect()
-	nums = connection.get_employee_nums_for_rept()
-	totalCalls = connection.dashboard_calls(startTime, endTime, station)
-	avgResponders = connection.dashboard_responders(startTime, endTime, station)
-	
-	i = len(nums)
-	x = 0
-	empNums = []
-	reports = []
-	numComplete = 0
-	numOnTrack = 0
-	numFalling = 0
-	numBehind = 0
-	while x < i:
-		emp = nums[x][0]
-		empNums.append(emp)
-		x += 1
-	for emp in empNums:
-		report = rep.Report(str(emp), startTime, endTime)
-		report.compute_full_report()
-		reports.append(report)
-	for report in reports:
-		if report.statOverall == "Complete":
-			numComplete += 1
-		elif report.statOverall == "On-Track":
-			numOnTrack += 1
-		elif report.statOverall == "Falling-Behind":
-			numFalling += 1
-		elif report.statOverall == "Behind-Schedule":
-			numBehind += 1
+	report = rep.Report(str(empNum), startTime, endTime)
+	report.compute_full_report()
+	losap = lo.LOSAP(str(empNum), startTime, endTime)
+	losap.compute_losap()
+	fullName = "%s, %s" % (report.lastName, report.firstName)
+
 	template = loader.get_template('officer_home.html')
-	context = {'numComplete': numComplete,
-			   'numOnTrack': numOnTrack,
-			   'numFalling': numFalling,
-			   'numBehind': numBehind,
-			   'avgResponders': avgResponders,
-			   'totalCalls': totalCalls,
-			   'refreshToken': response['refresh_token'],
-			   'lastUpdate': connection.get_last_update().isoformat()}
+	db = dbconnect.dbconnect()
+	context = {
+		'empNum': empNum,
+		'employee': fullName,
+		'date': str(datetime.date.today()),
+		'empStatus': report.statOverall,
+		'training': str(report.trainings),
+		'trainingStatus': report.statTrainings,
+		'trainingBehind': str(report.trainingBehind),
+		'trainingRemain': str(report.trainingRemain),
+		'shifts': str(int(report.totalShifts)),
+                'actualShifts': str(report.shifts),
+		'bonusShifts': str(int(report.bonusShifts)),
+		'shiftStatus': report.statShifts,
+		'shiftBehind': str(report.shiftBehind),
+		'shiftRemain': str(report.shiftRemain),
+		'actCalls': str(report.actCalls),
+		'callStatus': report.statActCalls,
+		'callsBehind': str(report.callsBehind),
+		'callsRemain': str(report.callsRemain),
+                'totalCalls': str(int(report.totCalls)),
+		'totalCallStatus': report.statTotCalls,
+		'totalCallsBehind': str(report.totCallsBehind),
+		'totalCallsRemain': str(report.totCallsRemain),
+		'workDeets': str(report.WDHours),
+		'workDeetStatus': report.statWorkDeets,
+		'wdBehind': str(report.wdBehind),
+		'wdRemain': str(report.wdRemain),
+		'apparatus': str(report.apparatus),
+		'apparatusStatus': report.statApparatus,
+		'apparatusBehind': str(report.apparatusBehind),
+		'apparatusRemain': str(report.apparatusRemain),
+		'fundraisers': str(report.fundraisers),
+		'fundraiserStatus': report.statFunds,
+		'fundraiserBehind': str(report.fundraiserBehind),
+		'fundraiserRemain': str(report.fundraiserRemain),
+		'meetings': str(report.meetings),
+		'meetingStatus': report.statMeets,
+		'meetingsBehind': str(report.meetingsBehind),
+		'meetingsRemain': str(report.meetingsRemain),
+		'totalComp': str(report.totalComp),
+		'totalBehind': str(report.totalBehind),
+		'totalRemain': str(report.totalRemain),
+		'leave': losap.total_leave,
+		'yrsService': report.yrsService,
+		'refreshToken': response['refresh_token'],
+		'lastUpdate': db.get_last_update().isoformat()
+	}
 	return HttpResponse(template.render(context, request))
 	
 def user(request, refreshToken):

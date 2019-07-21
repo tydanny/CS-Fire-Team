@@ -1,213 +1,402 @@
-<!--officer_home.html-->
-{% extends 'officer_base.html' %}
-{% block title %}Dashboard{% endblock %}
-{% block content %}
-  <div id="centered" class="content">
-	<div class="header">
-	  <h1>Dashboard</h1>
-	  <table>
-	    <tr>
-		  <td>
-		    <div>
-			  Volunteer Snapshot
-			  <br>
-			</div>
-			<div>
-			  <canvas id="myCanvas" width="250" height="250" ></canvas>
-			</div>
-		  </td>
-		  <td>
-		    <table class="legend">
-			  <tr bgcolor="888888">
-			    <th>Status</th>
-			    <th>Count</th>
-			  </tr>
-			  <tr bgcolor="#6fa5ed">
-			    <td>Complete</td>
-			    <td>{{numComplete}}</td>
-			  </tr>
-			  <tr bgcolor="#4fbc56">
-			    <td>On Track</td>
-			    <td>{{numOnTrack}}</td>
-			  </tr>
-			  <tr bgcolor="#dcfc28">
-			    <td>Falling Behind</td>
-			    <td>{{numFalling}}</td>
-			  </tr>
-			  <tr bgcolor="#d63737">
-			    <td>Behind</td>
-			    <td>{{numBehind}}</td>
-		      </tr>
-			</table>				
-		  </td>
-		</tr>		
-		<tr>
-		  <td>
-			<div class="value" style="font-size: 6vw">
-			  {{totalCalls}}
-		    </div>		
-			<div class="label" style="font-size: 2.6vw">
-			  Total Calls
-			</div>
-		  </td>
-		  <td>
-			<div class="value" style="font-size: 6vw">
-			  {{avgResponders}}
-			</div>
-		    <div class="label" style="font-size: 2.6vw">
-			  Responders per Call
-			</div>
-		  </td>
-		</tr>
-	  </table>
-	  <p style="font-size:2.5vw">Database last updated {{lastUpdate}} </p>	
+<!DOCTYPE html>
+{% load static from staticfiles %}
+<html>
+  <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'style/ff_style.css' %}" type="text/css" media="screen">
+	<link rel="stylesheet" href="{% static 'style/ff_style_print.css' %}" type="text/css" media="print">
+	<meta charset="utf-8">
+  </head>
+  <body style="background-image:url({% static 'images/background.jpg' %});">
+  <div id ="roof">
+	<div id="top">
+	  <div style="display:inline-block;vertical-align:top;">
+	    <img src="{% static "images/golden_fire.png" %}" alt="Fire Station Logo" width="110" height="110"/>
+	  </div>
+	  <div style="display:inline-block; vertical-align: bottom;">
+	    <font face = "georgia" size = "40">&nbsp&nbspGolden Fire Department Information Tracker</font>
+	  </div>
     </div>
-  </div>	
-		<script>
-			var data = [{
-				label: "Complete",
-				value: {{numComplete}},
-				color: '#6fa5ed'
-			  }, {
-				label: "On-Track",
-				value: {{numOnTrack}},
-				color: '#4fbc56'
-			  }, {
-				label: "Falling-Behind",
-				value: {{numFalling}},
-				color: '#dcfc28'
-			  }, {
-				label: "Behind-Schedule",
-				value: {{numBehind}},
-				color: '#d63737'
-			  }];
-
-			  var total = 0;
-			  for (obj of data) {
-				total += obj.value;
-			  }
-
-			  var canvas = document.getElementById('myCanvas');
-			  var ctx = canvas.getContext('2d');
-			  var previousRadian;
-			  var middle = {
-				x: canvas.width / 2,
-				y: canvas.height / 2,
-				radius: canvas.height / 2,
-			  };
-			  
-			   //background
-			  ctx.beginPath();
-			  ctx.arc(middle.x, middle.y, middle.radius, 0, 2 * Math.PI);
-			  ctx.closePath();
-			  ctx.stroke();
-			  ctx.fillStyle = "black";
-			  ctx.fill();
-			   //end of background
-
-			  for (obj of data) {
-				previousRadian = previousRadian || 0;
-				obj.percentage = parseInt((obj.value / total) * 100)
-				
-				ctx.beginPath();
-				ctx.fillStyle = obj.color;
-				obj.radian = (Math.PI * 2) * (obj.value / total);
-				ctx.moveTo(middle.x, middle.y);
-				//middle.radius - 2 is to add border between the background and the pie chart
-				ctx.arc(middle.x, middle.y, middle.radius - 2, previousRadian, previousRadian + obj.radian, false);
-				ctx.closePath();
-				ctx.fill();
-				ctx.save();
-				ctx.translate(middle.x, middle.y);
-				ctx.fillStyle = "black";
-				ctx.font = middle.radius / 10 + "px Arial";
-				ctx.rotate(previousRadian + obj.radian);
-				//var labelText = "'" + obj.label + "' " + obj.percentage  + "%";
-				//ctx.fillText(labelText, ctx.measureText(labelText).width / 2, 0);
-				ctx.restore();
-
-				previousRadian += obj.radian;
-			  }
-		</script>
-			
-		<script>
-			var x, i, j, selElmnt, a, b, c;
-			/*look for any elements with the class "custom-select":*/
-			x = document.getElementsByClassName("custom-select");
-			for (i = 0; i < x.length; i++) {
-			  selElmnt = x[i].getElementsByTagName("select")[0];
-			  /*for each element, create a new DIV that will act as the selected item:*/
-			  a = document.createElement("DIV");
-			  a.setAttribute("class", "select-selected");
-			  a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-			  x[i].appendChild(a);
-			  /*for each element, create a new DIV that will contain the option list:*/
-			  b = document.createElement("DIV");
-			  b.setAttribute("class", "select-items select-hide");
-			  for (j = 1; j < selElmnt.length; j++) {
-				/*for each option in the original select element,
-				create a new DIV that will act as an option item:*/
-				c = document.createElement("DIV");
-				c.innerHTML = selElmnt.options[j].innerHTML;
-				c.addEventListener("click", function(e) {
-					/*when an item is clicked, update the original select box,
-					and the selected item:*/
-					var y, i, k, s, h;
-					s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-					h = this.parentNode.previousSibling;
-					for (i = 0; i < s.length; i++) {
-					  if (s.options[i].innerHTML == this.innerHTML) {
-						s.selectedIndex = i;
-						h.innerHTML = this.innerHTML;
-						y = this.parentNode.getElementsByClassName("same-as-selected");
-						for (k = 0; k < y.length; k++) {
-						  y[k].removeAttribute("class");
-						}
-						this.setAttribute("class", "same-as-selected");
-						break;
-					  }
-					}
-					h.click();
-				});
-				b.appendChild(c);
-			  }
-			  x[i].appendChild(b);
-			  a.addEventListener("click", function(e) {
-				  /*when the select box is clicked, close any other select boxes,
-				  and open/close the current select box:*/
-				  e.stopPropagation();
-				  closeAllSelect(this);
-				  this.nextSibling.classList.toggle("select-hide");
-				  this.classList.toggle("select-arrow-active");
-				});
-			}
-			function closeAllSelect(elmnt) {
-			  /*a function that will close all select boxes in the document,
-			  except the current select box:*/
-			  var x, y, i, arrNo = [];
-			  x = document.getElementsByClassName("select-items");
-			  y = document.getElementsByClassName("select-selected");
-			  for (i = 0; i < y.length; i++) {
-				if (elmnt == y[i]) {
-				  arrNo.push(i)
-				} else {
-				  y[i].classList.remove("select-arrow-active");
-				}
-			  }
-			  for (i = 0; i < x.length; i++) {
-				if (arrNo.indexOf(i)) {
-				  x[i].classList.add("select-hide");
-				}
-			  }
-			}
-			/*if the user clicks anywhere outside the select box,
-			then close all select boxes:*/
-			document.addEventListener("click", closeAllSelect);
-		</script>
+	<div id = "navigation">
+	  <ul>
+	    <li><a href="{% url 'officer_home' refreshToken=refreshToken %}">Home</a></li>
+		  <li><a href="{% url 'officer_reports' refreshToken=refreshToken %}">Reports</a></li>
+		  <li><a href="{% url 'officer_custom' refreshToken=refreshToken %}">Custom Reports</a></li>
+		  <li style ="float:right"><a class="active" href="{% url 'logout' %}">Log Out</a></li>
+		  <li style="float:right"><a class="active" href="{% url 'officer_about' refreshToken=refreshToken %}">About</a></li>
+	  </ul>
+	</div>
+  </div>
+  <div id="centered2">
+	<div class="header">
+	  <h1>Report for {{employee}} as of {{date}}</h1>
+		{% if empStatus|stringformat:"s" == "Behind-Schedule" %}
+		  <h2 style="color:#d63737">You are {{empStatus}}</h2>
+		{% elif empStatus|stringformat:"s" == "Falling-Behind" %}
+		  <h2 style="color:#dddd00">You are {{empStatus}}</h2>
+		{% elif empStatus|stringformat:"s" == "On-Track" %}
+		  <h2 style="color:#4fbc56">You are {{empStatus}}</h2>
+		{% elif empStatus|stringformat:"s" == "Complete" %}
+		  <h2 style="color:#6fa5ed">You are {{empStatus}}</h2>
+		{% else %}
+		  <h2>You are {{empStatus}}</h2>
+		{% endif %}
 		
-		<script>
-			$('select option').each(function(){
-				$(this).attr('title', $(this).text())
-			});
-		</script>
-{% endblock %}
+		<div id="mainChartContainer" class="noprint" style="height: 12vw; width: 100%;"></div>
+		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+		
+		<p style="font-size:2.5vw">Database last updated {{lastUpdate}} </p>
+	  <div id="centered1">
+	    <table>
+		  <tr>
+		    <th class="noprint">Progress</th>
+		    <th>Category</th>
+			<th>Current</th>
+			<th>Required</th>
+		  </tr>
+			{% if trainingStatus|stringformat:"s" == "Behind-Schedule" %}
+			  <tr bgcolor="#d63737">
+			{% elif trainingStatus|stringformat:"s" == "Falling-Behind" %}
+			  <tr bgcolor="#dddd00">
+			{% elif trainingStatus|stringformat:"s" == "On-Track" %}
+			  <tr bgcolor="#4fbc56">
+			{% elif trainingStatus|stringformat:"s" == "Complete" %}
+			  <tr bgcolor="#6fa5ed">
+			{% else %}
+			  <tr>
+			{% endif %}
+			  <td bgcolor="#e5e5e5" class="noprint"> <div id="trainingChartContainer" style="height: 8vw; width: 100%;"></div></td>
+			  <td>Training hours</td>
+			  <td><p id="train"></p>{{training}} - {{trainingStatus}}</td>
+			  <td>60</td>
+		      </tr>
+					
+			{% if shiftStatus|stringformat:"s" == "Behind-Schedule" %}
+			  <tr bgcolor="#d63737">
+			{% elif shiftStatus|stringformat:"s" == "Falling-Behind" %}
+			  <tr bgcolor="#dddd00">
+			{% elif shiftStatus|stringformat:"s" == "On-Track" %}
+			  <tr bgcolor="#4fbc56">
+			{% elif shiftStatus|stringformat:"s" == "Complete" %}
+			  <tr bgcolor="#6fa5ed">
+			{% else %}
+			  <tr>
+				{% endif %}
+				  <td bgcolor="#e5e5e5" class="noprint"> <div id="shiftChartContainer" style="height: 8vw; width: 100%;"></div></td>
+				  <td>Total Shift Credits</td>
+				  <td>{{shifts}} - {{shiftStatus}}</td>
+				  <td>36</td>
+			  </tr>
+			{% if callStatus|stringformat:"s" == "Behind-Schedule" %}
+			  <tr bgcolor="#d63737">
+			{% elif callStatus|stringformat:"s" == "Falling-Behind" %}
+			  <tr bgcolor="#dddd00">
+			{% elif callStatus|stringformat:"s" == "On-Track" %}
+			  <tr bgcolor="#4fbc56">
+			{% elif callStatus|stringformat:"s" == "Complete" %}
+			  <tr bgcolor="#6fa5ed">
+			{% else %}
+			  <tr>
+			{% endif %}
+			  <td bgcolor="#e5e5e5" class="noprint"> <div id="callChartContainer" style="height: 8vw; width: 100%;"></div></td>
+			  <td>Actual Calls</td>
+			  <td>{{actCalls}} - {{callStatus}}</td>
+			  <td>54</td>
+			  </tr>
+			  
+			{% if callStatus|stringformat:"s" == "Behind-Schedule" %}
+			  <tr bgcolor="#d63737">
+			{% elif callStatus|stringformat:"s" == "Falling-Behind" %}
+			  <tr bgcolor="#dddd00">
+			{% elif callStatus|stringformat:"s" == "On-Track" %}
+			  <tr bgcolor="#4fbc56">
+			{% elif callStatus|stringformat:"s" == "Complete" %}
+			  <tr bgcolor="#6fa5ed">
+			{% else %}
+			  <tr>
+			{% endif %}
+			  <td bgcolor="#e5e5e5" class="noprint"> <div id="totalCallChartContainer" style="height: 8vw; width: 100%;"></div></td>
+			  <td>Total Calls</td>
+			  <td>{{totalCalls}} - {{totalCallStatus}}</td>
+			  <td>72</td>
+			  </tr>
+			  
+			{% if workDeetStatus|stringformat:"s" == "Behind-Schedule" %}
+			  <tr bgcolor="#d63737">
+			{% elif workDeetStatus|stringformat:"s" == "Falling-Behind" %}
+			  <tr bgcolor="#dddd00">
+			{% elif workDeetStatus|stringformat:"s" == "On-Track" %}
+			  <tr bgcolor="#4fbc56">
+			{% elif workDeetStatus|stringformat:"s" == "Complete" %}
+			  <tr bgcolor="#6fa5ed">
+			{% else %}
+			  <tr>
+			{% endif %}
+			  <td bgcolor="#e5e5e5" class="noprint"> <div id="wdChartContainer" style="height: 8vw; width: 100%;"></div></td>
+			  <td>Work Detail Hours</td>
+			  <td>{{workDeets}} - {{workDeetStatus}}</td>
+			  <td>36</td>
+			  </tr>
+			{% if apparatusStatus|stringformat:"s" == "Behind-Schedule" %}
+			  <tr bgcolor="#d63737">
+			{% elif apparatusStatus|stringformat:"s" == "Falling-Behind" %}
+			  <tr bgcolor="#dddd00">
+			{% elif apparatusStatus|stringformat:"s" == "On-Track" %}
+			  <tr bgcolor="#4fbc56">
+			{% elif apparatusStatus|stringformat:"s" == "Complete" %}
+			  <tr bgcolor="#6fa5ed">
+			{% else %}
+			  <tr>
+			{% endif %}
+			  <td bgcolor="#e5e5e5" class="noprint"> <div id="appChartContainer" style="height: 8vw; width: 100%;"></div></td>
+			  <td>Sundays & Weeklies</td>
+			  <td>{{apparatus}} - {{apparatusStatus}}</td>
+			  <td>12</td>
+			  </tr>
+			{% if fundraiserStatus|stringformat:"s" == "Behind-Schedule" %}
+			  <tr bgcolor="#d63737">
+			{% elif fundraiserStatus|stringformat:"s" == "Falling-Behind" %}
+			  <tr bgcolor="#dddd00">
+			{% elif fundraiserStatus|stringformat:"s" == "On-Track" %}
+			  <tr bgcolor="#4fbc56">
+			{% elif fundraiserStatus|stringformat:"s" == "Complete" %}
+			  <tr bgcolor="#6fa5ed">
+			{% else %}
+			  <tr>
+			{% endif %}
+			<td bgcolor="#e5e5e5" class="noprint"> <div id="fundraiserChartContainer" style="height: 8vw; width: 100%;"></div></td>
+			  <td>Fundraisers</td>
+			  <td>{{fundraisers}} - {{fundraiserStatus}}</td>
+			  <td>1</td>
+		      </tr>
+		
+			{% if meetingStatus|stringformat:"s" == "Behind-Schedule" %}
+			  <tr bgcolor="#d63737">
+			{% elif meetingStatus|stringformat:"s" == "Falling-Behind" %}
+			  <tr bgcolor="#dddd00">
+			{% elif meetingStatus|stringformat:"s" == "On-Track" %}
+			  <tr bgcolor="#4fbc56">
+			{% elif meetingStatus|stringformat:"s" == "Complete" %}
+			  <tr bgcolor="#6fa5ed">
+			{% else %}
+			  <tr>
+			{% endif %}
+			  <td bgcolor="#e5e5e5" class="noprint"> <div id="meetChartContainer" style="height: 8vw; width: 100%;"></div></td>
+			  <td>Business Meetings</td>
+			  <td>{{meetings}} - {{meetingStatus}}</td>
+		      <td>6</td>
+			  </tr>
+			  <tr bgcolor="#a8a8a8">
+			    <td bgcolor="#e5e5e5"></td>
+				<td>Actual Shifts</td>
+				<td>{{actualShifts}}</td>
+				<td>-</td>
+			  </tr>			
+			  <tr bgcolor="#a8a8a8">
+			    <td bgcolor="#e5e5e5"></td>
+				<td>Bonus Shifts</td>
+				<td>{{bonusShifts}}</td>
+				<td>-</td>
+			  </tr>
+			  <tr bgcolor="#a8a8a8">
+			    <td bgcolor="#e5e5e5"></td>
+				<td>Leave Days (current year only)</td>
+				<td>{{leave}}</td>
+				<td>-</td>
+			  </tr>
+			  <tr bgcolor="#a8a8a8">
+			    <td bgcolor="#e5e5e5"></td>
+				<td>Years of Service</td>
+				<td>{{yrsService}}</td>
+				<td>-</td>
+			  </tr>
+		</table>
+		<br>
+	  </div>
+	<button class="button" onclick="window.print()">Print</button>
+	<button class="button" onclick="window.location.href = '{% url 'download' empNum=empNum %}';">Download</button>
+	</div>
+  </div>
+  </body>
+<script>
+window.onload = function () {
+
+var main_chart = new CanvasJS.Chart("mainChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	textSize: 0,
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		dataPoints: [
+			{ y: {{totalComp}},
+			  color: '#6fa5ed'},
+			{ y: {{totalBehind}},
+			 color: '#d63737'},
+			{ y: {{totalRemain}},
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+var training_chart = new CanvasJS.Chart("trainingChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{training}},
+			  color: '#6fa5ed'},
+			{ y: {{trainingBehind}},
+			 color: '#d63737'},
+			{ y: {{trainingRemain}},
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+var shift_chart = new CanvasJS.Chart("shiftChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{shifts}},
+			  color: '#6fa5ed'},
+			{ y: {{shiftBehind}},
+			 color: '#d63737'},
+			{ y: {{shiftRemain}},
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+
+var call_chart = new CanvasJS.Chart("callChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{actCalls}},
+			  color: '#6fa5ed'},
+			{ y: {{callsBehind}},
+			 color: '#d63737'},
+			{ y: {{callsRemain}},
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+var total_call_chart = new CanvasJS.Chart("totalCallChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{totalCalls}},
+			  color: '#6fa5ed'},
+			{ y: {{totalCallsBehind}},
+			 color: '#d63737'},
+			{ y: {{totalCallsRemain}},
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+var wd_chart = new CanvasJS.Chart("wdChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{workDeets}},
+			  color: '#6fa5ed'},
+			{ y: {{wdBehind}},
+			 color: '#d63737'},
+			{ y: {{wdRemain}},
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+var app_chart = new CanvasJS.Chart("appChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{apparatus}},
+			  color: '#6fa5ed'},
+			{ y: {{apparatusBehind}},
+			 color: '#d63737'},
+			{ y: {{apparatusRemain}},
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+var fundraiser_chart = new CanvasJS.Chart("fundraiserChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{fundraisers}},
+			  color: '#6fa5ed'},
+			{ y: {{fundraiserBehind}},
+			 color: '#d63737'},
+			{ y: {{fundraiserRemain}},
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+
+var meet_chart = new CanvasJS.Chart("meetChartContainer", {
+	animationEnabled: true,
+	backgroundColor: "#e5e5e5",
+	data: [{
+		type: "doughnut",
+		startAngle: 90,
+		
+		dataPoints: [
+			{ y: {{meetings}},
+			  color: '#6fa5ed'},
+			{ y: {{meetingsBehind}},
+			 color: '#d63737'},
+			{ y: {{meetingsRemain}},
+			color: '#7f7f7f'}
+		]
+	}]
+});
+
+main_chart.render();
+training_chart.render();
+shift_chart.render();
+call_chart.render();
+total_call_chart.render();
+wd_chart.render();
+app_chart.render();
+fundraiser_chart.render();
+meet_chart.render();
+
+}
+</script>
+
+  
+</html>

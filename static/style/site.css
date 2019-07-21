@@ -1,3 +1,5 @@
+/*Styling for internal pages*/
+
 * {
 	box-sizing: border-box;
 }
@@ -319,4 +321,12 @@ textarea {
 	margin-left: auto;
 	margin-right: auto;
 	background-color: white;
+}
+
+#centered2 {
+	text-align: center;
+	font-family: sans-serif;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
 }
