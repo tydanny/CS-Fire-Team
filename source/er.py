@@ -66,9 +66,7 @@ def load_incidents(access_token=None, **kwargs):
                 f.write("%s \n %s \n %s \n %s \n \n" % (e, exposure['incidentID'], exposure['exposureID'], member))
 
     except Exception as e:
-        f = open("incidents.log", "a")
-        f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6)))
-        f.write('An error occurred while loading incidents')
+        print(e)
     
 def get_auth(username, password):
     headers = {
@@ -129,7 +127,7 @@ def get_token_pass(username=None, password=None):
             if 'error' not in data.keys():
                 return data["access_token"]
         except Exception as e:
-            raise(e)
+            print(e)
 
         print(data)
         password = None
@@ -169,7 +167,7 @@ def get_token_ref(username=None, password=None):
         conn.close()
         return data
     except Exception as e:
-        raise(e)
+        print(e)
 
 def get_token(auth_code):
 
@@ -420,8 +418,7 @@ def load_events(access_token=None, **kwargs):
 
         load_events_xref(eventIDs, access_token)
     except Exception as e:
-        f = open("incidents.log", "a")
-        f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6)))
+        print(e)
     
 
 def load_events_xref(eventIDs, access_token=None, **kwargs):
@@ -585,9 +582,6 @@ def load_people(access_token=None, **kwargs):
                 if u['title'] != idDict[u['agencyPersonnelID']][1]:
                     db.update_title(u['agencyPersonnelID'], u['title'])
     except Exception as e:
-        f = open("people.log", "a")
-        f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6)))
-        f.write(e)
         print(e)
 
 def get_event_types(access_token=None, **kwargs):
@@ -793,7 +787,4 @@ def load_trainings(access_token=None, **kwargs):
 
         load_trainings_xref(trainingIDs, access_token)
     except Exception as e:
-        f = open("trainings.log", "a")
-        f.write(str(datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=6)))
-        f.write(e)
         print(e)
