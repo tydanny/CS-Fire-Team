@@ -411,10 +411,11 @@ def load_events(access_token=None, **kwargs):
         for eventCat in eventCatList:
             eventCats[eventCat['eventCategoriesID']] = eventCat['category']
         
-        eventIDs = []
+        eventIDs = db.get_event_ids(kwargs.get('start_date'), kwargs.get('end_date'))
         for event in events:
-            db.load_event(event['eventsID'], event['eventEndDate'], eventCats[event['eventCategoryID']])
-            eventIDs.append(event['eventsID'])
+            if event['eventsID'] not in eventIDs:
+                db.load_event(event['eventsID'], event['eventEndDate'], eventCats[event['eventCategoryID']])
+                eventIDs.remove(event['eventsID'])
 
         load_events_xref(eventIDs, access_token)
     except Exception as e:
