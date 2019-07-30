@@ -1,0 +1,5 @@
+dbname: 'bridge_db'
+user: 'csfire'
+port: 5432
+host: 'bridge-db.c6xgclrgfvud.us-west-1.rds.amazonaws.com'
+password: '4xcL842!pzm$q'
