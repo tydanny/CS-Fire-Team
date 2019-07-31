@@ -267,7 +267,7 @@ class dbconnect():
     #Gets all shifts for one person in a range.
     def get_shift_duration(self, id, start, end):
         return self.s_query("""
-        SELECT shift_end-shift_start, bonus FROM shift 
+        SELECT shift_end-shift_start, bonus, shift_start FROM shift 
         WHERE person_id = '%s' AND shift_end BETWEEN '%s' AND '%s';
         """ % (id, start, end))
 

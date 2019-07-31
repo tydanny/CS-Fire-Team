@@ -145,8 +145,8 @@ class Report():
                     credit += (hours + 1) // 12   # 1 hour wiggle room
                     if hours % 12 >= 3 and hours % 12 < 11:
                         counter += (hours % 12)
-                    if s[1] == "Weekend" and weekends < 6:
-                        self.bonusShifts += 1
+                    if weekends < 6 and s[2].date().weekday() >= 5:
+                        self.bonusShifts += (hours + 1) // 24
                         weekends += 1
                     if s[1] == "ACO":
                         self.bonusShifts += (hours + 1) // 12
