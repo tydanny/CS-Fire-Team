@@ -60,7 +60,7 @@ class Event_Detail_Report():
                     row = []
                     row.append(event[0])
                     row.append(event[1])
-                    row.append(event[2])
+                    row.append(event[3])
                     self.csvRows.append(row)
             return        
         elif self.reportType == "Work Detail":
