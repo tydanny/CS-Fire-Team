@@ -71,7 +71,6 @@ class LOSAP():
                         self.total_leave += (relevant_instances[i+1][1].date() - relevant_instances[i][1].date()).days
                     else:
                         self.total_leave += (relevant_instances[i+1][1].date() - datetime.date(today.year, 1, 1)).days
-                    print(self.total_leave)
                     leave = Leave(relevant_instances[i][1].date(), relevant_instances[i+1][1].date(), days, relevant_instances[i][0], relevant_instances[i][3])
                     self.leave_instances.append(leave)
                 else:
@@ -82,7 +81,6 @@ class LOSAP():
                         self.total_leave += (today - relevant_instances[i][1].date()).days
                     else:
                         self.total_leave += (today - datetime.date(today.year, 1, 1)).days
-                    print(self.total_leave)
                     leave = Leave(relevant_instances[i][1].date(), "Future", days, relevant_instances[i][0], relevant_instances[i][3])
                     self.leave_instances.append(leave)
             i += 1

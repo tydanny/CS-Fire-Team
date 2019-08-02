@@ -148,8 +148,6 @@ def __generate_report(empNums, startTime, endTime, reportType, refreshToken, req
             response['Content-Disposition'] = 'attachment; filename="%s"' % csv_name
             writer = csv.writer(response)
             writer.writerow(reports[0].headerRow)
-            writer.writerow(reports[0].headerRow2)
-            writer.writerow(reports[0].headerRow3)
             for report in reports:
                 for row in report.csvRows:
                     writer.writerow(row)
