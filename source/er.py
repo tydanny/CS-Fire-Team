@@ -415,23 +415,29 @@ def load_events(access_token=None, **kwargs):
         for event in events:
             if event['eventsID'] not in eventIDs:
                 db.load_event(event['eventsID'], event['eventEndDate'], eventCats[event['eventCategoryID']])
-                eventIDs.remove(event['eventsID'])
 
+        print("Events loaded successfully")
         load_events_xref(eventIDs, access_token)
     except Exception as e:
         print(e)
     
 
 def load_events_xref(eventIDs, access_token=None, **kwargs):
-    if access_token == None:
-        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+        if access_token == None:
+            access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
 
-    db = dbconnect.dbconnect()
-    attendees = get_event_people(access_token)
-    users = get_uids(access_token)
-    for attendee in attendees:
-        if attendee['eventID'] in eventIDs:
-            db.load_person_xref_event(attendee['eventID'], users[attendee['userID']], attendee['hours'])
+        db = dbconnect.dbconnect()
+        attendees = get_event_people(access_token)
+        users = get_uids(access_token)
+        xrefs = db.get_event_xrefs(eventIDs)
+        uids = get_uids(access_token)
+        for attendee in attendees:
+            try:
+                if attendee['eventID'] in eventIDs and uids[attendee['userID']] not in xrefs[attendee['eventID']]:
+                    db.load_person_xref_event(attendee['eventID'], users[attendee['userID']], attendee['hours'])
+            except Exception as e:
+                print("Error loading %s %s in event %s" % (attendee['firstName'], attendee['lastName'], e))
+        print("Event xref loaded successfully")
 
 def get_uids(access_token=None, **kwargs):
     if access_token == None:
