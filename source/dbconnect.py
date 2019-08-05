@@ -173,6 +173,20 @@ class dbconnect():
         AND pe.person_id = '%s' AND pe.event_id = e.id AND e.etype LIKE '%s' ORDER BY e.tstart;
         """ % (start, end, id, type))
 
+    def get_event_xrefs(self, eventIDs):
+        xrefs = self.s_query("""
+        select * from person_xref_event;
+        """)
+
+        attendDict = {}
+        for xref in xrefs:
+            if xref[0] in eventIDs:
+                if xref[0] not in attendDict.keys():
+                    attendDict[xref[0]] = []
+                attendDict[xref[0]].append(xref[1])
+
+        return attendDict
+
     def get_event_ids(self, start, end):
         ids = self.s_query("""
         SELECT id FROM event WHERE tstart BETWEEN '%s' AND '%s';
