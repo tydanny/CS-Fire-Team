@@ -773,26 +773,28 @@ def get_students(access_token=None, **kwargs):
         raise(e)
 
 def load_trainings(access_token=None, **kwargs):
+    
+    if access_token == None:
+        access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
+
+    db = dbconnect.dbconnect()
+
+    trainings = get_trainings(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
+    trainingCatList = get_training_cat(access_token)
+
+    trainingCats = {}
+    
+    for trainingCat in trainingCatList:
+        trainingCats[trainingCat['categoryID']] = trainingCat['name']
+    
+    trainingIDs = []
     try:
-        if access_token == None:
-            access_token = get_token_pass(kwargs.get('username'), kwargs.get('password'))
-
-        db = dbconnect.dbconnect()
-
-        trainings = get_trainings(access_token, start_date=kwargs.get('start_date'), end_date=kwargs.get('end_date'))
-        trainingCatList = get_training_cat(access_token)
-
-        trainingCats = {}
-        
-        for trainingCat in trainingCatList:
-            trainingCats[trainingCat['categoryID']] = trainingCat['name']
-        
-        trainingIDs = []
         for training in trainings:
             db.load_class(training['classID'], training['classDate'], trainingCats[training['classCategoryID']])
             trainingIDs.append(training['classID'])
             print(training['classDate'])
-
-        load_trainings_xref(trainingIDs, access_token)
     except Exception as e:
         print(e)
+
+    load_trainings_xref(trainingIDs, access_token)
+    
