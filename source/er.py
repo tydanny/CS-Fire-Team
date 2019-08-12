@@ -437,6 +437,7 @@ def load_events_xref(eventIDs, access_token=None, **kwargs):
                     db.load_person_xref_event(attendee['eventID'], users[attendee['userID']], attendee['hours'])
             except Exception as e:
                 print("Error loading %s %s in event %s" % (attendee['firstName'], attendee['lastName'], e))
+                print(e)
         print("Event xref loaded successfully")
 
 def get_uids(access_token=None, **kwargs):

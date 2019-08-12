@@ -179,10 +179,12 @@ class dbconnect():
         """)
 
         attendDict = {}
+
+        for eventID in eventIDs:
+            attendDict[eventID] = []
+
         for xref in xrefs:
             if xref[0] in eventIDs:
-                if xref[0] not in attendDict.keys():
-                    attendDict[xref[0]] = []
                 attendDict[xref[0]].append(xref[1])
 
         return attendDict
