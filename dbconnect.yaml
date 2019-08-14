@@ -1,5 +1,5 @@
 dbname: 'bridge_db'
 user: 'cog_db'
 port: 5432
-host: 'bridge-db.c7d9kxvnb9hb.us-gov-west-1.rds.amazonaws.com'
+host: 'bridgedb.c7d9kxvnb9hb.us-gov-west-1.rds.amazonaws.com'
 password: 'xf3rew9uh7y'
