@@ -658,8 +658,11 @@ def load_trainings_xref(classIDs, access_token=None, **kwargs):
     students = get_students(access_token)
     
     for student in students:
-        if student['classID'] in classIDs and student['studentUserID'] in users.keys():
-            db.load_person_xref_class(student['classID'], users[student['studentUserID']], student['hours'])   
+        try:
+            if student['classID'] in classIDs and student['studentUserID'] in users.keys():
+                db.load_person_xref_class(student['classID'], users[student['studentUserID']], student['hours'])   
+        except Exception as e:
+            print(e)
 
 
 def get_students_class(classID, access_token=None, **kwargs):
@@ -788,13 +791,15 @@ def load_trainings(access_token=None, **kwargs):
         trainingCats[trainingCat['categoryID']] = trainingCat['name']
     
     trainingIDs = []
-    try:
-        for training in trainings:
+    
+    for training in trainings:
+        try:
             db.load_class(training['classID'], training['classDate'], trainingCats[training['classCategoryID']])
-            trainingIDs.append(training['classID'])
-            print(training['classDate'])
-    except Exception as e:
-        print(e)
+        except Exception as e:
+            print(e)
+        trainingIDs.append(training['classID'])
+        print(training['classDate'])
+    
 
     load_trainings_xref(trainingIDs, access_token)
     
