@@ -197,9 +197,17 @@ class dbconnect():
 
     def get_classes(self, id, start, end):
         return self.s_query("""
-        SELECT c.type, pc.duration FROM class AS c, person_xref_class AS pc WHERE tstart BETWEEN '%s' AND '%s' AND
-        c.id = pc.class_id AND pc.person_id = '%s';
-        """ % (start, end, id))
+        SELECT SUM(duration) FROM person_xref_class WHERE person_id = '%s'
+        AND class_id IN (SELECT id FROM class WHERE tstart BETWEEN '%s' AND
+        '%s' AND type LIKE '%%DEPT TRNG%%' OR type LIKE '%%Outside Training%%');
+        """ % (id, start, end))
+
+    def get_total_training(self, id, start, end):
+        return self.s_query("""
+        SELECT SUM(duration) FROM person_xref_class WHERE person_id = '%s'
+        AND class_id IN (SELECT id FROM class WHERE tstart BETWEEN '%s' AND
+        '%s');
+        """ % (id, start, end))
 
     def get_classes_detail(self, id, start, end):
         return self.s_query("""

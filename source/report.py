@@ -34,8 +34,9 @@ can be easily written to a csv file to create a report.
 class Report():
     def __init__(self, empNum, startTime, endTime):
         self.empNum = empNum
-        self.startTime = startTime
-        self.endTime = endTime
+        frmtstr = r'%Y-%m-%d %H:%M:%S.%f'
+        self.startTime = datetime.datetime.strptime(startTime, frmtstr)
+        self.endTime = datetime.datetime.strptime(endTime, frmtstr)
         self.lastName = ""
         self.firstName = ""
         self.title = ""
@@ -200,16 +201,15 @@ class Report():
             self.meetings = meets[0][0]
 
     def compute_trainings(self):
-        training = self.connection.get_classes(self.empNum, self.startTime, self.endTime)        
-        thours = 0
-        tthours = 0
-        if training != None:
-            for t in training:
-                tthours += t[1]
-                if "DEPT TRNG" in t[0] or "Outside Training" in t[0]:
-                    thours += t[1]                
-            self.totTrainings = tthours
-            self.trainings = thours
+        allTrainings = self.connection.get_total_training(self.empNum,
+                self.startTime.date().isoformat(),
+                self.endTime.date().isoformat())[0][0]
+        sumTrainings = self.connection.get_classes(self.empNum,
+                self.startTime.date().isoformat(),
+                self.endTime.date().isoformat())[0][0]
+
+        self.totTrainings = allTrainings if allTrainings else 0
+        self.trainings = sumTrainings if sumTrainings else 0
     """
     Computes days and years of service. If the person has not resigned or retired,
     this is calculated by subtracting the persons hire date from the current date.
