@@ -580,6 +580,8 @@ def load_people(access_token=None, **kwargs):
                 f = f.replace("'", r"''")
             if u['agencyPersonnelID'] not in idDict.keys() and u['agencyPersonnelID'] != None:
                 db.load_person(u['agencyPersonnelID'], f, l, u['title'], u['shift'])
+                db.load_person_status('Active', datetime.date.today(),
+                        u['agencyPersonnelID'], 'Initial Start')
             elif u['agencyPersonnelID'] != None:
                 if u['shift'] != idDict[u['agencyPersonnelID']][0]:
                     db.update_residency(u['agencyPersonnelID'], u['shift'])
