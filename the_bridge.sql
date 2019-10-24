@@ -79,7 +79,7 @@ CREATE TABLE person_xref_class
 (
     class_id TEXT REFERENCES class(id),
     person_id TEXT REFERENCES person(id),
-    duration NUMERIC(4,2) NOT NULL,
+    duration DECIMAL NOT NULL,
     PRIMARY KEY (class_id,person_id)
 );
 
