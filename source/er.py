@@ -516,7 +516,7 @@ def get_event_people(access_token=None, **kwargs):
 
     params = urllib.parse.urlencode({
         # Request parameters
-        'limit': 1000000
+        'limit': 90000000
     })
 
     try:
