@@ -284,8 +284,7 @@ class dbconnect():
     def get_wdt(self, id, start, end):
         return self.s_query("""
         SELECT duration FROM person_xref_event WHERE person_id='%s' AND event_id IN 
-        (SELECT id FROM event WHERE (etype LIKE 'Work Detail%%' OR etype LIKE 'Fund Raiser%%') 
-        AND tstart BETWEEN '%s' AND '%s');
+        (SELECT id FROM event WHERE tstart BETWEEN '%s' AND '%s');
         """ % (id, start, end))
 
     #Gets all shifts for one person in a range.
