@@ -48,6 +48,8 @@ class Report():
         self.totCalls = 0
         self.WDHours = 0
         self.apparatus = 0
+        self.weeklies = 0
+        self.sundays = 0
         self.fundraisers = 0
         self.meetings = 0
         self.trainings = 0
@@ -87,15 +89,15 @@ class Report():
         self.csvRow = []
         self.headerRow = ['Rank','Emp #','Last Name','First Name', 'Completion Status',
                           'Actual Calls', 'Actual Shifts', 'Bonus Shifts', 'Shift Volunteer', 'Resident Volunteer',
-                          'Work Detail Hours', 'Sundays & Weeklies', 'Training-Dept',
+                          'Work Detail Hours', 'Sundays', 'Weeklies', 'Sundays & Weeklies', 'Training-Dept',
                           'Training-Total', 'Fundraiser', 'Business Meetings',
                           'Days of Service', 'Years of Service']
         self.headerRow2 = ["---", "----", "---", "---", "Annual Requirements: ", str(Requirements.ACTUAL_CALLS.value),
                            "---", "---", str(Requirements.SHIFTS.value), str(Requirements.TOTAL_CALLS.value),
-                           str(Requirements.WORK_DETAIL_HOURS.value), str(Requirements.APPARATUS.value),
+                           str(Requirements.WORK_DETAIL_HOURS.value), "---", "---", str(Requirements.APPARATUS.value),
                            str(Requirements.TRAININGS.value), "---", str(Requirements.FUNDRAISERS.value),
                            str(Requirements.MEETINGS.value), "---", "---"]
-        self.headerRow3 = ["---", "---", "---", "---", "Expected Progress: ", "", "---", "---", "", "", "", "", "", "---", "", "", "---", "---"]
+        self.headerRow3 = ["---", "---", "---", "---", "Expected Progress: ", "", "---", "---", "", "", "", "---", "---", "", "", "---", "", "", "---", "---"]
 
     def compute_full_report(self):
         self.compute_shifts()
@@ -181,10 +183,23 @@ class Report():
 
     def compute_apparatus(self):
         appar = self.connection.get_appar(self.empNum, self.startTime, self.endTime)
+        db_sundays = self.connection.get_sundays(self.empNum, self.startTime, self.endTime)
+        db_weeklies = self.connection.get_weeklies(self.empNum, self.startTime, self.endTime)
+
         if appar == None:
             self.apparatus = 0
         else:
             self.apparatus = appar[0][0]
+
+        if db_sundays == None:
+            self.sundays = 0
+        else:
+            self.sundays = db_sundays[0][0]
+
+        if db_weeklies == None:
+            self.weeklies = 0
+        else:
+            self.weeklies = db_weeklies[0][0]
 
     def compute_fundraisers(self):
         funds = self.connection.get_fundraisers(self.empNum, self.startTime, self.endTime)
@@ -461,10 +476,10 @@ class Report():
         self.headerRow3[8] = "%.2f" % (Requirements.SHIFTS.value * self.targetRatio)
         self.headerRow3[9] = "%.2f" % (Requirements.TOTAL_CALLS.value * self.targetRatio)
         self.headerRow3[10] = "%.2f" % (Requirements.WORK_DETAIL_HOURS.value * self.targetRatio)
-        self.headerRow3[11] = "%.2f" % (Requirements.APPARATUS.value * self.targetRatio)
-        self.headerRow3[12] = "%.2f" % (Requirements.TRAININGS.value * self.targetRatio)
-        self.headerRow3[14] = "%.2f" % (Requirements.FUNDRAISERS.value * self.targetRatio)
-        self.headerRow3[15] = "%.2f" % (Requirements.MEETINGS.value * self.targetRatio)
+        self.headerRow3[13] = "%.2f" % (Requirements.APPARATUS.value * self.targetRatio)
+        self.headerRow3[14] = "%.2f" % (Requirements.TRAININGS.value * self.targetRatio)
+        self.headerRow3[16] = "%.2f" % (Requirements.FUNDRAISERS.value * self.targetRatio)
+        self.headerRow3[17] = "%.2f" % (Requirements.MEETINGS.value * self.targetRatio)
         
     """
     Adds gathered data to the csvRow data member to allow for easy addition
@@ -483,6 +498,8 @@ class Report():
         self.csvRow.append(str(self.shifts + self.bonusShifts))
         self.csvRow.append(str(self.totCalls))
         self.csvRow.append(str(self.WDHours))
+        self.csvRow.append(str(self.sundays))
+        self.csvRow.append(str(self.weeklies))
         self.csvRow.append(str(self.apparatus))
         self.csvRow.append(str(self.trainings))
         self.csvRow.append(str(self.totTrainings))

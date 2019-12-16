@@ -301,6 +301,20 @@ class dbconnect():
         AND id IN (SELECT event_id FROM person_xref_event WHERE
         person_id = '%s');""" % (start, end, id))
 
+    def get_sundays(self, id, start, end):
+        return self.s_query("""
+        SELECT COUNT(*) FROM event WHERE tstart BETWEEN '%s' AND '%s'
+        AND etype LIKE 'Work Detail - Sunday%%'
+        AND id IN (SELECT event_id FROM person_xref_event WHERE person_id = '%s');
+        """ % (start, end, id))
+
+    def get_weeklies(self, id, start, end):
+        return self.s_query("""
+        SELECT COUNT(*) FROM event WHERE tstart BETWEEN '%s' AND '%s'
+        AND etype LIKE 'Work Detail - Weekly%%'
+        AND id IN (SELECT event_id FROM person_xref_event WHERE person_id = '%s');
+        """ % (start, end, id))
+
     # fix this when fundraisers are loaded
     def get_fundraisers(self, id, start, end):
         return self.s_query("""
