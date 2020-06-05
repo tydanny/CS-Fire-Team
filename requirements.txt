@@ -1,4 +1,4 @@
-Django==2.2.4
+Django==2.2.13
 django-secure==1.0.1
 django-sslserver==0.20
 gunicorn==19.9.0
